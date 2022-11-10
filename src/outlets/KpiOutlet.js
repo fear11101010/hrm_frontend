@@ -1,6 +1,8 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import {
+  EMPLOYEE_ASSESTMENT_PAGE,
+  EMPLOYEE_PERFORMANCE_PAGE,
   KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE,
   KPI_ASSESTMENT_PAGE,
   KPI_EMPLOYEE_ASSIGN_PAGE,
@@ -24,6 +26,8 @@ export default function KpiOutlet() {
           <PrivateRoute to={KPI_ASSESTMENT_PAGE} />
           <PrivateRoute to={KPI_PERMORMER_ASSESTMENT_PAGE} />
           <PrivateRoute to={KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE} />
+          <PrivateRoute to={EMPLOYEE_ASSESTMENT_PAGE} />
+          <PrivateRoute to={EMPLOYEE_PERFORMANCE_PAGE} />
           <Outlet />
         </>
       )}

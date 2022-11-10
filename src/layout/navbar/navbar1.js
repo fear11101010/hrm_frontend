@@ -7,7 +7,16 @@ import FormControl from "react-bootstrap/FormControl";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { Collapse } from "react-bootstrap";
 import { useState } from "react";
-import { DASHBOARD_PAGE, LOGIN_PAGE } from "../../utils/APP_ROUTES";
+import {
+  DASHBOARD_PAGE,
+  EMPLOYEE_ASSESTMENT_PAGE,
+  EMPLOYEE_PERFORMANCE_PAGE,
+  KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE,
+  KPI_ASSESTMENT_PAGE,
+  KPI_EMPLOYEE_ASSIGN_PAGE,
+  KPI_PERMORMANCE_FORM_PAGE,
+  LOGIN_PAGE,
+} from "../../utils/APP_ROUTES";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../utils/axios/axiosConfig";
 import { LOGOUT_API } from "../../utils/API_ROUTES";
@@ -86,29 +95,25 @@ function Navbar1(props) {
                 <div id="sidebarDashboards">
                   <ul className="nav nav-sm flex-column">
                     <li className="nav-item">
-                      <a href="#" className="nav-link active">
-                        Employee Assign
-                      </a>
+                      <Nav.Link href={KPI_EMPLOYEE_ASSIGN_PAGE}>Employee Assign</Nav.Link>
                     </li>
                     <li className="nav-item">
-                      <a href="#" className="nav-link ">
-                        KPI Performance Form
-                      </a>
+                      <Nav.Link href={KPI_PERMORMANCE_FORM_PAGE}>KPI Performance Form</Nav.Link>
                     </li>
                     <li className="nav-item">
-                      <a href="#" className="nav-link ">
-                        KPI Assestment
-                      </a>
+                      <Nav.Link href={KPI_ASSESTMENT_PAGE}>KPI Assestment</Nav.Link>
                     </li>
                     <li className="nav-item">
-                      <a href="#" className="nav-link ">
-                        KPI Performer Assestment
-                      </a>
+                      <Nav.Link href={KPI_PERMORMANCE_FORM_PAGE}>KPI Performer Assestment</Nav.Link>
                     </li>
                     <li className="nav-item">
-                      <a href="#" className="nav-link ">
-                        KPI All Employee Assestment
-                      </a>
+                      <Nav.Link href={KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE}>KPI All Employee Assestment</Nav.Link>
+                    </li>
+                    <li className="nav-item">
+                      <Nav.Link href={EMPLOYEE_ASSESTMENT_PAGE}> Employee Assestment</Nav.Link>
+                    </li>
+                    <li className="nav-item">
+                      <Nav.Link href={EMPLOYEE_PERFORMANCE_PAGE}>Employee Performance</Nav.Link>
                     </li>
                   </ul>
                 </div>
