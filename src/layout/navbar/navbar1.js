@@ -4,9 +4,11 @@ import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import {Collapse} from "react-bootstrap";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {useState} from "react";
+import {regular, solid} from "@fortawesome/fontawesome-svg-core/import.macro";
+import {Link} from "react-router-dom";
 
 function Navbar1(props){
     const [menuOpenCloseState,setMenuOpenCloseState] = useState([false])
@@ -19,7 +21,7 @@ function Navbar1(props){
         setMenuOpenCloseState(menus);
     }
     return (
-        <Navbar expand="md" fixed="top" variant="light" className="navbar-vertical">
+        <Navbar expand="md" variant="light" className="navbar-vertical fixed-start">
             <Container fluid>
                 <Navbar.Toggle aria-controls="sidebarCollapse"/>
                 <Navbar.Brand href="#">
@@ -36,26 +38,21 @@ function Navbar1(props){
                     </Form>
                     <Nav as="ul">
                         <Nav.Item as={"li"}>
-                            <Nav.Link onClick={()=>openOrCloseMenu(0)} href="#" className={menuOpenCloseState[0]?'collapsed':''}  data-bs-toggle="collapse" role="button" aria-expanded={menuOpenCloseState[0]?"true":"false"} aria-controls="sidebarDashboards">
-                                <i className="fe fe-home"></i> Dashboards
+                            <Nav.Link href="/" className={menuOpenCloseState[0]?'collapsed':''}  >
+                                <i className="fe fe-home"></i> Dashboard
+                            </Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item as={"li"}>
+                            <Nav.Link onClick={()=>openOrCloseMenu(0)} href="#" className={menuOpenCloseState[0]?'collapsed':''}  data-bs-toggle="collapse" role="button" aria-expanded={menuOpenCloseState[0]?"true":"false"} aria-controls="sidebarKPI">
+                                <i className="fe">
+                                    <FontAwesomeIcon icon={solid("plug")}/>
+                                </i> Kpi
                             </Nav.Link>
                             <Collapse in={menuOpenCloseState[0]}>
-                                <div id="sidebarDashboards">
+                                <div id="sidebarKPI">
                                     <ul  className="nav nav-sm flex-column">
                                         <li className="nav-item">
-                                            <a href="#" className="nav-link active">
-                                                Default
-                                            </a>
-                                        </li>
-                                        <li className="nav-item">
-                                            <a href="#" className="nav-link ">
-                                                Project Management
-                                            </a>
-                                        </li>
-                                        <li className="nav-item">
-                                            <a href="#" className="nav-link ">
-                                                E-Commerce
-                                            </a>
+                                            <Link to="/kpi/kpi_form" className="nav-link">Kpi Performance Form</Link>
                                         </li>
                                     </ul>
                                 </div>
