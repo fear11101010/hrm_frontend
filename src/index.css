@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
+label {
+  font-weight: 500;
+}
+
 .dropdown-menu-center {
   right: auto !important;
   left: 50% !important;
