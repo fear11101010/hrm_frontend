@@ -15,6 +15,7 @@ export const EMPLOYEE_ASSESTMENT_PAGE = "/employee-assestment";
 export const EMPLOYEE_ASSESTMENT_SINGLE_URL = "/employee-assestment/:id";
 export const EMPLOYEE_ASSESTMENT_SINGLE_PAGE = (id) => `/employee-assestment/${id}`;
 export const EMPLOYEE_PERFORMANCE_PAGE = "/employee-performance";
+export const EMPLOYEE_PERFORMANCE_INDEX_PAGE = "/employee-performance-index";
 
 // Others
 export const UNAUTHORIZED = "/unauthorized";

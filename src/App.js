@@ -18,7 +18,7 @@ import {
   DASHBOARD_PAGE,
   EMPLOYEE_ASSESTMENT_PAGE,
   EMPLOYEE_ASSESTMENT_SINGLE_PAGE,
-  EMPLOYEE_ASSESTMENT_SINGLE_URL,
+  EMPLOYEE_ASSESTMENT_SINGLE_URL, EMPLOYEE_PERFORMANCE_INDEX_PAGE,
   EMPLOYEE_PERFORMANCE_PAGE,
   KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE,
   KPI_ASSESTMENT_PAGE,
@@ -28,6 +28,7 @@ import {
   LOGIN_PAGE,
   UNAUTHORIZED,
 } from "./utils/APP_ROUTES";
+import KpiPerformanceIndex from "./pages/KPI/kpi-performane-form/kpi-performance-index";
 function App() {
   return (
     <BrowserRouter>
@@ -51,6 +52,7 @@ function App() {
           <Route path={EMPLOYEE_ASSESTMENT_PAGE} element={<EmployeeAssestment />} />
           <Route path={EMPLOYEE_ASSESTMENT_SINGLE_URL} element={<EmAssestmentSingle />} />
           <Route path={EMPLOYEE_PERFORMANCE_PAGE} element={<EmployeePerformance />} />
+          <Route path={EMPLOYEE_PERFORMANCE_INDEX_PAGE} element={<KpiPerformanceIndex/>} />
         </Route>
 
         <Route path={UNAUTHORIZED} element={<Unauth />} />

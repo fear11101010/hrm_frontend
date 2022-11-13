@@ -11,3 +11,4 @@ export const EMPLOYEE_ASSESTMENT_GET = "/assessment/";
 export const EMPLOYEE_ASSESTMENT_SINGLE_GET = (id) => `/assessment/${id}/`;
 
 export const GET_SUPERVISOR = "/supervisor/";
+export const KPI_PERFORMANCE_FORM = "/kpi_performance/";
