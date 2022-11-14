@@ -23,7 +23,7 @@ import {
   KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE,
   KPI_ASSESTMENT_PAGE,
   KPI_EMPLOYEE_ASSIGN_PAGE,
-  KPI_PERMORMANCE_FORM_PAGE,
+  KPI_PERMORMANCE_FORM_PAGE, KPI_PERMORMANCE_FORM_URL,
   KPI_PERMORMER_ASSESTMENT_PAGE,
   LOGIN_PAGE,
   UNAUTHORIZED,
@@ -45,7 +45,7 @@ function App() {
         {/* KPI */}
         <Route path={"/"} element={<KpiOutlet />}>
           <Route path={KPI_EMPLOYEE_ASSIGN_PAGE} element={<KpiEmployeeAssign />} />
-          <Route path={KPI_PERMORMANCE_FORM_PAGE} element={<KpiPerformanceForm />} />
+          <Route path={KPI_PERMORMANCE_FORM_URL} element={<KpiPerformanceForm />} />
           <Route path={KPI_ASSESTMENT_PAGE} element={<KpiAssestment />} />
           <Route path={KPI_PERMORMER_ASSESTMENT_PAGE} element={<KpiPerformerAssestment />} />
           <Route path={KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE} element={<KpiAllEmployeeAssestment />} />

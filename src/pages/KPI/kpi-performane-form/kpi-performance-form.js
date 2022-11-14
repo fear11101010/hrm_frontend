@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Layout from "../../../layout/Layout";
 import {Button, Card, Col, Form, Row} from "react-bootstrap";
 import PageHeader from "../../../components/header/PageHeader";
@@ -6,16 +6,41 @@ import Container from "react-bootstrap/Container";
 import {useForm} from "react-hook-form";
 import {useState} from "react";
 import {API} from "../../../utils/axios/axiosConfig";
-import {KPI_PERFORMANCE_FORM, LOGIN_API} from "../../../utils/API_ROUTES";
-import SET_TOKEN from "../../../utils/session/token";
+import {
+    KPI_PERFORMANCE_FORM,
+    KPI_PERFORMANCE_FORM_DRAFT,
+    KPI_PERFORMANCE_FORM_SINGLE, KPI_PERFORMANCE_FORM_SUBMIT,
+    LOGIN_API
+} from "../../../utils/API_ROUTES";
 import Loader from "../../../components/loader/Loader";
 import {EMPLOYEE_PERFORMANCE_INDEX_PAGE} from "../../../utils/APP_ROUTES";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
+import {toast} from "react-toastify";
 
 export default function KpiPerformanceForm() {
     const [loading, setLoading] = useState("");
+    const [data, setData] = useState({});
+    const {id} = useParams();
     const navigate = useNavigate();
-    const {register, handleSubmit, watch, formState: {errors}} = useForm();
+    const {register, handleSubmit, reset, formState: {errors}} = useForm({
+        defaultValues:{
+            ...data
+        }
+    });
+    useEffect(()=>{
+        setLoading(true)
+        API.get(KPI_PERFORMANCE_FORM_SINGLE(id))
+            .then((response)=>{
+                console.log(response.data.data);
+                setData(response.data.data);
+                reset({...response.data.data})
+            }).catch(err=>{
+            toast(err.response?.data?.non_field_errors[0]);
+        }).finally(()=>{
+            setLoading(false);
+
+        })
+    },[])
     const submitKpiPerformanceForm = (data,event) => {
         console.log(data);
         const type = event.target.attributes['name'].value;
@@ -25,20 +50,20 @@ export default function KpiPerformanceForm() {
         } else {
             data['submit'] = true;
         }
-        API.post(KPI_PERFORMANCE_FORM, data)
+        (type === 'draft'?API.post(KPI_PERFORMANCE_FORM_DRAFT, data):API.put(KPI_PERFORMANCE_FORM_SUBMIT(id), data))
             .then((res) => {
+                setLoading(false);
                 if (res.data.statuscode === 200) {
                     console.log(res.data);
-                    setLoading(false);
+                    toast(type === 'draft'?"KPI Performance Form Saved successfully as draft":"KPI Performance Form Submitted successfully");
                     navigate(EMPLOYEE_PERFORMANCE_INDEX_PAGE);
-                    // setErrMsg("");
                 } else {
-                    // setErrMsg(res.data.message);
+                     toast(res.data.message);
                 }
             })
             .catch((err) => {
                 console.log(err);
-                // setErrMsg(err.response.data.non_field_errors[0]);
+                toast(err.response?.data?.non_field_errors[0]);
             })
             .finally(() => {
                 setLoading(false);
@@ -56,11 +81,11 @@ export default function KpiPerformanceForm() {
                                     <Row>
                                         <Col xs={12} sm={12} md={6} className="d-flex flex-row">
                                             <span className="mb-2 h3">Name : </span>
-                                            <span className="h3">&nbsp;MD. Arafat Hossain</span>
+                                            <span className="h3">&nbsp;{data?.employee?.name}</span>
                                         </Col>
                                         <Col xs={12} sm={12} md={6} className="d-flex flex-row">
                                             <span className="mb-2 h3">Designation : </span>
-                                            <span className="h3">&nbsp;Sr. Software Engineer </span>
+                                            <span className="h3">&nbsp;{data?.employee?.designation} </span>
                                         </Col>
                                     </Row>
                                 </Card.Title>
@@ -68,7 +93,7 @@ export default function KpiPerformanceForm() {
                             <Card.Body>
                                 <Row className="mb-4">
                                     <Col xs={12} sm={12} md={6} className="d-flex flex-column">
-                                        <h2 className="mb-4 h3">OBJECTIVES SET FOR YEAR 2022</h2>
+                                        <h2 className="mb-4 h3">OBJECTIVES SET FOR YEAR {data?.year}</h2>
                                         <h4>Please write SMART Objective statements :</h4>
                                         <p>
                                             Please write SMART Objective statements :

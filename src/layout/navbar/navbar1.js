@@ -14,7 +14,7 @@ import {
   KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE,
   KPI_ASSESTMENT_PAGE,
   KPI_EMPLOYEE_ASSIGN_PAGE,
-  KPI_PERMORMANCE_FORM_PAGE,
+  KPI_PERMORMANCE_FORM_PAGE, KPI_PERMORMANCE_FORM_URL,
   LOGIN_PAGE,
 } from "../../utils/APP_ROUTES";
 import { Link, useNavigate } from "react-router-dom";
@@ -73,47 +73,47 @@ function Navbar1(props) {
           <Nav as="ul">
             {/* Dashboard */}
             <Nav.Item as={"li"}>
-              <Nav.Link to={DASHBOARD_PAGE}>
+              <Link to={DASHBOARD_PAGE} className="nav-link">
                 <i className="fe fe-home"></i> Dashboards
-              </Nav.Link>
+              </Link>
             </Nav.Item>
 
             {/* KPI */}
             <Nav.Item as={"li"}>
-              <Nav.Link
+              <Link
                 onClick={() => openOrCloseMenu(0)}
-                href="#"
-                className={menuOpenCloseState[0] ? "collapsed" : ""}
+                to="#"
+                className={`${menuOpenCloseState[0] ? "collapsed" : ""} nav-link`}
                 data-bs-toggle="collapse"
                 role="button"
                 aria-expanded={menuOpenCloseState[0] ? "true" : "false"}
                 aria-controls="sidebarDashboards"
               >
                 <i className="fe fe-home"></i> KPI
-              </Nav.Link>
+              </Link>
               <Collapse in={menuOpenCloseState[0]}>
                 <div id="sidebarDashboards">
                   <ul className="nav nav-sm flex-column">
                     <li className="nav-item">
-                      <Nav.Link href={KPI_EMPLOYEE_ASSIGN_PAGE}>Employee Assign</Nav.Link>
+                      <Link className={"nav-link"} to={KPI_EMPLOYEE_ASSIGN_PAGE}>Employee Assign</Link>
                     </li>
                     <li className="nav-item">
-                      <Nav.Link href={EMPLOYEE_PERFORMANCE_INDEX_PAGE}>KPI Performance Form</Nav.Link>
+                      <Link className={"nav-link"} to={EMPLOYEE_PERFORMANCE_INDEX_PAGE}>KPI Performance Form</Link>
                     </li>
                     <li className="nav-item">
-                      <Nav.Link href={KPI_ASSESTMENT_PAGE}>KPI Assestment</Nav.Link>
+                      <Link className={"nav-link"} to={KPI_ASSESTMENT_PAGE}>KPI Assestment</Link>
                     </li>
                     <li className="nav-item">
-                      <Nav.Link href={KPI_PERMORMANCE_FORM_PAGE}>KPI Performer Assestment</Nav.Link>
+                      <Link className={"nav-link"} to={KPI_PERMORMANCE_FORM_URL}>KPI Performer Assestment</Link>
                     </li>
                     <li className="nav-item">
-                      <Nav.Link href={KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE}>KPI All Employee Assestment</Nav.Link>
+                      <Link className={"nav-link"} to={KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE}>KPI All Employee Assestment</Link>
                     </li>
                     <li className="nav-item">
-                      <Nav.Link href={EMPLOYEE_ASSESTMENT_PAGE}> Employee Assestment</Nav.Link>
+                      <Link className={"nav-link"} to={EMPLOYEE_ASSESTMENT_PAGE}> Employee Assestment</Link>
                     </li>
                     <li className="nav-item">
-                      <Nav.Link href={EMPLOYEE_PERFORMANCE_PAGE}>Employee Performance</Nav.Link>
+                      <Link className={"nav-link"} to={EMPLOYEE_PERFORMANCE_PAGE}>Employee Performance</Link>
                     </li>
                   </ul>
                 </div>
@@ -122,15 +122,15 @@ function Navbar1(props) {
 
             {/* LOgOUT */}
             <Nav.Item as={"li"}>
-              <Nav.Link
+              <Link
                 to={DASHBOARD_PAGE}
                 onClick={(e) => {
                   handleLogout(e);
                 }}
-                className="text-danger fw-bold"
+                className="text-danger fw-bold nav-link"
               >
                 <i className="fe fe-log-out"></i> logout
-              </Nav.Link>
+              </Link>
             </Nav.Item>
           </Nav>
         </Navbar.Collapse>
