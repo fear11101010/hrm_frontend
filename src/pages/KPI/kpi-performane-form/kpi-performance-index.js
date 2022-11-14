@@ -40,7 +40,7 @@ function KpiPerformanceIndex(props) {
             }
         }
 
-        fetchData().catch(console.error)
+        fetchData();
         /*API.get(KPI_PERFORMANCE_FORM_DATE_VALIDATE)
             .then(response => {
                 console.log(response);
@@ -71,17 +71,21 @@ function KpiPerformanceIndex(props) {
                 </Card>
             </Container>
             {showLoading && <Loader/>}
-            <Modal show={true}  centered>
+            <Modal show={true} size="md" centered backdrop="static">
                 <Modal.Body className="m-auto">
-                    <h2 className="mt-3 text-center">
-                        Warning
+                    <h2 className="mb-3 text-center text-danger">
+                        <span className="fe fe-alert-triangle"></span>&nbsp;Warning
                     </h2>
                     <div class="d-flex justify-content-center">
                         You can create kpi performance form from {dates[0]} to {dates[1]}
                     </div>
-                    <div className={"d-flex justify-content-center align-items-center"}>
-                        <button className="btn btn-primary" style={{marginRight:'10px'}}>Confirm</button>
-                        <button className="btn btn-danger" style={{marginRight:'10px'}}>Cancel</button>
+                    <div className={"d-flex justify-content-center align-items-center mt-4"}>
+                        <button className="btn btn-primary" style={{marginRight:'15px'}}>
+                            <span className="fe fe-check"></span>&nbsp;Confirm
+                        </button>
+                        <button className="btn btn-danger">
+                            <span className="fe fe-x-circle"></span>&nbsp;Cancel
+                        </button>
                     </div>
                 </Modal.Body>
             </Modal>
