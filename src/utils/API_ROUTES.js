@@ -12,6 +12,7 @@ export const EMPLOYEE_ASSESTMENT_SINGLE_GET = (id) => `/assessment/${id}/`;
 
 export const GET_SUPERVISOR = "/supervisor/";
 export const KPI_PERFORMANCE_FORM = "/kpi_performance/";
+export const KPI_PERFORMANCE_FORM_DATE_VALIDATE = "kpi_performance/$/get_date_range/";
 export const KPI_PERFORMANCE_FORM_DRAFT = "/kpi_performance/";
 export const KPI_PERFORMANCE_FORM_SINGLE = id=> `/kpi_performance/${id}/`;
 export const KPI_PERFORMANCE_FORM_SUBMIT = id=> `/kpi_performance/${id}/`;
