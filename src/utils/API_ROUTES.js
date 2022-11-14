@@ -28,6 +28,7 @@ export const EMPLOYEE_ASSIGN_POST = "/employee_assign/";
 export const EMPLOYEE_ASSESTMENT_GET = "/assessment/";
 export const EMPLOYEE_PERFORMANCE_GET = "/kpi_performance/";
 export const EMPLOYEE_PERFORMANCE_EACH_GET = (id) => `/kpi_performance/${id}/`;
+export const EMPLOYEE_PERFORMANCE_EACH_PUT = (id) => `/kpi_performance/${id}/`;
 export const EMPLOYEE_ASSESTMENT_SINGLE_GET = (id) => `/assessment/${id}/`;
 export const EMPLOYEE_ASSESTMENT_SINGLE_POST = (id) => `/assessment/${id}/`;
 

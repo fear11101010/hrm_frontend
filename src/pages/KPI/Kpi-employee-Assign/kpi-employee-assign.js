@@ -71,32 +71,12 @@ export default function KpiEmployeeAssign() {
     }
   }, [sbuId]);
 
-  const succ_msg_div = () => {
-    return (
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>{succMsg}</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    );
-  };
-
-  const err_msg_div = () => {
-    return (
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>{succMsg}</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    );
-  };
-
   return (
     <Layout>
       {loading && <Loader />}
       <PageHeader title="Employee Assign" />
       <Content>
         <Form onSubmit={handleSubmit} className="w-50 m-auto">
-          {succMsg && succ_msg_div()}
-          {errMsg && err_msg_div()}
           <Form.Group className="mb-3">
             <Form.Label>SBU</Form.Label>
             <Select options={sbuList.map((d) => ({ label: d.name, value: d.id }))} onChange={(e) => setSbuId(e.value)} />
@@ -110,7 +90,6 @@ export default function KpiEmployeeAssign() {
                 options={sbu_employees}
                 defaultValue={sbu_employees.map((d, i) => sbu_employees[i])}
                 // onChange={(e) => setUpdated_Sbu_employees(e.value)}
-                isDisabled
               />
             )}
           </Form.Group>
