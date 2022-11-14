@@ -38,6 +38,7 @@ export default function EmployeeAssestment() {
       {loading || (isloading && <Loader />)}
       <PageHeader title={"Assessment Employee Information"} />
       <Content>
+        <h2></h2>
         <Table data={data.data} columns={action_column.concat(columns)} />
       </Content>
     </Layout>

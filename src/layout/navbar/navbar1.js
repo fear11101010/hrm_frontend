@@ -16,6 +16,7 @@ import {
   KPI_EMPLOYEE_ASSIGN_PAGE,
   KPI_PERMORMANCE_FORM_PAGE,
   LOGIN_PAGE,
+  USER_LIST_PAGE,
 } from "../../utils/APP_ROUTES";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../utils/axios/axiosConfig";
@@ -73,12 +74,12 @@ function Navbar1(props) {
           <Nav as="ul">
             {/* Dashboard */}
             <Nav.Item as={"li"}>
-              <Nav.Link to={DASHBOARD_PAGE}>
+              <Nav.Link href={DASHBOARD_PAGE}>
                 <i className="fe fe-home"></i> Dashboards
               </Nav.Link>
             </Nav.Item>
 
-            {/* KPI */}
+            {/* USER */}
             <Nav.Item as={"li"}>
               <Nav.Link
                 onClick={() => openOrCloseMenu(0)}
@@ -87,11 +88,38 @@ function Navbar1(props) {
                 data-bs-toggle="collapse"
                 role="button"
                 aria-expanded={menuOpenCloseState[0] ? "true" : "false"}
+                aria-controls="sidebarUser"
+              >
+                <i className="fe fe-user"></i> User Management
+              </Nav.Link>
+              <Collapse in={menuOpenCloseState[0]}>
+                <div id="sidebarUser">
+                  <ul className="nav nav-sm flex-column">
+                    <li className="nav-item">
+                      <Nav.Link href={USER_LIST_PAGE}> User </Nav.Link>
+                    </li>
+                    <li className="nav-item">
+                      <Nav.Link href={KPI_EMPLOYEE_ASSIGN_PAGE}> Role </Nav.Link>
+                    </li>
+                  </ul>
+                </div>
+              </Collapse>
+            </Nav.Item>
+
+            {/* KPI */}
+            <Nav.Item as={"li"}>
+              <Nav.Link
+                onClick={() => openOrCloseMenu(1)}
+                href="#"
+                className={menuOpenCloseState[1] ? "collapsed" : ""}
+                data-bs-toggle="collapse"
+                role="button"
+                aria-expanded={menuOpenCloseState[1] ? "true" : "false"}
                 aria-controls="sidebarDashboards"
               >
                 <i className="fe fe-home"></i> KPI
               </Nav.Link>
-              <Collapse in={menuOpenCloseState[0]}>
+              <Collapse in={menuOpenCloseState[1]}>
                 <div id="sidebarDashboards">
                   <ul className="nav nav-sm flex-column">
                     <li className="nav-item">

@@ -16,14 +16,15 @@ export default function KpiEmployeeAssign() {
   const [loading, setLoading] = useState(false);
   const [sbuId, setSbuId] = useState("");
   const [sbu_employees, setSbu_employees] = useState([]);
+  // const [updated_sbu_employees, setUpdated_Sbu_employees] = useState([]);
   const [emSupervisor, setEmSupervisor] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [succMsg, setSuccMsg] = useState("");
   const [errMsg, setErrMsg] = useState("");
-
   // handle save button
   const handleSubmit = (e) => {
+    e.preventDefault();
     let temp = sbu_employees.map((d) => d.value);
     const payload = {
       employees_id: temp.join(),
@@ -32,7 +33,6 @@ export default function KpiEmployeeAssign() {
       duration_startdate: startDate + " 00:00:00",
       duration_enddate: endDate + " 00:00:00",
     };
-    e.preventDefault();
     setLoading(true);
     API.post(EMPLOYEE_ASSIGN_POST, payload)
       .then((res) => {
@@ -52,12 +52,14 @@ export default function KpiEmployeeAssign() {
 
   // fetch data of employee under SBU id
   useEffect(() => {
+    setSbu_employees([]); //reseting
     if (sbuId !== "") {
       setLoading(true);
       API.get(GET_EMPLOYEE_BY_SBU_API(sbuId))
         .then((res) => {
           if (res.data.statuscode === 200) {
             setSbu_employees(res.data.data.map((d) => ({ label: d.name, value: d.id })));
+            // setUpdated_Sbu_employees(res.data.data.map((d) => ({ label: d.name, value: d.id })));
           }
         })
         .catch((err) => {
@@ -102,12 +104,15 @@ export default function KpiEmployeeAssign() {
 
           <Form.Group className="mb-3">
             <Form.Label>Employee</Form.Label>
-            <Select
-              isMulti
-              options={sbu_employees}
-              //  onChange={(e) => setSbu_employees(e.value)}
-              isDisabled={sbuId === ""}
-            />
+            {sbu_employees.length > 0 && (
+              <Select
+                isMulti
+                options={sbu_employees}
+                defaultValue={sbu_employees.map((d, i) => sbu_employees[i])}
+                // onChange={(e) => setUpdated_Sbu_employees(e.value)}
+                isDisabled
+              />
+            )}
           </Form.Group>
 
           <Form.Group className="mb-3">
