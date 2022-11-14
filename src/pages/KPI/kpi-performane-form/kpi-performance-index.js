@@ -37,6 +37,8 @@ function KpiPerformanceIndex(props) {
                 }
             }catch (err){
 
+            }finally {
+                setShowLoading(false);
             }
         }
 
