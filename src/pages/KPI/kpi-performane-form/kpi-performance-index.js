@@ -1,6 +1,6 @@
 import Layout from "../../../layout/Layout";
 import PageHeader from "../../../components/header/PageHeader";
-import React from "react";
+import React, {useState} from "react";
 import Container from "react-bootstrap/Container";
 import {Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
@@ -8,6 +8,8 @@ import {KPI_PERMORMANCE_FORM_PAGE} from "../../../utils/APP_ROUTES";
 import {USER_INFO} from "../../../utils/session/token";
 
 function KpiPerformanceIndex(props) {
+    const [data,setData] = useState();
+    // const column =
     return (
         <Layout>
             <PageHeader subTitle={""} title={"KPI Performance Form List"}/>
