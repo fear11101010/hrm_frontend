@@ -34,3 +34,6 @@ export const EMPLOYEE_ASSESTMENT_SINGLE_POST = (id) => `/assessment/${id}/`;
 
 export const GET_SUPERVISOR = "/supervisor/";
 export const KPI_PERFORMANCE_FORM = "/kpi_performance/";
+export const KPI_PERFORMANCE_FORM_DRAFT = "/kpi_performance/";
+export const KPI_PERFORMANCE_FORM_SINGLE = id=> `/kpi_performance/${id}/`;
+export const KPI_PERFORMANCE_FORM_SUBMIT = id=> `/kpi_performance/${id}/`;

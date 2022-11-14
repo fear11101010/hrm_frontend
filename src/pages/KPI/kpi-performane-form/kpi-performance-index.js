@@ -1,47 +1,43 @@
 import Layout from "../../../layout/Layout";
 import PageHeader from "../../../components/header/PageHeader";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Container from "react-bootstrap/Container";
-import {Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {KPI_PERMORMANCE_FORM_PAGE} from "../../../utils/APP_ROUTES";
 import {USER_INFO} from "../../../utils/session/token";
+import {API} from "../../../utils/axios/axiosConfig";
+import {KPI_PERFORMANCE_FORM} from "../../../utils/API_ROUTES";
+import {columns} from "../employee-assestment/columns";
+import Table from "../../../components/table/Table";
+import {kpiPerformanceFormColumns} from "./table-columns";
+import Loader from "../../../components/loader/Loader";
+import {Card} from "react-bootstrap";
 
 function KpiPerformanceIndex(props) {
-    const [data,setData] = useState();
-    // const column =
+    const [data, setData] = useState([]);
+    const [showLoading, setShowLoading] = useState(true);
+    useEffect(() => {
+        API.get(KPI_PERFORMANCE_FORM)
+            .then(response => {
+                console.log(response);
+                setData(response.data);
+            }).catch(err => {
+
+        }).finally(() => {
+            setShowLoading(false);
+        })
+    },[])
     return (
         <Layout>
             <PageHeader subTitle={""} title={"KPI Performance Form List"}/>
             <Container fluid>
-                <Table>
-                    <tr>
-                        <th>1</th>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Designation</th>
-                        <th>my data</th>
-                        <th>Action</th>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>DS00914</td>
-                        <td>MD. Arafat Hossain</td>
-                        <td>Software Engineer</td>
-                        <td>
-                            {JSON.stringify(USER_INFO())}
-                        </td>
-                        <td>
-                            <Link to={KPI_PERMORMANCE_FORM_PAGE} style={{marginRight: '10px'}}>
-                                <i className="fe fe-edit"></i>
-                            </Link>
-                            <a href="#">
-                                <i className="fe fe-info"></i>
-                            </a>
-                        </td>
-                    </tr>
-                </Table>
+                <Card>
+                    <Card.Body>
+                        <Table data={data.data} columns={kpiPerformanceFormColumns} />
+                    </Card.Body>
+                </Card>
             </Container>
+            {showLoading && <Loader/>}
         </Layout>
     )
 }
