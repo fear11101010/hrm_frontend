@@ -9,7 +9,7 @@ import { Collapse } from "react-bootstrap";
 import { useState } from "react";
 import {
   DASHBOARD_PAGE,
-  EMPLOYEE_ASSESTMENT_PAGE,
+  EMPLOYEE_ASSESTMENT_PAGE, EMPLOYEE_PERFORMANCE_INDEX_PAGE,
   EMPLOYEE_PERFORMANCE_PAGE,
   KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE,
   KPI_ASSESTMENT_PAGE,
@@ -126,7 +126,7 @@ function Navbar1(props) {
                       <Nav.Link href={KPI_EMPLOYEE_ASSIGN_PAGE}>Employee Assign</Nav.Link>
                     </li>
                     <li className="nav-item">
-                      <Nav.Link href={KPI_PERMORMANCE_FORM_PAGE}>KPI Performance Form</Nav.Link>
+                      <Nav.Link href={EMPLOYEE_PERFORMANCE_INDEX_PAGE}>KPI Performance Form</Nav.Link>
                     </li>
                     <li className="nav-item">
                       <Nav.Link href={KPI_ASSESTMENT_PAGE}>KPI Assestment</Nav.Link>
