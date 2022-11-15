@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { API } from "../utils/axios/axiosConfig";
 
 function useFetch(url) {
-  const [isloading, setIsLoading] = useState(null);
+  const [isLoading, setIsLoading] = useState(null);
   const [data, setData] = useState([]);
   const [err, setErr] = useState("");
   useEffect(() => {
@@ -27,7 +27,7 @@ function useFetch(url) {
     };
   }, [url]);
 
-  return { data, isloading, err };
+  return { data, isLoading, err };
 }
 
 export default useFetch;

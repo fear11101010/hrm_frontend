@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PageHeader from "../../../components/header/PageHeader";
 import Layout from "../../../layout/Layout";
 import Content from "../../../components/content/Content";
@@ -9,9 +9,12 @@ import { EMPLOYEE_ASSIGN_POST, GET_EMPLOYEE_BY_SBU_API } from "../../../utils/AP
 import { Form } from "react-bootstrap";
 import useSupervisor from "../../../hooks/useSupervisor";
 import Loader from "../../../components/loader/Loader";
+import { error_alert, success_alert } from "../../../components/alert/Alert";
+import Flatpickr from "react-flatpickr";
 
 export default function KpiEmployeeAssign() {
-  const sbuList = useSbu();
+  const fp = useRef(null);
+  const { sbuList } = useSbu();
   const supervisorList = useSupervisor();
   const [loading, setLoading] = useState(false);
   const [sbuId, setSbuId] = useState("");
@@ -20,8 +23,6 @@ export default function KpiEmployeeAssign() {
   const [emSupervisor, setEmSupervisor] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [succMsg, setSuccMsg] = useState("");
-  const [errMsg, setErrMsg] = useState("");
   // handle save button
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -37,13 +38,13 @@ export default function KpiEmployeeAssign() {
     API.post(EMPLOYEE_ASSIGN_POST, payload)
       .then((res) => {
         if (res.data.statuscode === 200) {
-          setSuccMsg(res.data.message);
+          success_alert(res.data.message);
         } else {
-          setErrMsg(res.data.message);
+          error_alert(res.data.message);
         }
       })
       .catch((err) => {
-        setErrMsg(err.response.data.message);
+        error_alert(err.response.data.message);
       })
       .finally(() => {
         setLoading(false);
@@ -79,7 +80,7 @@ export default function KpiEmployeeAssign() {
         <Form onSubmit={handleSubmit} className="w-50 m-auto">
           <Form.Group className="mb-3">
             <Form.Label>SBU</Form.Label>
-            <Select options={sbuList.map((d) => ({ label: d.name, value: d.id }))} onChange={(e) => setSbuId(e.value)} />
+            <Select options={sbuList?.map((d) => ({ label: d.name, value: d.id }))} onChange={(e) => setSbuId(e.value)} />
           </Form.Group>
 
           <Form.Group className="mb-3">
@@ -125,7 +126,7 @@ export default function KpiEmployeeAssign() {
               required
             />
           </Form.Group>
-          <button type="submit" className="btn btn-primary mt-3">
+          <button type="submit" className="btn btn-primary mt-3 mb-4">
             Save
           </button>
         </Form>

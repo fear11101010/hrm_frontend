@@ -35,5 +35,9 @@ export const EMPLOYEE_ASSESTMENT_SINGLE_POST = (id) => `/assessment/${id}/`;
 export const GET_SUPERVISOR = "/supervisor/";
 export const KPI_PERFORMANCE_FORM = "/kpi_performance/";
 export const KPI_PERFORMANCE_FORM_DRAFT = "/kpi_performance/";
-export const KPI_PERFORMANCE_FORM_SINGLE = id=> `/kpi_performance/${id}/`;
-export const KPI_PERFORMANCE_FORM_SUBMIT = id=> `/kpi_performance/${id}/`;
+export const KPI_PERFORMANCE_FORM_SINGLE = (id) => `/kpi_performance/${id}/`;
+export const KPI_PERFORMANCE_FORM_SUBMIT = (id) => `/kpi_performance/${id}/`;
+
+export const KPI_PERMORMER_ASSESTMENT_BY_SBU_GET = (id) => `/performer_assessment/${id}/search_by_sbu/`;
+export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET = (id) => `/assessment/${id}/`;
+export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_PUT = (id) => `/performer_assessment/${id}/`;
