@@ -43,7 +43,7 @@ export default function KpiPerformanceForm() {
                 console.log(e.message);
                 break;
             case 'complete':
-                setLoading(false);
+                setIsLoading(false);
                 break;
         }
     }
