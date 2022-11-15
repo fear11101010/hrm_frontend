@@ -23,7 +23,7 @@ export default function EmployeeAssestment() {
         <>
           <Link to={EMPLOYEE_ASSESTMENT_SINGLE_PAGE(row.id)}>
             <button className="btn btn-sm btn-primary" title="Input">
-              <i class="fe fe-plus"></i>
+              <i className="fe fe-plus"></i>
             </button>
           </Link>
         </>

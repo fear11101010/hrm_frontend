@@ -1,5 +1,9 @@
 import {Link} from "react-router-dom";
-import {EMPLOYEE_ASSESTMENT_SINGLE_PAGE, KPI_PERMORMANCE_FORM_PAGE} from "../../../utils/APP_ROUTES";
+import {
+    EMPLOYEE_ASSESTMENT_SINGLE_PAGE,
+    EMPLOYEE_PERFORMANCE_VIEW,
+    KPI_PERMORMANCE_FORM_PAGE
+} from "../../../utils/APP_ROUTES";
 import React from "react";
 
 export const kpiPerformanceFormColumns = [
@@ -13,7 +17,9 @@ export const kpiPerformanceFormColumns = [
     },
     {
         name:'ID',
-        selector:row=>row.employee.employee_id
+        cell:row=>(
+            <Link to={EMPLOYEE_PERFORMANCE_VIEW(row.id)}>{row.employee.employee_id}</Link>
+        )
     },
     {
         name:'Name',

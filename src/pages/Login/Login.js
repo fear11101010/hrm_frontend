@@ -40,7 +40,7 @@ export default function Login() {
   };
 
   const error_alert = () => (
-    <div class="alert alert-danger" role="alert">
+    <div className="alert alert-danger" role="alert">
       {errMsg}
     </div>
   );
@@ -56,12 +56,12 @@ export default function Login() {
           <hr />
           {errMsg && error_alert()}
           <form onSubmit={handleLogin}>
-            <div class="mb-3">
+            <div className="mb-3">
               <label className="form-label">Username</label>
               <input
                 type="text"
                 name="username"
-                class="form-control"
+                className="form-control"
                 placeholder="Enter username"
                 onChange={(e) => {
                   setUsername(e.target.value);
@@ -70,11 +70,11 @@ export default function Login() {
                 required
               />
             </div>
-            <div class="mb-3">
+            <div className="mb-3">
               <label className="form-label">Password</label>
               <input
                 type="password"
-                class="form-control"
+                className="form-control"
                 placeholder="Enter Password"
                 onChange={(e) => {
                   setPass(e.target.value);

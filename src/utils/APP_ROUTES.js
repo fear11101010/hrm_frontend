@@ -30,6 +30,9 @@ export const EMPLOYEE_PERFORMANCE_SINGLE_PAGE_URL = "/employee-performance/:id";
 export const EMPLOYEE_PERFORMANCE_SINGLE_PAGE = (id) => `/employee-performance/${id}`;
 
 export const EMPLOYEE_PERFORMANCE_INDEX_PAGE = "/employee-performance-index";
+export const EMPLOYEE_PERFORMANCE_CREATE = "/employee-performance-create";
+export const EMPLOYEE_PERFORMANCE_VIEW = id => `/employee-performance-view/${id}`;
+export const EMPLOYEE_PERFORMANCE_VIEW_url = `/employee-performance-view/:id`;
 
 // Others
 export const UNAUTHORIZED = "/unauthorized";

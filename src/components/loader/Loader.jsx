@@ -8,7 +8,7 @@ export default function Loader() {
   return (
     <Modal show={show} size="sm" centered>
       <Modal.Body className="m-auto">
-        <div class="d-flex justify-content-center">
+        <div className="d-flex justify-content-center">
           <Spinner animation="border" />
         </div>
         <h2 className="mb-0 mt-3">Loading...</h2>

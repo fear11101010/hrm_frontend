@@ -406,7 +406,7 @@ function Navbar(props) {
                         </li>
                         <li className="nav-item d-md-none">
                             <a className="nav-link" data-bs-toggle="offcanvas" href="#sidebarOffcanvasActivity"
-                               aria-contrtols="sidebarOffcanvasActivity">
+                               aria-controls="sidebarOffcanvasActivity">
                                 <span className="fe fe-bell"></span> Notifications
                             </a>
                         </li>

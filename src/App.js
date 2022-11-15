@@ -22,11 +22,11 @@ import {
   DASHBOARD_PAGE,
   EMPLOYEE_ASSESTMENT_PAGE,
   EMPLOYEE_ASSESTMENT_SINGLE_PAGE,
-  EMPLOYEE_ASSESTMENT_SINGLE_URL,
+  EMPLOYEE_ASSESTMENT_SINGLE_URL, EMPLOYEE_PERFORMANCE_CREATE,
   EMPLOYEE_PERFORMANCE_INDEX_PAGE,
   EMPLOYEE_PERFORMANCE_PAGE,
   EMPLOYEE_PERFORMANCE_PAGE_URL,
-  EMPLOYEE_PERFORMANCE_SINGLE_PAGE_URL,
+  EMPLOYEE_PERFORMANCE_SINGLE_PAGE_URL, EMPLOYEE_PERFORMANCE_VIEW_url,
   KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE,
   KPI_ASSESTMENT_PAGE,
   KPI_EMPLOYEE_ASSIGN_PAGE,
@@ -38,6 +38,8 @@ import {
   USER_LIST_PAGE,
 } from "./utils/APP_ROUTES";
 import KpiPerformanceIndex from "./pages/KPI/kpi-performane-form/kpi-performance-index";
+import KpiPerformanceFormCreate from "./pages/KPI/kpi-performane-form/kpi-performance-form-create";
+import KpiPerformanceFormView from "./pages/KPI/kpi-performane-form/kpi-performance-form-view";
 function App() {
   return (
     <BrowserRouter>
@@ -69,6 +71,8 @@ function App() {
           <Route path={EMPLOYEE_PERFORMANCE_PAGE} element={<EmployeePerformance />} />
           <Route path={EMPLOYEE_PERFORMANCE_SINGLE_PAGE_URL} element={<EmPerformanceSingle />} />
           <Route path={EMPLOYEE_PERFORMANCE_INDEX_PAGE} element={<KpiPerformanceIndex />} />
+          <Route path={EMPLOYEE_PERFORMANCE_CREATE} element={<KpiPerformanceFormCreate />} />
+          <Route path={EMPLOYEE_PERFORMANCE_VIEW_url} element={<KpiPerformanceFormView />} />
         </Route>
 
         <Route path={UNAUTHORIZED} element={<Unauth />} />

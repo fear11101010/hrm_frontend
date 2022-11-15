@@ -122,7 +122,7 @@ function Navbar1(props) {
                 <i className="fe fe-home"></i> KPI
               </Nav.Link>
 
-              <Collapse in={menuOpenCloseState[0]}>
+              <Collapse in={menuOpenCloseState[1]}>
                 <div id="sidebarDashboards">
                   <ul className="nav nav-sm flex-column">
                     <li className="nav-item">
