@@ -9,13 +9,16 @@ import { Collapse } from "react-bootstrap";
 import { useState } from "react";
 import {
   DASHBOARD_PAGE,
-  EMPLOYEE_ASSESTMENT_PAGE, EMPLOYEE_PERFORMANCE_INDEX_PAGE,
+  EMPLOYEE_ASSESTMENT_PAGE,
+  EMPLOYEE_PERFORMANCE_INDEX_PAGE,
   EMPLOYEE_PERFORMANCE_PAGE,
   KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE,
   KPI_ASSESTMENT_PAGE,
   KPI_EMPLOYEE_ASSIGN_PAGE,
-  KPI_PERMORMANCE_FORM_PAGE, KPI_PERMORMANCE_FORM_URL,
+  KPI_PERMORMANCE_FORM_PAGE,
+  KPI_PERMORMANCE_FORM_URL,
   LOGIN_PAGE,
+  USER_LIST_PAGE,
 } from "../../utils/APP_ROUTES";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../utils/axios/axiosConfig";
@@ -78,7 +81,7 @@ function Navbar1(props) {
               </Link>
             </Nav.Item>
 
-            {/* KPI */}
+            {/* USER */}
             <Nav.Item as={"li"}>
               <Link
                 onClick={() => openOrCloseMenu(0)}
@@ -87,33 +90,76 @@ function Navbar1(props) {
                 data-bs-toggle="collapse"
                 role="button"
                 aria-expanded={menuOpenCloseState[0] ? "true" : "false"}
+                aria-controls="sidebarUser"
+              >
+                <i className="fe fe-user"></i> User Management
+              </Link>
+              <Collapse in={menuOpenCloseState[0]}>
+                <div id="sidebarUser">
+                  <ul className="nav nav-sm flex-column">
+                    <li className="nav-item">
+                      <Nav.Link href={USER_LIST_PAGE}> User </Nav.Link>
+                    </li>
+                    <li className="nav-item">
+                      <Nav.Link href={KPI_EMPLOYEE_ASSIGN_PAGE}> Role </Nav.Link>
+                    </li>
+                  </ul>
+                </div>
+              </Collapse>
+            </Nav.Item>
+
+            {/* KPI */}
+            <Nav.Item as={"li"}>
+              <Nav.Link
+                onClick={() => openOrCloseMenu(1)}
+                href="#"
+                className={menuOpenCloseState[1] ? "collapsed" : ""}
+                data-bs-toggle="collapse"
+                role="button"
+                aria-expanded={menuOpenCloseState[1] ? "true" : "false"}
                 aria-controls="sidebarDashboards"
               >
                 <i className="fe fe-home"></i> KPI
-              </Link>
+              </Nav.Link>
+
               <Collapse in={menuOpenCloseState[0]}>
                 <div id="sidebarDashboards">
                   <ul className="nav nav-sm flex-column">
                     <li className="nav-item">
-                      <Link className={"nav-link"} to={KPI_EMPLOYEE_ASSIGN_PAGE}>Employee Assign</Link>
+                      <Link className={"nav-link"} to={KPI_EMPLOYEE_ASSIGN_PAGE}>
+                        Employee Assign
+                      </Link>
                     </li>
                     <li className="nav-item">
-                      <Link className={"nav-link"} to={EMPLOYEE_PERFORMANCE_INDEX_PAGE}>KPI Performance Form</Link>
+                      <Link className={"nav-link"} to={EMPLOYEE_PERFORMANCE_INDEX_PAGE}>
+                        KPI Performance Form
+                      </Link>
                     </li>
                     <li className="nav-item">
-                      <Link className={"nav-link"} to={KPI_ASSESTMENT_PAGE}>KPI Assestment</Link>
+                      <Link className={"nav-link"} to={KPI_ASSESTMENT_PAGE}>
+                        KPI Assestment
+                      </Link>
                     </li>
                     <li className="nav-item">
-                      <Link className={"nav-link"} to={KPI_PERMORMANCE_FORM_URL}>KPI Performer Assestment</Link>
+                      <Link className={"nav-link"} to={KPI_PERMORMANCE_FORM_URL}>
+                        KPI Performer Assestment
+                      </Link>
                     </li>
                     <li className="nav-item">
-                      <Link className={"nav-link"} to={KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE}>KPI All Employee Assestment</Link>
+                      <Link className={"nav-link"} to={KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE}>
+                        KPI All Employee Assestment
+                      </Link>
                     </li>
                     <li className="nav-item">
-                      <Link className={"nav-link"} to={EMPLOYEE_ASSESTMENT_PAGE}> Employee Assestment</Link>
+                      <Link className={"nav-link"} to={EMPLOYEE_ASSESTMENT_PAGE}>
+                        {" "}
+                        Employee Assestment
+                      </Link>
                     </li>
                     <li className="nav-item">
-                      <Link className={"nav-link"} to={EMPLOYEE_PERFORMANCE_PAGE}>Employee Performance</Link>
+                      <Link className={"nav-link"} to={EMPLOYEE_PERFORMANCE_PAGE}>
+                        Employee Performance
+                      </Link>
                     </li>
                   </ul>
                 </div>

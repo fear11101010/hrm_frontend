@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { API } from "../utils/axios/axiosConfig";
 
-export default function useFetch(url) {
-  const [isloading, setIsLoading] = useState(true);
+function useFetch(url) {
+  const [isloading, setIsLoading] = useState(null);
   const [data, setData] = useState([]);
   const [err, setErr] = useState("");
   useEffect(() => {
-    setIsLoading(true);
+    setIsLoading("loading...");
+    setData([]);
+    setErr("");
+    const source = axios.CancelToken.source();
+
     API.get(url)
       .then((res) => setData(res.data))
       .catch((err) => {
@@ -15,6 +20,14 @@ export default function useFetch(url) {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
-  return { isloading, data, err };
+
+    //cleanup Function
+    return () => {
+      source.cancel();
+    };
+  }, [url]);
+
+  return { data, isloading, err };
 }
+
+export default useFetch;

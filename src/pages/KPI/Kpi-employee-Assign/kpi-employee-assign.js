@@ -16,14 +16,15 @@ export default function KpiEmployeeAssign() {
   const [loading, setLoading] = useState(false);
   const [sbuId, setSbuId] = useState("");
   const [sbu_employees, setSbu_employees] = useState([]);
+  // const [updated_sbu_employees, setUpdated_Sbu_employees] = useState([]);
   const [emSupervisor, setEmSupervisor] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [succMsg, setSuccMsg] = useState("");
   const [errMsg, setErrMsg] = useState("");
-
   // handle save button
   const handleSubmit = (e) => {
+    e.preventDefault();
     let temp = sbu_employees.map((d) => d.value);
     const payload = {
       employees_id: temp.join(),
@@ -32,7 +33,6 @@ export default function KpiEmployeeAssign() {
       duration_startdate: startDate + " 00:00:00",
       duration_enddate: endDate + " 00:00:00",
     };
-    e.preventDefault();
     setLoading(true);
     API.post(EMPLOYEE_ASSIGN_POST, payload)
       .then((res) => {
@@ -52,12 +52,14 @@ export default function KpiEmployeeAssign() {
 
   // fetch data of employee under SBU id
   useEffect(() => {
+    setSbu_employees([]); //reseting
     if (sbuId !== "") {
       setLoading(true);
       API.get(GET_EMPLOYEE_BY_SBU_API(sbuId))
         .then((res) => {
           if (res.data.statuscode === 200) {
             setSbu_employees(res.data.data.map((d) => ({ label: d.name, value: d.id })));
+            // setUpdated_Sbu_employees(res.data.data.map((d) => ({ label: d.name, value: d.id })));
           }
         })
         .catch((err) => {
@@ -69,32 +71,12 @@ export default function KpiEmployeeAssign() {
     }
   }, [sbuId]);
 
-  const succ_msg_div = () => {
-    return (
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>{succMsg}</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    );
-  };
-
-  const err_msg_div = () => {
-    return (
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>{succMsg}</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    );
-  };
-
   return (
     <Layout>
       {loading && <Loader />}
       <PageHeader title="Employee Assign" />
       <Content>
         <Form onSubmit={handleSubmit} className="w-50 m-auto">
-          {succMsg && succ_msg_div()}
-          {errMsg && err_msg_div()}
           <Form.Group className="mb-3">
             <Form.Label>SBU</Form.Label>
             <Select options={sbuList.map((d) => ({ label: d.name, value: d.id }))} onChange={(e) => setSbuId(e.value)} />
@@ -102,12 +84,14 @@ export default function KpiEmployeeAssign() {
 
           <Form.Group className="mb-3">
             <Form.Label>Employee</Form.Label>
-            <Select
-              isMulti
-              options={sbu_employees}
-              //  onChange={(e) => setSbu_employees(e.value)}
-              isDisabled={sbuId === ""}
-            />
+            {sbu_employees.length > 0 && (
+              <Select
+                isMulti
+                options={sbu_employees}
+                defaultValue={sbu_employees.map((d, i) => sbu_employees[i])}
+                // onChange={(e) => setUpdated_Sbu_employees(e.value)}
+              />
+            )}
           </Form.Group>
 
           <Form.Group className="mb-3">
