@@ -3,9 +3,11 @@ import { GET_SBU_API } from "../../utils/API_ROUTES";
 import { API } from "../../utils/axios/axiosConfig";
 
 export default function useSbu() {
+  const [isLoading, setIsLoading] = useState(null);
   const [data, setData] = useState([]);
 
   useEffect(() => {
+    setIsLoading(true);
     API.get(GET_SBU_API)
       .then((res) => {
         if (res.data.statuscode === 200) {
@@ -14,7 +16,10 @@ export default function useSbu() {
           setData([]);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
-  return data;
+  return { data, isLoading };
 }

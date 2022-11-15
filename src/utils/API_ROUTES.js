@@ -25,6 +25,7 @@ export const BEST_PERFORMER_PM_GET = "/best_performer_pm/";
 export const CONF_INC_NOINC_GET = "/confirmation_increment_no_increment/";
 
 export const EMPLOYEE_ASSIGN_POST = "/employee_assign/";
+export const EMPLOYEE_ASSIGN_RETRIVE_AND_PUT = (id) => `/employee_assign/${id}/`;
 export const EMPLOYEE_ASSESTMENT_GET = "/assessment/";
 export const EMPLOYEE_PERFORMANCE_GET = "/kpi_performance/";
 export const EMPLOYEE_PERFORMANCE_EACH_GET = (id) => `/kpi_performance/${id}/`;
@@ -36,5 +37,9 @@ export const GET_SUPERVISOR = "/supervisor/";
 export const KPI_PERFORMANCE_FORM = "/kpi_performance/";
 export const KPI_PERFORMANCE_FORM_DATE_VALIDATE = "kpi_performance/$/get_date_range/";
 export const KPI_PERFORMANCE_FORM_DRAFT = "/kpi_performance/";
-export const KPI_PERFORMANCE_FORM_SINGLE = id=> `/kpi_performance/${id}/`;
-export const KPI_PERFORMANCE_FORM_SUBMIT = id=> `/kpi_performance/${id}/`;
+export const KPI_PERFORMANCE_FORM_SINGLE = (id) => `/kpi_performance/${id}/`;
+export const KPI_PERFORMANCE_FORM_SUBMIT = (id) => `/kpi_performance/${id}/`;
+
+export const KPI_PERMORMER_ASSESTMENT_BY_SBU_GET = (id) => `/performer_assessment/${id}/search_by_sbu/`;
+export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET = (id) => `/assessment/${id}/`;
+export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_PUT = (id) => `/performer_assessment/${id}/`;
