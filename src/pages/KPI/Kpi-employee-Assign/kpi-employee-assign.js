@@ -5,24 +5,28 @@ import Content from "../../../components/content/Content";
 import useSbu from "../../../hooks/SBU/useSbu";
 import Select from "react-select";
 import { API } from "../../../utils/axios/axiosConfig";
-import { EMPLOYEE_ASSIGN_POST, GET_EMPLOYEE_BY_SBU_API } from "../../../utils/API_ROUTES";
+import { EMPLOYEE_ASSIGN_POST, EMPLOYEE_ASSIGN_RETRIVE_AND_PUT, GET_EMPLOYEE_BY_SBU_API } from "../../../utils/API_ROUTES";
 import { Form } from "react-bootstrap";
 import useSupervisor from "../../../hooks/useSupervisor";
 import Loader from "../../../components/loader/Loader";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
-import Flatpickr from "react-flatpickr";
+import moment from "moment";
 
 export default function KpiEmployeeAssign() {
-  const fp = useRef(null);
-  const { sbuList } = useSbu();
+  const { data } = useSbu();
+
   const supervisorList = useSupervisor();
+
   const [loading, setLoading] = useState(false);
   const [sbuId, setSbuId] = useState("");
   const [sbu_employees, setSbu_employees] = useState([]);
-  // const [updated_sbu_employees, setUpdated_Sbu_employees] = useState([]);
   const [emSupervisor, setEmSupervisor] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+
+  // if already assigned
+  const [isExist, setIsExist] = useState(false);
+
   // handle save button
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -51,16 +55,39 @@ export default function KpiEmployeeAssign() {
       });
   };
 
-  // fetch data of employee under SBU id
+  // fetch data of employee under SBU id and check if already assigned or not
   useEffect(() => {
-    setSbu_employees([]); //reseting
+    //reseting
+    setSbu_employees([]);
+    setStartDate("");
+    setEndDate("");
+
     if (sbuId !== "") {
+      // Employee list by SBU
       setLoading(true);
       API.get(GET_EMPLOYEE_BY_SBU_API(sbuId))
         .then((res) => {
           if (res.data.statuscode === 200) {
             setSbu_employees(res.data.data.map((d) => ({ label: d.name, value: d.id })));
-            // setUpdated_Sbu_employees(res.data.data.map((d) => ({ label: d.name, value: d.id })));
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+
+      // SBU already assigned of not check
+      setLoading(true);
+      API.get(EMPLOYEE_ASSIGN_RETRIVE_AND_PUT(sbuId))
+        .then((res) => {
+          if (res.data.statuscode === 200) {
+            setIsExist(true);
+            setEmSupervisor(res.data.data.supervisor_id);
+            setStartDate(moment(res.data.data.duration_startdate).format("YYYY-MM-DD"));
+            setEndDate(moment(res.data.data.duration_enddate).format("YYYY-MM-DD"));
+            success_alert("Employee already assigned");
           }
         })
         .catch((err) => {
@@ -80,7 +107,7 @@ export default function KpiEmployeeAssign() {
         <Form onSubmit={handleSubmit} className="w-50 m-auto">
           <Form.Group className="mb-3">
             <Form.Label>SBU</Form.Label>
-            <Select options={sbuList?.map((d) => ({ label: d.name, value: d.id }))} onChange={(e) => setSbuId(e.value)} />
+            <Select options={data?.map((d) => ({ label: d.name, value: d.id }))} onChange={(e) => setSbuId(e.value)} />
           </Form.Group>
 
           <Form.Group className="mb-3">
@@ -99,13 +126,14 @@ export default function KpiEmployeeAssign() {
             <Form.Label>Employee Supervisor</Form.Label>
             <Select
               options={supervisorList.map((d) => ({ label: d.name, value: d.id }))}
+              placeholder={supervisorList.map((d) => d.id.toString() === emSupervisor && d.name)}
               onChange={(e) => setEmSupervisor(e.value)}
               isDisabled={sbuId === ""}
             />
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Start Date</Form.Label>
+            <Form.Label>Start Date </Form.Label>
             <Form.Control
               type="date"
               value={startDate}
@@ -127,7 +155,8 @@ export default function KpiEmployeeAssign() {
             />
           </Form.Group>
           <button type="submit" className="btn btn-primary mt-3 mb-4">
-            Save
+            {console.log(isExist)}
+            {isExist ? "Update" : "Save"}
           </button>
         </Form>
       </Content>

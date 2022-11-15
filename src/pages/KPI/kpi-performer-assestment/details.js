@@ -20,7 +20,7 @@ import { API } from "../../../utils/axios/axiosConfig";
 import { DATE_FORMAT } from "../../../utils/CONSTANT";
 import { USER_INFO } from "../../../utils/session/token";
 
-export default function EmployeePerformerDetails({ rowId }) {
+export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
   const id = rowId;
   const user = USER_INFO();
   const { data, isLoading } = useFetch(KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET(id));
@@ -97,6 +97,7 @@ export default function EmployeePerformerDetails({ rowId }) {
       .then((res) => {
         if (res.data.statuscode === 200) {
           success_alert(res.data.message);
+          afterSubmit();
         } else {
           error_alert(res.data.message);
         }

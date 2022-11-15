@@ -7,7 +7,7 @@ import { KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET, KPI_PERMORMER_ASSESTMENT_INDIV
 import { API } from "../../../utils/axios/axiosConfig";
 import { USER_INFO } from "../../../utils/session/token";
 
-export default function ProposedAmount({ rowId }) {
+export default function ProposedAmount({ rowId, afterSubmit }) {
   const id = rowId;
   const user = USER_INFO();
   const { data, isLoading } = useFetch(KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET(id));
@@ -55,6 +55,7 @@ export default function ProposedAmount({ rowId }) {
       .then((res) => {
         if (res.data.statuscode === 200) {
           success_alert(res.data.message);
+          afterSubmit();
         } else {
           error_alert(res.data.message);
         }
@@ -66,6 +67,7 @@ export default function ProposedAmount({ rowId }) {
         setLoading(false);
       });
   };
+
   return (
     <div>
       {isLoading && <Loader />}

@@ -100,6 +100,12 @@ export default function KpiPerformerAssestment() {
     },
   ];
 
+  // Modal off after submit success
+  const afterSubmit = () => {
+    setDetailModal(false);
+    setIncAmountModal(false);
+  };
+
   return (
     <Layout>
       {isLoading || (loading && <Loader />)}
@@ -137,7 +143,7 @@ export default function KpiPerformerAssestment() {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="bg-light p-3">
-          <EmployeePerformerDetails rowId={selectedRowId} show={detailModal} />
+          <EmployeePerformerDetails rowId={selectedRowId} afterSubmit={afterSubmit} />
         </Modal.Body>
       </Modal>
 
@@ -149,7 +155,7 @@ export default function KpiPerformerAssestment() {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ProposedAmount rowId={selectedRowId} />
+          <ProposedAmount rowId={selectedRowId} afterSubmit={afterSubmit} />
         </Modal.Body>
       </Modal>
     </Layout>

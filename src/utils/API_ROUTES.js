@@ -25,6 +25,7 @@ export const BEST_PERFORMER_PM_GET = "/best_performer_pm/";
 export const CONF_INC_NOINC_GET = "/confirmation_increment_no_increment/";
 
 export const EMPLOYEE_ASSIGN_POST = "/employee_assign/";
+export const EMPLOYEE_ASSIGN_RETRIVE_AND_PUT = (id) => `/employee_assign/${id}/`;
 export const EMPLOYEE_ASSESTMENT_GET = "/assessment/";
 export const EMPLOYEE_PERFORMANCE_GET = "/kpi_performance/";
 export const EMPLOYEE_PERFORMANCE_EACH_GET = (id) => `/kpi_performance/${id}/`;
