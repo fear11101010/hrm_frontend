@@ -23,6 +23,7 @@ import useConfIncNoinc from "../../../hooks/kpi/confirmation_increment_no_increm
 import { API } from "../../../utils/axios/axiosConfig";
 import { EMPLOYEE_ASSESTMENT_PAGE } from "../../../utils/APP_ROUTES";
 import { DATE_FORMAT } from "../../../utils/CONSTANT";
+import ConfirmDialog from "../../../components/confirm-dialog/ConfirmDialog";
 
 export default function EmAssestmentSingle() {
   const { id } = useParams();
@@ -67,6 +68,8 @@ export default function EmAssestmentSingle() {
 
   const [diffByYear, setdiffByYear] = useState("");
   const [diffByMonths, setdiffByMonths] = useState("");
+
+  const [isConfirm, setIsConfirm] = useState(false);
 
   const getAssestmentData = () => {
     setLoading(true);
@@ -126,6 +129,7 @@ export default function EmAssestmentSingle() {
       proposed_by_sbu_director_pm_self: propose_SBU,
       proposed_designation: proposed_designation,
       remarks: remarks,
+      final: false,
       // detail_save:""
     };
     setLoading(true);
@@ -147,6 +151,11 @@ export default function EmAssestmentSingle() {
   useEffect(() => {
     getAssestmentData();
   }, []);
+
+  const handleConfirm = (e) => {
+    e.preventDefault();
+    setIsConfirm(true);
+  };
 
   return (
     <Layout>
@@ -188,7 +197,7 @@ export default function EmAssestmentSingle() {
 
         {/* FORM BODY */}
         <div className="mt-4">
-          <Form onSubmit={handleSave}>
+          <Form onSubmit={handleConfirm}>
             {/* KPI  */}
             <div className="card">
               <div className="card-header">
@@ -469,6 +478,14 @@ export default function EmAssestmentSingle() {
             </button>
           </Form>
         </div>
+
+        {isConfirm && (
+          <ConfirmDialog
+            message={"Are you sure you want to submi?"}
+            onOkButtonClick={handleSave}
+            onCancelButtonClick={(e) => setIsConfirm(false)}
+          />
+        )}
       </Content>
     </Layout>
   );

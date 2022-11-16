@@ -2,6 +2,7 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Accordion, Button, Col, Form, Row } from "react-bootstrap";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
+import ConfirmDialog from "../../../components/confirm-dialog/ConfirmDialog";
 import Loader from "../../../components/loader/Loader";
 import useBestInnovatorTeam from "../../../hooks/kpi/best_innovator_team";
 import useBestPerformerOrganization from "../../../hooks/kpi/best_performer_organization";
@@ -47,6 +48,7 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
   // Submit type state
   const [normalSubmit, setNormalSubmit] = useState(false);
   const [finalSubmit, setFinalSubmit] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
 
   // CUSTOM HOOKS
   const kpiObjList = useKpiObjective();
@@ -110,16 +112,16 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
       });
   };
 
+  const handleConfirm = (e) => {
+    e.preventDefault();
+    setIsConfirm(true);
+  };
   return (
     <div>
       {isLoading && <Loader />}
       {loading && <Loader />}
 
-      <Form
-        onSubmit={(e) => {
-          handleSubmit(e);
-        }}
-      >
+      <Form onSubmit={handleConfirm}>
         <div className="bg-white p-4 rounded shadow-sm">
           {/* Employee Details */}
           <Row className="mb-4 border-bottom">
@@ -594,6 +596,14 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
             </Button>
           )}
         </div>
+
+        {isConfirm && (
+          <ConfirmDialog
+            message={"Are you sure you want to submi?"}
+            onOkButtonClick={handleSubmit}
+            onCancelButtonClick={(e) => setIsConfirm(false)}
+          />
+        )}
       </Form>
     </div>
   );

@@ -26,11 +26,14 @@ import { API } from "../../utils/axios/axiosConfig";
 import { LOGOUT_API } from "../../utils/API_ROUTES";
 import Loader from "../../components/loader/Loader";
 import { REMOVE_TOKEN } from "../../utils/session/token";
+import ConfirmDialog from "../../components/confirm-dialog/ConfirmDialog";
 
 function Navbar1(props) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [menuOpenCloseState, setMenuOpenCloseState] = useState([false]);
+  const [isConfirm, setIsConfirm] = useState(false);
+
   const openOrCloseMenu = (i) => {
     // console.log(e);
     const menus = [...menuOpenCloseState];
@@ -57,6 +60,12 @@ function Navbar1(props) {
         setLoading(false);
       });
   };
+
+  const handleConfirm = (e) => {
+    e.preventDefault();
+    setIsConfirm(true);
+  };
+
   return (
     <Navbar expand="md" fixed="top" variant="light" className="navbar-vertical">
       {loading && <Loader />}
@@ -172,7 +181,7 @@ function Navbar1(props) {
               <Link
                 to={DASHBOARD_PAGE}
                 onClick={(e) => {
-                  handleLogout(e);
+                  handleConfirm(e);
                 }}
                 className="text-danger fw-bold nav-link"
               >
@@ -182,6 +191,15 @@ function Navbar1(props) {
           </Nav>
         </Navbar.Collapse>
       </Container>
+
+      {/* Logout Confirm Modal */}
+      {isConfirm && (
+        <ConfirmDialog
+          message={"Are you sure you want to Logout?"}
+          onOkButtonClick={handleLogout}
+          onCancelButtonClick={(e) => setIsConfirm(false)}
+        />
+      )}
     </Navbar>
   );
 }
