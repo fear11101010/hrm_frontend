@@ -14,7 +14,7 @@ import {
 } from "../../../utils/API_ROUTES";
 import {API} from "../../../utils/axios/axiosConfig";
 import {error_alert} from "../../../components/alert/Alert";
-import {ELIGIBLE_TABLE_COLUMN, PIVOT_TABLE_COLUMN} from "./table-columns";
+import {ELIGIBLE_TABLE_COLUMN, PIVOT_TABLE_COLUMN} from "../table-columns";
 import Table from "../../../components/table/Table";
 import useFetch from "../../../hooks/useFetch";
 export default function SalaryIncrementEligibleReport(props) {
