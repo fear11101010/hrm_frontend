@@ -43,8 +43,8 @@ import KpiPerformanceIndex from "./pages/KPI/kpi-performane-form/kpi-performance
 import KpiPerformanceFormCreate from "./pages/KPI/kpi-performane-form/kpi-performance-form-create";
 import KpiPerformanceFormView from "./pages/KPI/kpi-performane-form/kpi-performance-form-view";
 import SalaryFullReport from "./pages/Report/salary-full-report/SalaryFullReport";
-import SalaryPivotReport from "./pages/Report/salary-full-report/SalaryPivotReport";
-import SalaryIncrementEligibleReport from "./pages/Report/salary-full-report/SalaryIncrementEligibleReport";
+import SalaryPivotReport from "./pages/Report/salary-pivot-summary/SalaryPivotReport";
+import SalaryIncrementEligibleReport from "./pages/Report/salary-increment-eligible-report/SalaryIncrementEligibleReport";
 function App() {
   return (
     <BrowserRouter>
