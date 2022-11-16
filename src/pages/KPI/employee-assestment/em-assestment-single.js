@@ -22,6 +22,7 @@ import useBestPerformerPm from "../../../hooks/kpi/best_performer_pm";
 import useConfIncNoinc from "../../../hooks/kpi/confirmation_increment_no_increment";
 import { API } from "../../../utils/axios/axiosConfig";
 import { EMPLOYEE_ASSESTMENT_PAGE } from "../../../utils/APP_ROUTES";
+import { DATE_FORMAT } from "../../../utils/CONSTANT";
 
 export default function EmAssestmentSingle() {
   const { id } = useParams();
@@ -164,7 +165,7 @@ export default function EmAssestmentSingle() {
             <Row>
               <Col sm="6" md="6">
                 <h5 className="mb-1 text-secondary">Date of Joining</h5>
-                <h4 className="text-secondary">{employee_details?.date_of_joining}</h4>
+                <h4 className="text-dark">{moment(employee_details?.date_of_joining).format(DATE_FORMAT)}</h4>
               </Col>
               <Col sm="6" md="6">
                 <h5 className="mb-1 text-secondary">Duration</h5>

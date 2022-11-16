@@ -18,7 +18,8 @@ import {
   KPI_PERMORMANCE_FORM_PAGE,
   KPI_PERMORMANCE_FORM_URL,
   KPI_PERMORMER_ASSESTMENT_PAGE,
-  LOGIN_PAGE, USER_LIST_PAGE,
+  LOGIN_PAGE,
+  USER_LIST_PAGE,
 } from "../../utils/APP_ROUTES";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../utils/axios/axiosConfig";
@@ -135,21 +136,21 @@ function Navbar1(props) {
                         KPI Performance Form
                       </Link>
                     </li>
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                       <Link className={"nav-link"} to={KPI_ASSESTMENT_PAGE}>
                         KPI Assestment
                       </Link>
-                    </li>
+                    </li> */}
                     <li className="nav-item">
                       <Link className={"nav-link"} to={KPI_PERMORMER_ASSESTMENT_PAGE}>
                         KPI Performer Assestment
                       </Link>
                     </li>
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                       <Link className={"nav-link"} to={KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE}>
                         KPI All Employee Assestment
                       </Link>
-                    </li>
+                    </li> */}
                     <li className="nav-item">
                       <Link className={"nav-link"} to={EMPLOYEE_ASSESTMENT_PAGE}>
                         {" "}
