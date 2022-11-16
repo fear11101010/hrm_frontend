@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 export const success_alert = (msg) => {
   toast.success(msg, {
-    position: "top-left",
+    position: "top-center",
     autoClose: 3000,
     hideProgressBar: true,
     closeOnClick: true,

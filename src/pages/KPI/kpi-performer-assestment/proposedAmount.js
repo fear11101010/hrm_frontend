@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
+import ConfirmDialog from "../../../components/confirm-dialog/ConfirmDialog";
 import Loader from "../../../components/loader/Loader";
 import useFetch from "../../../hooks/useFetch";
 import { KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET, KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_PUT } from "../../../utils/API_ROUTES";
@@ -20,6 +21,8 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
   const [remarks2, setRemarks2] = useState("");
   const [normalSubmit, setNormalSubmit] = useState(false);
   const [finalSubmit, setFinalSubmit] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
+
   // Getting current year
   const currYear = new Date().getFullYear();
 
@@ -68,10 +71,15 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
       });
   };
 
+  const handleConfirm = (e) => {
+    e.preventDefault();
+    setIsConfirm(true);
+  };
+
   return (
     <div>
       {isLoading && <Loader />}
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleConfirm}>
         <Row>
           <Col sm="12" md="12" className="mb-3">
             <Form.Label className="mb-2 text-dark">Proposed By SBU Director/PM/Self {currYear} (C) </Form.Label>
@@ -127,6 +135,14 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
               >
                 Final Submit
               </Button>
+            )}
+
+            {isConfirm && (
+              <ConfirmDialog
+                message={"Are you sure you want to submi?"}
+                onOkButtonClick={handleSubmit}
+                onCancelButtonClick={(e) => setIsConfirm(false)}
+              />
             )}
           </Col>
         </Row>

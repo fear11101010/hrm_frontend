@@ -11,6 +11,7 @@ import useSupervisor from "../../../hooks/useSupervisor";
 import Loader from "../../../components/loader/Loader";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
 import moment from "moment";
+import ConfirmDialog from "../../../components/confirm-dialog/ConfirmDialog";
 
 export default function KpiEmployeeAssign() {
   const { data } = useSbu();
@@ -23,6 +24,7 @@ export default function KpiEmployeeAssign() {
   const [emSupervisor, setEmSupervisor] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [isConfirm, setIsConfirm] = useState(false);
 
   // if already assigned
   const [isExist, setIsExist] = useState(false);
@@ -99,67 +101,85 @@ export default function KpiEmployeeAssign() {
     }
   }, [sbuId]);
 
+  //Handle Confirm Modal
+  const handleConfirmModal = (e) => {
+    e.preventDefault();
+    setIsConfirm(!isConfirm);
+  };
+
   return (
     <Layout>
       {loading && <Loader />}
       <PageHeader title="Employee Assign" />
-      <Content>
-        <Form onSubmit={handleSubmit} className="w-50 m-auto">
-          <Form.Group className="mb-3">
-            <Form.Label>SBU</Form.Label>
-            <Select options={data?.map((d) => ({ label: d.name, value: d.id }))} onChange={(e) => setSbuId(e.value)} />
-          </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Employee</Form.Label>
-            {sbu_employees.length > 0 && (
-              <Select
-                isMulti
-                options={sbu_employees}
-                defaultValue={sbu_employees.map((d, i) => sbu_employees[i])}
-                // onChange={(e) => setUpdated_Sbu_employees(e.value)}
-              />
-            )}
-          </Form.Group>
+      <Form
+        onSubmit={(e) => {
+          handleConfirmModal(e);
+        }}
+        className="w-50 m-auto"
+      >
+        <Form.Group className="mb-3">
+          <Form.Label>SBU</Form.Label>
+          <Select options={data?.map((d) => ({ label: d.name, value: d.id }))} onChange={(e) => setSbuId(e.value)} />
+        </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Employee Supervisor</Form.Label>
+        <Form.Group className="mb-3">
+          <Form.Label>Employee</Form.Label>
+          {sbu_employees.length > 0 && (
             <Select
-              options={supervisorList.map((d) => ({ label: d.name, value: d.id }))}
-              placeholder={supervisorList.map((d) => d.id.toString() === emSupervisor && d.name)}
-              onChange={(e) => setEmSupervisor(e.value)}
-              isDisabled={sbuId === ""}
+              isMulti
+              options={sbu_employees}
+              defaultValue={sbu_employees.map((d, i) => sbu_employees[i])}
+              // onChange={(e) => setUpdated_Sbu_employees(e.value)}
             />
-          </Form.Group>
+          )}
+        </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Start Date </Form.Label>
-            <Form.Control
-              type="date"
-              value={startDate}
-              onChange={(e) => {
-                setStartDate(e.target.value);
-              }}
-              required
-            />
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>End Date</Form.Label>
-            <Form.Control
-              type="date"
-              value={endDate}
-              onChange={(e) => {
-                setEndDate(e.target.value);
-              }}
-              required
-            />
-          </Form.Group>
-          <button type="submit" className="btn btn-primary mt-3 mb-4">
-            {console.log(isExist)}
-            {isExist ? "Update" : "Save"}
-          </button>
-        </Form>
-      </Content>
+        <Form.Group className="mb-3">
+          <Form.Label>Employee Supervisor</Form.Label>
+          <Select
+            options={supervisorList.map((d) => ({ label: d.name, value: d.id }))}
+            placeholder={supervisorList.map((d) => d.id.toString() === emSupervisor && d.name)}
+            onChange={(e) => setEmSupervisor(e.value)}
+            isDisabled={sbuId === ""}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Start Date </Form.Label>
+          <Form.Control
+            type="date"
+            value={startDate}
+            onChange={(e) => {
+              setStartDate(e.target.value);
+            }}
+            required
+          />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>End Date</Form.Label>
+          <Form.Control
+            type="date"
+            value={endDate}
+            onChange={(e) => {
+              setEndDate(e.target.value);
+            }}
+            required
+          />
+        </Form.Group>
+        <button type="submit" className="btn btn-primary mt-3 mb-4">
+          {isExist ? "Update" : "Save"}
+        </button>
+        {isConfirm && (
+          <ConfirmDialog
+            message="Are you sure you want to assign employee?"
+            onOkButtonClick={handleSubmit}
+            onCancelButtonClick={() => {
+              setIsConfirm(false);
+            }}
+          />
+        )}
+      </Form>
     </Layout>
   );
 }

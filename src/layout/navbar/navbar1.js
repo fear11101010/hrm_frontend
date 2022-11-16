@@ -29,11 +29,14 @@ import { API } from "../../utils/axios/axiosConfig";
 import { LOGOUT_API } from "../../utils/API_ROUTES";
 import Loader from "../../components/loader/Loader";
 import { REMOVE_TOKEN } from "../../utils/session/token";
+import ConfirmDialog from "../../components/confirm-dialog/ConfirmDialog";
 
 function Navbar1(props) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [menuOpenCloseState, setMenuOpenCloseState] = useState([false]);
+  const [isConfirm, setIsConfirm] = useState(false);
+
   const openOrCloseMenu = (i) => {
     // console.log(e);
     const menus = [...menuOpenCloseState];
@@ -60,13 +63,21 @@ function Navbar1(props) {
         setLoading(false);
       });
   };
+
+  const handleConfirm = (e) => {
+    e.preventDefault();
+    setIsConfirm(true);
+  };
+
   return (
     <Navbar expand="md" fixed="top" variant="light" className="navbar-vertical">
       {loading && <Loader />}
       <Container fluid>
         <Navbar.Toggle aria-controls="sidebarCollapse" />
-        <Navbar.Brand href="#">
-          <img src="/img/logo.svg" className="navbar-brand-img mx-auto" alt="..." />
+        <Navbar.Brand>
+          <Link to={DASHBOARD_PAGE}>
+            <img src="/img/logo.svg" className="navbar-brand-img mx-auto" alt="..." />
+          </Link>
         </Navbar.Brand>
         <Navbar.Collapse id="sidebarCollapse">
           <Form className="mt-4 mb-3 d-md-none">
@@ -85,7 +96,7 @@ function Navbar1(props) {
               </Link>
             </Nav.Item>
 
-            {/* KPI */}
+            {/* USER */}
             <Nav.Item as={"li"}>
               <Link
                 onClick={() => openOrCloseMenu(0)}
@@ -131,40 +142,45 @@ function Navbar1(props) {
                   <ul className="nav nav-sm flex-column">
                     <li className="nav-item">
                       <Link className={"nav-link"} to={KPI_EMPLOYEE_ASSIGN_PAGE}>
-                        Employee Assign
+                        {/* Employee Assign */}
+                        Circularte To Employees
                       </Link>
                     </li>
                     <li className="nav-item">
                       <Link className={"nav-link"} to={EMPLOYEE_PERFORMANCE_INDEX_PAGE}>
-                        KPI Performance Form
+                        {/* KPI Performance Form */}
+                        Appraisal Form
                       </Link>
                     </li>
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                       <Link className={"nav-link"} to={KPI_ASSESTMENT_PAGE}>
                         KPI Assestment
                       </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link className={"nav-link"} to={KPI_PERMORMER_ASSESTMENT_PAGE}>
-                        KPI Performer Assestment
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link className={"nav-link"} to={KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE}>
-                        KPI All Employee Assestment
-                      </Link>
-                    </li>
+                    </li> */}
                     <li className="nav-item">
                       <Link className={"nav-link"} to={EMPLOYEE_ASSESTMENT_PAGE}>
-                        {" "}
-                        Employee Assestment
+                        {/* Employee Assestment */}
+                        Team Assessment Performance
                       </Link>
                     </li>
                     <li className="nav-item">
                       <Link className={"nav-link"} to={EMPLOYEE_PERFORMANCE_PAGE}>
-                        Employee Performance
+                        {/* Employee Performance */}
+                        Team Appraisal Review
                       </Link>
                     </li>
+                    <li className="nav-item">
+                      <Link className={"nav-link"} to={KPI_PERMORMER_ASSESTMENT_PAGE}>
+                        {/* KPI Performer Assestment */}
+                        Performance Review
+                      </Link>
+                    </li>
+                    {/* <li className="nav-item">
+                      <Link className={"nav-link"} to={KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE}>
+                        //  KPI All Employee Assestment
+                        Employee wise appraisal
+                      </Link>
+                    </li> */}
                   </ul>
                 </div>
               </Collapse>
@@ -210,7 +226,7 @@ function Navbar1(props) {
               <Link
                 to={DASHBOARD_PAGE}
                 onClick={(e) => {
-                  handleLogout(e);
+                  handleConfirm(e);
                 }}
                 className="text-danger fw-bold nav-link"
               >
@@ -220,6 +236,15 @@ function Navbar1(props) {
           </Nav>
         </Navbar.Collapse>
       </Container>
+
+      {/* Logout Confirm Modal */}
+      {isConfirm && (
+        <ConfirmDialog
+          message={"Are you sure you want to Logout?"}
+          onOkButtonClick={handleLogout}
+          onCancelButtonClick={(e) => setIsConfirm(false)}
+        />
+      )}
     </Navbar>
   );
 }

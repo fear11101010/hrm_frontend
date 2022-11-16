@@ -22,6 +22,9 @@ import useBestPerformerPm from "../../../hooks/kpi/best_performer_pm";
 import useConfIncNoinc from "../../../hooks/kpi/confirmation_increment_no_increment";
 import { API } from "../../../utils/axios/axiosConfig";
 import { EMPLOYEE_ASSESTMENT_PAGE } from "../../../utils/APP_ROUTES";
+import { DATE_FORMAT } from "../../../utils/CONSTANT";
+import ConfirmDialog from "../../../components/confirm-dialog/ConfirmDialog";
+import { success_alert } from "../../../components/alert/Alert";
 
 export default function EmAssestmentSingle() {
   const { id } = useParams();
@@ -66,6 +69,8 @@ export default function EmAssestmentSingle() {
 
   const [diffByYear, setdiffByYear] = useState("");
   const [diffByMonths, setdiffByMonths] = useState("");
+
+  const [isConfirm, setIsConfirm] = useState(false);
 
   const getAssestmentData = () => {
     setLoading(true);
@@ -125,12 +130,14 @@ export default function EmAssestmentSingle() {
       proposed_by_sbu_director_pm_self: propose_SBU,
       proposed_designation: proposed_designation,
       remarks: remarks,
+      final: false,
       // detail_save:""
     };
     setLoading(true);
     API.put(EMPLOYEE_ASSESTMENT_SINGLE_POST(id), payload)
       .then((res) => {
         if (res.data.statuscode === 200) {
+          success_alert(res.data.message);
           navigate(EMPLOYEE_ASSESTMENT_PAGE);
         }
       })
@@ -146,6 +153,11 @@ export default function EmAssestmentSingle() {
   useEffect(() => {
     getAssestmentData();
   }, []);
+
+  const handleConfirm = (e) => {
+    e.preventDefault();
+    setIsConfirm(true);
+  };
 
   return (
     <Layout>
@@ -164,7 +176,7 @@ export default function EmAssestmentSingle() {
             <Row>
               <Col sm="6" md="6">
                 <h5 className="mb-1 text-secondary">Date of Joining</h5>
-                <h4 className="text-secondary">{employee_details?.date_of_joining}</h4>
+                <h4 className="text-dark">{moment(employee_details?.date_of_joining).format(DATE_FORMAT)}</h4>
               </Col>
               <Col sm="6" md="6">
                 <h5 className="mb-1 text-secondary">Duration</h5>
@@ -187,7 +199,7 @@ export default function EmAssestmentSingle() {
 
         {/* FORM BODY */}
         <div className="mt-4">
-          <Form onSubmit={handleSave}>
+          <Form onSubmit={handleConfirm}>
             {/* KPI  */}
             <div className="card">
               <div className="card-header">
@@ -468,6 +480,14 @@ export default function EmAssestmentSingle() {
             </button>
           </Form>
         </div>
+
+        {isConfirm && (
+          <ConfirmDialog
+            message={"Are you sure you want to submi?"}
+            onOkButtonClick={handleSave}
+            onCancelButtonClick={(e) => setIsConfirm(false)}
+          />
+        )}
       </Content>
     </Layout>
   );

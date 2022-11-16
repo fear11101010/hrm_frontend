@@ -1,13 +1,13 @@
 import React from "react";
 
 export default function Content({ children }) {
-  return <div className="container-fluid mb-4">{children}</div>;
+  return (
+    <div className="container-fluid mb-5">
+      <div className="card shadow-sm ">
+        <div className="card-body">{children}</div>
+      </div>
+    </div>
+  );
 }
 
 // OLD WAY
-
-// <div className="container-fluid">
-//   <div className="card shadow-sm">
-//     <div className="card-body">{children}</div>
-//   </div>
-// </div>
