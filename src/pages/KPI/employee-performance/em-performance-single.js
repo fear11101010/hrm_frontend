@@ -1026,9 +1026,13 @@ export default function EmPerformanceSingle() {
                       <Accordion.Body>
                         <Row>
                           <Col sm={12} xs={12} md={12}>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {data?.individual_comment || "N\\A"}
-                            </p>
+                            <Form.Control
+                              as={"textarea"}
+                              {...register("individual_comment")}
+                              placeholder="INDIVIDUAL'S COMMENTS"
+                              id="INDIVIDUAL"
+                              rows={6}
+                            />
                           </Col>
                         </Row>
                       </Accordion.Body>
@@ -1042,9 +1046,13 @@ export default function EmPerformanceSingle() {
                       <Accordion.Body>
                         <Row>
                           <Col sm={12} xs={12} md={12}>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {data?.manager_comment || "N\\A"}
-                            </p>
+                            <Form.Control
+                              as={"textarea"}
+                              {...register("manager_comment")}
+                              placeholder="MANAGERS COMMENTS"
+                              id="MANAGERS"
+                              rows={6}
+                            />
                           </Col>
                         </Row>
                       </Accordion.Body>
@@ -1058,9 +1066,13 @@ export default function EmPerformanceSingle() {
                       <Accordion.Body>
                         <Row>
                           <Col sm={12} xs={12} md={12}>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {data?.senior_manager_functional_head_comment || "N\\A"}
-                            </p>
+                            <Form.Control
+                              as={"textarea"}
+                              {...register("senior_manager_functional_head_comment")}
+                              placeholder="SENIOR MANAGER / FUNCTIONAL HEAD'S COMMENTS"
+                              id="FUNCTIONAL"
+                              rows={6}
+                            />
                           </Col>
                         </Row>
                       </Accordion.Body>
@@ -1074,9 +1086,13 @@ export default function EmPerformanceSingle() {
                       <Accordion.Body>
                         <Row>
                           <Col sm={12} xs={12} md={12}>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {data?.director_chief_operating_officer_comment || "N\\A"}
-                            </p>
+                            <Form.Control
+                              as={"textarea"}
+                              {...register("director_chief_operating_officer_comment")}
+                              placeholder="DIRECTOR AND CHIEF OPERATING OFFICER'S COMMENTS :"
+                              id="DIRECTOR"
+                              rows={6}
+                            />
                           </Col>
                         </Row>
                       </Accordion.Body>
@@ -1156,124 +1172,51 @@ export default function EmPerformanceSingle() {
             </Card.Body>
           </Card>
 
-          {/* Achivements OLD*/}
-          <Accordion className="mb-4">
-            <Accordion.Item className="bg-white" eventKey="0">
-              <Accordion.Header>
-                <h3 className="mb-0">Achievements</h3>
-              </Accordion.Header>
-              <Accordion.Body>
-                <Row>
-                  <Col xs={12} sm={12} md={6} className="d-flex flex-column mb-4">
-                    <Form.Group>
-                      <Form.Label htmlFor="SUBSTANTIAL">
-                        <h4 className="mb-0">OTHER SUBSTANTIAL ACHIEVEMENTS:</h4>
-                      </Form.Label>
-                      <Form.Control
-                        as={"textarea"}
-                        {...register("other_sustainable_achievement")}
-                        placeholder="OTHER SUBSTANTIAL ACHIEVEMENTS"
-                        id="SUBSTANTIAL"
-                        rows={6}
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col xs={12} sm={12} md={6} className="d-flex flex-column mb-4">
-                    <Form.Group>
-                      <Form.Label htmlFor="ISSUES">SIGNIFICANT ISSUES :</Form.Label>
-                      <Form.Control
-                        as={"textarea"}
-                        {...register("significant_issue")}
-                        placeholder="SIGNIFICANT ISSUES"
-                        id="ISSUES"
-                        rows={6}
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col xs={12} sm={12} md={6} className="d-flex flex-column mb-4">
-                    <Form.Group>
-                      <Form.Label htmlFor="INDIVIDUAL">INDIVIDUAL'S COMMENTS :</Form.Label>
-                      <Form.Control
-                        as={"textarea"}
-                        {...register("individual_comment")}
-                        placeholder="INDIVIDUAL'S COMMENTS"
-                        id="INDIVIDUAL"
-                        rows={6}
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col xs={12} sm={12} md={6} className="d-flex flex-column mb-4">
-                    <Form.Group>
-                      <Form.Label htmlFor="MANAGERS">MANAGERS COMMENTS :</Form.Label>
-                      <Form.Control
-                        as={"textarea"}
-                        {...register("manager_comment")}
-                        placeholder="MANAGERS COMMENTS"
-                        id="MANAGERS"
-                        rows={6}
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-                <Row className="mt-4">
-                  <Col xs={12} sm={12} md={6} className="d-flex flex-column mb-4">
-                    <Form.Group>
-                      <Form.Label htmlFor="FUNCTIONAL">SENIOR MANAGER / FUNCTIONAL HEAD'S COMMENTS :</Form.Label>
-                      <Form.Control
-                        as={"textarea"}
-                        {...register("senior_manager_functional_head_comment")}
-                        placeholder="SENIOR MANAGER / FUNCTIONAL HEAD'S COMMENTS"
-                        id="FUNCTIONAL"
-                        rows={6}
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col xs={12} sm={12} md={6} className="d-flex flex-column mb-4">
-                    <Form.Group>
-                      <Form.Label htmlFor="DIRECTOR">DIRECTOR AND CHIEF OPERATING OFFICER'S COMMENTS :</Form.Label>
-                      <Form.Control
-                        as={"textarea"}
-                        {...register("director_chief_operating_officer_comment")}
-                        placeholder="DIRECTOR AND CHIEF OPERATING OFFICER'S COMMENTS :"
-                        id="DIRECTOR"
-                        rows={6}
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col xs={12} sm={12} md={12} className="d-flex flex-column mb-4">
-                    <Form.Group>
-                      <Form.Label htmlFor="OVERALL">OVERALL PERFORMANCE BASED ON ALL OF THE ABOVE RATING :</Form.Label>
-                      <Form.Control
-                        as={"textarea"}
-                        {...register("overall_performance")}
-                        placeholder="OVERALL PERFORMANCE BASED ON ALL OF THE ABOVE RATING"
-                        id="OVERALL"
-                        rows={6}
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-
-                <h3 className="mt-4">SIGNATURES TO ASSESSMENT :</h3>
-                <Row className="mt-6 justify-content-around">
-                  <Col xs={12} sm={12} md={3} className="d-flex justify-content-center flex-column">
-                    <hr style={{ color: "#000000" }} />
-                    <span className="text-center mt-2">Individual Manager Function or SBU Head</span>
-                  </Col>
-                  <Col xs={12} sm={12} md={2} className="d-flex justify-content-center flex-column align-items-center">
-                    <hr style={{ color: "#000000", width: "100%" }} />
-                    <span className="text-center mt-2">Manager</span>
-                  </Col>
-                  <Col xs={12} sm={12} md={3} className="d-flex justify-content-center flex-column align-items-center">
-                    <hr style={{ color: "#000000", width: "100%" }} />
-                    <span className="text-center mt-2">Senior</span>
-                  </Col>
-                </Row>
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
+          {/* OVERALL PERFORMANCE BASED ON ALL OF THE ABOVE RATING */}
+          <Card>
+            <Card.Body>
+              <h2 className="header-title mb-0">OVERALL PERFORMANCE BASED ON ALL OF THE ABOVE RATING</h2>
+              <hr className="mb-4" />
+              <Row>
+                <Col sm="12" md="6">
+                  <h1 className="text-center mb-2">{currYear}</h1>
+                  <Accordion>
+                    <Accordion.Item>
+                      <Accordion.Body className={"show"}>
+                        <Row>
+                          <Col sm={12} xs={12} md={12}>
+                            <Form.Control
+                              as={"textarea"}
+                              {...register("overall_performance")}
+                              placeholder="OVERALL PERFORMANCE BASED ON ALL OF THE ABOVE RATING"
+                              id="OVERALL"
+                              rows={6}
+                            />
+                          </Col>
+                        </Row>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                </Col>
+                <Col sm="12" md="6">
+                  <h1 className="text-center mb-2">{currYear - 1}</h1>
+                  <Accordion>
+                    <Accordion.Item>
+                      <Accordion.Body className={"show"}>
+                        <Row>
+                          <Col sm={12} xs={12} md={12}>
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {data?.overall_performance || "N\\A"}
+                            </p>
+                          </Col>
+                        </Row>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
 
           <div className="text-end">
             {/* <div style={{ marginRight: "10px" }}>
@@ -1814,3 +1757,124 @@ export default function EmPerformanceSingle() {
 //     </Accordion.Body>
 //   </Accordion.Item>
 // </Accordion>
+
+//
+
+// Achivements OLD
+//    <Accordion className="mb-4">
+//    <Accordion.Item className="bg-white" eventKey="0">
+//      <Accordion.Header>
+//        <h3 className="mb-0">Achievements</h3>
+//      </Accordion.Header>
+//      <Accordion.Body>
+//        <Row>
+//          <Col xs={12} sm={12} md={6} className="d-flex flex-column mb-4">
+//            <Form.Group>
+//              <Form.Label htmlFor="SUBSTANTIAL">
+//                <h4 className="mb-0">OTHER SUBSTANTIAL ACHIEVEMENTS:</h4>
+//              </Form.Label>
+//              <Form.Control
+//                as={"textarea"}
+//                {...register("other_sustainable_achievement")}
+//                placeholder="OTHER SUBSTANTIAL ACHIEVEMENTS"
+//                id="SUBSTANTIAL"
+//                rows={6}
+//              />
+//            </Form.Group>
+//          </Col>
+//          <Col xs={12} sm={12} md={6} className="d-flex flex-column mb-4">
+//            <Form.Group>
+//              <Form.Label htmlFor="ISSUES">SIGNIFICANT ISSUES :</Form.Label>
+//              <Form.Control
+//                as={"textarea"}
+//                {...register("significant_issue")}
+//                placeholder="SIGNIFICANT ISSUES"
+//                id="ISSUES"
+//                rows={6}
+//              />
+//            </Form.Group>
+//          </Col>
+//          <Col xs={12} sm={12} md={6} className="d-flex flex-column mb-4">
+//            <Form.Group>
+//              <Form.Label htmlFor="INDIVIDUAL">INDIVIDUAL'S COMMENTS :</Form.Label>
+//              <Form.Control
+//                as={"textarea"}
+//                {...register("individual_comment")}
+//                placeholder="INDIVIDUAL'S COMMENTS"
+//                id="INDIVIDUAL"
+//                rows={6}
+//              />
+//            </Form.Group>
+//          </Col>
+//          <Col xs={12} sm={12} md={6} className="d-flex flex-column mb-4">
+//            <Form.Group>
+//              <Form.Label htmlFor="MANAGERS">MANAGERS COMMENTS :</Form.Label>
+//              <Form.Control
+//                as={"textarea"}
+//                {...register("manager_comment")}
+//                placeholder="MANAGERS COMMENTS"
+//                id="MANAGERS"
+//                rows={6}
+//              />
+//            </Form.Group>
+//          </Col>
+//        </Row>
+//        <Row className="mt-4">
+//          <Col xs={12} sm={12} md={6} className="d-flex flex-column mb-4">
+//            <Form.Group>
+//              <Form.Label htmlFor="FUNCTIONAL">SENIOR MANAGER / FUNCTIONAL HEAD'S COMMENTS :</Form.Label>
+//              <Form.Control
+//                as={"textarea"}
+//                {...register("senior_manager_functional_head_comment")}
+//                placeholder="SENIOR MANAGER / FUNCTIONAL HEAD'S COMMENTS"
+//                id="FUNCTIONAL"
+//                rows={6}
+//              />
+//            </Form.Group>
+//          </Col>
+//          <Col xs={12} sm={12} md={6} className="d-flex flex-column mb-4">
+//            <Form.Group>
+//              <Form.Label htmlFor="DIRECTOR">DIRECTOR AND CHIEF OPERATING OFFICER'S COMMENTS :</Form.Label>
+//              <Form.Control
+//                as={"textarea"}
+//                {...register("director_chief_operating_officer_comment")}
+//                placeholder="DIRECTOR AND CHIEF OPERATING OFFICER'S COMMENTS :"
+//                id="DIRECTOR"
+//                rows={6}
+//              />
+//            </Form.Group>
+//          </Col>
+//        </Row>
+//        <Row>
+//          <Col xs={12} sm={12} md={12} className="d-flex flex-column mb-4">
+//            <Form.Group>
+//              <Form.Label htmlFor="OVERALL">OVERALL PERFORMANCE BASED ON ALL OF THE ABOVE RATING :</Form.Label>
+//              <Form.Control
+//                as={"textarea"}
+//                {...register("overall_performance")}
+//                placeholder="OVERALL PERFORMANCE BASED ON ALL OF THE ABOVE RATING"
+//                id="OVERALL"
+//                rows={6}
+//              />
+//            </Form.Group>
+//          </Col>
+//        </Row>
+
+//        <h3 className="mt-4">SIGNATURES TO ASSESSMENT :</h3>
+//        <Row className="mt-6 justify-content-around">
+//          <Col xs={12} sm={12} md={3} className="d-flex justify-content-center flex-column">
+//            <hr style={{ color: "#000000" }} />
+//            <span className="text-center mt-2">Individual Manager Function or SBU Head</span>
+//          </Col>
+//          <Col xs={12} sm={12} md={2} className="d-flex justify-content-center flex-column align-items-center">
+//            <hr style={{ color: "#000000", width: "100%" }} />
+//            <span className="text-center mt-2">Manager</span>
+//          </Col>
+//          <Col xs={12} sm={12} md={3} className="d-flex justify-content-center flex-column align-items-center">
+//            <hr style={{ color: "#000000", width: "100%" }} />
+//            <span className="text-center mt-2">Senior</span>
+//          </Col>
+//        </Row>
+//      </Accordion.Body>
+//    </Accordion.Item>
+//  </Accordion>
