@@ -18,6 +18,8 @@ import {useNavigate, useParams} from "react-router-dom";
 import {toast} from "react-toastify";
 import KpiPerformanceFormComponent from "../../../components/kpi-performmance-form/KpiPerformanceFormComponent";
 import {USER_INFO} from "../../../utils/session/token";
+import moment from "moment";
+import {error_alert} from "../../../components/alert/Alert";
 
 export default function KpiPerformanceFormCreate() {
     const [loading, setLoading] = useState(false);
@@ -30,13 +32,13 @@ export default function KpiPerformanceFormCreate() {
         API.get(USER_EACH_GET(userInfo.user_id))
             .then((response)=>{
                 console.log(response.data.data);
-                setData({employee:response.data.data});
+                setData({employee:response.data.data,year:moment().year()});
             }).catch(err=>{
-            toast(err.response?.data?.non_field_errors[0]);
+            error_alert(err.response?.data?.non_field_errors[0]||err.response?.data?.message);
         }).finally(()=>{
             setLoading(false);
         })
-    },[id])
+    },[])
     const beforeSubmit = ()=>{
         setLoading(true);
     }

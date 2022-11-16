@@ -18,7 +18,11 @@ import {
   KPI_PERMORMANCE_FORM_PAGE,
   KPI_PERMORMANCE_FORM_URL,
   KPI_PERMORMER_ASSESTMENT_PAGE,
-  LOGIN_PAGE, USER_LIST_PAGE,
+  LOGIN_PAGE,
+  SALARY_FULL_REPORT_URL,
+  SALARY_INCREMENT_ELIGIBLE_REPORT_URL,
+  SALARY_PIVOT_SUMMARY_REPORT_URL,
+  USER_LIST_PAGE,
 } from "../../utils/APP_ROUTES";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../utils/axios/axiosConfig";
@@ -159,6 +163,41 @@ function Navbar1(props) {
                     <li className="nav-item">
                       <Link className={"nav-link"} to={EMPLOYEE_PERFORMANCE_PAGE}>
                         Employee Performance
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </Collapse>
+            </Nav.Item>
+            <Nav.Item as={"li"}>
+              <Nav.Link
+                onClick={() => openOrCloseMenu(2)}
+                href="#"
+                className={menuOpenCloseState[2] ? "collapsed" : ""}
+                data-bs-toggle="collapse"
+                role="button"
+                aria-expanded={menuOpenCloseState[2] ? "true" : "false"}
+                aria-controls="sidebarDashboards"
+              >
+                <i className="fe fe-file-text"></i> Report
+              </Nav.Link>
+
+              <Collapse in={menuOpenCloseState[2]}>
+                <div id="sidebarDashboards">
+                  <ul className="nav nav-sm flex-column">
+                    {/*<li className="nav-item">
+                      <Link className={"nav-link"} to={SALARY_FULL_REPORT_URL}>
+                        Salary Full Report
+                      </Link>
+                    </li>*/}
+                    <li className="nav-item">
+                      <Link className={"nav-link"} to={SALARY_PIVOT_SUMMARY_REPORT_URL}>
+                        Salary Pivot Summary
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className={"nav-link"} to={SALARY_INCREMENT_ELIGIBLE_REPORT_URL}>
+                        Increment Eligible
                       </Link>
                     </li>
                   </ul>

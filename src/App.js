@@ -37,11 +37,14 @@ import {
   LOGIN_PAGE,
   UNAUTHORIZED,
   USER_ADD_PAGE,
-  USER_LIST_PAGE,
+  USER_LIST_PAGE, SALARY_FULL_REPORT_URL, SALARY_PIVOT_SUMMARY_REPORT_URL, SALARY_INCREMENT_ELIGIBLE_REPORT_URL,
 } from "./utils/APP_ROUTES";
 import KpiPerformanceIndex from "./pages/KPI/kpi-performane-form/kpi-performance-index";
 import KpiPerformanceFormCreate from "./pages/KPI/kpi-performane-form/kpi-performance-form-create";
 import KpiPerformanceFormView from "./pages/KPI/kpi-performane-form/kpi-performance-form-view";
+import SalaryFullReport from "./pages/Report/salary-full-report/SalaryFullReport";
+import SalaryPivotReport from "./pages/Report/salary-full-report/SalaryPivotReport";
+import SalaryIncrementEligibleReport from "./pages/Report/salary-full-report/SalaryIncrementEligibleReport";
 function App() {
   return (
     <BrowserRouter>
@@ -75,6 +78,11 @@ function App() {
           <Route path={EMPLOYEE_PERFORMANCE_INDEX_PAGE} element={<KpiPerformanceIndex />} />
           <Route path={EMPLOYEE_PERFORMANCE_CREATE} element={<KpiPerformanceFormCreate />} />
           <Route path={EMPLOYEE_PERFORMANCE_VIEW_url} element={<KpiPerformanceFormView />} />
+        </Route>
+        <Route path={"/report"} element={<KpiOutlet />}>
+          <Route path={SALARY_FULL_REPORT_URL} element={<SalaryFullReport />} />
+          <Route path={SALARY_PIVOT_SUMMARY_REPORT_URL} element={<SalaryPivotReport />} />
+          <Route path={SALARY_INCREMENT_ELIGIBLE_REPORT_URL} element={<SalaryIncrementEligibleReport />} />
         </Route>
 
         <Route path={UNAUTHORIZED} element={<Unauth />} />

@@ -36,3 +36,9 @@ export const EMPLOYEE_PERFORMANCE_VIEW_url = `/employee-performance-view/:id`;
 
 // Others
 export const UNAUTHORIZED = "/unauthorized";
+
+// Reports
+export const SALARY_FULL_REPORT_URL = `/report/salary_full_report`;
+export const SALARY_PIVOT_SUMMARY_REPORT_URL = `/report/salary_pivot_summary`;
+export const SALARY_INCREMENT_ELIGIBLE_REPORT_URL = `/report/salary_increment_eligible`;
+

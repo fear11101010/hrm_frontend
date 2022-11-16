@@ -43,3 +43,10 @@ export const KPI_PERFORMANCE_FORM_SUBMIT = (id) => `/kpi_performance/${id}/`;
 export const KPI_PERMORMER_ASSESTMENT_BY_SBU_GET = (id) => `/performer_assessment/${id}/search_by_sbu/`;
 export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET = (id) => `/assessment/${id}/`;
 export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_PUT = (id) => `/performer_assessment/${id}/`;
+
+// report api
+
+export const REPORT_FULL_SUMMERY_API = (id) => `reports/${id}/salary_full_report_search_by_sbu/`;
+export const REPORT_PIVOT_SALARY_SUMMERY_API = (year) => `reports/${year}/salary_pivot_summery_by_year/`;
+export const REPORT_INCREMENT_ELIGIBLE_SALARY_SUMMERY_API = (year) => `reports/${year}/increment_eligible_by_year/`;
+export const REPORT_GET_YEARS_DROPDOWN = `reports/$/get_available_years/`;

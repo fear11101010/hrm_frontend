@@ -56,7 +56,7 @@ function KpiPerformanceFormComponent({data,updateData,beforeSubmit,afterSubmit,i
                         <Row>
                             <Col xs={12} sm={12} md={6} className="d-flex flex-row">
                                 <span className="mb-2 h3">Name : </span>
-                                <span className="h3">&nbsp;{data?.employee?.name}</span>
+                                <span className="h3">&nbsp;{data?.employee?.name||(data?.employee?.first)}</span>
                             </Col>
                             <Col xs={12} sm={12} md={6} className="d-flex flex-row">
                                 <span className="mb-2 h3">Designation : </span>
