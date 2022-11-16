@@ -71,8 +71,10 @@ function Navbar1(props) {
       {loading && <Loader />}
       <Container fluid>
         <Navbar.Toggle aria-controls="sidebarCollapse" />
-        <Navbar.Brand href="#">
-          <img src="/img/logo.svg" className="navbar-brand-img mx-auto" alt="..." />
+        <Navbar.Brand>
+          <Link to={DASHBOARD_PAGE}>
+            <img src="/img/logo.svg" className="navbar-brand-img mx-auto" alt="..." />
+          </Link>
         </Navbar.Brand>
         <Navbar.Collapse id="sidebarCollapse">
           <Form className="mt-4 mb-3 d-md-none">
@@ -91,7 +93,7 @@ function Navbar1(props) {
               </Link>
             </Nav.Item>
 
-            {/* KPI */}
+            {/* USER */}
             <Nav.Item as={"li"}>
               <Link
                 onClick={() => openOrCloseMenu(0)}
@@ -137,12 +139,14 @@ function Navbar1(props) {
                   <ul className="nav nav-sm flex-column">
                     <li className="nav-item">
                       <Link className={"nav-link"} to={KPI_EMPLOYEE_ASSIGN_PAGE}>
-                        Employee Assign
+                        {/* Employee Assign */}
+                        Circularte To Employees
                       </Link>
                     </li>
                     <li className="nav-item">
                       <Link className={"nav-link"} to={EMPLOYEE_PERFORMANCE_INDEX_PAGE}>
-                        KPI Performance Form
+                        {/* KPI Performance Form */}
+                        Appraisal Form
                       </Link>
                     </li>
                     {/* <li className="nav-item">
@@ -151,26 +155,29 @@ function Navbar1(props) {
                       </Link>
                     </li> */}
                     <li className="nav-item">
-                      <Link className={"nav-link"} to={KPI_PERMORMER_ASSESTMENT_PAGE}>
-                        KPI Performer Assestment
-                      </Link>
-                    </li>
-                    {/* <li className="nav-item">
-                      <Link className={"nav-link"} to={KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE}>
-                        KPI All Employee Assestment
-                      </Link>
-                    </li> */}
-                    <li className="nav-item">
                       <Link className={"nav-link"} to={EMPLOYEE_ASSESTMENT_PAGE}>
-                        {" "}
-                        Employee Assestment
+                        {/* Employee Assestment */}
+                        Team Assessment Performance
                       </Link>
                     </li>
                     <li className="nav-item">
                       <Link className={"nav-link"} to={EMPLOYEE_PERFORMANCE_PAGE}>
-                        Employee Performance
+                        {/* Employee Performance */}
+                        Team Appraisal Review
                       </Link>
                     </li>
+                    <li className="nav-item">
+                      <Link className={"nav-link"} to={KPI_PERMORMER_ASSESTMENT_PAGE}>
+                        {/* KPI Performer Assestment */}
+                        Performance Review
+                      </Link>
+                    </li>
+                    {/* <li className="nav-item">
+                      <Link className={"nav-link"} to={KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE}>
+                        //  KPI All Employee Assestment 
+                        Employee wise appraisal
+                      </Link>
+                    </li> */}
                   </ul>
                 </div>
               </Collapse>

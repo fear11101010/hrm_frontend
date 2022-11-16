@@ -6,18 +6,16 @@ import Loader from "../../../components/loader/Loader";
 import Table from "../../../components/table/Table";
 import useFetch from "../../../hooks/useFetch";
 import Layout from "../../../layout/Layout";
-import { Link } from "react-router-dom";
 import { EMPLOYEE_ASSESTMENT_GET } from "../../../utils/API_ROUTES";
 import { columns } from "./columns";
 
 export default function EmployeeAssestment() {
   // fetch Data
-  const { data, isloading, err } = useFetch(EMPLOYEE_ASSESTMENT_GET);
-  const [loading, setLoading] = useState(false);
+  const { data, isLoading, err } = useFetch(EMPLOYEE_ASSESTMENT_GET);
 
   return (
     <Layout>
-      {(loading || isloading) && <Loader />}
+      {isLoading && <Loader />}
       <PageHeader title={"Assessment Employee Information"} />
       <Content>
         <Table data={data.data} columns={columns} />

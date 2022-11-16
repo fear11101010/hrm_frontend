@@ -24,6 +24,7 @@ import { API } from "../../../utils/axios/axiosConfig";
 import { EMPLOYEE_ASSESTMENT_PAGE } from "../../../utils/APP_ROUTES";
 import { DATE_FORMAT } from "../../../utils/CONSTANT";
 import ConfirmDialog from "../../../components/confirm-dialog/ConfirmDialog";
+import { success_alert } from "../../../components/alert/Alert";
 
 export default function EmAssestmentSingle() {
   const { id } = useParams();
@@ -136,6 +137,7 @@ export default function EmAssestmentSingle() {
     API.put(EMPLOYEE_ASSESTMENT_SINGLE_POST(id), payload)
       .then((res) => {
         if (res.data.statuscode === 200) {
+          success_alert(res.data.message);
           navigate(EMPLOYEE_ASSESTMENT_PAGE);
         }
       })

@@ -599,7 +599,7 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
 
         {isConfirm && (
           <ConfirmDialog
-            message={"Are you sure you want to submi?"}
+            message={"Are you sure you want to submit?"}
             onOkButtonClick={handleSubmit}
             onCancelButtonClick={(e) => setIsConfirm(false)}
           />
