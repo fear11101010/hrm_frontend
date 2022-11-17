@@ -13,6 +13,7 @@ import Table from "../../../components/table/Table";
 import { dataColumns } from "./data-columns";
 import EmployeePerformerDetails from "./details";
 import ProposedAmount from "./proposedAmount";
+import { RiFileDownloadFill } from "react-icons/ri";
 
 export default function KpiPerformerAssestment() {
   const [loading, setLoading] = useState(false);
@@ -66,6 +67,7 @@ export default function KpiPerformerAssestment() {
             size="sm"
             variant="primary"
             title="Details"
+            className="btn-rounded-circle"
             onClick={() => {
               setSelectedRowId(row.id);
               setDetailModal(true);
@@ -86,6 +88,7 @@ export default function KpiPerformerAssestment() {
             size="sm"
             variant="info"
             title="Proposed"
+            className="btn-rounded-circle"
             onClick={() => {
               setSelectedRowId(row.id);
               setIncAmountModal(true);
@@ -96,6 +99,27 @@ export default function KpiPerformerAssestment() {
         </>
       ),
       width: "100px",
+      center: true,
+    },
+    {
+      name: <div>Report (PDF)</div>,
+      cell: (row) => (
+        <>
+          <Button
+            size="sm"
+            variant="primary"
+            title="Download Report"
+            className="btn-rounded-circle"
+            onClick={() => {
+              setSelectedRowId(row.id);
+              setIncAmountModal(true);
+            }}
+          >
+            <RiFileDownloadFill />
+          </Button>
+        </>
+      ),
+      width: "80px",
       center: true,
     },
   ];
