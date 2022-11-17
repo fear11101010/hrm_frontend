@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Layout from "../../../layout/Layout";
-import { Accordion, Button, Card, Col, Form, Row } from "react-bootstrap";
+import { Accordion, Button, Card, Col, Form, Modal, Row } from "react-bootstrap";
 import PageHeader from "../../../components/header/PageHeader";
 import Container from "react-bootstrap/Container";
 import { useForm } from "react-hook-form";
@@ -18,6 +18,7 @@ import { error_alert, success_alert } from "../../../components/alert/Alert";
 import useKpiValue from "../../../hooks/kpi/kpi_value";
 import useHrRating from "../../../hooks/kpi/hr_rating";
 import { toast } from "react-toastify";
+import ConfirmDialog from "../../../components/confirm-dialog/ConfirmDialog";
 
 export default function EmPerformanceSingle() {
   ////////////////////////////////////////////////////////////////
@@ -38,6 +39,7 @@ export default function EmPerformanceSingle() {
   // Submit Func
   const submitKpiPerformanceForm = (data, event) => {
     setLoading(true);
+    setIsConfirm(false);
     const type = event.target.attributes["name"].value;
     if (type === "draft") {
       data["draft_save"] = true;
@@ -92,12 +94,15 @@ export default function EmPerformanceSingle() {
   const valueList = useKpiValue();
   const currYear = new Date().getFullYear();
 
+  const [prevYearData, setPrevYearData] = useState([]);
+  const [isConfirm, setIsConfirm] = useState(false);
+
   useEffect(() => {
     setLoading(true);
     API.get(KPI_PERFORMANCE_FORM_SINGLE(id))
       .then((response) => {
-        console.log(response.data.data);
         setData(response.data.data);
+        setPrevYearData(response.data?.data_last_year);
       })
       .catch((err) => {
         toast(err.response?.data?.non_field_errors[0]);
@@ -123,12 +128,17 @@ export default function EmPerformanceSingle() {
     return null;
   };
 
+  const handleConfirm = (e) => {
+    e.preventDefault();
+    setIsConfirm(true);
+  };
+
   return (
     <Layout>
       {loading && <Loader />}
       <PageHeader subTitle={""} title={"KPI Performance Form"} onBack />
       <Container fluid>
-        <Form onSubmit={(e) => e.preventDefault()}>
+        <Form onSubmit={handleConfirm}>
           {/* EMPLOYYE INFO */}
           <Card>
             <Card.Body>
@@ -422,19 +432,19 @@ export default function EmPerformanceSingle() {
                       <Accordion.Body>
                         <h6 className="header-pretitle mb-2">Objective</h6>
                         <p className="fs-5 fw-bold" contentEditable={false}>
-                          {data?.production || "N\\A"}
+                          {prevYearData?.production || "N\\A"}
                         </p>
                         <Row>
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Weightage Value</h6>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {data?.production_weightage || "N\\A"}
+                              {prevYearData?.production_weightage || "N\\A"}
                             </p>
                           </Col>
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {findRatingElem(data?.production_rating) || "N\\A"}
+                              {findRatingElem(prevYearData?.production_rating) || "N\\A"}
                             </p>
                           </Col>
                         </Row>
@@ -452,19 +462,19 @@ export default function EmPerformanceSingle() {
                       <Accordion.Body>
                         <h6 className="header-pretitle mb-2">Objective</h6>
                         <p className="fs-5 fw-bold" contentEditable={false}>
-                          {data?.support || "N\\A"}
+                          {prevYearData?.support || "N\\A"}
                         </p>
                         <Row>
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Weightage Value</h6>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {data?.support_weightage || "N\\A"}
+                              {prevYearData?.support_weightage || "N\\A"}
                             </p>
                           </Col>
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {findRatingElem(data?.support_rating) || "N\\A"}
+                              {findRatingElem(prevYearData?.support_rating) || "N\\A"}
                             </p>
                           </Col>
                         </Row>
@@ -480,19 +490,19 @@ export default function EmPerformanceSingle() {
                       <Accordion.Body>
                         <h6 className="header-pretitle mb-2">Objective</h6>
                         <p className="fs-5 fw-bold" contentEditable={false}>
-                          {data?.innovation || "N\\A"}
+                          {prevYearData?.innovation || "N\\A"}
                         </p>
                         <Row>
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Weightage Value</h6>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {data?.innovation_weightage || "N\\A"}
+                              {prevYearData?.innovation_weightage || "N\\A"}
                             </p>
                           </Col>
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {findRatingElem(data?.innovation_rating) || "N\\A"}
+                              {findRatingElem(prevYearData?.innovation_rating) || "N\\A"}
                             </p>
                           </Col>
                         </Row>
@@ -508,19 +518,19 @@ export default function EmPerformanceSingle() {
                       <Accordion.Body>
                         <h6 className="header-pretitle mb-2">Objective</h6>
                         <p className="fs-5 fw-bold" contentEditable={false}>
-                          {data?.people || "N\\A"}
+                          {prevYearData?.people || "N\\A"}
                         </p>
                         <Row>
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Weightage Value</h6>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {data?.people_weightage || "N\\A"}
+                              {prevYearData?.people_weightage || "N\\A"}
                             </p>
                           </Col>
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {findRatingElem(data?.people_rating) || "N\\A"}
+                              {findRatingElem(prevYearData?.people_rating) || "N\\A"}
                             </p>
                           </Col>
                         </Row>
@@ -536,19 +546,19 @@ export default function EmPerformanceSingle() {
                       <Accordion.Body>
                         <h6 className="header-pretitle mb-2">Objective</h6>
                         <p className="fs-5 fw-bold" contentEditable={false}>
-                          {data?.other || "N\\A"}
+                          {prevYearData?.other || "N\\A"}
                         </p>
                         <Row>
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Weightage Value</h6>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {data?.other_weightage || "N\\A"}
+                              {prevYearData?.other_weightage || "N\\A"}
                             </p>
                           </Col>
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {findRatingElem(data?.other_rating) || "N\\A"}
+                              {findRatingElem(prevYearData?.other_rating) || "N\\A"}
                             </p>
                           </Col>
                         </Row>
@@ -800,13 +810,13 @@ export default function EmPerformanceSingle() {
                           <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Value</h6>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {data?.courageous || "N\\A"}
+                              {prevYearData?.courageous || "N\\A"}
                             </p>
                           </Col>
                           <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {findValueElem(data?.courageous_rating) || "N\\A"}
+                              {findValueElem(prevYearData?.courageous_rating) || "N\\A"}
                             </p>
                           </Col>
                         </Row>
@@ -826,13 +836,13 @@ export default function EmPerformanceSingle() {
                           <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Value</h6>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {data?.teamwork || "N\\A"}
+                              {prevYearData?.teamwork || "N\\A"}
                             </p>
                           </Col>
                           <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {findValueElem(data?.teamwork_rating) || "N\\A"}
+                              {findValueElem(prevYearData?.teamwork_rating) || "N\\A"}
                             </p>
                           </Col>
                         </Row>
@@ -852,13 +862,13 @@ export default function EmPerformanceSingle() {
                           <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Value</h6>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {data?.responsive || "N\\A"}
+                              {prevYearData?.responsive || "N\\A"}
                             </p>
                           </Col>
                           <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {findValueElem(data?.responsive_rating) || "N\\A"}
+                              {findValueElem(prevYearData?.responsive_rating) || "N\\A"}
                             </p>
                           </Col>
                         </Row>
@@ -876,13 +886,13 @@ export default function EmPerformanceSingle() {
                           <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Value</h6>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {data?.creative || "N\\A"}
+                              {prevYearData?.creative || "N\\A"}
                             </p>
                           </Col>
                           <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {findValueElem(data?.creative_rating) || "N\\A"}
+                              {findValueElem(prevYearData?.creative_rating) || "N\\A"}
                             </p>
                           </Col>
                         </Row>
@@ -900,13 +910,13 @@ export default function EmPerformanceSingle() {
                           <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Value</h6>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {data?.trustworthy || "N\\A"}
+                              {prevYearData?.trustworthy || "N\\A"}
                             </p>
                           </Col>
                           <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {findValueElem(data?.trustworthy_rating) || "N\\A"}
+                              {findValueElem(prevYearData?.trustworthy_rating) || "N\\A"}
                             </p>
                           </Col>
                         </Row>
@@ -980,7 +990,7 @@ export default function EmPerformanceSingle() {
                         <Row>
                           <Col sm={12} xs={12} md={12}>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {data?.other_sustainable_achievement || "N\\A"}
+                              {prevYearData?.other_sustainable_achievement || "N\\A"}
                             </p>
                           </Col>
                         </Row>
@@ -996,7 +1006,7 @@ export default function EmPerformanceSingle() {
                         <Row>
                           <Col sm={12} xs={12} md={12}>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {data?.significant_issue || "N\\A"}
+                              {prevYearData?.significant_issue || "N\\A"}
                             </p>
                           </Col>
                         </Row>
@@ -1112,7 +1122,7 @@ export default function EmPerformanceSingle() {
                         <Row>
                           <Col sm={12} xs={12} md={12}>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {data?.individual_comment || "N\\A"}
+                              {prevYearData?.individual_comment || "N\\A"}
                             </p>
                           </Col>
                         </Row>
@@ -1128,7 +1138,7 @@ export default function EmPerformanceSingle() {
                         <Row>
                           <Col sm={12} xs={12} md={12}>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {data?.manager_comment || "N\\A"}
+                              {prevYearData?.manager_comment || "N\\A"}
                             </p>
                           </Col>
                         </Row>
@@ -1144,7 +1154,7 @@ export default function EmPerformanceSingle() {
                         <Row>
                           <Col sm={12} xs={12} md={12}>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {data?.senior_manager_functional_head_comment || "N\\A"}
+                              {prevYearData?.senior_manager_functional_head_comment || "N\\A"}
                             </p>
                           </Col>
                         </Row>
@@ -1160,7 +1170,7 @@ export default function EmPerformanceSingle() {
                         <Row>
                           <Col sm={12} xs={12} md={12}>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {data?.director_chief_operating_officer_comment || "N\\A"}
+                              {prevYearData?.director_chief_operating_officer_comment || "N\\A"}
                             </p>
                           </Col>
                         </Row>
@@ -1206,7 +1216,7 @@ export default function EmPerformanceSingle() {
                         <Row>
                           <Col sm={12} xs={12} md={12}>
                             <p className="fs-5 fw-bold" contentEditable={false}>
-                              {data?.overall_performance || "N\\A"}
+                              {prevYearData?.overall_performance || "N\\A"}
                             </p>
                           </Col>
                         </Row>
@@ -1224,9 +1234,40 @@ export default function EmPerformanceSingle() {
                   Save as draft
                 </Button>
               </div> */}
-            <Button onClick={handleSubmit(submitKpiPerformanceForm)} type="submit" name="submit" variant="primary">
+            <Button onClick={handleConfirm} variant="primary" className="mb-4" title="Submit">
               Submit
             </Button>
+            <Modal
+              show={isConfirm}
+              onHide={(e) => {
+                setIsConfirm(false);
+              }}
+            >
+              {/* MANUAL CONFIRM MODAL */}
+              {/* CONFIRM MODAL COMPONENT IS CAUSING SOME ISSUE  */}
+              <Modal.Body>
+                <div className="text-center">
+                  <h2 className="mb-3 text-center text-danger">
+                    <span className="fe fe-alert-triangle"></span>&nbsp;Warning
+                  </h2>
+                  <div className="d-flex justify-content-center text-center">Are you sure you want to submit?</div>
+                  <div className={"d-flex justify-content-center align-items-center mt-4"}>
+                    <button
+                      type="submit"
+                      name="submit"
+                      className="btn btn-primary"
+                      onClick={handleSubmit(submitKpiPerformanceForm)}
+                      style={{ marginRight: "15px" }}
+                    >
+                      <span className="fe fe-check"></span>&nbsp;Confirm
+                    </button>
+                    <button className="btn btn-danger" onClick={(e) => setIsConfirm(false)}>
+                      <span className="fe fe-x-circle"></span>&nbsp;Cancel
+                    </button>
+                  </div>
+                </div>
+              </Modal.Body>
+            </Modal>
           </div>
         </Form>
       </Container>
@@ -1878,3 +1919,13 @@ export default function EmPerformanceSingle() {
 //      </Accordion.Body>
 //    </Accordion.Item>
 //  </Accordion>
+
+// {isConfirm && (
+//   <ConfirmDialog
+//     message={"Are you sure you want to submit?"}
+//     onOkButtonClick={() => {
+//       handleSubmit(submitKpiPerformanceForm);
+//     }}
+//     onCancelButtonClick={(e) => setIsConfirm(false)}
+//   />
+// )}

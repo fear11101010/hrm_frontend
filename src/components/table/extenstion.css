@@ -1,0 +1,19 @@
+.data-table-extensions {
+    padding: 6px 0px !important
+}
+
+.data-table-extensions .data-table-extensions-filter .icon {
+    display: none !important;
+}
+
+.data-table-extensions .data-table-extensions-filter .filter-text {
+    padding: 6px 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    transition: 300ms;
+}
+
+.data-table-extensions .data-table-extensions-filter .filter-text:focus {
+    border-color: #2c7be5;
+    transition: 300ms;
+}
