@@ -13,6 +13,7 @@ import Table from "../../../components/table/Table";
 import useFetch from "../../../hooks/useFetch";
 import {PIVOT_EXCEL_COLUMN} from "../excel-columns";
 import ExcelPdfPrint from "../../../components/excel-pdf-print/ExcelPdfPrint";
+import TableReport from "../../../components/table/TableReport";
 
 export default function SalaryPivotReport(props) {
     // const currentYear = moment().year();
@@ -69,7 +70,7 @@ export default function SalaryPivotReport(props) {
                                     columns={PIVOT_EXCEL_COLUMN(selectedYear)}
                                     header={"Salary Pivot Summary Report For " + selectedYear}
                                 />}
-                            <Table columns={PIVOT_TABLE_COLUMN(selectedYear)} data={pivotData}/>
+                            <TableReport columns={PIVOT_TABLE_COLUMN(selectedYear)} data={pivotData}/>
                         </Card.Body>
                     </Card>
                 </Container>
