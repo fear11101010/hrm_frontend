@@ -67,7 +67,7 @@ export default function SalaryFullReport(props) {
                         </div>
                         <hr className="mb-4"/>
                         {(allDsId && Array.isArray(allDsId) && allDsId.length>0) && allDsId.map(id=>(
-                            <Accordion >
+                            <Accordion className="mb-3">
                                 <Accordion.Item eventKey="0">
                                     <Accordion.Header as={"div"}  >
                                         <div>
