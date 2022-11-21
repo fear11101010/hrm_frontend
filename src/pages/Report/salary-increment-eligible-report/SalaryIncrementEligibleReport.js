@@ -13,6 +13,7 @@ import Table from "../../../components/table/Table";
 import useFetch from "../../../hooks/useFetch";
 import ExcelPdfPrint from "../../../components/excel-pdf-print/ExcelPdfPrint";
 import {ELIGIBLE_EXCEL_COLUMN} from "../excel-columns";
+import TableReport from "../../../components/table/TableReport";
 
 export default function SalaryIncrementEligibleReport(props) {
     const {data, isLoading, err} = useFetch(REPORT_GET_YEARS_DROPDOWN);
@@ -60,7 +61,7 @@ export default function SalaryIncrementEligibleReport(props) {
                                 columns={ELIGIBLE_EXCEL_COLUMN(selectedYear)}
                                 header={"Increment Eligible Report For " + selectedYear}
                             />}
-                        <Table columns={ELIGIBLE_TABLE_COLUMN(selectedYear)} data={eligibleData}/>
+                        <TableReport columns={ELIGIBLE_TABLE_COLUMN(selectedYear)} data={eligibleData}/>
                     </Card.Body>
                 </Card>
             </Container>

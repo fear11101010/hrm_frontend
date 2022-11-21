@@ -1,7 +1,6 @@
 export const PIVOT_TABLE_COLUMN = (year) => [
     {
         name:'#',
-        sortable:true,
         width: "80px",
         selector:(row,index)=>index+1
     },

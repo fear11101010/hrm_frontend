@@ -9,10 +9,11 @@ import {REPORT_GET_YEARS_DROPDOWN, REPORT_PIVOT_SALARY_SUMMERY_API} from "../../
 import {API} from "../../../utils/axios/axiosConfig";
 import {error_alert} from "../../../components/alert/Alert";
 import {PIVOT_TABLE_COLUMN} from "../table-columns";
-import Table from "../../../components/table/Table";
 import useFetch from "../../../hooks/useFetch";
 import {PIVOT_EXCEL_COLUMN} from "../excel-columns";
 import ExcelPdfPrint from "../../../components/excel-pdf-print/ExcelPdfPrint";
+import CustomTable from "../../../components/custom-table/CustomTable";
+import TableReport from "../../../components/table/TableReport";
 
 export default function SalaryPivotReport(props) {
     // const currentYear = moment().year();
@@ -36,6 +37,9 @@ export default function SalaryPivotReport(props) {
         } finally {
             setIsLoading(false);
         }
+    }
+    const afterDataSort = (data)=>{
+        setPivotData(data);
     }
 
 
@@ -69,7 +73,14 @@ export default function SalaryPivotReport(props) {
                                     columns={PIVOT_EXCEL_COLUMN(selectedYear)}
                                     header={"Salary Pivot Summary Report For " + selectedYear}
                                 />}
-                            <Table columns={PIVOT_TABLE_COLUMN(selectedYear)} data={pivotData}/>
+                            <TableReport columns={PIVOT_TABLE_COLUMN(selectedYear)} data={pivotData}/>
+                            {/*<CustomTable
+                                columns={PIVOT_TABLE_COLUMN(selectedYear)}
+                                data={pivotData}
+                                size={'sm'}
+                                onDataSort={(data)=>setPivotData(data)}
+                                pagination
+                                responsive/>*/}
                         </Card.Body>
                     </Card>
                 </Container>
