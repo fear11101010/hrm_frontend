@@ -84,31 +84,34 @@ ${ReactDOM.findDOMNode(element).outerHTML.replace("display: none;", '')}
                     {header && <h3 style={{margin:'15px 0 20px 0',textAlign:'center'}}>{header}</h3>}
                     <table width='100%' border="1"
                            style={{borderCollapse: 'collapse', fontSize: '20px',}}>
-                        {tableColumns && (
-                            <tr>
-                                {tableColumns.map(v => (<th key={v} style={{
-                                    wordBreak: 'normal',
-                                    wordWrap: 'normal',
-                                    border: '1px solid'
-                                }}>{v}</th>))}
-                            </tr>
-                        )}
-                        {tableData && (
-                            tableData.map(v => (
+                        <thead>
+                            {tableColumns && (
                                 <tr>
-                                    {
-                                        tableColumns.map(c => (
-                                            <td key={`${v[c]}_${c}`} style={{
-                                                wordBreak: 'break-word',
-                                                wordWrap: 'normal',
-                                                border: '1px solid'
-                                            }}>{v[c]}</td>
-                                        ))
-                                    }
+                                    {tableColumns.map(v => (<th key={v} style={{
+                                        wordBreak: 'normal',
+                                        wordWrap: 'normal',
+                                        border: '1px solid'
+                                    }}>{v}</th>))}
                                 </tr>
-                            ))
-
-                        )}
+                            )}
+                        </thead>
+                        <tbody>
+                            {tableData && (
+                                tableData.map((v,i) => (
+                                    <tr key={`${v}-${i}`}>
+                                        {
+                                            tableColumns.map(c => (
+                                                <td key={`${v[c]}_${c}`} style={{
+                                                    wordBreak: 'break-word',
+                                                    wordWrap: 'normal',
+                                                    border: '1px solid'
+                                                }}>{v[c]}</td>
+                                            ))
+                                        }
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
                     </table>
                 </div>
             )}
