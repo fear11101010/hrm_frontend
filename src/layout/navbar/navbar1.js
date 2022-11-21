@@ -212,41 +212,49 @@ function Navbar1(props) {
             )}
 
             {/* Report */}
-            <Nav.Item as={"li"}>
-              <Nav.Link
-                onClick={() => openOrCloseMenu(2)}
-                href="#"
-                className={menuOpenCloseState[2] ? "collapsed" : ""}
-                data-bs-toggle="collapse"
-                role="button"
-                aria-expanded={menuOpenCloseState[2] ? "true" : "false"}
-                aria-controls="sidebarReport"
-              >
-                <i className="fe fe-file-text"></i> Report
-              </Nav.Link>
+            {user.sub_module.includes("Report") && (
+              <Nav.Item as={"li"}>
+                <Nav.Link
+                  onClick={() => openOrCloseMenu(2)}
+                  href="#"
+                  className={menuOpenCloseState[2] ? "collapsed" : ""}
+                  data-bs-toggle="collapse"
+                  role="button"
+                  aria-expanded={menuOpenCloseState[2] ? "true" : "false"}
+                  aria-controls="sidebarReport"
+                >
+                  <i className="fe fe-file-text"></i> Report
+                </Nav.Link>
 
-              <Collapse in={menuOpenCloseState[2]}>
-                <div id="sidebarReport">
-                  <ul className="nav nav-sm flex-column">
-                    {/*<li className="nav-item">
-                      <Link className={"nav-link"} to={SALARY_FULL_REPORT_URL}>
-                        Salary Full Report
-                      </Link>
-                    </li>*/}
-                    <li className="nav-item">
-                      <Link className={"nav-link"} to={SALARY_PIVOT_SUMMARY_REPORT_URL}>
-                        Salary Pivot Summary
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link className={"nav-link"} to={SALARY_INCREMENT_ELIGIBLE_REPORT_URL}>
-                        Increment Eligible
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              </Collapse>
-            </Nav.Item>
+                <Collapse in={menuOpenCloseState[2]}>
+                  <div id="sidebarReport">
+                    <ul className="nav nav-sm flex-column">
+                      {/* <li className="nav-item">
+                        {user.module.includes("Salary Full Report") && (
+                          <Link className={"nav-link"} to={SALARY_FULL_REPORT_URL}>
+                            Salary Full Report
+                          </Link>
+                        )}
+                      </li> */}
+                      <li className="nav-item">
+                        {user.module.includes("Salary Pivot Summary") && (
+                          <Link className={"nav-link"} to={SALARY_PIVOT_SUMMARY_REPORT_URL}>
+                            Salary Pivot Summary
+                          </Link>
+                        )}
+                      </li>
+                      <li className="nav-item">
+                        {user.module.includes("Increment Eligible") && (
+                          <Link className={"nav-link"} to={SALARY_INCREMENT_ELIGIBLE_REPORT_URL}>
+                            Increment Eligible
+                          </Link>
+                        )}
+                      </li>
+                    </ul>
+                  </div>
+                </Collapse>
+              </Nav.Item>
+            )}
 
             {/* LOgOUT */}
             <Nav.Item as={"li"}>

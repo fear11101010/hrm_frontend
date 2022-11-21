@@ -1,84 +1,92 @@
-import {Accordion, Card, Col, Form, Row} from "react-bootstrap";
-import React, {useState} from "react";
+import { Accordion, Card, Col, Form, Row } from "react-bootstrap";
+import React, { useState } from "react";
 import useSbu from "../../../hooks/SBU/useSbu";
 import Layout from "../../../layout/Layout";
 import PageHeader from "../../../components/header/PageHeader";
 import Container from "react-bootstrap/Container";
 import Select from "react-select";
 import Loader from "../../../components/loader/Loader";
-import {SALARY_PIVOT_SUMMARY_REPORT_URL} from "../../../utils/APP_ROUTES";
+import { SALARY_PIVOT_SUMMARY_REPORT_URL, UNAUTHORIZED } from "../../../utils/APP_ROUTES";
 import useFetch from "../../../hooks/useFetch";
-import {REPORT_FULL_SUMMERY_API} from "../../../utils/API_ROUTES";
-import {API} from "../../../utils/axios/axiosConfig";
+import { REPORT_FULL_SUMMERY_API } from "../../../utils/API_ROUTES";
+import { API } from "../../../utils/axios/axiosConfig";
+import { USER_INFO } from "../../../utils/session/token";
+import { Navigate } from "react-router-dom";
 
 export default function SalaryFullReport(props) {
-    const {data, isLoading} = useSbu();
-    const [loading, setLoading] = useState(false);
-    const [selectedSbu, setSelectedSbu] = useState("");
-    const [summaryData, setSummaryData] = useState("");
-    const [selectedSbuName, setSelectedSbuName] = useState("");
-    const [lastThreeYearData, setLastThreeYearData] = useState([]);
-    const [employeeDetail, setEmployeeDetail] = useState({});
-    const [allDsId, setAllDsId] = useState({});
-    const sbuList = data?.map((d) => ({label: d.name, value: d.id}));
-    const loadLastThreeYearData = async (e)=>{
-        setLoading(true)
-        try{
-            const res = await API.get(REPORT_FULL_SUMMERY_API(e.value))
-            setLastThreeYearData(res.data.data);
-            if(Array.isArray(res.data.data)){
-                const em = res.data.data.reduce((c,p)=> {
-                    const obj = Object.values(p)[0];
-                    const len = Object.values(p)[0]?.length;
-                    const emm = Object.values(Object.values(p)[0][len-1])[0].employee;
-                    return ({...c, [Object.keys(p)[0]]: emm})
-                },{})
-                console.log(em)
-                setAllDsId(res.data.data.map(v=>Object.keys(v)[0]));
-                setEmployeeDetail(em);
-            }
-        }catch (e) {
-            console.log(e)
-        }finally {
-            setLoading(false)
-        }
+  const user = USER_INFO();
+  const { data, isLoading } = useSbu();
+  const [loading, setLoading] = useState(false);
+  const [selectedSbu, setSelectedSbu] = useState("");
+  const [summaryData, setSummaryData] = useState("");
+  const [selectedSbuName, setSelectedSbuName] = useState("");
+  const [lastThreeYearData, setLastThreeYearData] = useState([]);
+  const [employeeDetail, setEmployeeDetail] = useState({});
+  const [allDsId, setAllDsId] = useState({});
+  const sbuList = data?.map((d) => ({ label: d.name, value: d.id }));
+  const loadLastThreeYearData = async (e) => {
+    setLoading(true);
+    try {
+      const res = await API.get(REPORT_FULL_SUMMERY_API(e.value));
+      setLastThreeYearData(res.data.data);
+      if (Array.isArray(res.data.data)) {
+        const em = res.data.data.reduce((c, p) => {
+          const obj = Object.values(p)[0];
+          const len = Object.values(p)[0]?.length;
+          const emm = Object.values(Object.values(p)[0][len - 1])[0].employee;
+          return { ...c, [Object.keys(p)[0]]: emm };
+        }, {});
+        console.log(em);
+        setAllDsId(res.data.data.map((v) => Object.keys(v)[0]));
+        setEmployeeDetail(em);
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
     }
-    return (
-        <Layout>
-            <PageHeader title={"Assessment Full Report"}/>
-            <Container>
-                <Card>
-                    <Card.Body>
-                        <div className="w-50 m-auto">
-                            <Form >
-                                <Form.Group>
-                                    <Form.Label>SBU</Form.Label>
-                                    <Select
-                                        options={sbuList}
-                                        placeholder="Select SBU"
-                                        onChange={(e) => {
-                                            setSelectedSbu(e.value);
-                                            setSelectedSbuName(e.label);
-                                            loadLastThreeYearData(e);
-                                        }}
-                                    />
-                                </Form.Group>
-                            </Form>
+  };
+  return user.accessibility.includes("SalaryFullReport") ? (
+    <Layout>
+      <PageHeader title={"Salary Full Report"} />
+      <Container>
+        <Card>
+          <Card.Body>
+            <div className="w-50 m-auto">
+              <Form>
+                <Form.Group>
+                  <Form.Label>SBU</Form.Label>
+                  <Select
+                    options={sbuList}
+                    placeholder="Select SBU"
+                    onChange={(e) => {
+                      setSelectedSbu(e.value);
+                      setSelectedSbuName(e.label);
+                      loadLastThreeYearData(e);
+                    }}
+                  />
+                </Form.Group>
+              </Form>
+            </div>
+            <hr className="mb-4" />
+            {allDsId &&
+              Array.isArray(allDsId) &&
+              allDsId.length > 0 &&
+              allDsId.map((id) => (
+                <Accordion className="mb-3">
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header as={"div"}>
+                      <div>
+                        <div className="d-flex flex-row align-items-center">
+                          <h3 className="header-title mb-0" style={{ marginRight: "5px" }}>
+                            {employeeDetail[id].name}
+                          </h3>
+                          <h6 className="header-pretitle mb-0">({id})</h6>
                         </div>
-                        <hr className="mb-4"/>
-                        {(allDsId && Array.isArray(allDsId) && allDsId.length>0) && allDsId.map(id=>(
-                            <Accordion className="mb-3">
-                                <Accordion.Item eventKey="0">
-                                    <Accordion.Header as={"div"}  >
-                                        <div>
-                                            <div className="d-flex flex-row align-items-center">
-                                                <h3 className="header-title mb-0" style={{marginRight:'5px'}}>{employeeDetail[id].name}</h3>
-                                                <h6 className="header-pretitle mb-0">({id})</h6>
-                                            </div>
-                                            <h6 className="header-pretitle mb-0">{employeeDetail[id].designation}</h6>
-                                        </div>
-                                    </Accordion.Header>
-                                    {/*<Accordion.Body>
+                        <h6 className="header-pretitle mb-0">{employeeDetail[id].designation}</h6>
+                      </div>
+                    </Accordion.Header>
+                    {/*<Accordion.Body>
                                         <h6 className="header-pretitle mb-2">Objective</h6>
                                         <p className="fs-5 fw-bold" contentEditable={false} >{data?.production || 'N\\A'}</p>
                                         <Row>
@@ -92,8 +100,8 @@ export default function SalaryFullReport(props) {
                                             </Col>
                                         </Row>
                                     </Accordion.Body>*/}
-                                </Accordion.Item>
-                                {/*<Accordion.Item eventKey="1">
+                  </Accordion.Item>
+                  {/*<Accordion.Item eventKey="1">
                                     <Accordion.Header as={"div"}  >
                                         <div>
                                             <h3 className="header-title mb-0">2. SUPPORT</h3>
@@ -187,12 +195,14 @@ export default function SalaryFullReport(props) {
                                         </Row>
                                     </Accordion.Body>
                                 </Accordion.Item>*/}
-                            </Accordion>
-                        ))}
-                    </Card.Body>
-                </Card>
-            </Container>
-            {(isLoading || loading) && <Loader/>}
-        </Layout>
-    )
+                </Accordion>
+              ))}
+          </Card.Body>
+        </Card>
+      </Container>
+      {(isLoading || loading) && <Loader />}
+    </Layout>
+  ) : (
+    <Navigate to={UNAUTHORIZED} />
+  );
 }
