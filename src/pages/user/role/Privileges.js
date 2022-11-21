@@ -107,7 +107,7 @@ export default function Privileges() {
     fetchIndividualPrivileges();
   }, []);
 
-  return user.accessibility.includes("authuserrole") ? (
+  return (
     <Layout>
       {loading && <Loader />}
       <PageHeader title={"Privileges"} onBack />
@@ -180,7 +180,9 @@ export default function Privileges() {
         </Modal.Body>
       </Modal>
     </Layout>
-  ) : (
-    <Navigate to={UNAUTHORIZED} />
   );
+  // user.accessibility.includes("authuserrole") ?
+  // : (
+  //   <Navigate to={UNAUTHORIZED} />
+  // );
 }
