@@ -10,6 +10,7 @@ import {SALARY_PIVOT_SUMMARY_REPORT_URL} from "../../../utils/APP_ROUTES";
 import useFetch from "../../../hooks/useFetch";
 import {REPORT_FULL_SUMMERY_API} from "../../../utils/API_ROUTES";
 import {API} from "../../../utils/axios/axiosConfig";
+import moment from "moment";
 
 export default function SalaryFullReport(props) {
     const {data, isLoading} = useSbu();
@@ -20,12 +21,18 @@ export default function SalaryFullReport(props) {
     const [lastThreeYearData, setLastThreeYearData] = useState([]);
     const [employeeDetail, setEmployeeDetail] = useState({});
     const [allDsId, setAllDsId] = useState({});
+    const currentYear = moment().year();
+    const lastThreeYear = [currentYear-2,currentYear-1,currentYear];
     const sbuList = data?.map((d) => ({label: d.name, value: d.id}));
     const loadLastThreeYearData = async (e)=>{
         setLoading(true)
         try{
             const res = await API.get(REPORT_FULL_SUMMERY_API(e.value))
-            setLastThreeYearData(res.data.data);
+            setLastThreeYearData(res.data.data.reduce((c,p)=>{
+                console.log(c);
+                console.log(p);
+                return ({...c,[Object.keys(p)[0]]:Object.values(p)[0]})
+            },{}));
             if(Array.isArray(res.data.data)){
                 const em = res.data.data.reduce((c,p)=> {
                     const obj = Object.values(p)[0];
@@ -33,10 +40,11 @@ export default function SalaryFullReport(props) {
                     const emm = Object.values(Object.values(p)[0][len-1])[0].employee;
                     return ({...c, [Object.keys(p)[0]]: emm})
                 },{})
-                console.log(em)
+
                 setAllDsId(res.data.data.map(v=>Object.keys(v)[0]));
                 setEmployeeDetail(em);
             }
+            // console.log(lastThreeYearData)
         }catch (e) {
             console.log(e)
         }finally {
@@ -66,9 +74,9 @@ export default function SalaryFullReport(props) {
                             </Form>
                         </div>
                         <hr className="mb-4"/>
-                        {(allDsId && Array.isArray(allDsId) && allDsId.length>0) && allDsId.map(id=>(
+                        {(allDsId && Array.isArray(allDsId) && allDsId.length>0) && allDsId.map((id,i)=>(
                             <Accordion className="mb-3">
-                                <Accordion.Item eventKey="0">
+                                <Accordion.Item eventKey={i}>
                                     <Accordion.Header as={"div"}  >
                                         <div>
                                             <div className="d-flex flex-row align-items-center">
@@ -78,6 +86,23 @@ export default function SalaryFullReport(props) {
                                             <h6 className="header-pretitle mb-0">{employeeDetail[id].designation}</h6>
                                         </div>
                                     </Accordion.Header>
+                                    <Accordion.Body>
+                                        <Accordion>
+                                            {lastThreeYear.map((year,i)=>(
+                                                <Accordion.Item eventKey={i}>
+                                                    <Accordion.Header as={"div"}  >
+                                                        <div>
+                                                            <h3 className="header-title mb-0">{year}</h3>
+                                                        </div>
+                                                    </Accordion.Header>
+                                                    <Accordion.Body>
+
+                                                    </Accordion.Body>
+                                                </Accordion.Item>
+                                            ))}
+                                        </Accordion>
+
+                                    </Accordion.Body>
                                     {/*<Accordion.Body>
                                         <h6 className="header-pretitle mb-2">Objective</h6>
                                         <p className="fs-5 fw-bold" contentEditable={false} >{data?.production || 'N\\A'}</p>

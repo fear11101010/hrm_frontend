@@ -73,14 +73,14 @@ export default function SalaryPivotReport(props) {
                                     columns={PIVOT_EXCEL_COLUMN(selectedYear)}
                                     header={"Salary Pivot Summary Report For " + selectedYear}
                                 />}
-                            <TableReport columns={PIVOT_TABLE_COLUMN(selectedYear)} data={pivotData}/>
-                            {/*<CustomTable
+                            {/*<TableReport columns={PIVOT_TABLE_COLUMN(selectedYear)} data={pivotData}/>*/}
+                            <CustomTable
                                 columns={PIVOT_TABLE_COLUMN(selectedYear)}
                                 data={pivotData}
                                 size={'sm'}
                                 onDataSort={(data)=>setPivotData(data)}
                                 pagination
-                                responsive/>*/}
+                                responsive/>
                         </Card.Body>
                     </Card>
                 </Container>

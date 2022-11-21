@@ -201,11 +201,11 @@ function Navbar1(props) {
               <Collapse in={menuOpenCloseState[2]}>
                 <div id="sidebarDashboards">
                   <ul className="nav nav-sm flex-column">
-                    {/*<li className="nav-item">
+                    <li className="nav-item">
                       <Link className={"nav-link"} to={SALARY_FULL_REPORT_URL}>
                         Salary Full Report
                       </Link>
-                    </li>*/}
+                    </li>
                     <li className="nav-item">
                       <Link className={"nav-link"} to={SALARY_PIVOT_SUMMARY_REPORT_URL}>
                         Salary Pivot Summary
