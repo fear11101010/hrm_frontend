@@ -12,19 +12,28 @@ import Loader from "../../../components/loader/Loader";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
 import moment from "moment";
 import ConfirmDialog from "../../../components/confirm-dialog/ConfirmDialog";
+import { USER_INFO } from "../../../utils/session/token";
+import { Navigate } from "react-router-dom";
+import { UNAUTHORIZED } from "../../../utils/APP_ROUTES";
 
 export default function KpiEmployeeAssign() {
+  const user = USER_INFO();
   const { data } = useSbu();
 
   const supervisorList = useSupervisor();
 
   const [loading, setLoading] = useState(false);
   const [sbuId, setSbuId] = useState("");
+  const [sbuId_p, setSbuId_p] = useState("");
   const [sbu_employees, setSbu_employees] = useState([]);
   const [emSupervisor, setEmSupervisor] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [isConfirm, setIsConfirm] = useState(false);
+
+  // Err States
+  const [sbuErr, setSbuErr] = useState("");
+  const sbuRef = useRef(null);
 
   // if already assigned
   const [isExist, setIsExist] = useState(false);
@@ -40,21 +49,31 @@ export default function KpiEmployeeAssign() {
       duration_startdate: startDate + " 00:00:00",
       duration_enddate: endDate + " 00:00:00",
     };
-    setLoading(true);
-    API.post(EMPLOYEE_ASSIGN_POST, payload)
-      .then((res) => {
-        if (res.data.statuscode === 200) {
-          success_alert(res.data.message);
-        } else {
-          error_alert(res.data.message);
-        }
-      })
-      .catch((err) => {
-        error_alert(err.response.data.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    if (sbuId === "") {
+      setSbuErr("Required");
+    } else {
+      setLoading(true);
+      API.post(EMPLOYEE_ASSIGN_POST, payload)
+        .then((res) => {
+          if (res.data.statuscode === 200) {
+            success_alert(res.data.message);
+            setSbuId("");
+            setSbuId_p("");
+            setSbu_employees("");
+            setEmSupervisor("");
+            setStartDate("");
+            setEndDate("");
+          } else {
+            error_alert(res.data.message);
+          }
+        })
+        .catch((err) => {
+          error_alert(err.response.data.message);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   };
 
   // fetch data of employee under SBU id and check if already assigned or not
@@ -107,11 +126,10 @@ export default function KpiEmployeeAssign() {
     setIsConfirm(!isConfirm);
   };
 
-  return (
+  return user.accessibility.includes("CircularteToEmployees") ? (
     <Layout>
       {loading && <Loader />}
-      <PageHeader title="Employee Assign" />
-
+      <PageHeader title="Circularte To Employees" />
       <Form
         onSubmit={(e) => {
           handleConfirmModal(e);
@@ -120,30 +138,41 @@ export default function KpiEmployeeAssign() {
       >
         <Form.Group className="mb-3">
           <Form.Label>SBU</Form.Label>
-          <Select options={data?.map((d) => ({ label: d.name, value: d.id }))} onChange={(e) => setSbuId(e.value)} />
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label>Employee</Form.Label>
-          {sbu_employees.length > 0 && (
-            <Select
-              isMulti
-              options={sbu_employees}
-              defaultValue={sbu_employees.map((d, i) => sbu_employees[i])}
-              // onChange={(e) => setUpdated_Sbu_employees(e.value)}
-            />
-          )}
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label>Employee Supervisor</Form.Label>
           <Select
-            options={supervisorList.map((d) => ({ label: d.name, value: d.id }))}
-            placeholder={supervisorList.map((d) => d.id.toString() === emSupervisor && d.name)}
-            onChange={(e) => setEmSupervisor(e.value)}
-            isDisabled={sbuId === ""}
+            options={data?.map((d) => ({ label: d.name, value: d.id }))}
+            onChange={(e) => {
+              setSbuId(e.value);
+              setSbuId_p(e.label);
+            }}
+            placeholder={sbuId === "" ? "Select SBU" : sbuId_p}
+            styles={{ border: "1px solid red" }}
+            value={sbuId_p}
           />
         </Form.Group>
+
+        {sbu_employees.length > 0 && (
+          <>
+            <Form.Group className="mb-3">
+              <Form.Label>Employee</Form.Label>
+              <Select
+                isMulti
+                options={sbu_employees}
+                defaultValue={sbu_employees.map((d, i) => sbu_employees[i])}
+                // onChange={(e) => setUpdated_Sbu_employees(e.value)}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Employee Supervisor</Form.Label>
+              <Select
+                options={supervisorList.map((d) => ({ label: d.name, value: d.id }))}
+                placeholder={supervisorList.map((d) => d.id.toString() === emSupervisor && d.name)}
+                onChange={(e) => setEmSupervisor(e.value)}
+                isDisabled={sbuId === ""}
+              />
+            </Form.Group>
+          </>
+        )}
 
         <Form.Group className="mb-3">
           <Form.Label>Start Date </Form.Label>
@@ -181,5 +210,7 @@ export default function KpiEmployeeAssign() {
         )}
       </Form>
     </Layout>
+  ) : (
+    <Navigate to={UNAUTHORIZED} />
   );
 }

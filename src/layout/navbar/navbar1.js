@@ -23,15 +23,17 @@ import {
   SALARY_INCREMENT_ELIGIBLE_REPORT_URL,
   SALARY_PIVOT_SUMMARY_REPORT_URL,
   USER_LIST_PAGE,
+  USER_ROLE_LIST_PAGE,
 } from "../../utils/APP_ROUTES";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../utils/axios/axiosConfig";
 import { LOGOUT_API } from "../../utils/API_ROUTES";
 import Loader from "../../components/loader/Loader";
-import { REMOVE_TOKEN } from "../../utils/session/token";
+import { REMOVE_TOKEN, USER_INFO } from "../../utils/session/token";
 import ConfirmDialog from "../../components/confirm-dialog/ConfirmDialog";
 
 function Navbar1(props) {
+  const user = USER_INFO();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [menuOpenCloseState, setMenuOpenCloseState] = useState([false]);
@@ -97,94 +99,119 @@ function Navbar1(props) {
             </Nav.Item>
 
             {/* USER */}
-            <Nav.Item as={"li"}>
-              <Link
-                onClick={() => openOrCloseMenu(0)}
-                to="#"
-                className={`${menuOpenCloseState[0] ? "collapsed" : ""} nav-link`}
-                data-bs-toggle="collapse"
-                role="button"
-                aria-expanded={menuOpenCloseState[0] ? "true" : "false"}
-                aria-controls="sidebarUser"
-              >
-                <i className="fe fe-user"></i> User Management
-              </Link>
-              <Collapse in={menuOpenCloseState[0]}>
-                <div id="sidebarUser">
-                  <ul className="nav nav-sm flex-column">
-                    <li className="nav-item">
-                      <Nav.Link href={USER_LIST_PAGE}> User </Nav.Link>
-                    </li>
-                    <li className="nav-item">
-                      <Nav.Link href={KPI_EMPLOYEE_ASSIGN_PAGE}> Role </Nav.Link>
-                    </li>
-                  </ul>
-                </div>
-              </Collapse>
-            </Nav.Item>
+            {user.sub_module.includes("User Management") && (
+              <Nav.Item as={"li"}>
+                <Link
+                  onClick={() => openOrCloseMenu(0)}
+                  to="#"
+                  className={`${menuOpenCloseState[0] ? "collapsed" : ""} nav-link`}
+                  data-bs-toggle="collapse"
+                  role="button"
+                  aria-expanded={menuOpenCloseState[0] ? "true" : "false"}
+                  aria-controls="sidebarUser"
+                >
+                  <i className="fe fe-user"></i> User Management
+                </Link>
+                <Collapse in={menuOpenCloseState[0]}>
+                  <div id="sidebarUser">
+                    <ul className="nav nav-sm flex-column">
+                      <li className="nav-item">
+                        {user.module.includes("User") && (
+                          <Link className={"nav-link"} to={USER_LIST_PAGE}>
+                            User
+                          </Link>
+                        )}
+                      </li>
+                      <li className="nav-item">
+                        {user.module.includes("Role") && (
+                          <Link className={"nav-link"} to={USER_ROLE_LIST_PAGE}>
+                            Role
+                          </Link>
+                        )}
+                      </li>
+                    </ul>
+                  </div>
+                </Collapse>
+              </Nav.Item>
+            )}
 
             {/* KPI */}
-            <Nav.Item as={"li"}>
-              <Nav.Link
-                onClick={() => openOrCloseMenu(1)}
-                href="#"
-                className={menuOpenCloseState[1] ? "collapsed" : ""}
-                data-bs-toggle="collapse"
-                role="button"
-                aria-expanded={menuOpenCloseState[1] ? "true" : "false"}
-                aria-controls="sidebarDashboards"
-              >
-                <i className="fe fe-home"></i> KPI
-              </Nav.Link>
+            {user.sub_module.includes("Kpi Management") && (
+              <Nav.Item as={"li"}>
+                <Nav.Link
+                  onClick={() => openOrCloseMenu(1)}
+                  href="#"
+                  className={menuOpenCloseState[1] ? "collapsed" : ""}
+                  data-bs-toggle="collapse"
+                  role="button"
+                  aria-expanded={menuOpenCloseState[1] ? "true" : "false"}
+                  aria-controls="sidebarKpi"
+                >
+                  <i className="fe fe-home"></i> KPI
+                </Nav.Link>
 
-              <Collapse in={menuOpenCloseState[1]}>
-                <div id="sidebarDashboards">
-                  <ul className="nav nav-sm flex-column">
-                    <li className="nav-item">
-                      <Link className={"nav-link"} to={KPI_EMPLOYEE_ASSIGN_PAGE}>
-                        {/* Employee Assign */}
-                        Circularte To Employees
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link className={"nav-link"} to={EMPLOYEE_PERFORMANCE_INDEX_PAGE}>
-                        {/* KPI Performance Form */}
-                        Appraisal Form
-                      </Link>
-                    </li>
-                    {/* <li className="nav-item">
+                <Collapse in={menuOpenCloseState[1]}>
+                  <div id="sidebarKpi">
+                    <ul className="nav nav-sm flex-column">
+                      <li className="nav-item">
+                        {user.module.includes("Circularte To Employees") && (
+                          <Link className={"nav-link"} to={KPI_EMPLOYEE_ASSIGN_PAGE}>
+                            {/* Employee Assign */}
+                            Circularte To Employees
+                          </Link>
+                        )}
+                      </li>
+                      <li className="nav-item">
+                        {user.module.includes("Appraisal Form") && (
+                          <Link className={"nav-link"} to={EMPLOYEE_PERFORMANCE_INDEX_PAGE}>
+                            {/* KPI Performance Form */}
+                            Appraisal Form
+                          </Link>
+                        )}
+                      </li>
+                      {/* <li className="nav-item">
                       <Link className={"nav-link"} to={KPI_ASSESTMENT_PAGE}>
                         KPI Assestment
                       </Link>
                     </li> */}
-                    <li className="nav-item">
-                      <Link className={"nav-link"} to={EMPLOYEE_ASSESTMENT_PAGE}>
-                        {/* Employee Assestment */}
-                        Team Assessment Performance
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link className={"nav-link"} to={EMPLOYEE_PERFORMANCE_PAGE}>
-                        {/* Employee Performance */}
-                        Team Appraisal Review
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link className={"nav-link"} to={KPI_PERMORMER_ASSESTMENT_PAGE}>
+                      <li className="nav-item">
+                        {user.module.includes("Team Assessment Performance") && (
+                          <Link className={"nav-link"} to={EMPLOYEE_ASSESTMENT_PAGE}>
+                            {/* Employee Assestment */}
+                            Team Assessment Performance
+                          </Link>
+                        )}
+                      </li>
+                      <li className="nav-item">
+                        {user.module.includes("Team Appraisal Review") && (
+                          <Link className={"nav-link"} to={EMPLOYEE_PERFORMANCE_PAGE}>
+                            {/* Employee Performance */}
+                            Team Appraisal Review
+                          </Link>
+                        )}
+                      </li>
+                      <li className="nav-item">
+                        {user.module.includes("Performance Review") && (
+                          <Link className={"nav-link"} to={KPI_PERMORMER_ASSESTMENT_PAGE}>
+                            Performance Review
+                          </Link>
+                        )}
+
                         {/* KPI Performer Assestment */}
-                        Performance Review
-                      </Link>
-                    </li>
-                    {/* <li className="nav-item">
+                      </li>
+                      {/* <li className="nav-item">
                       <Link className={"nav-link"} to={KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE}>
                         //  KPI All Employee Assestment
                         Employee wise appraisal
                       </Link>
                     </li> */}
-                  </ul>
-                </div>
-              </Collapse>
-            </Nav.Item>
+                    </ul>
+                  </div>
+                </Collapse>
+              </Nav.Item>
+            )}
+
+            {/* Report */}
             <Nav.Item as={"li"}>
               <Nav.Link
                 onClick={() => openOrCloseMenu(2)}
@@ -193,13 +220,13 @@ function Navbar1(props) {
                 data-bs-toggle="collapse"
                 role="button"
                 aria-expanded={menuOpenCloseState[2] ? "true" : "false"}
-                aria-controls="sidebarDashboards"
+                aria-controls="sidebarReport"
               >
                 <i className="fe fe-file-text"></i> Report
               </Nav.Link>
 
               <Collapse in={menuOpenCloseState[2]}>
-                <div id="sidebarDashboards">
+                <div id="sidebarReport">
                   <ul className="nav nav-sm flex-column">
                     {/*<li className="nav-item">
                       <Link className={"nav-link"} to={SALARY_FULL_REPORT_URL}>

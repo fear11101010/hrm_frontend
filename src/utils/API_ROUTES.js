@@ -7,8 +7,20 @@ export const GET_EMPLOYEE_BY_SBU_API = (id) => `/retrieve_employee_by_sbu/${id}/
 
 //User
 export const USER_GET = "/user/userlist/";
-export const USER_POST = "/user/userlist/";
+export const USER_CREATE_POST = "/user/register/";
 export const USER_EACH_GET = (id) => `/user/userlist/${id}/`;
+export const ROLE_LIST_GET = "/role";
+export const ROLE_CREATE_POST = "/role";
+export const ROLE_EACH_GET = (id) => `/role/${id}`;
+export const ROLE_EACH_UPDATE = (id) => `/role/${id}`;
+export const ROLE_EACH_DELETE = (id) => `/role/${id}`;
+
+export const FUNCTIONNAME_GET = "/function";
+export const MODULE_NAME_GET = "/submodule";
+export const MODULE_URL_GET = "/moduleurl";
+
+export const PRIVILEGES_GET = (id) => `/permissionprivilege/${id}`;
+export const PRIVILEGES_POST = `/privilege`;
 
 // KPI
 export const KPI_VALUE_GET = "/kpi_value/";

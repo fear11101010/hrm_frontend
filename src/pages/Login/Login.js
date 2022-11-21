@@ -6,6 +6,7 @@ import { HTTP_LOGIN } from "../../utils/axios/axiosConfig";
 import SET_TOKEN, { GET_TOKEN } from "../../utils/session/token";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
+import { Col, Row } from "react-bootstrap";
 
 export default function Login() {
   const navigate = useNavigate();

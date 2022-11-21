@@ -37,7 +37,12 @@ import {
   LOGIN_PAGE,
   UNAUTHORIZED,
   USER_ADD_PAGE,
-  USER_LIST_PAGE, SALARY_FULL_REPORT_URL, SALARY_PIVOT_SUMMARY_REPORT_URL, SALARY_INCREMENT_ELIGIBLE_REPORT_URL,
+  USER_LIST_PAGE,
+  SALARY_FULL_REPORT_URL,
+  SALARY_PIVOT_SUMMARY_REPORT_URL,
+  SALARY_INCREMENT_ELIGIBLE_REPORT_URL,
+  USER_ROLE_LIST_PAGE,
+  USER_ROLE_PRIVILEGE_PAGE_URL,
 } from "./utils/APP_ROUTES";
 import KpiPerformanceIndex from "./pages/KPI/kpi-performane-form/kpi-performance-index";
 import KpiPerformanceFormCreate from "./pages/KPI/kpi-performane-form/kpi-performance-form-create";
@@ -45,6 +50,8 @@ import KpiPerformanceFormView from "./pages/KPI/kpi-performane-form/kpi-performa
 import SalaryFullReport from "./pages/Report/salary-full-report/SalaryFullReport";
 import SalaryPivotReport from "./pages/Report/salary-pivot-summary/SalaryPivotReport";
 import SalaryIncrementEligibleReport from "./pages/Report/salary-increment-eligible-report/SalaryIncrementEligibleReport";
+import RoleList from "./pages/user/role/RoleList";
+import Privileges from "./pages/user/role/Privileges";
 function App() {
   return (
     <BrowserRouter>
@@ -62,6 +69,8 @@ function App() {
         <Route path={"/"} element={<UserOutlet />}>
           <Route path={USER_LIST_PAGE} element={<UserList />} />
           <Route path={USER_ADD_PAGE} element={<UserAdd />} />
+          <Route path={USER_ROLE_LIST_PAGE} element={<RoleList />} />
+          <Route path={USER_ROLE_PRIVILEGE_PAGE_URL} element={<Privileges />} />
         </Route>
 
         {/* KPI */}

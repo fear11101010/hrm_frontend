@@ -14,8 +14,12 @@ import { dataColumns } from "./data-columns";
 import EmployeePerformerDetails from "./details";
 import ProposedAmount from "./proposedAmount";
 import { RiFileDownloadFill } from "react-icons/ri";
+import { USER_INFO } from "../../../utils/session/token";
+import { Navigate } from "react-router-dom";
+import { UNAUTHORIZED } from "../../../utils/APP_ROUTES";
 
 export default function KpiPerformerAssestment() {
+  const user = USER_INFO();
   const [loading, setLoading] = useState(false);
   // Calling Custom Hooks
   const { data, isLoading } = useSbu();
@@ -130,10 +134,10 @@ export default function KpiPerformerAssestment() {
     setIncAmountModal(false);
   };
 
-  return (
+  return user.accessibility.includes("PerformanceReview") ? (
     <Layout>
       {isLoading || (loading && <Loader />)}
-      <PageHeader title="KPI Performer Assestment" />
+      <PageHeader title="Performance Review" />
       <Content>
         {/* Select Dropdown */}
         <div className="w-50 m-auto">
@@ -183,5 +187,7 @@ export default function KpiPerformerAssestment() {
         </Modal.Body>
       </Modal>
     </Layout>
+  ) : (
+    <Navigate to={UNAUTHORIZED} />
   );
 }
