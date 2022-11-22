@@ -583,17 +583,20 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
           >
             Save Changes
           </Button>
-          {user.group_id === "1" && (
-            <Button
-              type="submit"
-              className="ms-2"
-              onClick={() => {
-                setFinalSubmit(true);
-                setNormalSubmit(false);
-              }}
-            >
-              Final Submit
-            </Button>
+          {user.group_id.split(",").map(
+            (d) =>
+              d === "1" && (
+                <Button
+                  type="submit"
+                  className="ms-2"
+                  onClick={() => {
+                    setFinalSubmit(true);
+                    setNormalSubmit(false);
+                  }}
+                >
+                  Final Submit
+                </Button>
+              )
           )}
         </div>
 

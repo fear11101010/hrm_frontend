@@ -78,3 +78,4 @@ export const REPORT_FULL_SUMMERY_API = (id) => `reports/${id}/salary_full_report
 export const REPORT_PIVOT_SALARY_SUMMERY_API = (year) => `reports/${year}/salary_pivot_summery_by_year/`;
 export const REPORT_INCREMENT_ELIGIBLE_SALARY_SUMMERY_API = (year) => `reports/${year}/increment_eligible_by_year/`;
 export const REPORT_GET_YEARS_DROPDOWN = `reports/$/get_available_years/`;
+export const ASSESTMENT_EMPLOYER_REPORT_POST = `report_individual_assessment/`;

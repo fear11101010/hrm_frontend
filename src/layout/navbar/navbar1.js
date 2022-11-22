@@ -8,6 +8,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { Collapse } from "react-bootstrap";
 import { useState } from "react";
 import {
+  ASSESTMENT_EMPLOYER_REPORT,
   DASHBOARD_PAGE,
   EMPLOYEE_ASSESTMENT_PAGE,
   EMPLOYEE_LIST_PAGE,
@@ -255,6 +256,13 @@ function Navbar1(props) {
                         {user.module.includes("Increment Eligible") && (
                           <Link className={"nav-link"} to={SALARY_INCREMENT_ELIGIBLE_REPORT_URL}>
                             Increment Eligible
+                          </Link>
+                        )}
+                      </li>
+                      <li className="nav-item">
+                        {user.module.includes("Assestment Employer Report") && (
+                          <Link className={"nav-link"} to={ASSESTMENT_EMPLOYER_REPORT}>
+                            Assessment Employer Report
                           </Link>
                         )}
                       </li>

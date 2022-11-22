@@ -3,12 +3,15 @@ import React from "react";
 import { Accordion, Card, Col, Row } from "react-bootstrap";
 import Loader from "../../components/loader/Loader";
 import useFetch from "../../hooks/useFetch";
+import useSupervisor from "../../hooks/useSupervisor";
 import { EMPLOYEE_EACH_GET } from "../../utils/API_ROUTES";
 import { DATE_FORMAT } from "../../utils/CONSTANT";
 
 export default function EmployeeDetails({ rowId }) {
   const id = rowId;
   const { data, isLoading } = useFetch(EMPLOYEE_EACH_GET(id));
+  const supervisorList = useSupervisor();
+  console.log(supervisorList);
 
   return (
     <>
@@ -106,7 +109,7 @@ export default function EmployeeDetails({ rowId }) {
             <Row>
               <Col sm="12" md="3" className="mb-2">
                 <h4 className="mb-1">Supervisor</h4>
-                <h5 className="text-secondary">{data.data?.supervisor}</h5>
+                <h5 className="text-secondary">{supervisorList?.map((d) => d.id === data.data?.supervisor && d.name)}</h5>
               </Col>
               <Col sm="12" md="3" className="mb-2">
                 <h4 className="mb-1">Projects</h4>
