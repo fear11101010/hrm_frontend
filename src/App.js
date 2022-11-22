@@ -43,6 +43,8 @@ import {
   SALARY_INCREMENT_ELIGIBLE_REPORT_URL,
   USER_ROLE_LIST_PAGE,
   USER_ROLE_PRIVILEGE_PAGE_URL,
+  EMPLOYEE_LIST_PAGE,
+  EMPLOYEE_EDIT_PAGE_URL,
 } from "./utils/APP_ROUTES";
 import KpiPerformanceIndex from "./pages/KPI/kpi-performane-form/kpi-performance-index";
 import KpiPerformanceFormCreate from "./pages/KPI/kpi-performane-form/kpi-performance-form-create";
@@ -52,6 +54,8 @@ import SalaryPivotReport from "./pages/Report/salary-pivot-summary/SalaryPivotRe
 import SalaryIncrementEligibleReport from "./pages/Report/salary-increment-eligible-report/SalaryIncrementEligibleReport";
 import RoleList from "./pages/user/role/RoleList";
 import Privileges from "./pages/user/role/Privileges";
+import EmployeeList from "./pages/Employee/EmployeeList";
+import EmployeeEdit from "./pages/Employee/EmployeeEdit";
 function App() {
   return (
     <BrowserRouter>
@@ -71,6 +75,8 @@ function App() {
           <Route path={USER_ADD_PAGE} element={<UserAdd />} />
           <Route path={USER_ROLE_LIST_PAGE} element={<RoleList />} />
           <Route path={USER_ROLE_PRIVILEGE_PAGE_URL} element={<Privileges />} />
+          <Route path={EMPLOYEE_LIST_PAGE} element={<EmployeeList />} />
+          <Route path={EMPLOYEE_EDIT_PAGE_URL} element={<EmployeeEdit />} />
         </Route>
 
         {/* KPI */}

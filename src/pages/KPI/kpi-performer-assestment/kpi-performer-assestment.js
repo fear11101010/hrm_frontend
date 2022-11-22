@@ -21,6 +21,7 @@ import { UNAUTHORIZED } from "../../../utils/APP_ROUTES";
 export default function KpiPerformerAssestment() {
   const user = USER_INFO();
   const [loading, setLoading] = useState(false);
+
   // Calling Custom Hooks
   const { data, isLoading } = useSbu();
 
@@ -36,6 +37,8 @@ export default function KpiPerformerAssestment() {
   //Modal states
   const [detailModal, setDetailModal] = useState(false);
   const [incAmountModal, setIncAmountModal] = useState(false);
+
+  const currYear = new Date().getFullYear();
 
   //Get Data by Selecting SBU
   useEffect(() => {
@@ -114,9 +117,9 @@ export default function KpiPerformerAssestment() {
             variant="primary"
             title="Download Report"
             className="btn-rounded-circle"
-            onClick={() => {
+            onClick={(e) => {
               setSelectedRowId(row.id);
-              setIncAmountModal(true);
+              pdfDownload(e, row.id);
             }}
           >
             <RiFileDownloadFill />
@@ -132,6 +135,32 @@ export default function KpiPerformerAssestment() {
   const afterSubmit = () => {
     setDetailModal(false);
     setIncAmountModal(false);
+  };
+
+  //download individual report
+  const pdfDownload = (e, id) => {
+    e.preventDefault();
+    const payload = {
+      employee_id: parseInt(id),
+      day: "1",
+      month: "March",
+      year: "2022",
+    };
+    setLoading(true);
+    API.post(`reports/${currYear}/confirmed_increments_by_year/`, payload)
+      .then((res) => {
+        if (res.data.statuscode === 200) {
+          success_alert(res.data.message);
+        } else {
+          error_alert(res.data.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return user.accessibility.includes("PerformanceReview") ? (

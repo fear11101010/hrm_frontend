@@ -290,7 +290,11 @@ export default function EmAssestmentSingle() {
                     </Form.Group>
                     <ReactSelect
                       options={topAvgBotPerformerList}
-                      placeholder={top_avg_bot_performer_curr}
+                      // placeholder={top_avg_bot_performer_curr}
+                      placeholder={
+                        top_avg_bot_performer_curr !== "" &&
+                        topAvgBotPerformerList?.map((d) => (d.value === top_avg_bot_performer_curr ? d.label : null))
+                      }
                       onChange={(e) => {
                         setTop_avg_bot_performer_curr(e.value);
                       }}

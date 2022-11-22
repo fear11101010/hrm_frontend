@@ -10,6 +10,7 @@ import { useState } from "react";
 import {
   DASHBOARD_PAGE,
   EMPLOYEE_ASSESTMENT_PAGE,
+  EMPLOYEE_LIST_PAGE,
   EMPLOYEE_PERFORMANCE_INDEX_PAGE,
   EMPLOYEE_PERFORMANCE_PAGE,
   KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE,
@@ -110,7 +111,7 @@ function Navbar1(props) {
                   aria-expanded={menuOpenCloseState[0] ? "true" : "false"}
                   aria-controls="sidebarUser"
                 >
-                  <i className="fe fe-user"></i> User Management
+                  <i className="fe fe-user"></i> Management
                 </Link>
                 <Collapse in={menuOpenCloseState[0]}>
                   <div id="sidebarUser">
@@ -126,6 +127,13 @@ function Navbar1(props) {
                         {user.module.includes("Role") && (
                           <Link className={"nav-link"} to={USER_ROLE_LIST_PAGE}>
                             Role
+                          </Link>
+                        )}
+                      </li>
+                      <li className="nav-item">
+                        {user.module.includes("Employee") && (
+                          <Link className={"nav-link"} to={EMPLOYEE_LIST_PAGE}>
+                            Employee
                           </Link>
                         )}
                       </li>

@@ -1,28 +1,43 @@
+// Auth
 export const LOGIN_API = "/login";
 export const LOGOUT_API = "/logout";
 
 // SBU
 export const GET_SBU_API = "/sbu/";
 export const GET_EMPLOYEE_BY_SBU_API = (id) => `/retrieve_employee_by_sbu/${id}/`;
+export const SUB_SBU_GET = `/sub_sbu/`;
+
+////////////////////////////////////
+////////////Management//////////////
+////////////////////////////////////
 
 //User
 export const USER_GET = "/user/userlist/";
 export const USER_CREATE_POST = "/user/register/";
 export const USER_EACH_GET = (id) => `/user/userlist/${id}/`;
+
+//Role
 export const ROLE_LIST_GET = "/role";
 export const ROLE_CREATE_POST = "/role";
 export const ROLE_EACH_GET = (id) => `/role/${id}`;
 export const ROLE_EACH_UPDATE = (id) => `/role/${id}`;
 export const ROLE_EACH_DELETE = (id) => `/role/${id}`;
 
+// Privileges
 export const FUNCTIONNAME_GET = "/function";
 export const MODULE_NAME_GET = "/submodule";
 export const MODULE_URL_GET = "/moduleurl";
-
 export const PRIVILEGES_GET = (id) => `/permissionprivilege/${id}`;
 export const PRIVILEGES_POST = `/privilege`;
 
-// KPI
+// Employee
+export const EMPLOYEE_LIST_GET = "/employee/";
+export const EMPLOYEE_EACH_GET = (id) => `/employee/${id}/`;
+export const EMPLOYEE_EDIT_POST = (id) => `/employee_update/${id}/`;
+
+////////////////////////////////////
+////////////KPI//////////////
+////////////////////////////////////
 export const KPI_VALUE_GET = "/kpi_value/";
 export const KPI_OBJECTIVE_GET = "/kpi_objective/";
 export const HR_RATING_GET = "/hr_rating/";
@@ -56,8 +71,9 @@ export const KPI_PERMORMER_ASSESTMENT_BY_SBU_GET = (id) => `/performer_assessmen
 export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET = (id) => `/assessment/${id}/`;
 export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_PUT = (id) => `/performer_assessment/${id}/`;
 
-// report api
-
+////////////////////////////////////
+////////////REPORT//////////////////
+////////////////////////////////////
 export const REPORT_FULL_SUMMERY_API = (id) => `reports/${id}/salary_full_report_search_by_sbu/`;
 export const REPORT_PIVOT_SALARY_SUMMERY_API = (year) => `reports/${year}/salary_pivot_summery_by_year/`;
 export const REPORT_INCREMENT_ELIGIBLE_SALARY_SUMMERY_API = (year) => `reports/${year}/increment_eligible_by_year/`;
