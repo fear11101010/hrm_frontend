@@ -3,16 +3,23 @@ import "react-data-table-component-extensions/dist/index.css";
 import "./tableStyles.css";
 import PropTypes from "prop-types";
 import {Form, FormControl, InputGroup} from "react-bootstrap";
+import Pagination from "./pagination";
+import Select from "../select/Select";
 
-function CustomTable({columns, data, size, responsive, onDataSort}) {
+function CustomTable({columns, data, size, responsive, onDataSort,pagination}) {
     const selectProps = {indeterminate: (isIndeterminate) => isIndeterminate};
     const [sortDirection, setSortDirection] = useState({});
     const [columnMapping, setColumnMapping] = useState({});
+    const [tableRows, setTableRows] = useState([]);
+    const [pageNumber, setPageNumber] = useState(1);
     useEffect(() => {
+        console.log(data)
+        setTableRows(data?.slice(0,5))
+        setPageNumber(1);
         setSortDirection(columns.reduce((c, p) => ({...c, [p.name]: -1}), {}))
         setColumnMapping(columns.map((v, i) => data?.reduce((c, p) => ({...c, [v.name]: Object.keys(p)[i]}), {}))
             .reduce((c, p) => ({...c, ...p}), []));
-    }, [columns])
+    }, [data])
     const getHeaderCell = (column) => {
         if (column.sortable) {
             return (<a className="list-sort text-muted" onClick={(e) => sortTableData(e, column.name)}
@@ -24,7 +31,7 @@ function CustomTable({columns, data, size, responsive, onDataSort}) {
         event.preventDefault();
         data.sort((a, b) => {
             const type = typeof a[columnMapping[columnName]];
-            console.log(type);
+            // console.log(type);
             if (type === 'string') {
                 if (a[columnMapping[columnName]] < b[columnMapping[columnName]]) return -sortDirection[columnName]
                 if (a[columnMapping[columnName]] > b[columnMapping[columnName]]) return sortDirection[columnName]
@@ -33,12 +40,18 @@ function CustomTable({columns, data, size, responsive, onDataSort}) {
                 return (a[columnMapping[columnName]] - b[columnMapping[columnName]]) * sortDirection[columnName];
             }
         })
+        console.log(pageNumber);
+        setTableRows(data?.slice((pageNumber-1)*5,pageNumber*5));
         setSortDirection({...sortDirection, [columnName]: -sortDirection[columnName]})
-        console.log(sortDirection)
+        // console.log(sortDirection)
         if (onDataSort) {
             onDataSort(data);
         }
 
+    }
+    const onPageChange = (page)=>{
+        setTableRows(data?.slice((page-1)*5,page*5));
+        setPageNumber(page)
     }
     return (
         <div className="card">
@@ -58,6 +71,11 @@ function CustomTable({columns, data, size, responsive, onDataSort}) {
                             </InputGroup>
                         </Form>
                     </div>
+                    <div className="col-auto me-n3">
+                        <Form>
+                            <Select/>
+                        </Form>
+                    </div>
                 </div>
             </div>
             <div className={responsive ? 'table-responsive' : ''}>
@@ -69,12 +87,12 @@ function CustomTable({columns, data, size, responsive, onDataSort}) {
                         </tr>
                         </thead>
                         <tbody>
-                        {data.map((v, i) => {
+                        {tableRows.map((v, i) => {
                             return (<tr>
                                 {columns.map(column => (<td>
                                     {column.selector ? (
                                         <span
-                                            className="item-title">{column.selector(v, i)}</span>) : column.cell(v, i)}
+                                            className="item-title">{column.selector(v, (pageNumber-1)*5+i)}</span>) : column.cell(v, pageNumber)}
                                 </td>))}
                             </tr>);
                         })}
@@ -83,30 +101,7 @@ function CustomTable({columns, data, size, responsive, onDataSort}) {
                 )}
             </div>
             <div className="card-footer d-flex justify-content-between">
-                <>
-                    <ul className="list-pagination-prev pagination pagination-tabs card-pagination">
-                        <li className="page-item"><a href="#" className="page-link ps-0 pe-4 border-end"><i
-                            className="fe fe-arrow-left me-1"></i> Prev
-                        </a></li>
-                    </ul>
-                    <ul className="list-pagination pagination pagination-tabs card-pagination">
-                        <li className="active">
-                            <a href="#" className="page">1</a>
-                        </li>
-                        <li>
-                            <a href="#" className="page">2</a>
-                        </li>
-                        <li>
-                            <a href="#" className="page">3</a>
-                        </li>
-                    </ul>
-                    <ul className="list-pagination-next pagination pagination-tabs card-pagination">
-                        <li className="page-item">
-                            <a href="#" className="page-link ps-4 pe-0 border-start"><i
-                                className="fe fe-arrow-right ms-1"></i> Next
-                            </a></li>
-                    </ul>
-                </>
+                {pagination && <Pagination data={data} rowPerPage={5} onPageChange={onPageChange}/>}
             </div>
         </div>
     );
