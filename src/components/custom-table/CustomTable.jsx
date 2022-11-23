@@ -14,7 +14,7 @@ function CustomTable({columns, data, size, responsive, onDataSort,pagination}) {
     const [pageNumber, setPageNumber] = useState(1);
     useEffect(() => {
         console.log(data)
-        setTableRows(data?.slice(0,5))
+        setTableRows(pagination?data?.slice(0,5):data)
         setPageNumber(1);
         setSortDirection(columns.reduce((c, p) => ({...c, [p.name]: -1}), {}))
         setColumnMapping(columns.map((v, i) => data?.reduce((c, p) => ({...c, [v.name]: Object.keys(p)[i]}), {}))
@@ -41,7 +41,7 @@ function CustomTable({columns, data, size, responsive, onDataSort,pagination}) {
             }
         })
         console.log(pageNumber);
-        setTableRows(data?.slice((pageNumber-1)*5,pageNumber*5));
+        setTableRows(pagination?data?.slice((pageNumber-1)*5,pageNumber*5):data);
         setSortDirection({...sortDirection, [columnName]: -sortDirection[columnName]})
         // console.log(sortDirection)
         if (onDataSort) {
@@ -73,7 +73,7 @@ function CustomTable({columns, data, size, responsive, onDataSort,pagination}) {
                     </div>
                     <div className="col-auto me-n3">
                         <Form>
-                            <Select/>
+                            {pagination && <Select/>}
                         </Form>
                     </div>
                 </div>

@@ -60,8 +60,8 @@ export default function SalaryFullReport(props) {
     }
     return (
         <Layout>
-            <PageHeader title={"Assessment Full Report"}/>
-            <Container>
+            <PageHeader title={"Salary Full Report"}/>
+            <Container fluid>
                 <Card>
                     <Card.Body>
                         <div className="w-50 m-auto">
@@ -84,6 +84,7 @@ export default function SalaryFullReport(props) {
                         {lastThreeYearData && <ExcelPdfPrint
                             exportPdf={false}
                             print={false}
+                            header={"Salary Full Report"}
                             data={Object.values(lastThreeYearData)}
                             columns={SALARY_FULL_REPORT(lastThreeYear)}/>
                         }

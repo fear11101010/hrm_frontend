@@ -25,7 +25,9 @@ export default function SalaryIncrementEligibleReport(props) {
         setLoading(true)
         try {
             const response = await API.get(REPORT_INCREMENT_ELIGIBLE_SALARY_SUMMERY_API(e.value));
-            setEligibleData(response.data.data)
+            const d = response.data.data;
+            d?.push(response.data.grand_total)
+            setEligibleData(d)
         } catch (err) {
             error_alert(err?.response?.data);
         } finally {
@@ -34,11 +36,11 @@ export default function SalaryIncrementEligibleReport(props) {
     }
     return (
         <Layout>
-            <PageHeader title={"Assessment Full Report"}/>
-            <Container>
+            <PageHeader title={"Increment Eligible Report"}/>
+            <Container fluid>
                 <Card>
                     <Card.Body>
-                        <div className="w-50 m-auto">
+                        <div className="w-100 m-auto">
                             <Form>
                                 <Form.Group>
                                     <Form.Label>Select Year</Form.Label>
