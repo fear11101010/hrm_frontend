@@ -19,8 +19,13 @@ import useKpiValue from "../../../hooks/kpi/kpi_value";
 import useHrRating from "../../../hooks/kpi/hr_rating";
 import { toast } from "react-toastify";
 import ConfirmDialog from "../../../components/confirm-dialog/ConfirmDialog";
+import { USER_INFO } from "../../../utils/session/token";
 
 export default function EmPerformanceSingle() {
+  const user = USER_INFO();
+  const admin = user.group_id.split(",").includes("7");
+  const supervisor = user.group_id.split(",").includes("6");
+
   ////////////////////////////////////////////////////////////////
   //////////////////// OLD  VERSION///////////////////////////////
   ////////////////////////////////////////////////////////////////
@@ -177,7 +182,7 @@ export default function EmPerformanceSingle() {
               </Row>
               <hr className="mb-4" />
               <Row>
-                <Col sm="12" md="6">
+                <Col sm="12" md={admin ? "6" : "12"}>
                   <h1 className="text-center mb-2">{currYear}</h1>
                   <Accordion>
                     <Accordion.Item eventKey="0">
@@ -419,153 +424,155 @@ export default function EmPerformanceSingle() {
                     </Accordion.Item>
                   </Accordion>
                 </Col>
-                <Col sm="12" md="6">
-                  <h1 className="text-center mb-2">{currYear - 1}</h1>
-                  <Accordion>
-                    <Accordion.Item eventKey="0">
-                      <Accordion.Header as={"div"}>
-                        <div>
-                          <h3 className="header-title mb-0">1. PRODUCTION</h3>
-                          <h6 className="header-pretitle mb-0">(Product/ Project) (Cost, revenue, quality, quantity)</h6>
-                        </div>
-                      </Accordion.Header>
-                      <Accordion.Body>
-                        <h6 className="header-pretitle mb-2">Objective</h6>
-                        <p className="fs-5 fw-bold" contentEditable={false}>
-                          {prevYearData?.production || "N\\A"}
-                        </p>
-                        <Row>
-                          <Col sm={6} xs={12} md={6}>
-                            <h6 className="header-pretitle mb-2">Weightage Value</h6>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {prevYearData?.production_weightage || "N\\A"}
-                            </p>
-                          </Col>
-                          <Col sm={6} xs={12} md={6}>
-                            <h6 className="header-pretitle mb-2">Rating</h6>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {findRatingElem(prevYearData?.production_rating) || "N\\A"}
-                            </p>
-                          </Col>
-                        </Row>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                    <Accordion.Item eventKey="1">
-                      <Accordion.Header as={"div"}>
-                        <div>
-                          <h3 className="header-title mb-0">2. SUPPORT</h3>
-                          <h6 className="header-pretitle mb-0">
-                            (Service, problem resolution, customer perception, business risk & reputation )
-                          </h6>
-                        </div>
-                      </Accordion.Header>
-                      <Accordion.Body>
-                        <h6 className="header-pretitle mb-2">Objective</h6>
-                        <p className="fs-5 fw-bold" contentEditable={false}>
-                          {prevYearData?.support || "N\\A"}
-                        </p>
-                        <Row>
-                          <Col sm={6} xs={12} md={6}>
-                            <h6 className="header-pretitle mb-2">Weightage Value</h6>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {prevYearData?.support_weightage || "N\\A"}
-                            </p>
-                          </Col>
-                          <Col sm={6} xs={12} md={6}>
-                            <h6 className="header-pretitle mb-2">Rating</h6>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {findRatingElem(prevYearData?.support_rating) || "N\\A"}
-                            </p>
-                          </Col>
-                        </Row>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                    <Accordion.Item eventKey="2">
-                      <Accordion.Header as={"div"}>
-                        <div>
-                          <h3 className="header-title mb-0">3. INNOVATION</h3>
-                          <h6 className="header-pretitle mb-0">(New ideas and implementation)</h6>
-                        </div>
-                      </Accordion.Header>
-                      <Accordion.Body>
-                        <h6 className="header-pretitle mb-2">Objective</h6>
-                        <p className="fs-5 fw-bold" contentEditable={false}>
-                          {prevYearData?.innovation || "N\\A"}
-                        </p>
-                        <Row>
-                          <Col sm={6} xs={12} md={6}>
-                            <h6 className="header-pretitle mb-2">Weightage Value</h6>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {prevYearData?.innovation_weightage || "N\\A"}
-                            </p>
-                          </Col>
-                          <Col sm={6} xs={12} md={6}>
-                            <h6 className="header-pretitle mb-2">Rating</h6>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {findRatingElem(prevYearData?.innovation_rating) || "N\\A"}
-                            </p>
-                          </Col>
-                        </Row>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                    <Accordion.Item eventKey="3">
-                      <Accordion.Header as={"div"}>
-                        <div>
-                          <h3 className="header-title mb-0">4. PEOPLE</h3>
-                          <h6 className="header-pretitle mb-0">(Leadership, management, training)</h6>
-                        </div>
-                      </Accordion.Header>
-                      <Accordion.Body>
-                        <h6 className="header-pretitle mb-2">Objective</h6>
-                        <p className="fs-5 fw-bold" contentEditable={false}>
-                          {prevYearData?.people || "N\\A"}
-                        </p>
-                        <Row>
-                          <Col sm={6} xs={12} md={6}>
-                            <h6 className="header-pretitle mb-2">Weightage Value</h6>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {prevYearData?.people_weightage || "N\\A"}
-                            </p>
-                          </Col>
-                          <Col sm={6} xs={12} md={6}>
-                            <h6 className="header-pretitle mb-2">Rating</h6>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {findRatingElem(prevYearData?.people_rating) || "N\\A"}
-                            </p>
-                          </Col>
-                        </Row>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                    <Accordion.Item eventKey="4">
-                      <Accordion.Header as={"div"}>
-                        <div>
-                          <h3 className="header-title mb-0">5. OTHER</h3>
-                          <h6 className="header-pretitle mb-0">(Learning & development)</h6>
-                        </div>
-                      </Accordion.Header>
-                      <Accordion.Body>
-                        <h6 className="header-pretitle mb-2">Objective</h6>
-                        <p className="fs-5 fw-bold" contentEditable={false}>
-                          {prevYearData?.other || "N\\A"}
-                        </p>
-                        <Row>
-                          <Col sm={6} xs={12} md={6}>
-                            <h6 className="header-pretitle mb-2">Weightage Value</h6>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {prevYearData?.other_weightage || "N\\A"}
-                            </p>
-                          </Col>
-                          <Col sm={6} xs={12} md={6}>
-                            <h6 className="header-pretitle mb-2">Rating</h6>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {findRatingElem(prevYearData?.other_rating) || "N\\A"}
-                            </p>
-                          </Col>
-                        </Row>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                  </Accordion>
-                </Col>
+                {admin && (
+                  <Col sm="12" md="6">
+                    <h1 className="text-center mb-2">{currYear - 1}</h1>
+                    <Accordion>
+                      <Accordion.Item eventKey="0">
+                        <Accordion.Header as={"div"}>
+                          <div>
+                            <h3 className="header-title mb-0">1. PRODUCTION</h3>
+                            <h6 className="header-pretitle mb-0">(Product/ Project) (Cost, revenue, quality, quantity)</h6>
+                          </div>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                          <h6 className="header-pretitle mb-2">Objective</h6>
+                          <p className="fs-5 fw-bold" contentEditable={false}>
+                            {prevYearData?.production || "N\\A"}
+                          </p>
+                          <Row>
+                            <Col sm={6} xs={12} md={6}>
+                              <h6 className="header-pretitle mb-2">Weightage Value</h6>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {prevYearData?.production_weightage || "N\\A"}
+                              </p>
+                            </Col>
+                            <Col sm={6} xs={12} md={6}>
+                              <h6 className="header-pretitle mb-2">Rating</h6>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {findRatingElem(prevYearData?.production_rating) || "N\\A"}
+                              </p>
+                            </Col>
+                          </Row>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                      <Accordion.Item eventKey="1">
+                        <Accordion.Header as={"div"}>
+                          <div>
+                            <h3 className="header-title mb-0">2. SUPPORT</h3>
+                            <h6 className="header-pretitle mb-0">
+                              (Service, problem resolution, customer perception, business risk & reputation )
+                            </h6>
+                          </div>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                          <h6 className="header-pretitle mb-2">Objective</h6>
+                          <p className="fs-5 fw-bold" contentEditable={false}>
+                            {prevYearData?.support || "N\\A"}
+                          </p>
+                          <Row>
+                            <Col sm={6} xs={12} md={6}>
+                              <h6 className="header-pretitle mb-2">Weightage Value</h6>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {prevYearData?.support_weightage || "N\\A"}
+                              </p>
+                            </Col>
+                            <Col sm={6} xs={12} md={6}>
+                              <h6 className="header-pretitle mb-2">Rating</h6>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {findRatingElem(prevYearData?.support_rating) || "N\\A"}
+                              </p>
+                            </Col>
+                          </Row>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                      <Accordion.Item eventKey="2">
+                        <Accordion.Header as={"div"}>
+                          <div>
+                            <h3 className="header-title mb-0">3. INNOVATION</h3>
+                            <h6 className="header-pretitle mb-0">(New ideas and implementation)</h6>
+                          </div>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                          <h6 className="header-pretitle mb-2">Objective</h6>
+                          <p className="fs-5 fw-bold" contentEditable={false}>
+                            {prevYearData?.innovation || "N\\A"}
+                          </p>
+                          <Row>
+                            <Col sm={6} xs={12} md={6}>
+                              <h6 className="header-pretitle mb-2">Weightage Value</h6>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {prevYearData?.innovation_weightage || "N\\A"}
+                              </p>
+                            </Col>
+                            <Col sm={6} xs={12} md={6}>
+                              <h6 className="header-pretitle mb-2">Rating</h6>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {findRatingElem(prevYearData?.innovation_rating) || "N\\A"}
+                              </p>
+                            </Col>
+                          </Row>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                      <Accordion.Item eventKey="3">
+                        <Accordion.Header as={"div"}>
+                          <div>
+                            <h3 className="header-title mb-0">4. PEOPLE</h3>
+                            <h6 className="header-pretitle mb-0">(Leadership, management, training)</h6>
+                          </div>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                          <h6 className="header-pretitle mb-2">Objective</h6>
+                          <p className="fs-5 fw-bold" contentEditable={false}>
+                            {prevYearData?.people || "N\\A"}
+                          </p>
+                          <Row>
+                            <Col sm={6} xs={12} md={6}>
+                              <h6 className="header-pretitle mb-2">Weightage Value</h6>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {prevYearData?.people_weightage || "N\\A"}
+                              </p>
+                            </Col>
+                            <Col sm={6} xs={12} md={6}>
+                              <h6 className="header-pretitle mb-2">Rating</h6>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {findRatingElem(prevYearData?.people_rating) || "N\\A"}
+                              </p>
+                            </Col>
+                          </Row>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                      <Accordion.Item eventKey="4">
+                        <Accordion.Header as={"div"}>
+                          <div>
+                            <h3 className="header-title mb-0">5. OTHER</h3>
+                            <h6 className="header-pretitle mb-0">(Learning & development)</h6>
+                          </div>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                          <h6 className="header-pretitle mb-2">Objective</h6>
+                          <p className="fs-5 fw-bold" contentEditable={false}>
+                            {prevYearData?.other || "N\\A"}
+                          </p>
+                          <Row>
+                            <Col sm={6} xs={12} md={6}>
+                              <h6 className="header-pretitle mb-2">Weightage Value</h6>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {prevYearData?.other_weightage || "N\\A"}
+                              </p>
+                            </Col>
+                            <Col sm={6} xs={12} md={6}>
+                              <h6 className="header-pretitle mb-2">Rating</h6>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {findRatingElem(prevYearData?.other_rating) || "N\\A"}
+                              </p>
+                            </Col>
+                          </Row>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                    </Accordion>
+                  </Col>
+                )}
               </Row>
             </Card.Body>
           </Card>
@@ -587,7 +594,7 @@ export default function EmPerformanceSingle() {
               </Row>
               <hr className="mb-4" />
               <Row>
-                <Col sm="12" md="6">
+                <Col sm="12" md={admin ? "6" : "12"}>
                   <h1 className="text-center mb-2">{currYear}</h1>
                   <Accordion>
                     <Accordion.Item eventKey="0">
@@ -793,137 +800,141 @@ export default function EmPerformanceSingle() {
                     </Accordion.Item>
                   </Accordion>
                 </Col>
-                <Col sm="12" md="6">
-                  <h1 className="text-center mb-2">{currYear - 1}</h1>
-                  <Accordion>
-                    <Accordion.Item eventKey="0">
-                      <Accordion.Header as={"div"}>
-                        <div>
-                          <h3 className="header-title mb-0">1. COURAGEOUS</h3>
-                          <h6 className="header-pretitle mb-0">
-                            (Moral Strength: faith and belief in oneself, self confidence)
-                          </h6>
-                        </div>
-                      </Accordion.Header>
-                      <Accordion.Body>
-                        <Row>
-                          <Col sm={12} xs={12} md={12}>
-                            <h6 className="header-pretitle mb-2">Value</h6>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {prevYearData?.courageous || "N\\A"}
-                            </p>
-                          </Col>
-                          <Col sm={12} xs={12} md={12}>
-                            <h6 className="header-pretitle mb-2">Rating</h6>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {findValueElem(prevYearData?.courageous_rating) || "N\\A"}
-                            </p>
-                          </Col>
-                        </Row>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                    <Accordion.Item eventKey="1">
-                      <Accordion.Header as={"div"}>
-                        <div>
-                          <h3 className="header-title mb-0">2. TEAMWORK</h3>
-                          <h6 className="header-pretitle mb-0">
-                            (Team player, not exclusive: Enjoy sharing and collaborating with relevent parties)
-                          </h6>
-                        </div>
-                      </Accordion.Header>
-                      <Accordion.Body>
-                        <Row>
-                          <Col sm={12} xs={12} md={12}>
-                            <h6 className="header-pretitle mb-2">Value</h6>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {prevYearData?.teamwork || "N\\A"}
-                            </p>
-                          </Col>
-                          <Col sm={12} xs={12} md={12}>
-                            <h6 className="header-pretitle mb-2">Rating</h6>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {findValueElem(prevYearData?.teamwork_rating) || "N\\A"}
-                            </p>
-                          </Col>
-                        </Row>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                    <Accordion.Item eventKey="2">
-                      <Accordion.Header as={"div"}>
-                        <div>
-                          <h3 className="header-title mb-0">3. RESPONSIVE</h3>
-                          <h6 className="header-pretitle mb-0">
-                            (Attentive, Interactive : consider everyone inside & outside as customer ; stakeholder)
-                          </h6>
-                        </div>
-                      </Accordion.Header>
-                      <Accordion.Body>
-                        <Row>
-                          <Col sm={12} xs={12} md={12}>
-                            <h6 className="header-pretitle mb-2">Value</h6>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {prevYearData?.responsive || "N\\A"}
-                            </p>
-                          </Col>
-                          <Col sm={12} xs={12} md={12}>
-                            <h6 className="header-pretitle mb-2">Rating</h6>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {findValueElem(prevYearData?.responsive_rating) || "N\\A"}
-                            </p>
-                          </Col>
-                        </Row>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                    <Accordion.Item eventKey="3">
-                      <Accordion.Header as={"div"}>
-                        <div>
-                          <h3 className="header-title mb-0">4. CREATIVE</h3>
-                          <h6 className="header-pretitle mb-0">(Business minds: Translates imagination into business)</h6>
-                        </div>
-                      </Accordion.Header>
-                      <Accordion.Body>
-                        <Row>
-                          <Col sm={12} xs={12} md={12}>
-                            <h6 className="header-pretitle mb-2">Value</h6>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {prevYearData?.creative || "N\\A"}
-                            </p>
-                          </Col>
-                          <Col sm={12} xs={12} md={12}>
-                            <h6 className="header-pretitle mb-2">Rating</h6>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {findValueElem(prevYearData?.creative_rating) || "N\\A"}
-                            </p>
-                          </Col>
-                        </Row>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                    <Accordion.Item eventKey="4">
-                      <Accordion.Header as={"div"}>
-                        <div>
-                          <h3 className="header-title mb-0">5. TRUSTWORTHY</h3>
-                          <h6 className="header-pretitle mb-0">(Deserving of trust , confidence , reliable, dependable)</h6>
-                        </div>
-                      </Accordion.Header>
-                      <Accordion.Body>
-                        <Row>
-                          <Col sm={12} xs={12} md={12}>
-                            <h6 className="header-pretitle mb-2">Value</h6>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {prevYearData?.trustworthy || "N\\A"}
-                            </p>
-                          </Col>
-                          <Col sm={12} xs={12} md={12}>
-                            <h6 className="header-pretitle mb-2">Rating</h6>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {findValueElem(prevYearData?.trustworthy_rating) || "N\\A"}
-                            </p>
-                          </Col>
-                        </Row>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                  </Accordion>
-                </Col>
+                {admin && (
+                  <Col sm="12" md="6">
+                    <h1 className="text-center mb-2">{currYear - 1}</h1>
+                    <Accordion>
+                      <Accordion.Item eventKey="0">
+                        <Accordion.Header as={"div"}>
+                          <div>
+                            <h3 className="header-title mb-0">1. COURAGEOUS</h3>
+                            <h6 className="header-pretitle mb-0">
+                              (Moral Strength: faith and belief in oneself, self confidence)
+                            </h6>
+                          </div>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                          <Row>
+                            <Col sm={12} xs={12} md={12}>
+                              <h6 className="header-pretitle mb-2">Value</h6>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {prevYearData?.courageous || "N\\A"}
+                              </p>
+                            </Col>
+                            <Col sm={12} xs={12} md={12}>
+                              <h6 className="header-pretitle mb-2">Rating</h6>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {findValueElem(prevYearData?.courageous_rating) || "N\\A"}
+                              </p>
+                            </Col>
+                          </Row>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                      <Accordion.Item eventKey="1">
+                        <Accordion.Header as={"div"}>
+                          <div>
+                            <h3 className="header-title mb-0">2. TEAMWORK</h3>
+                            <h6 className="header-pretitle mb-0">
+                              (Team player, not exclusive: Enjoy sharing and collaborating with relevent parties)
+                            </h6>
+                          </div>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                          <Row>
+                            <Col sm={12} xs={12} md={12}>
+                              <h6 className="header-pretitle mb-2">Value</h6>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {prevYearData?.teamwork || "N\\A"}
+                              </p>
+                            </Col>
+                            <Col sm={12} xs={12} md={12}>
+                              <h6 className="header-pretitle mb-2">Rating</h6>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {findValueElem(prevYearData?.teamwork_rating) || "N\\A"}
+                              </p>
+                            </Col>
+                          </Row>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                      <Accordion.Item eventKey="2">
+                        <Accordion.Header as={"div"}>
+                          <div>
+                            <h3 className="header-title mb-0">3. RESPONSIVE</h3>
+                            <h6 className="header-pretitle mb-0">
+                              (Attentive, Interactive : consider everyone inside & outside as customer ; stakeholder)
+                            </h6>
+                          </div>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                          <Row>
+                            <Col sm={12} xs={12} md={12}>
+                              <h6 className="header-pretitle mb-2">Value</h6>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {prevYearData?.responsive || "N\\A"}
+                              </p>
+                            </Col>
+                            <Col sm={12} xs={12} md={12}>
+                              <h6 className="header-pretitle mb-2">Rating</h6>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {findValueElem(prevYearData?.responsive_rating) || "N\\A"}
+                              </p>
+                            </Col>
+                          </Row>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                      <Accordion.Item eventKey="3">
+                        <Accordion.Header as={"div"}>
+                          <div>
+                            <h3 className="header-title mb-0">4. CREATIVE</h3>
+                            <h6 className="header-pretitle mb-0">(Business minds: Translates imagination into business)</h6>
+                          </div>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                          <Row>
+                            <Col sm={12} xs={12} md={12}>
+                              <h6 className="header-pretitle mb-2">Value</h6>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {prevYearData?.creative || "N\\A"}
+                              </p>
+                            </Col>
+                            <Col sm={12} xs={12} md={12}>
+                              <h6 className="header-pretitle mb-2">Rating</h6>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {findValueElem(prevYearData?.creative_rating) || "N\\A"}
+                              </p>
+                            </Col>
+                          </Row>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                      <Accordion.Item eventKey="4">
+                        <Accordion.Header as={"div"}>
+                          <div>
+                            <h3 className="header-title mb-0">5. TRUSTWORTHY</h3>
+                            <h6 className="header-pretitle mb-0">
+                              (Deserving of trust , confidence , reliable, dependable)
+                            </h6>
+                          </div>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                          <Row>
+                            <Col sm={12} xs={12} md={12}>
+                              <h6 className="header-pretitle mb-2">Value</h6>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {prevYearData?.trustworthy || "N\\A"}
+                              </p>
+                            </Col>
+                            <Col sm={12} xs={12} md={12}>
+                              <h6 className="header-pretitle mb-2">Rating</h6>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {findValueElem(prevYearData?.trustworthy_rating) || "N\\A"}
+                              </p>
+                            </Col>
+                          </Row>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                    </Accordion>
+                  </Col>
+                )}
               </Row>
             </Card.Body>
           </Card>
@@ -932,7 +943,7 @@ export default function EmPerformanceSingle() {
           <Card>
             <Card.Body>
               <Row>
-                <Col sm="12" md="6">
+                <Col sm="12" md={admin ? "6" : "12"}>
                   <h1 className="text-center mb-2">{currYear}</h1>
                   <Accordion>
                     <Accordion.Item eventKey="0">
@@ -977,43 +988,45 @@ export default function EmPerformanceSingle() {
                     </Accordion.Item>
                   </Accordion>
                 </Col>
-                <Col sm="12" md="6">
-                  <h1 className="text-center mb-2">{currYear - 1}</h1>
-                  <Accordion>
-                    <Accordion.Item eventKey="0">
-                      <Accordion.Header as={"div"}>
-                        <div>
-                          <h3 className="header-title mb-0">OTHER SUBSTANTIAL ACHIEVEMENTS</h3>
-                        </div>
-                      </Accordion.Header>
-                      <Accordion.Body>
-                        <Row>
-                          <Col sm={12} xs={12} md={12}>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {prevYearData?.other_sustainable_achievement || "N\\A"}
-                            </p>
-                          </Col>
-                        </Row>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                    <Accordion.Item eventKey="1">
-                      <Accordion.Header as={"div"}>
-                        <div>
-                          <h3 className="header-title mb-0">SIGNIFICANT ISSUES</h3>
-                        </div>
-                      </Accordion.Header>
-                      <Accordion.Body>
-                        <Row>
-                          <Col sm={12} xs={12} md={12}>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {prevYearData?.significant_issue || "N\\A"}
-                            </p>
-                          </Col>
-                        </Row>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                  </Accordion>
-                </Col>
+                {admin && (
+                  <Col sm="12" md="6">
+                    <h1 className="text-center mb-2">{currYear - 1}</h1>
+                    <Accordion>
+                      <Accordion.Item eventKey="0">
+                        <Accordion.Header as={"div"}>
+                          <div>
+                            <h3 className="header-title mb-0">OTHER SUBSTANTIAL ACHIEVEMENTS</h3>
+                          </div>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                          <Row>
+                            <Col sm={12} xs={12} md={12}>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {prevYearData?.other_sustainable_achievement || "N\\A"}
+                              </p>
+                            </Col>
+                          </Row>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                      <Accordion.Item eventKey="1">
+                        <Accordion.Header as={"div"}>
+                          <div>
+                            <h3 className="header-title mb-0">SIGNIFICANT ISSUES</h3>
+                          </div>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                          <Row>
+                            <Col sm={12} xs={12} md={12}>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {prevYearData?.significant_issue || "N\\A"}
+                              </p>
+                            </Col>
+                          </Row>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                    </Accordion>
+                  </Col>
+                )}
               </Row>
             </Card.Body>
           </Card>
@@ -1024,7 +1037,7 @@ export default function EmPerformanceSingle() {
               <h2 className="header-title mb-0">Comments</h2>
               <hr className="mb-4" />
               <Row>
-                <Col sm="12" md="6">
+                <Col sm="12" md={admin ? "6" : "12"}>
                   <h1 className="text-center mb-2">{currYear}</h1>
                   <Accordion>
                     <Accordion.Item eventKey="0">
@@ -1109,75 +1122,77 @@ export default function EmPerformanceSingle() {
                     </Accordion.Item>
                   </Accordion>
                 </Col>
-                <Col sm="12" md="6">
-                  <h1 className="text-center mb-2">{currYear - 1}</h1>
-                  <Accordion>
-                    <Accordion.Item eventKey="0">
-                      <Accordion.Header as={"div"}>
-                        <div>
-                          <h3 className="header-title mb-0">INDIVIDUAL'S COMMENTS</h3>
-                        </div>
-                      </Accordion.Header>
-                      <Accordion.Body>
-                        <Row>
-                          <Col sm={12} xs={12} md={12}>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {prevYearData?.individual_comment || "N\\A"}
-                            </p>
-                          </Col>
-                        </Row>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                    <Accordion.Item eventKey="1">
-                      <Accordion.Header as={"div"}>
-                        <div>
-                          <h3 className="header-title mb-0">MANAGERS COMMENTS</h3>
-                        </div>
-                      </Accordion.Header>
-                      <Accordion.Body>
-                        <Row>
-                          <Col sm={12} xs={12} md={12}>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {prevYearData?.manager_comment || "N\\A"}
-                            </p>
-                          </Col>
-                        </Row>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                    <Accordion.Item eventKey="2">
-                      <Accordion.Header as={"div"}>
-                        <div>
-                          <h3 className="header-title mb-0">SENIOR MANAGER / FUNCTIONAL HEAD'S COMMENTS</h3>
-                        </div>
-                      </Accordion.Header>
-                      <Accordion.Body>
-                        <Row>
-                          <Col sm={12} xs={12} md={12}>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {prevYearData?.senior_manager_functional_head_comment || "N\\A"}
-                            </p>
-                          </Col>
-                        </Row>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                    <Accordion.Item eventKey="3">
-                      <Accordion.Header as={"div"}>
-                        <div>
-                          <h3 className="header-title mb-0">DIRECTOR AND CHIEF OPERATING OFFICER'S COMMENTS</h3>
-                        </div>
-                      </Accordion.Header>
-                      <Accordion.Body>
-                        <Row>
-                          <Col sm={12} xs={12} md={12}>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {prevYearData?.director_chief_operating_officer_comment || "N\\A"}
-                            </p>
-                          </Col>
-                        </Row>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                  </Accordion>
-                </Col>
+                {admin && (
+                  <Col sm="12" md="6">
+                    <h1 className="text-center mb-2">{currYear - 1}</h1>
+                    <Accordion>
+                      <Accordion.Item eventKey="0">
+                        <Accordion.Header as={"div"}>
+                          <div>
+                            <h3 className="header-title mb-0">INDIVIDUAL'S COMMENTS</h3>
+                          </div>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                          <Row>
+                            <Col sm={12} xs={12} md={12}>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {prevYearData?.individual_comment || "N\\A"}
+                              </p>
+                            </Col>
+                          </Row>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                      <Accordion.Item eventKey="1">
+                        <Accordion.Header as={"div"}>
+                          <div>
+                            <h3 className="header-title mb-0">MANAGERS COMMENTS</h3>
+                          </div>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                          <Row>
+                            <Col sm={12} xs={12} md={12}>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {prevYearData?.manager_comment || "N\\A"}
+                              </p>
+                            </Col>
+                          </Row>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                      <Accordion.Item eventKey="2">
+                        <Accordion.Header as={"div"}>
+                          <div>
+                            <h3 className="header-title mb-0">SENIOR MANAGER / FUNCTIONAL HEAD'S COMMENTS</h3>
+                          </div>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                          <Row>
+                            <Col sm={12} xs={12} md={12}>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {prevYearData?.senior_manager_functional_head_comment || "N\\A"}
+                              </p>
+                            </Col>
+                          </Row>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                      <Accordion.Item eventKey="3">
+                        <Accordion.Header as={"div"}>
+                          <div>
+                            <h3 className="header-title mb-0">DIRECTOR AND CHIEF OPERATING OFFICER'S COMMENTS</h3>
+                          </div>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                          <Row>
+                            <Col sm={12} xs={12} md={12}>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {prevYearData?.director_chief_operating_officer_comment || "N\\A"}
+                              </p>
+                            </Col>
+                          </Row>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                    </Accordion>
+                  </Col>
+                )}
               </Row>
             </Card.Body>
           </Card>
@@ -1188,7 +1203,7 @@ export default function EmPerformanceSingle() {
               <h2 className="header-title mb-0">OVERALL PERFORMANCE BASED ON ALL OF THE ABOVE RATING</h2>
               <hr className="mb-4" />
               <Row>
-                <Col sm="12" md="6">
+                <Col sm="12" md={admin ? "6" : "12"}>
                   <h1 className="text-center mb-2">{currYear}</h1>
                   <Accordion>
                     <Accordion.Item>
@@ -1208,22 +1223,24 @@ export default function EmPerformanceSingle() {
                     </Accordion.Item>
                   </Accordion>
                 </Col>
-                <Col sm="12" md="6">
-                  <h1 className="text-center mb-2">{currYear - 1}</h1>
-                  <Accordion>
-                    <Accordion.Item>
-                      <Accordion.Body className={"show"}>
-                        <Row>
-                          <Col sm={12} xs={12} md={12}>
-                            <p className="fs-5 fw-bold" contentEditable={false}>
-                              {prevYearData?.overall_performance || "N\\A"}
-                            </p>
-                          </Col>
-                        </Row>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                  </Accordion>
-                </Col>
+                {admin && (
+                  <Col sm="12" md="6">
+                    <h1 className="text-center mb-2">{currYear - 1}</h1>
+                    <Accordion>
+                      <Accordion.Item>
+                        <Accordion.Body className={"show"}>
+                          <Row>
+                            <Col sm={12} xs={12} md={12}>
+                              <p className="fs-5 fw-bold" contentEditable={false}>
+                                {prevYearData?.overall_performance || "N\\A"}
+                              </p>
+                            </Col>
+                          </Row>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                    </Accordion>
+                  </Col>
+                )}
               </Row>
             </Card.Body>
           </Card>

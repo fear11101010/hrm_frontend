@@ -30,7 +30,7 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const payload = {
-      proposed_by_sbu_director_pm_sel:
+      proposed_by_sbu_director_pm_self:
         propsed_by_sbuDirPmSelf === "" ? data.data?.proposed_by_sbu_director_pm_self : propsed_by_sbuDirPmSelf,
       remarks: remarks1 === "" ? data.data?.remarks : remarks1,
       remarks_two: remarks2 === "" ? data.data?.remarks_two : remarks2,

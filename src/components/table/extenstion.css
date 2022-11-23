@@ -1,5 +1,5 @@
 .data-table-extensions {
-    padding: 6px 0px !important
+    padding: 0px 0px !important
 }
 
 .data-table-extensions .data-table-extensions-filter .icon {
@@ -11,6 +11,7 @@
     border: 1px solid #e0e0e0;
     border-radius: 4px;
     transition: 300ms;
+    margin-left: 0px;
 }
 
 .data-table-extensions .data-table-extensions-filter .filter-text:focus {

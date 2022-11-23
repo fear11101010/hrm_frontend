@@ -96,11 +96,11 @@ function Navbar1(props) {
             {/* Dashboard */}
             <Nav.Item as={"li"}>
               <Link to={DASHBOARD_PAGE} className="nav-link">
-                <i className="fe fe-home"></i> Dashboards
+                <i className="fe fe-grid"></i> Dashboards
               </Link>
             </Nav.Item>
 
-            {/* USER */}
+            {/* MANAGEMENT */}
             {user.sub_module.includes("User Management") && (
               <Nav.Item as={"li"}>
                 <Link
@@ -112,7 +112,7 @@ function Navbar1(props) {
                   aria-expanded={menuOpenCloseState[0] ? "true" : "false"}
                   aria-controls="sidebarUser"
                 >
-                  <i className="fe fe-user"></i> Management
+                  <i className="fe fe-users"></i> Management
                 </Link>
                 <Collapse in={menuOpenCloseState[0]}>
                   <div id="sidebarUser">
@@ -238,13 +238,13 @@ function Navbar1(props) {
                 <Collapse in={menuOpenCloseState[2]}>
                   <div id="sidebarReport">
                     <ul className="nav nav-sm flex-column">
-                      {/* <li className="nav-item">
+                      <li className="nav-item">
                         {user.module.includes("Salary Full Report") && (
                           <Link className={"nav-link"} to={SALARY_FULL_REPORT_URL}>
                             Salary Full Report
                           </Link>
                         )}
-                      </li> */}
+                      </li>
                       <li className="nav-item">
                         {user.module.includes("Salary Pivot Summary") && (
                           <Link className={"nav-link"} to={SALARY_PIVOT_SUMMARY_REPORT_URL}>
@@ -274,15 +274,33 @@ function Navbar1(props) {
 
             {/* LOgOUT */}
             <Nav.Item as={"li"}>
-              <Link
-                to={DASHBOARD_PAGE}
-                onClick={(e) => {
-                  handleConfirm(e);
-                }}
-                className="text-danger fw-bold nav-link"
+              <Nav.Link
+                onClick={() => openOrCloseMenu(3)}
+                href="#"
+                className={menuOpenCloseState[3] ? "collapsed" : ""}
+                data-bs-toggle="collapse"
+                role="button"
+                aria-expanded={menuOpenCloseState[3] ? "true" : "false"}
+                aria-controls="sidebarUser"
               >
-                <i className="fe fe-log-out"></i> logout
-              </Link>
+                <i className="fe fe-user"></i> {user.username}
+              </Nav.Link>
+
+              <Collapse in={menuOpenCloseState[3]}>
+                <div id="sidebarUser">
+                  <ul className="nav nav-sm flex-column">
+                    <Link
+                      to={DASHBOARD_PAGE}
+                      onClick={(e) => {
+                        handleConfirm(e);
+                      }}
+                      className="text-danger fw-bold nav-link"
+                    >
+                      <i className="fe fe-log-out"></i> Logout
+                    </Link>
+                  </ul>
+                </div>
+              </Collapse>
             </Nav.Item>
           </Nav>
         </Navbar.Collapse>

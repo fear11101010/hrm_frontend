@@ -86,7 +86,12 @@ export default function RoleList() {
       cell: (row) => (
         <>
           {user.accessibility.includes("authuserrole") && (
-            <Link to={USER_ROLE_PRIVILEGE_PAGE(row.id)}>
+            <Link
+              to={USER_ROLE_PRIVILEGE_PAGE(row.id)}
+              state={{
+                role_name: row?.name,
+              }}
+            >
               <Button size="sm" variant="info" className="btn-rounded-circle">
                 <i className="fe fe-tag"></i>
               </Button>

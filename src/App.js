@@ -58,6 +58,7 @@ import Privileges from "./pages/user/role/Privileges";
 import EmployeeList from "./pages/Employee/EmployeeList";
 import EmployeeEdit from "./pages/Employee/EmployeeEdit";
 import AssestmentEmployerReport from "./pages/Report/assestment-employer-report/assestment-employer-report";
+import Demo from "./pages/demo";
 function App() {
   return (
     <BrowserRouter>
@@ -104,6 +105,8 @@ function App() {
         </Route>
 
         <Route path={UNAUTHORIZED} element={<Unauth />} />
+        <Route path={"/demo"} element={<Demo />} />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

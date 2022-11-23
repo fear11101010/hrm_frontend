@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal, Tab, Table, Tabs } from "react-bootstrap";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
 import Content from "../../../components/content/Content";
 import PageHeader from "../../../components/header/PageHeader";
@@ -14,6 +14,8 @@ import { useFunction, useModuleName, useModuleUrl } from "./hooks";
 
 export default function Privileges() {
   const { id } = useParams();
+  const location = useLocation();
+
   const user = USER_INFO();
   const [loading, setLoading] = useState(false);
   const [hasPrivileges, setHasPrivileges] = useState([]);
@@ -110,7 +112,8 @@ export default function Privileges() {
   return (
     <Layout>
       {loading && <Loader />}
-      <PageHeader title={"Privileges"} onBack />
+      <PageHeader title={`Privileges - ${location.state.role_name}`} onBack />
+
       <Content>
         <Tabs id="controlled-tab-example" className="mb-3">
           {funcList.map((d, i) => (

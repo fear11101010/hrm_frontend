@@ -41,26 +41,29 @@ export default function KpiPerformerAssestment() {
   const currYear = new Date().getFullYear();
 
   //Get Data by Selecting SBU
+  const selectedSbuData = () => {
+    setLoading(true);
+    API.get(KPI_PERMORMER_ASSESTMENT_BY_SBU_GET(selectedSbu))
+      .then((res) => {
+        if (res.data.statuscode === 200 && res.data.data.length > 0) {
+          setSbuData(res.data.data);
+        } else if (res.data.data.length === 0) {
+          error_alert("No data found");
+        } else {
+          error_alert("Error!!! while retrieving data ");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        error_alert(err.response.data);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
   useEffect(() => {
     if (selectedSbu !== "") {
-      setLoading(true);
-      API.get(KPI_PERMORMER_ASSESTMENT_BY_SBU_GET(selectedSbu))
-        .then((res) => {
-          if (res.data.statuscode === 200 && res.data.data.length > 0) {
-            setSbuData(res.data.data);
-          } else if (res.data.data.length === 0) {
-            error_alert("No data found");
-          } else {
-            error_alert("Error!!! while retrieving data ");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          error_alert(err.response.data);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      selectedSbuData();
     }
   }, [selectedSbu]);
 
@@ -118,8 +121,9 @@ export default function KpiPerformerAssestment() {
             title="Download Report"
             className="btn-rounded-circle"
             onClick={(e) => {
-              setSelectedRowId(row.id);
-              pdfDownload(e, row.id);
+              setSelectedRowId(row?.id);
+              // pdfDownload(e, row?.employee?.id);
+              pdfDownload(e, row?.employee?.id);
             }}
           >
             <RiFileDownloadFill />
@@ -135,27 +139,38 @@ export default function KpiPerformerAssestment() {
   const afterSubmit = () => {
     setDetailModal(false);
     setIncAmountModal(false);
+    selectedSbuData();
   };
 
   //download individual report
   const pdfDownload = (e, id) => {
     e.preventDefault();
     const payload = {
-      employee_id: parseInt(id),
+      employee_id: id,
+      // employee_id: "5",
       day: "1",
       month: "March",
       year: "2022",
     };
     setLoading(true);
-    API.post(`reports/${currYear}/confirmed_increments_by_year/`, payload)
+    API.post(`/reports/${currYear}/confirmed_increments_by_year/`, payload)
       .then((res) => {
-        if (res.data.statuscode === 200) {
-          success_alert(res.data.message);
-        } else {
+        console.log(res);
+        if (res.data.statuscode === 400) {
           error_alert(res.data.message);
+        } else {
+          const url = window.URL.createObjectURL(new Blob([res.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", "Performance Review.pdf");
+          document.body.appendChild(link);
+          link.click();
+          setLoading(false);
+          success_alert("File Downloaded");
         }
       })
       .catch((err) => {
+        error_alert("No data found");
         console.log(err);
       })
       .finally(() => {

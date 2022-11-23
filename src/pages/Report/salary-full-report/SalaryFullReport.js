@@ -6,29 +6,33 @@ import PageHeader from "../../../components/header/PageHeader";
 import Container from "react-bootstrap/Container";
 import Select from "react-select";
 import Loader from "../../../components/loader/Loader";
-import { SALARY_PIVOT_SUMMARY_REPORT_URL, UNAUTHORIZED } from "../../../utils/APP_ROUTES";
+import { SALARY_PIVOT_SUMMARY_REPORT_URL } from "../../../utils/APP_ROUTES";
 import useFetch from "../../../hooks/useFetch";
 import { REPORT_FULL_SUMMERY_API } from "../../../utils/API_ROUTES";
 import { API } from "../../../utils/axios/axiosConfig";
-import { USER_INFO } from "../../../utils/session/token";
-import { Navigate } from "react-router-dom";
+import moment from "moment";
 
 export default function SalaryFullReport(props) {
-  const user = USER_INFO();
   const { data, isLoading } = useSbu();
   const [loading, setLoading] = useState(false);
   const [selectedSbu, setSelectedSbu] = useState("");
   const [summaryData, setSummaryData] = useState("");
   const [selectedSbuName, setSelectedSbuName] = useState("");
-  const [lastThreeYearData, setLastThreeYearData] = useState([]);
+  const [lastThreeYearData, setLastThreeYearData] = useState({});
   const [employeeDetail, setEmployeeDetail] = useState({});
   const [allDsId, setAllDsId] = useState({});
+  const currentYear = moment().year();
+  const lastThreeYear = [currentYear - 2, currentYear - 1, currentYear];
   const sbuList = data?.map((d) => ({ label: d.name, value: d.id }));
+  const durations = (date) => {
+    const duration = moment.duration(moment().diff(date));
+    return `${duration.years()} years, ${duration.months()} month`;
+  };
   const loadLastThreeYearData = async (e) => {
     setLoading(true);
     try {
       const res = await API.get(REPORT_FULL_SUMMERY_API(e.value));
-      setLastThreeYearData(res.data.data);
+
       if (Array.isArray(res.data.data)) {
         const em = res.data.data.reduce((c, p) => {
           const obj = Object.values(p)[0];
@@ -36,9 +40,15 @@ export default function SalaryFullReport(props) {
           const emm = Object.values(Object.values(p)[0][len - 1])[0].employee;
           return { ...c, [Object.keys(p)[0]]: emm };
         }, {});
-        console.log(em);
+        const lty = res.data.data.reduce((c, p) => {
+          const key = Object.keys(p)[0];
+          const values = Object.values(p)[0].reduce((a, c) => ({ ...a, ...c }), {});
+          return { ...c, [key]: values };
+        }, {});
+        setLastThreeYearData({ ...lty });
         setAllDsId(res.data.data.map((v) => Object.keys(v)[0]));
         setEmployeeDetail(em);
+        console.log(employeeDetail);
       }
     } catch (e) {
       console.log(e);
@@ -46,9 +56,9 @@ export default function SalaryFullReport(props) {
       setLoading(false);
     }
   };
-  return user.accessibility.includes("SalaryFullReport") ? (
+  return (
     <Layout>
-      <PageHeader title={"Salary Full Report"} />
+      <PageHeader title={"Assessment Full Report"} />
       <Container>
         <Card>
           <Card.Body>
@@ -72,20 +82,207 @@ export default function SalaryFullReport(props) {
             {allDsId &&
               Array.isArray(allDsId) &&
               allDsId.length > 0 &&
-              allDsId.map((id) => (
+              allDsId.map((id, i) => (
                 <Accordion className="mb-3">
-                  <Accordion.Item eventKey="0">
+                  <Accordion.Item eventKey={i}>
                     <Accordion.Header as={"div"}>
                       <div>
                         <div className="d-flex flex-row align-items-center">
                           <h3 className="header-title mb-0" style={{ marginRight: "5px" }}>
-                            {employeeDetail[id].name}
+                            {employeeDetail[id]?.name}
                           </h3>
                           <h6 className="header-pretitle mb-0">({id})</h6>
                         </div>
-                        <h6 className="header-pretitle mb-0">{employeeDetail[id].designation}</h6>
+                        <h6 className="header-pretitle mb-0">{employeeDetail[id]?.designation}</h6>
                       </div>
                     </Accordion.Header>
+                    <Accordion.Body>
+                      <Row>
+                        <Col sm={6} md={4} lg={3} xl={3}>
+                          <h6 className="header-pretitle">Date of joining</h6>
+                          <p>
+                            {employeeDetail[id]?.date_of_joining
+                              ? moment(employeeDetail[id]?.date_of_joining).format("MMM DD,YYYY")
+                              : ""}
+                          </p>
+                        </Col>
+                        <Col sm={6} md={4} lg={3} xl={3}>
+                          <h6 className="header-pretitle">Durations</h6>
+                          <p>{durations(employeeDetail[id]?.date_of_joining)}</p>
+                        </Col>
+                        <Col sm={6} md={4} lg={3} xl={3}>
+                          <h6 className="header-pretitle">SBU</h6>
+                          <p>{employeeDetail[id]?.sbu?.name}</p>
+                        </Col>
+                        <Col sm={6} md={4} lg={3} xl={3}>
+                          <h6 className="header-pretitle">Sub SBU</h6>
+                          <p>{employeeDetail[id]?.sub_sbu?.name}</p>
+                        </Col>
+                      </Row>
+                      <Accordion>
+                        {lastThreeYear.map((year, i) => (
+                          <Accordion.Item eventKey={i}>
+                            <Accordion.Header as={"div"}>
+                              <div>
+                                <h3 className="header-title mb-0">{year}</h3>
+                              </div>
+                            </Accordion.Header>
+                            <Accordion.Body>
+                              <Row>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">KPI Objective {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.kpi_objective?.name}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">KPI-Value {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.kpi_value?.name}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">KPI-HR {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.hr_rating?.name}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">KPI-Overall {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.kpi_overall}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">% of KPI-Objective {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.percentage_kpi_objective}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">% of KPI-HR {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.percentage_kpi_hr}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Weighted Average of KPI % {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.weighted_average_kpi}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Criticality {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.criticality?.name}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Potential for Improvement {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.potential_for_improvement?.name}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Technical/Implementation/Operational {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.technical_implementation_operational?.name}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Top/Average/Bottom Performer {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.top_average_bottom_performer?.name}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Best performer inside team {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.best_performer_team?.name}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Best innovator inside team {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.best_innovator_team?.name}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Best Performer in the organization {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.best_performer_org?.name}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Proposed Designation {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.proposed_designation}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Best Performer among all PM {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.best_performer_pm?.name}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Increment Amount (HR) {year} (A)</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.hr_rating?.name}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">HR New Gross Salary {year} (A)</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.hr_new_gross_salary_a}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">HR % {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.percentage_hr_a}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Fixed Increment (%) {year} (B)</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.fixed_increment_b}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Fixed Increment New Gross Salary B {year} (B)</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.fixed_increment_new_gross_salary_b}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Team Distribution (%) {year} (C)</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.team_distribution_percentage_c}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Difference = New salary A- New salary B {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.difference_new_salary_a_new_salary_b}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Proposed By SBU Director/PM/Self {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.proposed_by_sbu_director_pm_self}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">% of Increment {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.percentage_of_increment}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">New Gross Salary B {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.new_gross_salary_b}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">CAGR 3 years {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.cagr_three_years}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Avarage 3 Years {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.average_three_years}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Average Actual {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.average_actual}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Weighted Average of KPI % {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.weighted_average_kpi}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Increment with KPI % {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.increment_with_kpi_percentage}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">New Gross Salary KPI % % {year}</h6>
+                                  {/*<p>{lastThreeYearData[id]?.[year]?.increment_with_kpi_percentage}</p>*/}
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Increment with KPI % {year}</h6>
+                                  {/*<p>{lastThreeYearData[id]?.[year]?.increment_with_kpi_percentage}</p>*/}
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">New Gross Salary KPI % {year}</h6>
+                                  {/*<p>{lastThreeYearData[id]?.[year]?.increment_with_kpi_percentage}</p>*/}
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Gap Manual vs Formula {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.gap_manual_formula}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Remarks {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.remark}</p>
+                                </Col>
+                                <Col sm={6} md={4} lg={4} xl={3}>
+                                  <h6 className="header-pretitle">Remarks 2 {year}</h6>
+                                  <p>{lastThreeYearData[id]?.[year]?.remarks_two}</p>
+                                </Col>
+                              </Row>
+                            </Accordion.Body>
+                          </Accordion.Item>
+                        ))}
+                      </Accordion>
+                    </Accordion.Body>
                     {/*<Accordion.Body>
                                         <h6 className="header-pretitle mb-2">Objective</h6>
                                         <p className="fs-5 fw-bold" contentEditable={false} >{data?.production || 'N\\A'}</p>
@@ -202,7 +399,5 @@ export default function SalaryFullReport(props) {
       </Container>
       {(isLoading || loading) && <Loader />}
     </Layout>
-  ) : (
-    <Navigate to={UNAUTHORIZED} />
   );
 }

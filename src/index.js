@@ -5,7 +5,6 @@ import "./App.css";
 import App from "./App";
 import { ToastContainer } from "react-toastify";
 import reportWebVitals from "./reportWebVitals";
-import "flatpickr/dist/themes/material_green.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

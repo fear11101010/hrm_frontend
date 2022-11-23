@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
+import Content from "../components/content/Content";
+import Layout from "../layout/Layout";
+import moment from "moment";
 
-export default function demo() {
+export default function Demo() {
+  const [date, setDate] = useState("");
+
+  console.log(moment(date).format("YYYY-DD-MM"));
+
   return (
     <>
-      <h4 className="mb-0"></h4>
-
-      <option>---------</option>
-      <option value="1">Exceeded</option>
-      <option value="2">Achieved all aspects</option>
-      <option value="3">Achieved the essential requirements</option>
-      <option value="4">Did not achieve</option>
-      <option value="5">Unacceptable</option>
+      <Layout>
+        <Content></Content>
+      </Layout>
     </>
   );
 }

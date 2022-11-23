@@ -19,10 +19,13 @@ function ConfirmDialog({ message, onOkButtonClick, onCancelButtonClick }) {
   return (
     <Modal show={openDialog} size="md" centered backdrop="static">
       <Modal.Body className="m-auto">
-        <h2 className="mb-3 text-center text-danger">
-          <span className="fe fe-alert-triangle"></span>&nbsp;Warning
+        <h2 className="mb-3 text-center text-warning" style={{ fontSize: "36px" }}>
+          <i className="fe fe-alert-triangle"></i>
+          {/* &nbsp;Warning */}
         </h2>
-        <div className="d-flex justify-content-center text-center">{message}</div>
+        <div className="d-flex justify-content-center text-center">
+          <h3 className="mb-0">{message}</h3>
+        </div>
         <div className={"d-flex justify-content-center align-items-center mt-4"}>
           <button className="btn btn-primary" onClick={okButtonClick} style={{ marginRight: "15px" }}>
             <span className="fe fe-check"></span>&nbsp;Confirm
