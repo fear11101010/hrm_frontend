@@ -10,14 +10,17 @@ export const kpiPerformanceFormColumns = [
   {
     name: "#",
     selector: (row, index) => index + 1,
+    width: "80px",
   },
   {
     name: "Year",
     selector: (row) => row.year,
+    width: "100px",
   },
   {
     name: "ID",
     cell: (row) => <Link to={EMPLOYEE_PERFORMANCE_VIEW(row.id)}>{row.employee.employee_id}</Link>,
+    width: "100px",
   },
   {
     name: "Name",

@@ -6,13 +6,11 @@ export const dataColumns = [
       <div>
         {row.employee?.status === 1 ? (
           <h5 className="text-info mb-0" style={{ fontSize: "12px" }}>
-            {" "}
-            In Progress{" "}
+            In Progress
           </h5>
         ) : (
           <h5 className="text-success mb-0" style={{ fontSize: "12px" }}>
-            {" "}
-            Complete{" "}
+            Complete
           </h5>
         )}
       </div>
@@ -36,9 +34,9 @@ export const dataColumns = [
   //   wrap: true,
   // },
   {
-    name: <div>Proposed By SBU Director/PM/Self</div>,
+    name: "Proposed by Supervisor",
     selector: (row) => row?.proposed_by_sbu_director_pm_self,
-    width: "140px",
-    wrap: true,
+    minWidth: "200px",
+    wrap: false,
   },
 ];

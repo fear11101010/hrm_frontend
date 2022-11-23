@@ -25,6 +25,7 @@ import { EMPLOYEE_ASSESTMENT_PAGE } from "../../../utils/APP_ROUTES";
 import { DATE_FORMAT } from "../../../utils/CONSTANT";
 import ConfirmDialog from "../../../components/confirm-dialog/ConfirmDialog";
 import { success_alert } from "../../../components/alert/Alert";
+import useDesignation from "../../../hooks/useDesignation";
 
 export default function EmAssestmentSingle() {
   const { id } = useParams();
@@ -45,6 +46,7 @@ export default function EmAssestmentSingle() {
   const bestPerformerOrgList = useBestPerformerOrganization()?.map((d) => ({ label: d.name, value: d.id }));
   const bestPerformerPmList = useBestPerformerPm()?.map((d) => ({ label: d.name, value: d.id }));
   const confIncNoIncList = useConfIncNoinc()?.map((d) => ({ label: d.name, value: d.id }));
+  const designationList = useDesignation()?.map((d) => ({ label: d.designation, value: d.id }));
 
   // States
   const [loading, setLoading] = useState(false);
@@ -204,13 +206,13 @@ export default function EmAssestmentSingle() {
             <div className="card">
               <div className="card-header">
                 <h2 className="mb-0 py-3">KPI</h2>
-                <i className="fe fe-bar-chart fs-2 "></i>
+                <i className="fe fe-bar-chart fs-2 text-muted"></i>
               </div>
               <div className="card-body">
                 <Row>
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">KPI Objective {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary"> Objective {new Date().getFullYear()}</h4>
                     </Form.Group>
                     <ReactSelect
                       options={kpiObjectiveList}
@@ -224,7 +226,7 @@ export default function EmAssestmentSingle() {
                   </Col>
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">KPI Value {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary"> Value {new Date().getFullYear()}</h4>
                     </Form.Group>
                     <ReactSelect
                       options={kpiValueList}
@@ -252,7 +254,7 @@ export default function EmAssestmentSingle() {
                   </Col>
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">KPI {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary"> KPI {new Date().getFullYear()}</h4>
                     </Form.Group>
                     <FormControl value={kpi_overall_curr} disabled className="bg-light" />
                   </Col>
@@ -280,7 +282,7 @@ export default function EmAssestmentSingle() {
             <div className="card">
               <div className="card-header">
                 <h2 className="mb-0 py-3">Permormance</h2>
-                <i className="fe fe-sliders fs-2 "></i>
+                <i className="fe fe-sliders fs-2 text-muted"></i>
               </div>
               <div className="card-body">
                 <Row>
@@ -370,13 +372,15 @@ export default function EmAssestmentSingle() {
             <div className="card">
               <div className="card-header">
                 <h2 className="mb-0 py-3">Outcome</h2>
-                <i className="fe fe-trending-up fs-2 "></i>
+                <i className="fe fe-trending-up fs-2 text-muted "></i>
               </div>
               <div className="card-body">
                 <Row>
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">Potential for Improvement {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Potential for Improvement <br /> {new Date().getFullYear()}
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={potentialImprovementList}
@@ -424,13 +428,28 @@ export default function EmAssestmentSingle() {
 
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">Proposed By SBU Director/PM/Self {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">Proposed By Supervisor {new Date().getFullYear()}</h4>
                     </Form.Group>
                     <FormControl
                       type="text"
                       value={propose_SBU}
                       onChange={(e) => {
                         setPropose_sbu(e.target.value.replace(/[^0-9]/g, ""));
+                      }}
+                    />
+                  </Col>
+                  <Col sm="12" md="4" className="mb-4">
+                    <Form.Group>
+                      <h4 className="text-secondary">Proposed Designation {new Date().getFullYear()}</h4>
+                    </Form.Group>
+                    <ReactSelect
+                      options={designationList}
+                      placeholder={
+                        proposed_designation !== "" &&
+                        designationList?.map((d) => (d.value === proposed_designation ? d.label : null))
+                      }
+                      onChange={(e) => {
+                        setProposed_designation(e.target.value);
                       }}
                     />
                   </Col>
@@ -442,24 +461,11 @@ export default function EmAssestmentSingle() {
             <div className="card">
               <div className="card-header">
                 <h2 className="mb-0 py-3">Others</h2>
-                <i className="fe fe-align-right fs-2 "></i>
+                <i className="fe fe-align-right fs-2 text-muted "></i>
               </div>
               <div className="card-body">
                 <Row>
-                  <Col sm="12" md="6" className="mb-4">
-                    <Form.Group>
-                      <h4 className="text-secondary">Proposed Designation {new Date().getFullYear()}</h4>
-                    </Form.Group>
-                    <FormControl
-                      as="textarea"
-                      rows={3}
-                      value={proposed_designation}
-                      onChange={(e) => {
-                        setProposed_designation(e.target.value);
-                      }}
-                    />
-                  </Col>
-                  <Col sm="12" md="6" className="mb-4">
+                  <Col sm="12" md="12" className="mb-4">
                     <Form.Group>
                       <h4 className="text-secondary">Remarks {new Date().getFullYear()}</h4>
                     </Form.Group>

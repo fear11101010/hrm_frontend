@@ -13,6 +13,18 @@ function CustomTable({ columns, data, size, responsive, onDataSort, pagination }
   const [tableRows, setTableRows] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
 
+  const [q, setQ] = useState(data);
+
+  const handleQChange = (e) => {
+    const query = e.target.value;
+    var updatedList = [...data];
+    console.log("updatedList- ", updatedList);
+    updatedList = updatedList.filter((item) => {
+      return item.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    });
+    console.log(updatedList);
+  };
+
   useEffect(() => {
     console.log(data);
     setTableRows(data?.slice(0, 5));
@@ -70,7 +82,15 @@ function CustomTable({ columns, data, size, responsive, onDataSort, pagination }
           <div className="col">
             <Form>
               <InputGroup className={"input-group-flush input-group-merge input-group-reverse"}>
-                <FormControl type="search" placeholder="Search" className="list-search" aria-describedby="search_table" />
+                <FormControl
+                  type="search"
+                  placeholder="Search"
+                  className="list-search"
+                  aria-describedby="search_table"
+                  onChange={(e) => {
+                    handleQChange(e);
+                  }}
+                />
                 <InputGroup.Text id="search_table">
                   <i className="fe fe-search"></i>
                 </InputGroup.Text>

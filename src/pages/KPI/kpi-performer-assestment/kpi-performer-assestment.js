@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button, Form, Modal, ModalTitle } from "react-bootstrap";
 import Content from "../../../components/content/Content";
 import PageHeader from "../../../components/header/PageHeader";
 import Loader from "../../../components/loader/Loader";
@@ -17,6 +17,7 @@ import { RiFileDownloadFill } from "react-icons/ri";
 import { USER_INFO } from "../../../utils/session/token";
 import { Navigate } from "react-router-dom";
 import { UNAUTHORIZED } from "../../../utils/APP_ROUTES";
+import Summary from "./summary";
 
 export default function KpiPerformerAssestment() {
   const user = USER_INFO();
@@ -37,6 +38,9 @@ export default function KpiPerformerAssestment() {
   //Modal states
   const [detailModal, setDetailModal] = useState(false);
   const [incAmountModal, setIncAmountModal] = useState(false);
+  const [summaryModal, setSummaryModal] = useState(false);
+
+  const [employee_name, setEmployee_name] = useState("");
 
   const currYear = new Date().getFullYear();
 
@@ -70,27 +74,6 @@ export default function KpiPerformerAssestment() {
   // Buttons in COLUMN
   const extended_columns = [
     {
-      name: "Details",
-      cell: (row) => (
-        <>
-          <Button
-            size="sm"
-            variant="primary"
-            title="Details"
-            className="btn-rounded-circle"
-            onClick={() => {
-              setSelectedRowId(row.id);
-              setDetailModal(true);
-            }}
-          >
-            <i className="fe fe-file-text"></i>
-          </Button>
-        </>
-      ),
-      width: "80px",
-      center: true,
-    },
-    {
       name: "Proposed",
       cell: (row) => (
         <>
@@ -112,12 +95,56 @@ export default function KpiPerformerAssestment() {
       center: true,
     },
     {
-      name: <div>Report (PDF)</div>,
+      name: <div>Year Summary</div>,
+      cell: (row) => (
+        <>
+          <Button
+            size="sm"
+            variant="secondary"
+            title="Details"
+            className="btn-rounded-circle"
+            onClick={() => {
+              setSelectedRowId(row?.employee?.id);
+              setEmployee_name(row?.employee?.name);
+              setSummaryModal(true);
+            }}
+          >
+            <i className="fe fe-file-text"></i>
+          </Button>
+        </>
+      ),
+      width: "130px",
+      center: true,
+    },
+    {
+      name: "Details",
       cell: (row) => (
         <>
           <Button
             size="sm"
             variant="primary"
+            title="Details"
+            className="btn-rounded-circle"
+            onClick={() => {
+              setSelectedRowId(row.id);
+              setDetailModal(true);
+            }}
+          >
+            <i className="fe fe-file-text"></i>
+          </Button>
+        </>
+      ),
+      width: "80px",
+      center: true,
+    },
+
+    {
+      name: <div>Report</div>,
+      cell: (row) => (
+        <>
+          <Button
+            size="sm"
+            variant="success"
             title="Download Report"
             className="btn-rounded-circle"
             onClick={(e) => {
@@ -228,6 +255,24 @@ export default function KpiPerformerAssestment() {
         </Modal.Header>
         <Modal.Body>
           <ProposedAmount rowId={selectedRowId} afterSubmit={afterSubmit} />
+        </Modal.Body>
+      </Modal>
+
+      {/* Summary Modal */}
+      <Modal
+        show={summaryModal}
+        onHide={() => {
+          setSummaryModal(false);
+        }}
+        size="xl"
+      >
+        <Modal.Header closeButton>
+          <ModalTitle className="mb-0">
+            <h2 className="mb-0">Summary - {employee_name}</h2>
+          </ModalTitle>
+        </Modal.Header>
+        <Modal.Body>
+          <Summary rowId={selectedRowId} />
         </Modal.Body>
       </Modal>
     </Layout>

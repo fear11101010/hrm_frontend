@@ -411,16 +411,6 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
                     ))}
                   </Form.Select>
                 </Col>
-                <Col sm="12" md="4" className="mb-3">
-                  <Form.Label className="mb-1 text-dark">Proposed Designation{currYear}</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={propsed_designation === "" ? data.data?.proposed_designation : propsed_designation}
-                    onChange={(e) => {
-                      setProposed_designation(e.target.value);
-                    }}
-                  />
-                </Col>
               </Row>
             </Accordion.Body>
           </Accordion.Item>

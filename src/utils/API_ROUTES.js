@@ -34,6 +34,7 @@ export const PRIVILEGES_POST = `/privilege`;
 export const EMPLOYEE_LIST_GET = "/employee/";
 export const EMPLOYEE_EACH_GET = (id) => `/employee/${id}/`;
 export const EMPLOYEE_EDIT_POST = (id) => `/employee_update/${id}/`;
+export const DESIGNATION_BAND_GET = `/designation_band/`;
 
 ////////////////////////////////////
 ////////////KPI//////////////
@@ -66,7 +67,7 @@ export const KPI_PERFORMANCE_FORM_DATE_VALIDATE = "kpi_performance/$/get_date_ra
 export const KPI_PERFORMANCE_FORM_DRAFT = "/kpi_performance/";
 export const KPI_PERFORMANCE_FORM_SINGLE = (id) => `/kpi_performance/${id}/`;
 export const KPI_PERFORMANCE_FORM_SUBMIT = (id) => `/kpi_performance/${id}/`;
-
+export const KPI_PERFORMANCE_THREE_YEARS_GET = (id) => `/salary_three_years/${id}/`;
 export const KPI_PERMORMER_ASSESTMENT_BY_SBU_GET = (id) => `/performer_assessment/${id}/search_by_sbu/`;
 export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET = (id) => `/assessment/${id}/`;
 export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_PUT = (id) => `/performer_assessment/${id}/`;

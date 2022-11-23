@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
+import ReactSelect from "react-select";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
 import ConfirmDialog from "../../../components/confirm-dialog/ConfirmDialog";
 import Loader from "../../../components/loader/Loader";
+import useDesignation from "../../../hooks/useDesignation";
 import useFetch from "../../../hooks/useFetch";
 import { KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET, KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_PUT } from "../../../utils/API_ROUTES";
 import { API } from "../../../utils/axios/axiosConfig";
@@ -12,11 +14,12 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
   const id = rowId;
   const user = USER_INFO();
   const { data, isLoading } = useFetch(KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET(id));
-
+  const designationList = useDesignation();
   const [loading, setLoading] = useState(false);
 
   //Form State
   const [propsed_by_sbuDirPmSelf, setPropsed_by_sbuDirPmSelf] = useState("");
+  const [propsed_designation, setProposed_designation] = useState("");
   const [remarks1, setRemarks1] = useState("");
   const [remarks2, setRemarks2] = useState("");
   const [normalSubmit, setNormalSubmit] = useState(false);
@@ -47,7 +50,7 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
       best_performer_org: data.data?.best_performer_org,
       best_performer_pm: data.data?.best_performer_pm,
       confirmation_increment_noincrement: data.data?.confirmation_increment_noincrement,
-      proposed_designation: data.data?.proposed_designation,
+      proposed_designation: propsed_designation === "" ? data.data?.proposed_designation : propsed_designation,
       detail_save: "",
       report_save: "",
       final: finalSubmit ? true : false,
@@ -82,7 +85,7 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
       <Form onSubmit={handleConfirm}>
         <Row>
           <Col sm="12" md="12" className="mb-3">
-            <Form.Label className="mb-2 text-dark">Proposed By SBU Director/PM/Self {currYear} (C) </Form.Label>
+            <Form.Label className="mb-2 text-dark">Proposed By Director {currYear} (C) </Form.Label>
             <Form.Control
               type="text"
               value={propsed_by_sbuDirPmSelf === "" ? data.data?.proposed_by_sbu_director_pm_self : propsed_by_sbuDirPmSelf}
@@ -92,6 +95,27 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
             />
           </Col>
           <Col sm="12" md="12" className="mb-3">
+            <Form.Label className="mb-1 text-dark">Proposed Designation{currYear}</Form.Label>
+            <div className="d-flex justify-content-between">
+              <div className="me-4" style={{ width: "70%" }}>
+                <ReactSelect
+                  options={designationList?.map((d) => ({ label: d.designation, value: d.id }))}
+                  placeholder={
+                    propsed_designation !== ""
+                      ? designationList?.map((d) => d.id === data.data?.proposed_designation && d.designation)
+                      : "Select Designation"
+                  }
+                  onChange={(e) => {
+                    setProposed_designation(e.value);
+                  }}
+                />
+              </div>
+              <div style={{ width: "30%" }}>
+                <Form.Check type={"checkbox"} label={`Confirm`} id={`confirm-designation`} />
+              </div>
+            </div>
+          </Col>
+          {/* <Col sm="12" md="12" className="mb-3">
             <Form.Label className="mb-2 text-dark">Remarks </Form.Label>
             <Form.Control
               type="text"
@@ -100,9 +124,10 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
                 setRemarks1(e.target.value);
               }}
             />
-          </Col>
+          </Col> */}
           <Col sm="12" md="12" className="mb-3">
-            <Form.Label className="mb-2 text-dark">Remarks 2</Form.Label>
+            {/* REMARKS2 but it is showing as remarks */}
+            <Form.Label className="mb-2 text-dark">Remarks </Form.Label>
             <Form.Control
               type="text"
               value={remarks2 === "" ? data.data?.remarks_two : remarks2}
