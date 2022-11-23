@@ -11,6 +11,8 @@ import useFetch from "../../../hooks/useFetch";
 import {REPORT_FULL_SUMMERY_API} from "../../../utils/API_ROUTES";
 import {API} from "../../../utils/axios/axiosConfig";
 import moment from "moment";
+import ExcelPdfPrint from "../../../components/excel-pdf-print/ExcelPdfPrint";
+import {SALARY_FULL_REPORT} from "../excel-columns";
 
 export default function SalaryFullReport(props) {
     const {data, isLoading} = useSbu();
@@ -48,7 +50,7 @@ export default function SalaryFullReport(props) {
                 setLastThreeYearData({...lty});
                 setAllDsId(res.data.data.map(v=>Object.keys(v)[0]));
                 setEmployeeDetail(em);
-                console.log(employeeDetail)
+                console.log(lastThreeYearData)
             }
         }catch (e) {
             console.log(e)
@@ -79,6 +81,12 @@ export default function SalaryFullReport(props) {
                             </Form>
                         </div>
                         <hr className="mb-4"/>
+                        {lastThreeYearData && <ExcelPdfPrint
+                            exportPdf={false}
+                            print={false}
+                            data={Object.values(lastThreeYearData)}
+                            columns={SALARY_FULL_REPORT(lastThreeYear)}/>
+                        }
                         {(allDsId && Array.isArray(allDsId) && allDsId.length>0) && allDsId.map((id,i)=>(
                             <Accordion className="mb-3">
                                 <Accordion.Item eventKey={i}>
@@ -120,6 +128,7 @@ export default function SalaryFullReport(props) {
                                                     </Accordion.Header>
                                                     <Accordion.Body>
                                                         <Row>
+                                                            {/*{JSON.stringify(lastThreeYearData[id]?.[year])}*/}
                                                             <Col sm={6} md={4} lg={4} xl={3}>
                                                                 <h6 className="header-pretitle">KPI Objective {year}</h6>
                                                                 <p>{lastThreeYearData[id]?.[year]?.kpi_objective?.name}</p>
