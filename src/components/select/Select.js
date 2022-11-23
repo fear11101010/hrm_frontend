@@ -1,38 +1,40 @@
-import {Form} from "react-bootstrap";
-import './select.css'
-import styles from './style.module.css'
-import {useState} from "react";
+import { Form } from "react-bootstrap";
+import "./select.css";
+import styles from "./style.module.css";
+import { useState } from "react";
 
-function Select({options,onChange,placeholder}) {
-    const [selectedOption, setSelectedOption] = useState({value: 10, label: '10 per page'});
-    const [isOpen, setIsOpen] = useState(false);
-    const onHandleChange = (e, v) => {
-        e.preventDefault();
-        console.log(v);
-        setSelectedOption(v);
-        setIsOpen(!isOpen)
-        if(onChange){
-            onChange(v);
-        }
+function Select({ options, onChange, placeholder }) {
+  const [selectedOption, setSelectedOption] = useState({ value: 10, label: "10 per page" });
+  const [isOpen, setIsOpen] = useState(false);
+  const onHandleChange = (e, v) => {
+    e.preventDefault();
+    console.log(v);
+    setSelectedOption(v);
+    setIsOpen(!isOpen);
+    if (onChange) {
+      onChange(v);
     }
-    return (
-        <div className="custom-dropdown" aria-expanded={isOpen} onClick={e => setIsOpen(!isOpen)}>
-            <div className="form-select form-select-sm form-control-flush">
-                <Form.Select value={selectedOption.value} className="form-select form-select-sm form-control-flush">
-                    <option value={selectedOption.value}>{selectedOption.label}</option>
-                </Form.Select>
-                <div className="selected-option">
-                    {selectedOption.label}
-                </div>
-                <div className={`custom-dropdown-list ${isOpen ? 'show' : ''}`} aria-expanded={isOpen}>
-                    <ul>
-                        {options?.map(option => (<li key={`${option.value}_${option.label}`}>
-                            <a href="#" onClick={e => onHandleChange(e, option)}>{option.label}</a>
-                        </li>))}
-                    </ul>
-                </div>
-            </div>
-            {/*<div className="choices" data-type="select-one" tabIndex="0" role="listbox" aria-haspopup="true"
+  };
+  return (
+    <div className="custom-dropdown" aria-expanded={isOpen} onClick={(e) => setIsOpen(!isOpen)}>
+      <div className="form-select form-select-sm form-control-flush">
+        <Form.Select value={selectedOption.value} className="form-select form-select-sm form-control-flush">
+          <option value={selectedOption.value}>{selectedOption.label}</option>
+        </Form.Select>
+        <div className="selected-option">{selectedOption.label}</div>
+        <div className={`custom-dropdown-list ${isOpen ? "show" : ""}`} aria-expanded={isOpen}>
+          <ul>
+            {options?.map((option) => (
+              <li key={`${option.value}_${option.label}`}>
+                <a href="#" onClick={(e) => onHandleChange(e, option)}>
+                  {option.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      {/*<div className="choices" data-type="select-one" tabIndex="0" role="listbox" aria-haspopup="true"
                  aria-expanded="false">
                 <div className="form-select form-select-sm form-control-flush"><select
                     className="form-select form-select-sm form-control-flush form-control"
@@ -65,8 +67,8 @@ function Select({options,onChange,placeholder}) {
                     </div>
                 </div>
             </div>*/}
-        </div>
-    )
+    </div>
+  );
 }
 
 export default Select;

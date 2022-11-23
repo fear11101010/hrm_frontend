@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 import ReactSelect from "react-select";
-import { error_alert } from "../../../components/alert/Alert";
+import { error_alert, success_alert } from "../../../components/alert/Alert";
 import Content from "../../../components/content/Content";
 import PageHeader from "../../../components/header/PageHeader";
 import Loader from "../../../components/loader/Loader";
@@ -33,13 +33,22 @@ export default function AssestmentEmployerReport() {
       setLoading(true);
       const payload = { employee_id: employee_id.toString(), year: year.toString() };
       try {
-        const res = await API.post(ASSESTMENT_EMPLOYER_REPORT_POST, payload);
-        if (res.data.statuscode === 200) {
-          console.log(res.data.data);
-          setReportData(res.data.data);
-        } else {
-          error_alert(res.data.message);
-        }
+        const res = await API.post(ASSESTMENT_EMPLOYER_REPORT_POST, payload, { responseType: "blob" });
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", " Assestment Employer Report.xlsx");
+        document.body.appendChild(link);
+        link.click();
+        setLoading(false);
+        success_alert("File Downloaded");
+
+        // if (res.data.statuscode === 200) {
+        //   console.log(res.data.data);
+        //   setReportData(res.data.data);
+        // } else {
+        //   error_alert(res.data.message);
+        // }
       } catch (err) {
         console.log(err);
         error_alert(err?.response?.data.message);
