@@ -8,9 +8,11 @@ import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 function ExcelPdfPrint({ exportExcel, exportPdf, print, data, columns, header }) {
   const { width, height } = useWindowDimensions();
+  console.log(data);
   const tableData = ((Array.isArray(data) && data) || data).map((pv, i) => {
     return columns.reduce((c, p) => ({ ...c, [p.key]: p.value(pv, i) }), {});
   });
+  console.log(tableData);
   const tableColumns = columns.map((v) => v.key);
   const tableRef = useRef();
   const generateExcel = (e) => {

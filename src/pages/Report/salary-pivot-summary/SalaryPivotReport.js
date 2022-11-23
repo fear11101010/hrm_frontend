@@ -14,12 +14,8 @@ import { PIVOT_EXCEL_COLUMN } from "../excel-columns";
 import ExcelPdfPrint from "../../../components/excel-pdf-print/ExcelPdfPrint";
 import CustomTable from "../../../components/custom-table/CustomTable";
 import TableReport from "../../../components/table/TableReport";
-import { USER_INFO } from "../../../utils/session/token";
-import { Navigate } from "react-router-dom";
-import { UNAUTHORIZED } from "../../../utils/APP_ROUTES";
 
 export default function SalaryPivotReport(props) {
-  const user = USER_INFO();
   // const currentYear = moment().year();
   // const yearList = [currentYear - 2, currentYear - 1, currentYear].map(v => ({label: v, value: v}));
   const { data, err } = useFetch(REPORT_GET_YEARS_DROPDOWN);
@@ -46,10 +42,10 @@ export default function SalaryPivotReport(props) {
     setPivotData(data);
   };
 
-  return user.accessibility.includes("SalaryPivotSummary") ? (
+  return (
     <>
       <Layout>
-        <PageHeader title={"Salary Pivot Summary"} />
+        <PageHeader title={"Assessment Full Report"} />
         <Container fluid>
           <Card>
             <Card.Body>
@@ -77,21 +73,20 @@ export default function SalaryPivotReport(props) {
                   header={"Salary Pivot Summary Report For " + selectedYear}
                 />
               )}
-              <TableReport columns={PIVOT_TABLE_COLUMN(selectedYear)} data={pivotData} />
-              {/*<CustomTable
-                                columns={PIVOT_TABLE_COLUMN(selectedYear)}
-                                data={pivotData}
-                                size={'sm'}
-                                onDataSort={(data)=>setPivotData(data)}
-                                pagination
-                                responsive/>*/}
+              {/*<TableReport columns={PIVOT_TABLE_COLUMN(selectedYear)} data={pivotData}/>*/}
+              <CustomTable
+                columns={PIVOT_TABLE_COLUMN(selectedYear)}
+                data={pivotData}
+                size={"sm"}
+                onDataSort={(data) => setPivotData(data)}
+                pagination
+                responsive
+              />
             </Card.Body>
           </Card>
         </Container>
         {isLoading && <Loader />}
       </Layout>
     </>
-  ) : (
-    <Navigate to={UNAUTHORIZED} />
   );
 }
