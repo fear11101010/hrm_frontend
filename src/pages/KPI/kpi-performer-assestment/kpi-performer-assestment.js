@@ -229,7 +229,7 @@ export default function KpiPerformerAssestment() {
         {sbuData.length > 0 && (
           <div className="mt-5">
             <h2>{`Employee Lists - ${selectedSbuName}`} </h2>
-            <Table dense columns={dataColumns.concat(extended_columns)} data={sbuData} />
+            <Table columns={dataColumns.concat(extended_columns)} data={sbuData} />
           </div>
         )}
       </Content>

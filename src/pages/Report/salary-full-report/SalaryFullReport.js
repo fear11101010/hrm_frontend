@@ -80,15 +80,19 @@ export default function SalaryFullReport(props) {
                 </Form.Group>
               </Form>
             </div>
-            <hr className="mb-4" />
             {lastThreeYearData && (
-              <ExcelPdfPrint
-                exportPdf={false}
-                print={false}
-                header={"Salary Full Report"}
-                data={Object.values(lastThreeYearData)}
-                columns={SALARY_FULL_REPORT(lastThreeYear)}
-              />
+              <>
+                <hr className="mb-4" />
+                <div className="text-end">
+                  <ExcelPdfPrint
+                    exportPdf={false}
+                    print={false}
+                    header={"Salary Full Report"}
+                    data={Object.values(lastThreeYearData)}
+                    columns={SALARY_FULL_REPORT(lastThreeYear)}
+                  />
+                </div>
+              </>
             )}
             {allDsId &&
               Array.isArray(allDsId) &&

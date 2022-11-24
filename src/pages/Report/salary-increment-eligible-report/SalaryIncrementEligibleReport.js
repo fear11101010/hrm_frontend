@@ -41,7 +41,7 @@ export default function SalaryIncrementEligibleReport(props) {
         <Card>
           <Card.Body>
             <div className="w-100 m-auto">
-              <Form>
+              <Form className="w-50 m-auto">
                 <Form.Group>
                   <Form.Label>Select Year</Form.Label>
                   <Select
@@ -55,16 +55,20 @@ export default function SalaryIncrementEligibleReport(props) {
                 </Form.Group>
               </Form>
             </div>
-            <h3 className="text-center mt-4">Showing data for : {selectedYear}</h3>
-            <hr className="mb-4" />
-            {eligibleData && (
-              <ExcelPdfPrint
-                data={eligibleData}
-                columns={ELIGIBLE_EXCEL_COLUMN(selectedYear)}
-                header={"Increment Eligible Report For " + selectedYear}
-              />
+            {eligibleData.length > 0 && (
+              <>
+                <h3 className="text-center mt-4">Showing data for : {selectedYear}</h3>
+                <hr className="mb-4" />
+                <div className="text-end">
+                  <ExcelPdfPrint
+                    data={eligibleData}
+                    columns={ELIGIBLE_EXCEL_COLUMN(selectedYear)}
+                    header={"Increment Eligible Report For " + selectedYear}
+                  />
+                </div>
+                <TableReport columns={ELIGIBLE_TABLE_COLUMN(selectedYear)} data={eligibleData} />
+              </>
             )}
-            <TableReport columns={ELIGIBLE_TABLE_COLUMN(selectedYear)} data={eligibleData} />
           </Card.Body>
         </Card>
       </Container>

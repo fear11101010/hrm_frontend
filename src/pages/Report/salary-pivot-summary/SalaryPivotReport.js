@@ -52,7 +52,7 @@ export default function SalaryPivotReport(props) {
           <Card>
             <Card.Body>
               <div className="w-100 m-auto">
-                <Form>
+                <Form className="w-50 m-auto">
                   <Form.Group>
                     <Form.Label>Select Year</Form.Label>
                     <Select
@@ -66,24 +66,29 @@ export default function SalaryPivotReport(props) {
                   </Form.Group>
                 </Form>
               </div>
-              <h3 className="text-center mt-4">Showing data for : {selectedYear}</h3>
-              <hr className="mb-4" />
-              {pivotData && (
-                <ExcelPdfPrint
-                  data={pivotData}
-                  columns={PIVOT_EXCEL_COLUMN(selectedYear)}
-                  header={"Salary Pivot Summary Report For " + selectedYear}
-                />
+              {pivotData.length > 0 && (
+                <>
+                  <h3 className="text-center mt-4">Showing data for : {selectedYear}</h3>
+                  <hr className="mb-4" />
+                  <div className="text-end">
+                    <ExcelPdfPrint
+                      data={pivotData}
+                      columns={PIVOT_EXCEL_COLUMN(selectedYear)}
+                      header={"Salary Pivot Summary Report For " + selectedYear}
+                    />
+                  </div>
+
+                  {/*<TableReport columns={PIVOT_TABLE_COLUMN(selectedYear)} data={pivotData}/>*/}
+                  <CustomTable
+                    columns={PIVOT_TABLE_COLUMN(selectedYear)}
+                    data={pivotData}
+                    size={"sm"}
+                    onDataSort={(data) => setPivotData(data)}
+                    // pagination
+                    responsive
+                  />
+                </>
               )}
-              {/*<TableReport columns={PIVOT_TABLE_COLUMN(selectedYear)} data={pivotData}/>*/}
-              <CustomTable
-                columns={PIVOT_TABLE_COLUMN(selectedYear)}
-                data={pivotData}
-                size={"sm"}
-                onDataSort={(data) => setPivotData(data)}
-                // pagination
-                responsive
-              />
             </Card.Body>
           </Card>
         </Container>

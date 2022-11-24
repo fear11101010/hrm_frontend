@@ -24,7 +24,7 @@ export default function Summary({ rowId }) {
       selector: (row) => row?.basic_salary,
     },
     {
-      name: "Proposed by Director",
+      name: "Proposed Amount by Director",
       selector: (row) => row?.proposed_by_sbu_director_pm_self,
     },
     {

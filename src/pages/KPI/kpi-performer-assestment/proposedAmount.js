@@ -85,7 +85,7 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
       <Form onSubmit={handleConfirm}>
         <Row>
           <Col sm="12" md="12" className="mb-3">
-            <Form.Label className="mb-2 text-dark">Proposed By Director {currYear} (C) </Form.Label>
+            <Form.Label className="mb-2 text-dark">Proposed Amount By Director {currYear} (C) </Form.Label>
             <Form.Control
               type="text"
               value={propsed_by_sbuDirPmSelf === "" ? data.data?.proposed_by_sbu_director_pm_self : propsed_by_sbuDirPmSelf}
