@@ -215,7 +215,12 @@ export default function SalaryFullReport(props) {
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">HR New Gross Salary {year} (A)</h6>
-                                  <p>{lastThreeYearData[id]?.[year]?.hr_new_gross_salary_a}</p>
+                                  <p>
+                                    {lastThreeYearData[id]?.[year]?.hr_new_gross_salary_a?.toLocaleString("en-IN", {
+                                      style: "currency",
+                                      currency: "BDT",
+                                    })}
+                                  </p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">HR % {year}</h6>
@@ -223,23 +228,52 @@ export default function SalaryFullReport(props) {
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">Fixed Increment (%) {year} (B)</h6>
-                                  <p>{lastThreeYearData[id]?.[year]?.fixed_increment_b}</p>
+                                  <p>
+                                    {lastThreeYearData[id]?.[year]?.fixed_increment_b?.toLocaleString("en-IN", {
+                                      style: "currency",
+                                      currency: "BDT",
+                                    })}
+                                  </p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">Fixed Increment New Gross Salary B {year} (B)</h6>
-                                  <p>{lastThreeYearData[id]?.[year]?.fixed_increment_new_gross_salary_b}</p>
+                                  <p>
+                                    {lastThreeYearData[id]?.[year]?.fixed_increment_new_gross_salary_b?.toLocaleString(
+                                      "en-IN",
+                                      { style: "currency", currency: "BDT" }
+                                    )}
+                                  </p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
-                                  <h6 className="header-pretitle">Team Distribution (%) {year} (C)</h6>
-                                  <p>{lastThreeYearData[id]?.[year]?.team_distribution_percentage_c}</p>
+                                  <h6 className="header-pretitle">
+                                    Team Distribution (%) <br /> {year} (C)
+                                  </h6>
+                                  <p>
+                                    {lastThreeYearData[id]?.[year]?.team_distribution_percentage_c?.toLocaleString("en-IN", {
+                                      style: "currency",
+                                      currency: "BDT",
+                                    })}
+                                  </p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">Difference = New salary A- New salary B {year}</h6>
-                                  <p>{lastThreeYearData[id]?.[year]?.difference_new_salary_a_new_salary_b}</p>
+                                  <p>
+                                    {lastThreeYearData[id]?.[year]?.difference_new_salary_a_new_salary_b?.toLocaleString(
+                                      "en-IN",
+                                      { style: "currency", currency: "BDT" }
+                                    )}
+                                  </p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
-                                  <h6 className="header-pretitle">Proposed Director {year}</h6>
-                                  <p>{lastThreeYearData[id]?.[year]?.proposed_by_sbu_director_pm_self}</p>
+                                  <h6 className="header-pretitle">
+                                    Proposed Amount Director <br /> {year}
+                                  </h6>
+                                  <p>
+                                    {lastThreeYearData[id]?.[year]?.proposed_by_sbu_director_pm_self?.toLocaleString(
+                                      "en-IN",
+                                      { style: "currency", currency: "BDT" }
+                                    )}
+                                  </p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">% of Increment {year}</h6>
@@ -247,7 +281,12 @@ export default function SalaryFullReport(props) {
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">New Gross Salary B {year}</h6>
-                                  <p>{lastThreeYearData[id]?.[year]?.new_gross_salary_b}</p>
+                                  <p>
+                                    {lastThreeYearData[id]?.[year]?.new_gross_salary_b?.toLocaleString("en-IN", {
+                                      style: "currency",
+                                      currency: "BDT",
+                                    })}
+                                  </p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">CAGR 3 years {year}</h6>
@@ -267,11 +306,12 @@ export default function SalaryFullReport(props) {
                                 </Col> */}
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">Increment with KPI % {year}</h6>
-                                  <p>{lastThreeYearData[id]?.[year]?.increment_with_kpi_percentage}</p>
-                                </Col>
-                                <Col sm={6} md={4} lg={4} xl={3}>
-                                  <h6 className="header-pretitle">New Gross Salary KPI % % {year}</h6>
-                                  {/*<p>{lastThreeYearData[id]?.[year]?.increment_with_kpi_percentage}</p>*/}
+                                  <p>
+                                    {lastThreeYearData[id]?.[year]?.increment_with_kpi_percentage?.toLocaleString("en-IN", {
+                                      style: "currency",
+                                      currency: "BDT",
+                                    })}
+                                  </p>
                                 </Col>
                                 {/* <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">Increment with KPI % {year}</h6>
@@ -279,7 +319,15 @@ export default function SalaryFullReport(props) {
                                 </Col> */}
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">New Gross Salary KPI % {year}</h6>
-                                  {/*<p>{lastThreeYearData[id]?.[year]?.increment_with_kpi_percentage}</p>*/}
+                                  <p>
+                                    {lastThreeYearData[id]?.[year]?.new_gross_salary_kpi_percentage?.toLocaleString(
+                                      "en-IN",
+                                      {
+                                        style: "currency",
+                                        currency: "BDT",
+                                      }
+                                    )}
+                                  </p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">Gap Manual vs Formula {year}</h6>

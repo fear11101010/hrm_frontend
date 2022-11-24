@@ -18,14 +18,20 @@ export default function Summary({ rowId }) {
     {
       name: "Total Salary",
       selector: (row) => row?.total_salary_and_allowance,
+      cell: (row) => row?.total_salary_and_allowance?.toLocaleString("en-IN", { style: "currency", currency: "BDT" }),
+      right: true,
     },
     {
       name: "Basic Salary",
       selector: (row) => row?.basic_salary,
+      cell: (row) => row?.basic_salary?.toLocaleString("en-IN", { style: "currency", currency: "BDT" }),
+      right: true,
     },
     {
-      name: <div>Proposed Amount by Director</div>,
+      name: <div className="text-end">Proposed Amount by Director</div>,
       selector: (row) => row?.proposed_by_sbu_director_pm_self,
+      cell: (row) => row?.proposed_by_sbu_director_pm_self?.toLocaleString("en-IN", { style: "currency", currency: "BDT" }),
+      right: true,
     },
     {
       name: "Percentage of Increment",

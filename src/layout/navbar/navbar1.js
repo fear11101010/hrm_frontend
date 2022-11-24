@@ -75,253 +75,242 @@ function Navbar1(props) {
   };
 
   return (
-    <Navbar expand="md" fixed="top" variant="light" className="navbar-vertical">
-      {loading && <Loader />}
-      <Container fluid>
-        <Navbar.Toggle aria-controls="sidebarCollapse" />
-        <Navbar.Brand>
-          <Link to={DASHBOARD_PAGE}>
-            <img src="/img/logo.svg" className="navbar-brand-img mx-auto" alt="..." />
-          </Link>
-        </Navbar.Brand>
-        <Navbar.Collapse id="sidebarCollapse">
-          <Form className="mt-4 mb-3 d-md-none">
-            <InputGroup className="input-group-rounded input-group-merge input-group-reverse">
-              <FormControl type="search" placeholder="Search" />
-              <InputGroup.Text>
-                <span className="fe fe-search"></span>
-              </InputGroup.Text>
-            </InputGroup>
-          </Form>
-          <Nav as="ul">
-            {/* Dashboard */}
-            <Nav.Item as={"li"}>
-              <Link to={DASHBOARD_PAGE} className="nav-link">
-                <i className="fe fe-grid"></i> Dashboards
-              </Link>
-            </Nav.Item>
-
-            {/* MANAGEMENT */}
-            {user.sub_module.includes("User Management") && (
+    <>
+      <Navbar expand="md" fixed="top" variant="light" className="navbar-vertical pb-0">
+        {loading && <Loader />}
+        <Container fluid>
+          <Navbar.Toggle aria-controls="sidebarCollapse" />
+          <Navbar.Brand>
+            <Link to={DASHBOARD_PAGE}>
+              <img src="/img/logo.svg" className="navbar-brand-img mx-auto" alt="..." />
+            </Link>
+          </Navbar.Brand>
+          <Navbar.Collapse id="sidebarCollapse">
+            <Form className="mt-4 mb-3 d-md-none">
+              <InputGroup className="input-group-rounded input-group-merge input-group-reverse">
+                <FormControl type="search" placeholder="Search" />
+                <InputGroup.Text>
+                  <span className="fe fe-search"></span>
+                </InputGroup.Text>
+              </InputGroup>
+            </Form>
+            <Nav as="ul">
+              {/* Dashboard */}
               <Nav.Item as={"li"}>
-                <Link
-                  onClick={() => openOrCloseMenu(0)}
-                  to="#"
-                  className={`${menuOpenCloseState[0] ? "collapsed" : ""} nav-link`}
-                  data-bs-toggle="collapse"
-                  role="button"
-                  aria-expanded={menuOpenCloseState[0] ? "true" : "false"}
-                  aria-controls="sidebarUser"
-                >
-                  <i className="fe fe-users"></i> Management
+                <Link to={DASHBOARD_PAGE} className="nav-link">
+                  <i className="fe fe-grid"></i> Dashboards
                 </Link>
-                <Collapse in={menuOpenCloseState[0]}>
-                  <div id="sidebarUser">
-                    <ul className="nav nav-sm flex-column">
-                      <li className="nav-item">
-                        {user.module.includes("User") && (
-                          <Link className={"nav-link"} to={USER_LIST_PAGE}>
-                            User
-                          </Link>
-                        )}
-                      </li>
-                      <li className="nav-item">
-                        {user.module.includes("Role") && (
-                          <Link className={"nav-link"} to={USER_ROLE_LIST_PAGE}>
-                            Role
-                          </Link>
-                        )}
-                      </li>
-                      <li className="nav-item">
-                        {user.module.includes("Employee") && (
-                          <Link className={"nav-link"} to={EMPLOYEE_LIST_PAGE}>
-                            Employee
-                          </Link>
-                        )}
-                      </li>
-                    </ul>
-                  </div>
-                </Collapse>
               </Nav.Item>
-            )}
 
-            {/* KPI */}
-            {user.sub_module.includes("Kpi Management") && (
-              <Nav.Item as={"li"}>
-                <Nav.Link
-                  onClick={() => openOrCloseMenu(1)}
-                  href="#"
-                  className={menuOpenCloseState[1] ? "collapsed" : ""}
-                  data-bs-toggle="collapse"
-                  role="button"
-                  aria-expanded={menuOpenCloseState[1] ? "true" : "false"}
-                  aria-controls="sidebarKpi"
-                >
-                  <i className="fe fe-home"></i> KPI
-                </Nav.Link>
+              {/* MANAGEMENT */}
+              {user.sub_module.includes("User Management") && (
+                <Nav.Item as={"li"}>
+                  <Link
+                    onClick={() => openOrCloseMenu(0)}
+                    to="#"
+                    className={`${menuOpenCloseState[0] ? "collapsed" : ""} nav-link`}
+                    data-bs-toggle="collapse"
+                    role="button"
+                    aria-expanded={menuOpenCloseState[0] ? "true" : "false"}
+                    aria-controls="sidebarUser"
+                  >
+                    <i className="fe fe-users"></i> Management
+                  </Link>
+                  <Collapse in={menuOpenCloseState[0]}>
+                    <div id="sidebarUser">
+                      <ul className="nav nav-sm flex-column">
+                        <li className="nav-item">
+                          {user.module.includes("User") && (
+                            <Link className={"nav-link"} to={USER_LIST_PAGE}>
+                              User
+                            </Link>
+                          )}
+                        </li>
+                        <li className="nav-item">
+                          {user.module.includes("Role") && (
+                            <Link className={"nav-link"} to={USER_ROLE_LIST_PAGE}>
+                              Role
+                            </Link>
+                          )}
+                        </li>
+                        <li className="nav-item">
+                          {user.module.includes("Employee") && (
+                            <Link className={"nav-link"} to={EMPLOYEE_LIST_PAGE}>
+                              Employee
+                            </Link>
+                          )}
+                        </li>
+                      </ul>
+                    </div>
+                  </Collapse>
+                </Nav.Item>
+              )}
 
-                <Collapse in={menuOpenCloseState[1]}>
-                  <div id="sidebarKpi">
-                    <ul className="nav nav-sm flex-column">
-                      <li className="nav-item">
-                        {user.module.includes("Circularte To Employees") && (
-                          <Link className={"nav-link"} to={KPI_EMPLOYEE_ASSIGN_PAGE}>
-                            {/* Employee Assign */}
-                            Circularte To Employees
-                          </Link>
-                        )}
-                      </li>
-                      <li className="nav-item">
-                        {user.module.includes("Appraisal Form") && (
-                          <Link className={"nav-link"} to={EMPLOYEE_PERFORMANCE_INDEX_PAGE}>
-                            {/* KPI Performance Form */}
-                            Appraisal Form
-                          </Link>
-                        )}
-                      </li>
-                      {/* <li className="nav-item">
+              {/* KPI */}
+              {user.sub_module.includes("Kpi Management") && (
+                <Nav.Item as={"li"}>
+                  <Nav.Link
+                    onClick={() => openOrCloseMenu(1)}
+                    href="#"
+                    className={menuOpenCloseState[1] ? "collapsed" : ""}
+                    data-bs-toggle="collapse"
+                    role="button"
+                    aria-expanded={menuOpenCloseState[1] ? "true" : "false"}
+                    aria-controls="sidebarKpi"
+                  >
+                    <i className="fe fe-home"></i> KPI
+                  </Nav.Link>
+
+                  <Collapse in={menuOpenCloseState[1]}>
+                    <div id="sidebarKpi">
+                      <ul className="nav nav-sm flex-column">
+                        <li className="nav-item">
+                          {user.module.includes("Circularte To Employees") && (
+                            <Link className={"nav-link"} to={KPI_EMPLOYEE_ASSIGN_PAGE}>
+                              {/* Employee Assign */}
+                              Circularte To Employees
+                            </Link>
+                          )}
+                        </li>
+                        <li className="nav-item">
+                          {user.module.includes("Appraisal Form") && (
+                            <Link className={"nav-link"} to={EMPLOYEE_PERFORMANCE_INDEX_PAGE}>
+                              {/* KPI Performance Form */}
+                              Appraisal Form
+                            </Link>
+                          )}
+                        </li>
+                        {/* <li className="nav-item">
                       <Link className={"nav-link"} to={KPI_ASSESTMENT_PAGE}>
                         KPI Assestment
                       </Link>
                     </li> */}
-                      <li className="nav-item">
-                        {user.module.includes("Team Assessment Performance") && (
-                          <Link className={"nav-link"} to={EMPLOYEE_ASSESTMENT_PAGE}>
-                            {/* Employee Assestment */}
-                            Team Assessment Performance
-                          </Link>
-                        )}
-                      </li>
-                      <li className="nav-item">
-                        {user.module.includes("Team Appraisal Review") && (
-                          <Link className={"nav-link"} to={EMPLOYEE_PERFORMANCE_PAGE}>
-                            {/* Employee Performance */}
-                            Team Appraisal Review
-                          </Link>
-                        )}
-                      </li>
-                      <li className="nav-item">
-                        {user.module.includes("Performance Review") && (
-                          <Link className={"nav-link"} to={KPI_PERMORMER_ASSESTMENT_PAGE}>
-                            Performance Review
-                          </Link>
-                        )}
+                        <li className="nav-item">
+                          {user.module.includes("Team Assessment Performance") && (
+                            <Link className={"nav-link"} to={EMPLOYEE_ASSESTMENT_PAGE}>
+                              {/* Employee Assestment */}
+                              Team Assessment Performance
+                            </Link>
+                          )}
+                        </li>
+                        <li className="nav-item">
+                          {user.module.includes("Team Appraisal Review") && (
+                            <Link className={"nav-link"} to={EMPLOYEE_PERFORMANCE_PAGE}>
+                              {/* Employee Performance */}
+                              Team Appraisal Review
+                            </Link>
+                          )}
+                        </li>
+                        <li className="nav-item">
+                          {user.module.includes("Performance Review") && (
+                            <Link className={"nav-link"} to={KPI_PERMORMER_ASSESTMENT_PAGE}>
+                              Performance Review
+                            </Link>
+                          )}
 
-                        {/* KPI Performer Assestment */}
-                      </li>
-                      {/* <li className="nav-item">
+                          {/* KPI Performer Assestment */}
+                        </li>
+                        {/* <li className="nav-item">
                       <Link className={"nav-link"} to={KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE}>
                         //  KPI All Employee Assestment
                         Employee wise appraisal
                       </Link>
                     </li> */}
-                    </ul>
-                  </div>
-                </Collapse>
-              </Nav.Item>
-            )}
+                      </ul>
+                    </div>
+                  </Collapse>
+                </Nav.Item>
+              )}
 
-            {/* Report */}
-            {user.sub_module.includes("Report") && (
-              <Nav.Item as={"li"}>
-                <Nav.Link
-                  onClick={() => openOrCloseMenu(2)}
-                  href="#"
-                  className={menuOpenCloseState[2] ? "collapsed" : ""}
-                  data-bs-toggle="collapse"
-                  role="button"
-                  aria-expanded={menuOpenCloseState[2] ? "true" : "false"}
-                  aria-controls="sidebarReport"
-                >
-                  <i className="fe fe-file-text"></i> Report
-                </Nav.Link>
-                <Collapse in={menuOpenCloseState[2]}>
-                  <div id="sidebarDashboards">
-                    <ul className="nav nav-sm flex-column">
-                      <li className="nav-item">
-                        {user.module.includes("Salary Full Report") && (
-                          <Link className={"nav-link"} to={SALARY_FULL_REPORT_URL}>
-                            Salary Full Report
+              {/* Report */}
+              {user.sub_module.includes("Report") && (
+                <Nav.Item as={"li"}>
+                  <Nav.Link
+                    onClick={() => openOrCloseMenu(2)}
+                    href="#"
+                    className={menuOpenCloseState[2] ? "collapsed" : ""}
+                    data-bs-toggle="collapse"
+                    role="button"
+                    aria-expanded={menuOpenCloseState[2] ? "true" : "false"}
+                    aria-controls="sidebarReport"
+                  >
+                    <i className="fe fe-file-text"></i> Report
+                  </Nav.Link>
+                  <Collapse in={menuOpenCloseState[2]}>
+                    <div id="sidebarDashboards">
+                      <ul className="nav nav-sm flex-column">
+                        <li className="nav-item">
+                          {user.module.includes("Salary Full Report") && (
+                            <Link className={"nav-link"} to={SALARY_FULL_REPORT_URL}>
+                              Salary Full Report
+                            </Link>
+                          )}
+                        </li>
+                        <li className="nav-item">
+                          {user.module.includes("Salary Pivot Summary") && (
+                            <Link className={"nav-link"} to={SALARY_PIVOT_SUMMARY_REPORT_URL}>
+                              Salary Pivot Summary
+                            </Link>
+                          )}
+                        </li>
+                        <li className="nav-item">
+                          {user.module.includes("Increment Eligible") && (
+                            <Link className={"nav-link"} to={SALARY_INCREMENT_ELIGIBLE_REPORT_URL}>
+                              Increment Eligible
+                            </Link>
+                          )}
+                        </li>
+                        <li className="nav-item">
+                          {user.module.includes("Assestment Employer Report")}
+                          <Link className={"nav-link"} to={ASSESSMENT_YEAR_REPORT}>
+                            Assessment Year Report
                           </Link>
-                        )}
-                      </li>
-                      <li className="nav-item">
-                        {user.module.includes("Salary Pivot Summary") && (
-                          <Link className={"nav-link"} to={SALARY_PIVOT_SUMMARY_REPORT_URL}>
-                            Salary Pivot Summary
-                          </Link>
-                        )}
-                      </li>
-                      <li className="nav-item">
-                        {user.module.includes("Increment Eligible") && (
-                          <Link className={"nav-link"} to={SALARY_INCREMENT_ELIGIBLE_REPORT_URL}>
-                            Increment Eligible
-                          </Link>
-                        )}
-                      </li>
-                      <li className="nav-item">
-                        {user.module.includes("Assestment Employer Report")}
-                        <Link className={"nav-link"} to={ASSESSMENT_YEAR_REPORT}>
-                          Assessment Year Report
-                        </Link>
-                      </li>
+                        </li>
 
-                      <li className="nav-item">
-                        {user.module.includes("Assestment Employer Report") && (
-                          <Link className={"nav-link"} to={ASSESTMENT_EMPLOYER_REPORT}>
-                            Assessment Employer Report
-                          </Link>
-                        )}
-                      </li>
-                    </ul>
-                  </div>
-                </Collapse>
-              </Nav.Item>
-            )}
+                        <li className="nav-item">
+                          {user.module.includes("Assestment Employer Report") && (
+                            <Link className={"nav-link"} to={ASSESTMENT_EMPLOYER_REPORT}>
+                              Assessment Employer Report
+                            </Link>
+                          )}
+                        </li>
+                      </ul>
+                    </div>
+                  </Collapse>
+                </Nav.Item>
+              )}
+            </Nav>
+          </Navbar.Collapse>
 
-            {/* LOgOUT */}
+          {/* LOGOUT */}
+          <Nav as="ul">
             <Nav.Item as={"li"}>
-              <Nav.Link
-                onClick={() => openOrCloseMenu(3)}
-                href="#"
-                className={menuOpenCloseState[3] ? "collapsed" : ""}
-                data-bs-toggle="collapse"
-                role="button"
-                aria-expanded={menuOpenCloseState[3] ? "true" : "false"}
-                aria-controls="sidebarUser"
+              <Link
+                to={DASHBOARD_PAGE}
+                onClick={(e) => {
+                  handleConfirm(e);
+                }}
+                className="text-danger fw-bold nav-link px-0"
+                title="Logout"
               >
-                <i className="fe fe-user"></i> {user.username}
-              </Nav.Link>
-
-              <Collapse in={menuOpenCloseState[3]}>
-                <div id="sidebarUser">
-                  <ul className="nav nav-sm flex-column">
-                    <Link
-                      to={DASHBOARD_PAGE}
-                      onClick={(e) => {
-                        handleConfirm(e);
-                      }}
-                      className="text-danger fw-bold nav-link"
-                    >
-                      <i className="fe fe-log-out"></i> Logout
-                    </Link>
-                  </ul>
-                </div>
-              </Collapse>
+                <h4 className="mb-0 d-flex justify-content-center align-items-center" style={{ padding: ".5rem 1.5rem" }}>
+                  <i className="fe fe-log-out me-1"></i> {user.username}
+                </h4>
+              </Link>
             </Nav.Item>
           </Nav>
-        </Navbar.Collapse>
-      </Container>
+        </Container>
 
-      {/* Logout Confirm Modal */}
-      {isConfirm && (
-        <ConfirmDialog
-          message={"Are you sure you want to Logout?"}
-          onOkButtonClick={handleLogout}
-          onCancelButtonClick={(e) => setIsConfirm(false)}
-        />
-      )}
-    </Navbar>
+        {/* Logout Confirm Modal */}
+        {isConfirm && (
+          <ConfirmDialog
+            message={"Are you sure you want to Logout?"}
+            onOkButtonClick={handleLogout}
+            onCancelButtonClick={(e) => setIsConfirm(false)}
+          />
+        )}
+      </Navbar>
+    </>
   );
 }
 export default Navbar1;

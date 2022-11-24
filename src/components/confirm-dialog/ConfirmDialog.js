@@ -17,7 +17,7 @@ function ConfirmDialog({ message, onOkButtonClick, onCancelButtonClick }) {
     setOpenDialog(false);
   };
   return (
-    <Modal show={openDialog} size="md" centered backdrop="static">
+    <Modal show={openDialog} size="md" centered>
       <Modal.Body className="m-auto">
         <h2 className="mb-3 text-center text-warning" style={{ fontSize: "36px" }}>
           <i className="fe fe-alert-triangle"></i>

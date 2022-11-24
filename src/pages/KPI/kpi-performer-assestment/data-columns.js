@@ -18,7 +18,7 @@ export const dataColumns = [
     width: "100px",
     wrap: true,
   },
-  { name: "Employee ID", selector: (row) => row.employee?.employee_id, width: "120px", wrap: true },
+  { name: "Employee ID", selector: (row) => row.employee?.employee_id, width: "150px", wrap: true },
   { name: "Employee Name", selector: (row) => row.employee?.name, minWidth: "180px", wrap: true },
   { name: "Designation", selector: (row) => row.employee?.designation, minWidth: "200px", wrap: true },
   // {
@@ -34,9 +34,11 @@ export const dataColumns = [
   //   wrap: true,
   // },
   {
-    name: <div>Proposed Amount by Supervisor</div>,
+    name: <div className="text-end">Proposed Amount by Supervisor</div>,
     selector: (row) => row?.proposed_by_sbu_director_pm_self,
+    cell: (row) => row?.proposed_by_sbu_director_pm_self?.toLocaleString("en-IN"),
     minWidth: "150px",
     wrap: false,
+    right: true,
   },
 ];

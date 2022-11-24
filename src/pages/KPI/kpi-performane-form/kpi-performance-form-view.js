@@ -93,7 +93,7 @@ export default function KpiPerformanceFormView() {
                   <h2 className="mb-4 h3">REVIEW OF RESULTS ACHIEVED</h2>
                   <h4>Ratings:</h4>
                   <ul className="list-group-numbered p-0">
-                    {ratingList && Array.isArray(ratingList) && ratingList.map((v) => <li>{v?.name}</li>)}
+                    {ratingList && Array.isArray(ratingList) && ratingList.map((v) => <li>{v?.name.replace("HR ", "")}</li>)}
                   </ul>
                 </Col>
               </Row>
