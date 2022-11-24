@@ -260,6 +260,13 @@ function Navbar1(props) {
                         )}
                       </li>
                       <li className="nav-item">
+                        {user.module.includes("Assestment Employer Report")}
+                        <Link className={"nav-link"} to={ASSESSMENT_YEAR_REPORT}>
+                          Assessment Year Report
+                        </Link>
+                      </li>
+
+                      <li className="nav-item">
                         {user.module.includes("Assestment Employer Report") && (
                           <Link className={"nav-link"} to={ASSESTMENT_EMPLOYER_REPORT}>
                             Assessment Employer Report
