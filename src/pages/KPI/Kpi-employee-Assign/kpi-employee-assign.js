@@ -30,6 +30,8 @@ export default function KpiEmployeeAssign() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [isConfirm, setIsConfirm] = useState(false);
+  const [yearly, setYearly] = useState(false);
+  const [halfYearly, setHalfYearly] = useState(false);
 
   // Err States
   const [sbuErr, setSbuErr] = useState("");
@@ -63,6 +65,8 @@ export default function KpiEmployeeAssign() {
             setEmSupervisor("");
             setStartDate("");
             setEndDate("");
+            setYearly(false);
+            setHalfYearly(false);
           } else {
             error_alert(res.data.message);
           }
@@ -123,7 +127,13 @@ export default function KpiEmployeeAssign() {
   //Handle Confirm Modal
   const handleConfirmModal = (e) => {
     e.preventDefault();
-    setIsConfirm(!isConfirm);
+    if (yearly === false && halfYearly === false) {
+      error_alert("Please check HALF-YEARLY or YEARLY");
+    } else if (sbuId === "") {
+      error_alert("Please Select SBU");
+    } else {
+      setIsConfirm(!isConfirm);
+    }
   };
 
   return user.accessibility.includes("CircularteToEmployees") ? (
@@ -136,6 +146,30 @@ export default function KpiEmployeeAssign() {
         }}
         className="w-50 m-auto"
       >
+        <div className="d-flex mb-3">
+          <Form.Check
+            type="radio"
+            id="half-yearly"
+            label="Half Yearly"
+            className="me-2"
+            checked={halfYearly}
+            onChange={() => {
+              setHalfYearly(true);
+              setYearly(false);
+            }}
+          />
+          <Form.Check
+            type="radio"
+            id="yearly"
+            label="Yearly"
+            checked={yearly}
+            onChange={() => {
+              setHalfYearly(false);
+              setYearly(true);
+            }}
+          />
+        </div>
+
         <Form.Group className="mb-3">
           <Form.Label>SBU</Form.Label>
           <Select

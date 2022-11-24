@@ -34,7 +34,7 @@ import { LOGOUT_API } from "../../utils/API_ROUTES";
 import Loader from "../../components/loader/Loader";
 import { REMOVE_TOKEN, USER_INFO } from "../../utils/session/token";
 import ConfirmDialog from "../../components/confirm-dialog/ConfirmDialog";
-
+import { AiOutlineAudit } from "react-icons/ai";
 function Navbar1(props) {
   const user = USER_INFO();
   const navigate = useNavigate();
@@ -158,7 +158,9 @@ function Navbar1(props) {
                     aria-expanded={menuOpenCloseState[1] ? "true" : "false"}
                     aria-controls="sidebarKpi"
                   >
-                    <i className="fe fe-home"></i> KPI
+                    {/* <i className="fe fe-home"></i> */}
+                    <AiOutlineAudit className="me-3" />
+                    KPI
                   </Nav.Link>
 
                   <Collapse in={menuOpenCloseState[1]}>

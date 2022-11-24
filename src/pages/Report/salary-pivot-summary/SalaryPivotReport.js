@@ -30,9 +30,13 @@ export default function SalaryPivotReport(props) {
     setIsLoading(true);
     try {
       const response = await API.get(REPORT_PIVOT_SALARY_SUMMERY_API(e.value));
-      const d = response.data.data;
-      d?.push(response.data.grand_total);
-      setPivotData(d);
+      if (response.data.statuscode === 200) {
+        const d = response.data.data;
+        d?.push(response.data.grand_total);
+        setPivotData(d);
+      } else {
+        error_alert(response.data.message);
+      }
     } catch (err) {
       console.log(err);
       error_alert(err?.response?.data);

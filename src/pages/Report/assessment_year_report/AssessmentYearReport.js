@@ -15,6 +15,7 @@ import ExcelPdfPrint from "../../../components/excel-pdf-print/ExcelPdfPrint";
 import { SALARY_FULL_REPORT } from "../excel-columns";
 import CustomTable from "../../../components/custom-table/CustomTable";
 import { SALARY_FULL_REPORT_TABLE_COLUMN } from "../table-columns";
+import { error_alert } from "../../../components/alert/Alert";
 
 export default function AssessmentYearReport(props) {
   const { data, isLoading } = useSbu();
@@ -38,24 +39,27 @@ export default function AssessmentYearReport(props) {
     setLoading(true);
     try {
       const res = await API.get(REPORT_FULL_SUMMERY_API(e.value));
-
-      if (Array.isArray(res.data.data)) {
-        const em = res.data.data.reduce((c, p) => {
-          const obj = Object.values(p)[0];
-          const len = Object.values(p)[0]?.length;
-          const emm = Object.values(Object.values(p)[0][len - 1])[0].employee;
-          return { ...c, [Object.keys(p)[0]]: emm };
-        }, {});
-        const lty = res.data.data.reduce((c, p) => {
-          const key = Object.keys(p)[0];
-          const values = Object.values(p)[0].reduce((a, c) => ({ ...a, ...c }), {});
-          return { ...c, [key]: values };
-        }, {});
-        setDataCount(res.data.count);
-        setLastThreeYearData({ ...lty });
-        setAllDsId(res.data.data.map((v) => Object.keys(v)[0]));
-        setEmployeeDetail(em);
-        // console.log(lastThreeYearData);
+      if (res.data.statuscode === 200) {
+        if (Array.isArray(res.data.data)) {
+          const em = res.data.data.reduce((c, p) => {
+            const obj = Object.values(p)[0];
+            const len = Object.values(p)[0]?.length;
+            const emm = Object.values(Object.values(p)[0][len - 1])[0].employee;
+            return { ...c, [Object.keys(p)[0]]: emm };
+          }, {});
+          const lty = res.data.data.reduce((c, p) => {
+            const key = Object.keys(p)[0];
+            const values = Object.values(p)[0].reduce((a, c) => ({ ...a, ...c }), {});
+            return { ...c, [key]: values };
+          }, {});
+          setDataCount(res.data.count);
+          setLastThreeYearData({ ...lty });
+          setAllDsId(res.data.data.map((v) => Object.keys(v)[0]));
+          setEmployeeDetail(em);
+          // console.log(lastThreeYearData);
+        }
+      } else {
+        error_alert(res.data.message);
       }
     } catch (e) {
       console.log(e);

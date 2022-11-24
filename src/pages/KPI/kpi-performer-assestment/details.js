@@ -166,21 +166,11 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
               <Form.Label className="mb-2 text-secondary">
                 Difference = New salary A- New salary B {currYear} (C){" "}
               </Form.Label>
-              <p>
-                {data.data?.difference_new_salary_a_new_salary_b?.toLocaleString("en-IN", {
-                  style: "currency",
-                  currency: "BDT",
-                })}
-              </p>
+              <p>{data.data?.difference_new_salary_a_new_salary_b?.toLocaleString("en-IN")}</p>
             </Col>
             <Col sm="12" md="4">
               <Form.Label className="mb-2 text-secondary">Proposed Amount By Director {currYear} (C) </Form.Label>
-              <p>
-                {data.data?.proposed_by_sbu_director_pm_self?.toLocaleString("en-IN", {
-                  style: "currency",
-                  currency: "BDT",
-                })}
-              </p>
+              <p>{data.data?.proposed_by_sbu_director_pm_self?.toLocaleString("en-IN")}</p>
               {/* <Form.Control
               type="text"
               value={propsed_by_sbuDirPmSelf === "" ? data.data?.proposed_by_sbu_director_pm_self : propsed_by_sbuDirPmSelf}
