@@ -2,28 +2,21 @@ import React, { useState } from "react";
 import Content from "../components/content/Content";
 import Layout from "../layout/Layout";
 import moment from "moment";
-import { Accordion } from "react-bootstrap";
+import PageHeader from "../components/header/PageHeader";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Demo() {
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(new Date());
 
   console.log(moment(date).format("YYYY-DD-MM"));
 
   return (
     <>
       <Layout>
+        <PageHeader />
         <Content>
-          <Accordion className="mb-3">
-            <Accordion.Item eventKey="0">
-              <Accordion.Header as={"div"}>
-                <div>
-                  <h3 className="header-title mb-0">3. INNOVATION</h3>
-                  <h6 className="header-pretitle mb-0">(New ideas and implementation)</h6>
-                </div>
-              </Accordion.Header>
-              <Accordion.Body></Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
+          <DatePicker selected={date} className="form-control" onChange={(date) => setDate(date)} />
         </Content>
       </Layout>
     </>

@@ -75,7 +75,7 @@ function KpiPerformanceIndex(props) {
       <Container fluid>
         <Card>
           <Card.Body>
-            <Table data={data.data} columns={kpiPerformanceFormColumns} />
+            <Table data={data?.data} columns={kpiPerformanceFormColumns} />
           </Card.Body>
         </Card>
       </Container>

@@ -22,6 +22,7 @@ export const columns = [
   { name: "Employee ID", selector: (row) => row.employee?.employee_id, width: "120px", wrap: true },
   { name: "Employee Name", selector: (row) => row.employee?.name, minWidth: "120px", wrap: true },
   { name: "Desgination", selector: (row) => row.employee?.designation, minWidth: "120px", wrap: true },
+  { name: "SBU", selector: (row) => row.employee?.sbu?.name, minWidth: "120px", wrap: true },
   {
     name: "Date of Joining",
     selector: (row) => row.employee?.date_of_joining,

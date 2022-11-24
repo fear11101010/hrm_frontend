@@ -25,10 +25,15 @@ export const kpiPerformanceFormColumns = [
   {
     name: "Name",
     selector: (row) => row.employee.name,
+    wrap: true,
   },
   {
     name: "Designation",
     selector: (row) => row.employee.designation,
+  },
+  {
+    name: "SBU",
+    selector: (row) => row?.employee?.sbu?.name,
   },
   {
     name: "Action",

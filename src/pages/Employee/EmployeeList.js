@@ -45,11 +45,8 @@ export default function EmployeeList() {
 
   return user.accessibility.includes("EmployeeList") ? (
     <Layout>
-      {isLoading && <Loader />}
       <PageHeader title={"Employee List"} />
-      <Content>
-        <Table data={data.data} columns={COLUMNS.concat(EXT_COLUMNS)} />
-      </Content>
+      <Content>{isLoading ? <Loader /> : <Table data={data.data} columns={COLUMNS.concat(EXT_COLUMNS)} />}</Content>
 
       {/* Details Modal */}
       <Modal

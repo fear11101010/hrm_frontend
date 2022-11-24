@@ -28,7 +28,7 @@ export const PIVOT_TABLE_COLUMN = (year) => [
     name: `Gross Monthly Salary ${year - 1}`,
     sortable: true,
     width: "250px",
-    selector: (row, index) => row[`gross_monthly_salary${year - 1}`] ?.toLocaleString("en-IN", { style: "currency", currency: "BDT" }),
+    selector: (row, index) => row[`gross_monthly_salary${year - 1}`]?.toLocaleString("en-IN"),
   },
   {
     name: `Gross Monthly Salary ${year - 1} %`,
@@ -40,7 +40,7 @@ export const PIVOT_TABLE_COLUMN = (year) => [
     name: `Gross Monthly Salary ${year}`,
     sortable: true,
     width: "250px",
-    selector: (row, index) => row[`gross_monthly_salary${year}`] ?.toLocaleString("en-IN", { style: "currency", currency: "BDT" }),
+    selector: (row, index) => row[`gross_monthly_salary${year}`]?.toLocaleString("en-IN"),
   },
   {
     name: `Gross Monthly Salary ${year} %`,
@@ -51,7 +51,7 @@ export const PIVOT_TABLE_COLUMN = (year) => [
   {
     name: `yoy`,
     sortable: true,
-    selector: (row, index) => row["yoy"] ?.toLocaleString("en-IN", { style: "currency", currency: "BDT" }),
+    selector: (row, index) => row["yoy"]?.toLocaleString("en-IN"),
   },
   {
     name: `% yoy`,
@@ -84,7 +84,7 @@ export const ELIGIBLE_TABLE_COLUMN = (year) => [
   {
     name: `Increment ${year}`,
     sortable: true,
-    selector: (row, index) => row[`increment ${year}`] ?.toLocaleString("en-IN", { style: "currency", currency: "BDT" }),
+    selector: (row, index) => row[`increment ${year}`]?.toLocaleString("en-IN"),
   },
   {
     name: `Increment ${year} %`,
@@ -226,7 +226,7 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
 
     {
       name: `HR New Gross Salary ${year} (A)`,
-      selector: (row, index) => row?.[year]?.hr_new_gross_salary_a ?.toLocaleString("en-IN", { style: "currency", currency: "BDT" }),
+      selector: (row, index) => row?.[year]?.hr_new_gross_salary_a?.toLocaleString("en-IN"),
     },
 
     {
@@ -236,27 +236,27 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
 
     {
       name: `Fixed Increment (%) ${year} (B)`,
-      selector: (row, index) => row?.[year]?.fixed_increment_b ?.toLocaleString("en-IN", { style: "currency", currency: "BDT" }),
+      selector: (row, index) => row?.[year]?.fixed_increment_b?.toLocaleString("en-IN"),
     },
 
     {
       name: `Fixed Increment New Gross Salary B ${year} (B)`,
-      selector: (row, index) => row?.[year]?.fixed_increment_new_gross_salary_b ?.toLocaleString("en-IN", { style: "currency", currency: "BDT" }),
+      selector: (row, index) => row?.[year]?.fixed_increment_new_gross_salary_b?.toLocaleString("en-IN"),
     },
 
     {
       name: `Team Distribution (%) ${year} (C)`,
-      selector: (row, index) => row?.[year]?.team_distribution_percentage_c ?.toLocaleString("en-IN", { style: "currency", currency: "BDT" }),
+      selector: (row, index) => row?.[year]?.team_distribution_percentage_c?.toLocaleString("en-IN"),
     },
 
     {
       name: `Difference = New salary A- New salary B ${year}`,
-      selector: (row, index) => row?.[year]?.difference_new_salary_a_new_salary_b ?.toLocaleString("en-IN", { style: "currency", currency: "BDT" }),
+      selector: (row, index) => row?.[year]?.difference_new_salary_a_new_salary_b?.toLocaleString("en-IN"),
     },
 
     {
       name: `Proposed By SBU Director/PM/Self ${year}`,
-      selector: (row, index) => row?.[year]?.proposed_by_sbu_director_pm_self ?.toLocaleString("en-IN", { style: "currency", currency: "BDT" }),
+      selector: (row, index) => row?.[year]?.proposed_by_sbu_director_pm_self?.toLocaleString("en-IN"),
     },
 
     {
@@ -266,7 +266,7 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
 
     {
       name: `New Gross Salary B ${year}`,
-      selector: (row, index) => row?.[year]?.new_gross_salary_b ?.toLocaleString("en-IN", { style: "currency", currency: "BDT" }),
+      selector: (row, index) => row?.[year]?.new_gross_salary_b?.toLocaleString("en-IN"),
     },
 
     {
@@ -291,7 +291,7 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
 
     {
       name: `Increment with KPI % ${year}`,
-      selector: (row, index) => row?.[year]?.increment_with_kpi_percentage ?.toLocaleString("en-IN", { style: "currency", currency: "BDT" }),
+      selector: (row, index) => row?.[year]?.increment_with_kpi_percentage?.toLocaleString("en-IN"),
     },
 
     {
@@ -306,7 +306,7 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
 
     {
       name: `New Gross Salary KPI % ${year}`,
-      selector: (row, index) => row?.[year]?.increment_with_kpi_percentage ?.toLocaleString("en-IN", { style: "currency", currency: "BDT" }),
+      selector: (row, index) => row?.[year]?.increment_with_kpi_percentage?.toLocaleString("en-IN"),
     },
 
     {

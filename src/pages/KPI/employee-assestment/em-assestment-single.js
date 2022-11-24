@@ -410,7 +410,6 @@ export default function EmAssestmentSingle() {
                       }}
                     />
                   </Col>
-
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
                       <h4 className="text-secondary">Confirmation/Increment/No Increment {new Date().getFullYear()}</h4>
@@ -422,19 +421,6 @@ export default function EmAssestmentSingle() {
                       }
                       onChange={(e) => {
                         setConf_inc_noInc(e.value);
-                      }}
-                    />
-                  </Col>
-
-                  <Col sm="6" md="4" className="mb-4">
-                    <Form.Group>
-                      <h4 className="text-secondary">Proposed By Supervisor {new Date().getFullYear()}</h4>
-                    </Form.Group>
-                    <FormControl
-                      type="text"
-                      value={propose_SBU}
-                      onChange={(e) => {
-                        setPropose_sbu(e.target.value.replace(/[^0-9]/g, ""));
                       }}
                     />
                   </Col>
@@ -450,6 +436,18 @@ export default function EmAssestmentSingle() {
                       }
                       onChange={(e) => {
                         setProposed_designation(e.target.value);
+                      }}
+                    />
+                  </Col>
+                  <Col sm="6" md="4" className="mb-4">
+                    <Form.Group>
+                      <h4 className="text-secondary">Proposed Amount By Supervisor {new Date().getFullYear()}</h4>
+                    </Form.Group>
+                    <FormControl
+                      type="text"
+                      value={propose_SBU}
+                      onChange={(e) => {
+                        setPropose_sbu(e.target.value.replace(/[^0-9]/g, ""));
                       }}
                     />
                   </Col>

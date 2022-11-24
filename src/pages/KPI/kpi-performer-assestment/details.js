@@ -160,17 +160,27 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
           <Row>
             <Col sm="12" md="3">
               <Form.Label className="mb-2 text-secondary">Team Distribution (%) {currYear} (C) </Form.Label>
-              <p>{data.data?.team_distribution_percentage_c}</p>
+              <p>{data.data?.team_distribution_percentage_c?.toLocaleString("en-IN")}</p>
             </Col>
             <Col sm="12" md="5">
               <Form.Label className="mb-2 text-secondary">
                 Difference = New salary A- New salary B {currYear} (C){" "}
               </Form.Label>
-              <p>{data.data?.difference_new_salary_a_new_salary_b}</p>
+              <p>
+                {data.data?.difference_new_salary_a_new_salary_b?.toLocaleString("en-IN", {
+                  style: "currency",
+                  currency: "BDT",
+                })}
+              </p>
             </Col>
             <Col sm="12" md="4">
-              <Form.Label className="mb-2 text-secondary">Proposed By SBU Director/PM/Self {currYear} (C) </Form.Label>
-              <p>{data.data?.proposed_by_sbu_director_pm_self}</p>
+              <Form.Label className="mb-2 text-secondary">Proposed Amount By Director {currYear} (C) </Form.Label>
+              <p>
+                {data.data?.proposed_by_sbu_director_pm_self?.toLocaleString("en-IN", {
+                  style: "currency",
+                  currency: "BDT",
+                })}
+              </p>
               {/* <Form.Control
               type="text"
               value={propsed_by_sbuDirPmSelf === "" ? data.data?.proposed_by_sbu_director_pm_self : propsed_by_sbuDirPmSelf}
@@ -426,51 +436,51 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
               <Row>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary">Total Salary and Allowance </Form.Label>
-                  <p>{data.data?.total_salary_and_allowance}</p>
+                  <p>{data.data?.total_salary_and_allowance?.toLocaleString("en-IN")}</p>
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary">Basic</Form.Label>
-                  <p>{data.data?.basic_salary}</p>
+                  <p>{data.data?.basic_salary?.toLocaleString("en-IN")}</p>
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary">House Rent</Form.Label>
-                  <p>{data.data?.house_rent}</p>
+                  <p>{data.data?.house_rent?.toLocaleString("en-IN")}</p>
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary">Medical Allowance</Form.Label>
-                  <p>{data.data?.medical_allowance}</p>
+                  <p>{data.data?.medical_allowance?.toLocaleString("en-IN")}</p>
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary">Conveyance Allowance</Form.Label>
-                  <p>{data.data?.conveyance_allowance}</p>
+                  <p>{data.data?.conveyance_allowance?.toLocaleString("en-IN")}</p>
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary">WPPF</Form.Label>
-                  <p>{data.data?.wppf}</p>
+                  <p>{data.data?.wppf?.toLocaleString("en-IN")}</p>
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary">Special Bonus</Form.Label>
-                  <p>{data.data?.special_bonus}</p>
+                  <p>{data.data?.special_bonus?.toLocaleString("en-IN")}</p>
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary">Mobile and Other Allowance</Form.Label>
-                  <p>{data.data?.mobile_and_other_allowance}</p>
+                  <p>{data.data?.mobile_and_other_allowance?.toLocaleString("en-IN")}</p>
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary">Project Expense </Form.Label>
-                  <p>{data.data?.project_expense}</p>
+                  <p>{data.data?.project_expense?.toLocaleString("en-IN")}</p>
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary"> Other Benefits</Form.Label>
-                  <p>{data.data?.other_benefit}</p>
+                  <p>{data.data?.other_benefit?.toLocaleString("en-IN")}</p>
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary">Gross Salary </Form.Label>
-                  <p>{data.data?.gross_salary}</p>
+                  <p>{data.data?.gross_salary?.toLocaleString("en-IN")}</p>
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary">PF Com Contribution </Form.Label>
-                  <p>{data.data?.pf_com_contribution}</p>
+                  <p>{data.data?.pf_com_contribution?.toLocaleString("en-IN")}</p>
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary">Year of Assessment Duration 2022 </Form.Label>
@@ -497,11 +507,11 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary"> Increment Amount (HR) {currYear} (A)</Form.Label>
-                  <p>{data.data?.increment_amount_a}</p>
+                  <p>{data.data?.increment_amount_a?.toLocaleString("en-IN")}</p>
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary">New Gross Salary {currYear} (A) </Form.Label>
-                  <p>{data.data?.hr_new_gross_salary_a}</p>
+                  <p>{data.data?.hr_new_gross_salary_a?.toLocaleString("en-IN")}</p>
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary"> HR % {currYear}</Form.Label>
@@ -509,11 +519,16 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary">Fixed Increment (%) {currYear} (B) </Form.Label>
-                  <p>{data.data?.fixed_increment_b}</p>
+                  <p>{data.data?.fixed_increment_b?.toLocaleString("en-IN")}</p>
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary"> Fixed Increment New Gross Salary {currYear} (B)</Form.Label>
-                  <p>{data.data?.fixed_increment_new_gross_salary_b}</p>
+                  <p>
+                    {data.data?.fixed_increment_new_gross_salary_b?.toLocaleString("en-IN", {
+                      style: "currency",
+                      currency: "BDT",
+                    })}
+                  </p>
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary"> % of Increment: {currYear}</Form.Label>
@@ -521,7 +536,7 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary"> New Gross Salary B {currYear}</Form.Label>
-                  <p>{data.data?.new_gross_salary_b}</p>
+                  <p>{data.data?.new_gross_salary_b?.toLocaleString("en-IN")}</p>
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary">CAGR 3 years {currYear} </Form.Label>
@@ -545,15 +560,25 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary">Increment with KPI % {currYear} </Form.Label>
-                  <p>{data.data?.increment_with_kpi_percentage}</p>
+                  <p>
+                    {data.data?.increment_with_kpi_percentage?.toLocaleString("en-IN", {
+                      style: "currency",
+                      currency: "BDT",
+                    })}
+                  </p>
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary"> New Gross Salary KPI % {currYear}</Form.Label>
-                  <p>{data.data?.new_gross_salary_kpi_percentage}</p>
+                  <p>
+                    {data.data?.new_gross_salary_kpi_percentage?.toLocaleString("en-IN", {
+                      style: "currency",
+                      currency: "BDT",
+                    })}
+                  </p>
                 </Col>
                 <Col sm="12" md="3">
                   <Form.Label className="mb-1 text-secondary"> Gap Manual vs Formula {currYear}</Form.Label>
-                  <p>{data.data?.gap_manual_formula}</p>
+                  <p>{data.data?.gap_manual_formula?.toLocaleString("en-IN")}</p>
                 </Col>
               </Row>
             </Accordion.Body>
