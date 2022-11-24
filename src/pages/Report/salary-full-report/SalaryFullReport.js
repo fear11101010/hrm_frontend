@@ -238,7 +238,7 @@ export default function SalaryFullReport(props) {
                                   <p>{lastThreeYearData[id]?.[year]?.difference_new_salary_a_new_salary_b}</p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
-                                  <h6 className="header-pretitle">Proposed By SBU Director/PM/Self {year}</h6>
+                                  <h6 className="header-pretitle">Proposed Director {year}</h6>
                                   <p>{lastThreeYearData[id]?.[year]?.proposed_by_sbu_director_pm_self}</p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
@@ -261,10 +261,10 @@ export default function SalaryFullReport(props) {
                                   <h6 className="header-pretitle">Average Actual {year}</h6>
                                   <p>{lastThreeYearData[id]?.[year]?.average_actual}</p>
                                 </Col>
-                                <Col sm={6} md={4} lg={4} xl={3}>
+                                {/* <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">Weighted Average of KPI % {year}</h6>
                                   <p>{lastThreeYearData[id]?.[year]?.weighted_average_kpi}</p>
-                                </Col>
+                                </Col> */}
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">Increment with KPI % {year}</h6>
                                   <p>{lastThreeYearData[id]?.[year]?.increment_with_kpi_percentage}</p>
@@ -273,10 +273,10 @@ export default function SalaryFullReport(props) {
                                   <h6 className="header-pretitle">New Gross Salary KPI % % {year}</h6>
                                   {/*<p>{lastThreeYearData[id]?.[year]?.increment_with_kpi_percentage}</p>*/}
                                 </Col>
-                                <Col sm={6} md={4} lg={4} xl={3}>
+                                {/* <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">Increment with KPI % {year}</h6>
-                                  {/*<p>{lastThreeYearData[id]?.[year]?.increment_with_kpi_percentage}</p>*/}
-                                </Col>
+                                  <p>{lastThreeYearData[id]?.[year]?.increment_with_kpi_percentage}</p>
+                                </Col> */}
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">New Gross Salary KPI % {year}</h6>
                                   {/*<p>{lastThreeYearData[id]?.[year]?.increment_with_kpi_percentage}</p>*/}
