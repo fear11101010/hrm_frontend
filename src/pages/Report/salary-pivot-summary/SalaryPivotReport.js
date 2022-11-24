@@ -30,7 +30,9 @@ export default function SalaryPivotReport(props) {
     setIsLoading(true);
     try {
       const response = await API.get(REPORT_PIVOT_SALARY_SUMMERY_API(e.value));
-      setPivotData(response.data.data);
+      const d = response.data.data;
+      d?.push(response.data.grand_total);
+      setPivotData(d);
     } catch (err) {
       console.log(err);
       error_alert(err?.response?.data);
@@ -45,11 +47,11 @@ export default function SalaryPivotReport(props) {
   return (
     <>
       <Layout>
-        <PageHeader title={"Assessment Full Report"} />
+        <PageHeader title={"Salary Pivot Report"} />
         <Container fluid>
           <Card>
             <Card.Body>
-              <div className="w-50 m-auto">
+              <div className="w-100 m-auto">
                 <Form>
                   <Form.Group>
                     <Form.Label>Select Year</Form.Label>
@@ -79,7 +81,7 @@ export default function SalaryPivotReport(props) {
                 data={pivotData}
                 size={"sm"}
                 onDataSort={(data) => setPivotData(data)}
-                pagination
+                // pagination
                 responsive
               />
             </Card.Body>

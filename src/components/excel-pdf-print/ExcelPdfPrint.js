@@ -19,7 +19,7 @@ function ExcelPdfPrint({ exportExcel, exportPdf, print, data, columns, header })
     const worksheet = XLSX.utils.json_to_sheet(tableData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "sheet1");
-    return XLSX.writeFile(workbook, "salary_pivot_report.xlsx");
+    return XLSX.writeFile(workbook, `${header ?? "file"}.xlsx`);
   };
   const printData = (e) => {
     const tableToPrint = tableRef.current;
@@ -94,9 +94,9 @@ ${ReactDOM.findDOMNode(element).outerHTML.replace("display: none;", "")}
             <thead>
               {tableColumns && (
                 <tr>
-                  {tableColumns.map((v) => (
+                  {tableColumns.map((v, i) => (
                     <th
-                      key={v}
+                      key={`${v}_${i}`}
                       style={{
                         wordBreak: "normal",
                         wordWrap: "normal",
@@ -113,9 +113,9 @@ ${ReactDOM.findDOMNode(element).outerHTML.replace("display: none;", "")}
               {tableData &&
                 tableData.map((v, i) => (
                   <tr key={`${v}-${i}`}>
-                    {tableColumns.map((c) => (
+                    {tableColumns.map((c, i) => (
                       <td
-                        key={`${v[c]}_${c}`}
+                        key={`${v[c]}_${c}_${i}`}
                         style={{
                           wordBreak: "break-word",
                           wordWrap: "normal",

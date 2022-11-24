@@ -12,22 +12,9 @@ function CustomTable({ columns, data, size, responsive, onDataSort, pagination }
   const [columnMapping, setColumnMapping] = useState({});
   const [tableRows, setTableRows] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
-
-  const [q, setQ] = useState(data);
-
-  const handleQChange = (e) => {
-    const query = e.target.value;
-    var updatedList = [...data];
-    console.log("updatedList- ", updatedList);
-    updatedList = updatedList.filter((item) => {
-      return item.toLowerCase().indexOf(query.toLowerCase()) !== -1;
-    });
-    console.log(updatedList);
-  };
-
   useEffect(() => {
     console.log(data);
-    setTableRows(data?.slice(0, 5));
+    setTableRows(pagination ? data?.slice(0, 5) : data);
     setPageNumber(1);
     setSortDirection(columns.reduce((c, p) => ({ ...c, [p.name]: -1 }), {}));
     setColumnMapping(
@@ -36,7 +23,6 @@ function CustomTable({ columns, data, size, responsive, onDataSort, pagination }
         .reduce((c, p) => ({ ...c, ...p }), [])
     );
   }, [data]);
-
   const getHeaderCell = (column) => {
     if (column.sortable) {
       return (
@@ -47,7 +33,6 @@ function CustomTable({ columns, data, size, responsive, onDataSort, pagination }
     }
     return column.name;
   };
-
   const sortTableData = (event, columnName) => {
     event.preventDefault();
     data.sort((a, b) => {
@@ -62,19 +47,17 @@ function CustomTable({ columns, data, size, responsive, onDataSort, pagination }
       }
     });
     console.log(pageNumber);
-    setTableRows(data?.slice((pageNumber - 1) * 5, pageNumber * 5));
+    setTableRows(pagination ? data?.slice((pageNumber - 1) * 5, pageNumber * 5) : data);
     setSortDirection({ ...sortDirection, [columnName]: -sortDirection[columnName] });
     // console.log(sortDirection)
     if (onDataSort) {
       onDataSort(data);
     }
   };
-
   const onPageChange = (page) => {
     setTableRows(data?.slice((page - 1) * 5, page * 5));
     setPageNumber(page);
   };
-
   return (
     <div className="card">
       <div className="card-header">
@@ -82,15 +65,7 @@ function CustomTable({ columns, data, size, responsive, onDataSort, pagination }
           <div className="col">
             <Form>
               <InputGroup className={"input-group-flush input-group-merge input-group-reverse"}>
-                <FormControl
-                  type="search"
-                  placeholder="Search"
-                  className="list-search"
-                  aria-describedby="search_table"
-                  onChange={(e) => {
-                    handleQChange(e);
-                  }}
-                />
+                <FormControl type="search" placeholder="Search" className="list-search" aria-describedby="search_table" />
                 <InputGroup.Text id="search_table">
                   <i className="fe fe-search"></i>
                 </InputGroup.Text>
@@ -98,9 +73,7 @@ function CustomTable({ columns, data, size, responsive, onDataSort, pagination }
             </Form>
           </div>
           <div className="col-auto me-n3">
-            <Form>
-              <Select />
-            </Form>
+            <Form>{pagination && <Select />}</Form>
           </div>
         </div>
       </div>

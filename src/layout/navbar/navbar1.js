@@ -9,6 +9,7 @@ import { Collapse } from "react-bootstrap";
 import { useState } from "react";
 import {
   ASSESTMENT_EMPLOYER_REPORT,
+  ASSESSMENT_YEAR_REPORT,
   DASHBOARD_PAGE,
   EMPLOYEE_ASSESTMENT_PAGE,
   EMPLOYEE_LIST_PAGE,
@@ -234,9 +235,8 @@ function Navbar1(props) {
                 >
                   <i className="fe fe-file-text"></i> Report
                 </Nav.Link>
-
                 <Collapse in={menuOpenCloseState[2]}>
-                  <div id="sidebarReport">
+                  <div id="sidebarDashboards">
                     <ul className="nav nav-sm flex-column">
                       <li className="nav-item">
                         {user.module.includes("Salary Full Report") && (

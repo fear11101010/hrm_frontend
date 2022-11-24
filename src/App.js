@@ -46,6 +46,7 @@ import {
   EMPLOYEE_LIST_PAGE,
   EMPLOYEE_EDIT_PAGE_URL,
   ASSESTMENT_EMPLOYER_REPORT,
+  ASSESSMENT_YEAR_REPORT,
 } from "./utils/APP_ROUTES";
 import KpiPerformanceIndex from "./pages/KPI/kpi-performane-form/kpi-performance-index";
 import KpiPerformanceFormCreate from "./pages/KPI/kpi-performane-form/kpi-performance-form-create";
@@ -53,12 +54,16 @@ import KpiPerformanceFormView from "./pages/KPI/kpi-performane-form/kpi-performa
 import SalaryFullReport from "./pages/Report/salary-full-report/SalaryFullReport";
 import SalaryPivotReport from "./pages/Report/salary-pivot-summary/SalaryPivotReport";
 import SalaryIncrementEligibleReport from "./pages/Report/salary-increment-eligible-report/SalaryIncrementEligibleReport";
+
 import RoleList from "./pages/user/role/RoleList";
 import Privileges from "./pages/user/role/Privileges";
 import EmployeeList from "./pages/Employee/EmployeeList";
 import EmployeeEdit from "./pages/Employee/EmployeeEdit";
 import AssestmentEmployerReport from "./pages/Report/assestment-employer-report/assestment-employer-report";
 import Demo from "./pages/demo";
+
+import AssessmentYearReport from "./pages/Report/assessment_year_report/AssessmentYearReport";
+
 function App() {
   return (
     <BrowserRouter>
@@ -102,6 +107,7 @@ function App() {
           <Route path={SALARY_PIVOT_SUMMARY_REPORT_URL} element={<SalaryPivotReport />} />
           <Route path={SALARY_INCREMENT_ELIGIBLE_REPORT_URL} element={<SalaryIncrementEligibleReport />} />
           <Route path={ASSESTMENT_EMPLOYER_REPORT} element={<AssestmentEmployerReport />} />
+          <Route path={ASSESSMENT_YEAR_REPORT} element={<AssessmentYearReport />} />
         </Route>
 
         <Route path={UNAUTHORIZED} element={<Unauth />} />
