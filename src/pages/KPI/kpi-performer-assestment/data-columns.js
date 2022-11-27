@@ -37,7 +37,7 @@ export const dataColumns = [
     name: <div className="text-end">Proposed Amount by Supervisor</div>,
     selector: (row) => row?.proposed_by_sbu_director_pm_self,
     cell: (row) => row?.proposed_by_sbu_director_pm_self?.toLocaleString("en-IN"),
-    minWidth: "150px",
+    minWidth: "180px",
     wrap: false,
     right: true,
   },

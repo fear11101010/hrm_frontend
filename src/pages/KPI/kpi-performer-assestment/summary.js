@@ -2,6 +2,7 @@ import React from "react";
 import DataTable from "react-data-table-component";
 import Loader from "../../../components/loader/Loader";
 import Table from "../../../components/table/Table";
+import { tableStylesBordered } from "../../../components/table/tableStyleBorder";
 import { tableStyles } from "../../../components/table/tableStyles";
 import useFetch from "../../../hooks/useFetch";
 import { KPI_PERFORMANCE_THREE_YEARS_GET } from "../../../utils/API_ROUTES";
@@ -14,6 +15,7 @@ export default function Summary({ rowId }) {
     {
       name: "Year",
       selector: (row) => row?.year,
+      width: "80px",
     },
     {
       name: "Basic Salary",
@@ -50,7 +52,7 @@ export default function Summary({ rowId }) {
     <>
       {isLoading && <Loader />}
       <h3 className="mb-2">{data?.data?.map((d) => d[0])}</h3>
-      <DataTable data={data.data} columns={COLUMNS} customStyles={tableStyles} />
+      <DataTable data={data.data} columns={COLUMNS} customStyles={tableStylesBordered} />
       {/* <Table data={data.data} columns={COLUMNS} /> */}
     </>
   );
