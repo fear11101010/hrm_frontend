@@ -50,6 +50,7 @@ export default function KpiEmployeeAssign() {
       supervisor_id: emSupervisor.toString(),
       duration_startdate: startDate + " 00:00:00",
       duration_enddate: endDate + " 00:00:00",
+      type: yearly ? "Yearly" : "Half Yearly",
     };
     if (sbuId === "") {
       setSbuErr("Required");
