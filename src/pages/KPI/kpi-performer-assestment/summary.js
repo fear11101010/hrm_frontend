@@ -22,9 +22,15 @@ export default function Summary({ rowId }) {
       right: true,
     },
     {
+      name: "Gross Salary",
+      selector: (row) => row?.gross_salary,
+      cell: (row) => row?.gross_salary?.toLocaleString("en-IN"),
+      right: true,
+    },
+    {
       name: "Increment Amount",
-      selector: (row) => row?.increment_amount_a,
-      cell: (row) => row?.increment_amount_a?.toLocaleString("en-IN"),
+      selector: (row) => row?.proposed_by_sbu_director_pm_self,
+      cell: (row) => row?.proposed_by_sbu_director_pm_self?.toLocaleString("en-IN"),
       right: true,
     },
     {
