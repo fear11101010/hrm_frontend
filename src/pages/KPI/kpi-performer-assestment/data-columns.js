@@ -1,16 +1,16 @@
 export const dataColumns = [
   {
     name: "Status",
-    selector: (row) => row.employee?.status,
+    selector: (row) => row?.flag,
     cell: (row) => (
       <div>
-        {row.employee?.status === 1 ? (
-          <h5 className="text-info mb-0" style={{ fontSize: "12px" }}>
-            In Progress
-          </h5>
-        ) : (
+        {row?.flag ? (
           <h5 className="text-success mb-0" style={{ fontSize: "12px" }}>
             Complete
+          </h5>
+        ) : (
+          <h5 className="text-info mb-0" style={{ fontSize: "12px" }}>
+            In Progress
           </h5>
         )}
       </div>

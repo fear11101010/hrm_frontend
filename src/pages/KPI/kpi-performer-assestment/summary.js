@@ -16,15 +16,15 @@ export default function Summary({ rowId }) {
       selector: (row) => row?.year,
     },
     {
-      name: "Total Salary",
-      selector: (row) => row?.total_salary_and_allowance,
-      cell: (row) => row?.total_salary_and_allowance?.toLocaleString("en-IN"),
-      right: true,
-    },
-    {
       name: "Basic Salary",
       selector: (row) => row?.basic_salary,
       cell: (row) => row?.basic_salary?.toLocaleString("en-IN"),
+      right: true,
+    },
+    {
+      name: "Increment Amount",
+      selector: (row) => row?.increment_amount_a,
+      cell: (row) => row?.increment_amount_a?.toLocaleString("en-IN"),
       right: true,
     },
     {

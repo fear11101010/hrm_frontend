@@ -68,6 +68,7 @@ export default function KpiEmployeeAssign() {
             setEndDate("");
             setYearly(false);
             setHalfYearly(false);
+            setIsConfirm(false);
           } else {
             error_alert(res.data.message);
           }
@@ -133,7 +134,7 @@ export default function KpiEmployeeAssign() {
     } else if (sbuId === "") {
       error_alert("Please Select SBU");
     } else {
-      setIsConfirm(!isConfirm);
+      setIsConfirm(true);
     }
   };
 
