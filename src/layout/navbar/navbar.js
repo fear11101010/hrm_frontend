@@ -1,6 +1,6 @@
 import Dropdown from 'react-bootstrap/Dropdown';
 
-function Navbar(props) {
+function CustomNavbar(props) {
     return (
         <nav className="navbar navbar-vertical fixed-start navbar-expand-md navbar-light" id="sidebar">
             <div className="container-fluid">
@@ -686,4 +686,4 @@ function Navbar(props) {
     )
 }
 
-export default Navbar
+export default CustomNavbar
