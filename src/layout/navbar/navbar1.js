@@ -27,6 +27,7 @@ import {
   SALARY_PIVOT_SUMMARY_REPORT_URL,
   USER_LIST_PAGE,
   USER_ROLE_LIST_PAGE,
+  REQUISITION_RESOURCE_LIST,
 } from "../../utils/APP_ROUTES";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../utils/axios/axiosConfig";
@@ -76,7 +77,7 @@ function Navbar1(props) {
 
   return (
     <>
-      <Navbar expand="md" fixed="top" variant="light" className="navbar-vertical pb-0">
+      <Navbar expand="md" fixed="top" variant="light" className="navbar-vertical pb-0 border">
         {loading && <Loader />}
         <Container fluid>
           <Navbar.Toggle aria-controls="sidebarCollapse" />
@@ -224,6 +225,34 @@ function Navbar1(props) {
                 </Nav.Item>
               )}
 
+              {/* Requisition  */}
+              {user.sub_module.includes("Report")}
+              <Nav.Item as={"li"}>
+                <Nav.Link
+                  onClick={() => openOrCloseMenu(3)}
+                  href="#"
+                  className={menuOpenCloseState[3] ? "collapsed" : ""}
+                  data-bs-toggle="collapse"
+                  role="button"
+                  aria-expanded={menuOpenCloseState[3] ? "true" : "false"}
+                  aria-controls="sidebarRequisition"
+                >
+                  <i className="fe fe-clipboard"></i> Requisition Form
+                </Nav.Link>
+                <Collapse in={menuOpenCloseState[3]}>
+                  <div id="sidebarDashboards">
+                    <ul className="nav nav-sm flex-column">
+                      <li className="nav-item">
+                        {user.module.includes("Salary Full Report")}
+                        <Link className={"nav-link"} to={REQUISITION_RESOURCE_LIST}>
+                          Resource Requisition
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </Collapse>
+              </Nav.Item>
+
               {/* Report */}
               {user.sub_module.includes("Report") && (
                 <Nav.Item as={"li"}>
@@ -285,7 +314,7 @@ function Navbar1(props) {
           </Navbar.Collapse>
 
           {/* LOGOUT */}
-          <Nav as="ul">
+          <Nav as="ul" className="d-md-none">
             <Nav.Item as={"li"}>
               <Link
                 to={DASHBOARD_PAGE}
@@ -296,7 +325,7 @@ function Navbar1(props) {
                 title="Logout"
               >
                 <h4 className="mb-0 d-flex justify-content-center align-items-center" style={{ padding: ".5rem 1.5rem" }}>
-                  <i className="fe fe-log-out me-1"></i> {user.username}
+                  <i className="fe fe-log-out me-1"></i> Logout
                 </h4>
               </Link>
             </Nav.Item>
