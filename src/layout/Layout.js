@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Dropdown } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import ConfirmDialog from "../components/confirm-dialog/ConfirmDialog";
 import { LOGOUT_API } from "../utils/API_ROUTES";
@@ -42,7 +42,32 @@ export default function Layout({ children }) {
       <Navbar />
       <Navbar1 />
       <main className="main-content">
-        <div className="pt-0">{children}</div>
+        <div
+          className="bg-white py-2 px-5 d-flex justify-content-end align-items-center border-bottom"
+          style={{ minHeight: "42px" }}
+        >
+          <Dropdown>
+            <Dropdown.Toggle variant="light" id="dropdown-basic" className="fw-bold border-0">
+              {user.name}
+            </Dropdown.Toggle>
+            <Dropdown.Menu className="w-100">
+              <Dropdown.Item>{user.username}</Dropdown.Item>
+              <Dropdown.Item>Another action</Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item
+                onClick={(e) => {
+                  handleConfirm(e);
+                }}
+                className="text-danger"
+              >
+                <h5 className="mb-0 fw-bold">
+                  <i className="fe fe-log-out me-1"></i> LOGOUT
+                </h5>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
+        <div className="pt-5">{children}</div>
       </main>
 
       {/* Logout Confirm Modal */}
