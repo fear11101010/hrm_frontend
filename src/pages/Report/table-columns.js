@@ -146,7 +146,8 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
     {
       name: `KPI-Value ${year}`,
 
-      selector: (row, index) => row?.[year]?.kpi_selector?.name,
+      // selector: (row, index) => row?.[year]?.kpi_selector?.name,
+      selector: (row, index) => row?.[year]?.kpi_value?.name,
     },
 
     {
