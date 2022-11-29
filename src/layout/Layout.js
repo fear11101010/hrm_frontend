@@ -46,7 +46,7 @@ export default function Layout({ children }) {
     setIdleModal(true);
   };
 
-  const idleTimer = useIdleTimer({ onIdle, timeout: 1000 * 10 * 10 });
+  const idleTimer = useIdleTimer({ onIdle, timeout: 1000 * 60 * 10 });
 
   return (
     <>
