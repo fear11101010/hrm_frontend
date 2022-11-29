@@ -7,7 +7,7 @@ import useSbu from "../../../hooks/SBU/useSbu";
 import Layout from "../../../layout/Layout";
 import Select from "react-select";
 import { API } from "../../../utils/axios/axiosConfig";
-import { KPI_PERMORMER_ASSESTMENT_BY_SBU_GET } from "../../../utils/API_ROUTES";
+import { KPI_PERMORMER_ASSESTMENT_BY_SBU_GET, PERFORMANCE_REVIEW_FILTER } from "../../../utils/API_ROUTES";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
 import Table from "../../../components/table/Table";
 import { dataColumns } from "./data-columns";
@@ -18,6 +18,11 @@ import { USER_INFO } from "../../../utils/session/token";
 import { Navigate } from "react-router-dom";
 import { UNAUTHORIZED } from "../../../utils/APP_ROUTES";
 import Summary from "./summary";
+import Filter from "../../../components/table/filter";
+import ReactSelect from "react-select";
+import useDesignation from "../../../hooks/useDesignation";
+import useEmployee from "../../../hooks/useEmployee";
+import { ASSESTMENT_TYPE, YEAR_RANGE } from "../../../utils/CONSTANT";
 
 export default function KpiPerformerAssestment() {
   const user = USER_INFO();
@@ -53,6 +58,7 @@ export default function KpiPerformerAssestment() {
           setSbuData(res.data.data);
         } else if (res.data.data.length === 0) {
           error_alert("No data found");
+          setSbuData([]);
         } else {
           error_alert("Error!!! while retrieving data ");
         }
@@ -65,6 +71,7 @@ export default function KpiPerformerAssestment() {
         setLoading(false);
       });
   };
+
   useEffect(() => {
     if (selectedSbu !== "") {
       selectedSbuData();
@@ -205,6 +212,55 @@ export default function KpiPerformerAssestment() {
       });
   };
 
+  ///////////////
+  // FILTER
+  ///////////////
+
+  const employeList = useEmployee();
+  const designationList = useDesignation();
+  const [filter_year, setFilter_year] = useState("");
+  const [filter_type, setFilter_type] = useState("");
+  const [filter_employee, setFilter_employee] = useState("");
+  const [filter_designation, setFilter_designation] = useState("");
+
+  const handleFiltering = (e) => {
+    e.preventDefault();
+    const payload = {
+      year: filter_year,
+      type: filter_type,
+      sbu_id: selectedSbu,
+      employee_id: filter_employee,
+      designation_id: filter_designation,
+    };
+    setLoading(true);
+    API.post(PERFORMANCE_REVIEW_FILTER, payload)
+      .then((res) => {
+        if (res.data.statuscode === 200) {
+          if (res.data.data.length > 0) {
+            setSbuData([]);
+            console.log("filter entry");
+            setSbuData(res.data.data);
+          } else {
+            error_alert("No Data Found");
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const reset_filter = () => {
+    selectedSbuData();
+    setFilter_year("");
+    setFilter_type("");
+    setFilter_employee("");
+    setFilter_designation("");
+  };
+
   return user.accessibility.includes("PerformanceReview") ? (
     <Layout>
       {isLoading || (loading && <Loader />)}
@@ -228,7 +284,73 @@ export default function KpiPerformerAssestment() {
         </div>
         {sbuData.length > 0 && (
           <div className="mt-5">
-            <h2>{`Employee Lists - ${selectedSbuName}`} </h2>
+            <h2 className="text-center">{`Employee Lists - ${selectedSbuName}`} </h2>
+            {/* <Filter>
+              <Form onSubmit={handleFiltering}>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-0">Year</Form.Label>
+                  <ReactSelect
+                    options={YEAR_RANGE}
+                    onChange={(e) => {
+                      setFilter_year(e.value);
+                    }}
+                    placeholder={
+                      filter_year === "" ? "Select Year" : YEAR_RANGE.map((d) => d.value === filter_year && d.label)
+                    }
+                    value={filter_year}
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-0">Type</Form.Label>
+                  <ReactSelect
+                    options={ASSESTMENT_TYPE}
+                    onChange={(e) => {
+                      setFilter_type(e.value);
+                    }}
+                    placeholder={
+                      filter_type === "" ? "Select Type" : ASSESTMENT_TYPE.map((d) => d.value === filter_type && d.label)
+                    }
+                    value={filter_type}
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-0">Employee</Form.Label>
+                  <ReactSelect
+                    options={employeList?.map((d) => ({ label: d.name, value: d.id }))}
+                    onChange={(e) => {
+                      setFilter_employee(e.value);
+                    }}
+                    placeholder={
+                      filter_employee === ""
+                        ? "Select Employee"
+                        : employeList?.map((d) => d.id === filter_employee && d.name)
+                    }
+                    value={filter_employee}
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-0">Designation</Form.Label>
+                  <ReactSelect
+                    options={designationList?.map((d) => ({ label: d.designation, value: d.id }))}
+                    onChange={(e) => {
+                      setFilter_designation(e.value);
+                    }}
+                    placeholder={
+                      filter_designation === ""
+                        ? "Select Designation"
+                        : designationList?.map((d) => d.id === filter_designation && d.designation)
+                    }
+                    value={filter_designation}
+                  />
+                </Form.Group>
+                <Button type="submit" className="mt-2 w-100">
+                  Apply Filter
+                </Button>
+                <Button variant="light" className="mt-2 w-100 fw-bold" onClick={reset_filter}>
+                  Clear Filter
+                </Button>
+              </Form>
+            </Filter> */}
             <Table columns={dataColumns.concat(extended_columns)} data={sbuData} />
           </div>
         )}

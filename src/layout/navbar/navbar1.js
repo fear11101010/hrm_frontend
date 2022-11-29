@@ -28,6 +28,7 @@ import {
   USER_LIST_PAGE,
   USER_ROLE_LIST_PAGE,
   REQUISITION_RESOURCE_LIST,
+  SALARY_INCREMENT_REPORT,
 } from "../../utils/APP_ROUTES";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../utils/axios/axiosConfig";
@@ -292,7 +293,7 @@ function Navbar1(props) {
                           )}
                         </li>
                         <li className="nav-item">
-                          {user.module.includes("Assestment Employer Report")}
+                          {user.module.includes("Assestment Year Report")}
                           <Link className={"nav-link"} to={ASSESSMENT_YEAR_REPORT}>
                             Assessment Year Report
                           </Link>
@@ -302,6 +303,13 @@ function Navbar1(props) {
                           {user.module.includes("Assestment Employer Report") && (
                             <Link className={"nav-link"} to={ASSESTMENT_EMPLOYER_REPORT}>
                               Assessment Employer Report
+                            </Link>
+                          )}
+                        </li>
+                        <li className="nav-item">
+                          {user.module.includes("Salary Increment Report") && (
+                            <Link className={"nav-link"} to={SALARY_INCREMENT_REPORT}>
+                              Salary Increment Report
                             </Link>
                           )}
                         </li>

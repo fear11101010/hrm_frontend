@@ -72,6 +72,8 @@ export const KPI_PERMORMER_ASSESTMENT_BY_SBU_GET = (id) => `/performer_assessmen
 export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET = (id) => `/assessment/${id}/`;
 export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_PUT = (id) => `/performer_assessment/${id}/`;
 
+export const PERFORMANCE_REVIEW_FILTER = "/performer_assessment/$/search_filter/";
+
 ////////////////////////////////////
 ////////////REPORT//////////////////
 ////////////////////////////////////
@@ -80,3 +82,4 @@ export const REPORT_PIVOT_SALARY_SUMMERY_API = (year) => `reports/${year}/salary
 export const REPORT_INCREMENT_ELIGIBLE_SALARY_SUMMERY_API = (year) => `reports/${year}/increment_eligible_by_year/`;
 export const REPORT_GET_YEARS_DROPDOWN = `reports/$/get_available_years/`;
 export const ASSESTMENT_EMPLOYER_REPORT_POST = `report_individual_assessment/`;
+export const SALARY_INCREMENT_REPORT_POST = (year) => `/reports/${year}/confirmed_increments_by_year/`;
