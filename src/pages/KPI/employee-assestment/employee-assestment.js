@@ -7,7 +7,7 @@ import Loader from "../../../components/loader/Loader";
 import Table from "../../../components/table/Table";
 import useFetch from "../../../hooks/useFetch";
 import Layout from "../../../layout/Layout";
-import { EMPLOYEE_ASSESTMENT_GET, KPI_PERFORMANCE_FORM } from "../../../utils/API_ROUTES";
+import { EMPLOYEE_ASSESTMENT_GET } from "../../../utils/API_ROUTES";
 import { UNAUTHORIZED } from "../../../utils/APP_ROUTES";
 import { USER_INFO } from "../../../utils/session/token";
 import { columns } from "./columns";
@@ -16,7 +16,7 @@ export default function EmployeeAssestment() {
   const user = USER_INFO();
   // fetch Data
   // const { data, isLoading, err } = useFetch(EMPLOYEE_ASSESTMENT_GET);
-  const { data, isLoading, err } = useFetch(KPI_PERFORMANCE_FORM);
+  const { data, isLoading, err } = useFetch(EMPLOYEE_ASSESTMENT_GET);
 
   return user.accessibility.includes("TeamAssessmentPerformance") ? (
     <Layout>

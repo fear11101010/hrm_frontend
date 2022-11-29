@@ -47,6 +47,9 @@ import {
   EMPLOYEE_EDIT_PAGE_URL,
   ASSESTMENT_EMPLOYER_REPORT,
   ASSESSMENT_YEAR_REPORT,
+  REQUISITION_RESOURCE_LIST,
+  REQUISITION_RESOURCE_FORM,
+  SALARY_INCREMENT_REPORT,
 } from "./utils/APP_ROUTES";
 import KpiPerformanceIndex from "./pages/KPI/kpi-performane-form/kpi-performance-index";
 import KpiPerformanceFormCreate from "./pages/KPI/kpi-performane-form/kpi-performance-form-create";
@@ -63,6 +66,10 @@ import AssestmentEmployerReport from "./pages/Report/assestment-employer-report/
 import Demo from "./pages/demo";
 
 import AssessmentYearReport from "./pages/Report/assessment_year_report/AssessmentYearReport";
+import RequisitionOutlet from "./outlets/RequisitionOutlet";
+import ResourceRequisitionForm from "./pages/Requisition_form/resource_requisition/ResourceRequisition";
+import RequestRequisitionList from "./pages/Requisition_form/resource_requisition/request_requisition_list";
+import SalaryIncrementReport from "./pages/Report/salary-increment-report/SalaryIncrementReport";
 
 function App() {
   return (
@@ -102,12 +109,21 @@ function App() {
           <Route path={EMPLOYEE_PERFORMANCE_CREATE} element={<KpiPerformanceFormCreate />} />
           <Route path={EMPLOYEE_PERFORMANCE_VIEW_url} element={<KpiPerformanceFormView />} />
         </Route>
+
+        {/* REQUISITION */}
+        <Route path={"/"} element={<RequisitionOutlet />}>
+          <Route path={REQUISITION_RESOURCE_LIST} element={<RequestRequisitionList />} />
+          <Route path={REQUISITION_RESOURCE_FORM} element={<ResourceRequisitionForm />} />
+        </Route>
+
+        {/* REPORT */}
         <Route path={"/report"} element={<KpiOutlet />}>
           <Route path={SALARY_FULL_REPORT_URL} element={<SalaryFullReport />} />
           <Route path={SALARY_PIVOT_SUMMARY_REPORT_URL} element={<SalaryPivotReport />} />
           <Route path={SALARY_INCREMENT_ELIGIBLE_REPORT_URL} element={<SalaryIncrementEligibleReport />} />
           <Route path={ASSESTMENT_EMPLOYER_REPORT} element={<AssestmentEmployerReport />} />
           <Route path={ASSESSMENT_YEAR_REPORT} element={<AssessmentYearReport />} />
+          <Route path={SALARY_INCREMENT_REPORT} element={<SalaryIncrementReport />} />
         </Route>
 
         <Route path={UNAUTHORIZED} element={<Unauth />} />

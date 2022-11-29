@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Dropdown, Nav, Navbar } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import ConfirmDialog from "../components/confirm-dialog/ConfirmDialog";
 import { LOGOUT_API } from "../utils/API_ROUTES";
 import { DASHBOARD_PAGE, LOGIN_PAGE } from "../utils/APP_ROUTES";
 import { API } from "../utils/axios/axiosConfig";
 import { REMOVE_TOKEN, USER_INFO } from "../utils/session/token";
-import Navbar from "./navbar/navbar";
+import CustomNavbar from "./navbar/navbar";
 import Navbar1 from "./navbar/navbar1";
 import "./layout.css";
 
@@ -39,10 +39,34 @@ export default function Layout({ children }) {
   };
   return (
     <>
-      <Navbar />
+      <CustomNavbar />
       <Navbar1 />
       <main className="main-content">
-        <div className="pt-0">{children}</div>
+        <Navbar bg="white" fixed="top" style={{ zIndex: "99" }}>
+          <Nav className="ms-auto px-5">
+            <Dropdown>
+              <Dropdown.Toggle variant="white" id="dropdown-basic" className="fw-bold border-0">
+                {user.name}
+              </Dropdown.Toggle>
+              <Dropdown.Menu className="w-100 border">
+                <Dropdown.Item>{user.username}</Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item
+                  onClick={(e) => {
+                    handleConfirm(e);
+                  }}
+                  className="text-danger"
+                >
+                  <h5 className="mb-0 fw-bold">
+                    <i className="fe fe-log-out me-1"></i> LOGOUT
+                  </h5>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Nav>
+        </Navbar>
+
+        <div className="pt-6">{children}</div>
       </main>
 
       {/* Logout Confirm Modal */}
@@ -55,4 +79,32 @@ export default function Layout({ children }) {
       )}
     </>
   );
+}
+
+{
+  /* <div
+className="bg-white py-2 px-5 d-flex justify-content-end align-items-center border-bottom"
+style={{ minHeight: "42px" }}
+>
+<Dropdown>
+  <Dropdown.Toggle variant="light" id="dropdown-basic" className="fw-bold border-0">
+    {user.name}
+  </Dropdown.Toggle>
+  <Dropdown.Menu className="w-100">
+    <Dropdown.Item>{user.username}</Dropdown.Item>
+    <Dropdown.Item>Another action</Dropdown.Item>
+    <Dropdown.Divider />
+    <Dropdown.Item
+      onClick={(e) => {
+        handleConfirm(e);
+      }}
+      className="text-danger"
+    >
+      <h5 className="mb-0 fw-bold">
+        <i className="fe fe-log-out me-1"></i> LOGOUT
+      </h5>
+    </Dropdown.Item>
+  </Dropdown.Menu>
+</Dropdown>
+</div> */
 }

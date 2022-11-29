@@ -5,6 +5,7 @@ import {
   LOGIN_PAGE,
   SALARY_FULL_REPORT_URL,
   SALARY_INCREMENT_ELIGIBLE_REPORT_URL,
+  SALARY_INCREMENT_REPORT,
   SALARY_PIVOT_SUMMARY_REPORT_URL,
 } from "../utils/APP_ROUTES";
 
@@ -22,6 +23,7 @@ export default function KpiOutlet() {
           <PrivateRoute to={SALARY_PIVOT_SUMMARY_REPORT_URL} />
           <PrivateRoute to={SALARY_INCREMENT_ELIGIBLE_REPORT_URL} />
           <PrivateRoute to={ASSESTMENT_EMPLOYER_REPORT} />
+          <PrivateRoute to={SALARY_INCREMENT_REPORT} />
           <Outlet />
         </>
       )}

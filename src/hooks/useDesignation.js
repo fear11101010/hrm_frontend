@@ -10,7 +10,6 @@ export default function useDesignation() {
     setDesignationLoading(true);
     API.get(DESIGNATION_BAND_GET)
       .then((res) => {
-        console.log(res.data.data);
         setDesignationData(res.data.data);
       })
       .catch((err) => {

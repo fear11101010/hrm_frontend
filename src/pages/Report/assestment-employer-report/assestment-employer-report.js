@@ -3,6 +3,7 @@ import { Button, Form } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 import ReactSelect from "react-select";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
+import ConfirmDialog from "../../../components/confirm-dialog/ConfirmDialog";
 import Content from "../../../components/content/Content";
 import PageHeader from "../../../components/header/PageHeader";
 import Loader from "../../../components/loader/Loader";
@@ -20,9 +21,10 @@ export default function AssestmentEmployerReport() {
 
   //States
   const [loading, setLoading] = useState(false);
-  const [reportData, setReportData] = useState([]);
+  const [allDownload, setAllDownload] = useState(false);
   const [employee_id, setEmployee_id] = useState("");
   const [year, setYear] = useState("");
+  const [isConfirm, setIsConfirm] = useState(false);
 
   //   Download report
   const handleDownload = async (e) => {
@@ -31,16 +33,18 @@ export default function AssestmentEmployerReport() {
       error_alert("Please select all the fields");
     } else {
       setLoading(true);
-      const payload = { employee_id: employee_id.toString(), year: year.toString() };
+      const payload = { employee_id: allDownload ? "all" : employee_id.toString(), year: year.toString() };
       try {
         const res = await API.post(ASSESTMENT_EMPLOYER_REPORT_POST, payload, { responseType: "blob" });
         const url = window.URL.createObjectURL(new Blob([res.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", " Assestment Employer Report.xlsx");
+        link.setAttribute("download", "Assestment Employer Report.xlsx");
         document.body.appendChild(link);
         link.click();
         setLoading(false);
+        setIsConfirm(false);
+        setAllDownload(false);
         success_alert("File Downloaded");
 
         // if (res.data.statuscode === 200) {
@@ -56,6 +60,12 @@ export default function AssestmentEmployerReport() {
         setLoading(false);
       }
     }
+  };
+
+  const handleConfirmModal = (e) => {
+    e.preventDefault();
+    setIsConfirm(true);
+    setAllDownload(true);
   };
   return user.accessibility.includes("AssestmentEmployerReport") ? (
     <Layout>
@@ -90,7 +100,27 @@ export default function AssestmentEmployerReport() {
           <Button type="submit" disabled={employee_id === "" || year === ""}>
             View Report
           </Button>
+          <Button
+            variant="dark"
+            type="submit"
+            className="ms-2"
+            onClick={(e) => {
+              handleConfirmModal(e);
+            }}
+            disabled={year === "" || employee_id !== ""}
+          >
+            All Report
+          </Button>
         </Form>
+        {isConfirm && (
+          <ConfirmDialog
+            message="Are you sure you want to download all employee report?"
+            onOkButtonClick={handleDownload}
+            onCancelButtonClick={() => {
+              setIsConfirm(false);
+            }}
+          />
+        )}
       </Content>
     </Layout>
   ) : (

@@ -144,6 +144,7 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
       selector: (row, index) => Object.values(row)[0]?.employee?.sub_sbu?.name,
     },
   ];
+
   const arr = years.map((year) => [
     {
       name: `I Objective ${year}`,
@@ -153,7 +154,8 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
     {
       name: `KPI-Value ${year}`,
 
-      selector: (row, index) => row?.[year]?.kpi_selector?.name,
+      // selector: (row, index) => row?.[year]?.kpi_selector?.name,
+      selector: (row, index) => row?.[year]?.kpi_value?.name,
     },
 
     {

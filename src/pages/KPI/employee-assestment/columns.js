@@ -6,14 +6,10 @@ import { DATE_FORMAT } from "../../../utils/CONSTANT";
 export const columns = [
   {
     name: "Status",
-    selector: (row) => row.employee?.status,
+    selector: (row) => row?.flag,
     cell: (row) => (
       <span>
-        {row.employee?.status === 1 ? (
-          <h5 className="text-info mb-0"> In Progress </h5>
-        ) : (
-          <span className="text-success mb-0"> Complete </span>
-        )}
+        {row?.flag ? <h5 className="text-success mb-0"> Complete </h5> : <h5 className="text-info mb-0"> In Progress </h5>}
       </span>
     ),
     width: "100px",

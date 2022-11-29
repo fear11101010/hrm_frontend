@@ -70,21 +70,21 @@ ${ReactDOM.findDOMNode(element).outerHTML.replace("display: none;", "")}
         {data && Array.isArray(data) && data.length > 0 && (
           <ButtonGroup>
             {exportExcel && (
-              <Button variant="primary" size="sm" onClick={generateExcel} title="Excel">
+              <Button variant="light" size="sm" onClick={generateExcel} title="Excel">
                 {/* <FaFileExcel /> Excel */}
-                <FaFileExcel />
+                <FaFileExcel size={"14px"} />
               </Button>
             )}
             {exportPdf && (
-              <Button variant="primary" size="sm" onClick={generatePdf} title="PDF">
+              <Button variant="light" size="sm" onClick={generatePdf} title="PDF">
                 {/* <FaFilePdf /> Pdf */}
-                <FaFilePdf />
+                <FaFilePdf size={"14px"} />
               </Button>
             )}
             {print && (
-              <Button variant="primary" size="sm" onClick={printData} title="Print">
+              <Button variant="light" size="sm" onClick={printData} title="Print">
                 {/* <FaPrint /> Print */}
-                <FaPrint />
+                <FaPrint size={"14px"} />
               </Button>
             )}
           </ButtonGroup>

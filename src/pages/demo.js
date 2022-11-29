@@ -3,8 +3,8 @@ import Content from "../components/content/Content";
 import Layout from "../layout/Layout";
 import moment from "moment";
 import PageHeader from "../components/header/PageHeader";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import Datetime from "react-datetime";
+import "react-datetime/css/react-datetime.css";
 
 export default function Demo() {
   const [date, setDate] = useState(new Date());
@@ -16,7 +16,12 @@ export default function Demo() {
       <Layout>
         <PageHeader />
         <Content>
-          <DatePicker selected={date} className="form-control" onChange={(date) => setDate(date)} />
+          <Datetime
+            timeFormat={false}
+            onChange={(e) => {
+              setDate(e._d);
+            }}
+          />
         </Content>
       </Layout>
     </>

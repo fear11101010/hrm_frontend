@@ -38,8 +38,9 @@ export const EMPLOYEE_PERFORMANCE_CREATE = "/employee-performance-create";
 export const EMPLOYEE_PERFORMANCE_VIEW = (id) => `/employee-performance-view/${id}`;
 export const EMPLOYEE_PERFORMANCE_VIEW_url = `/employee-performance-view/:id`;
 
-// Others
-export const UNAUTHORIZED = "/unauthorized";
+//REQUISITION FORM
+export const REQUISITION_RESOURCE_LIST = "/requisitionform/resource-request-list";
+export const REQUISITION_RESOURCE_FORM = "/requisitionform/resource-request-form";
 
 // Reports
 export const SALARY_FULL_REPORT_URL = `/report/salary_full_report`;
@@ -47,3 +48,7 @@ export const ASSESSMENT_YEAR_REPORT = `/report/assessment_year_report`;
 export const SALARY_PIVOT_SUMMARY_REPORT_URL = `/report/salary_pivot_summary`;
 export const SALARY_INCREMENT_ELIGIBLE_REPORT_URL = `/report/salary_increment_eligible`;
 export const ASSESTMENT_EMPLOYER_REPORT = `/report/assestment_employer_report`;
+export const SALARY_INCREMENT_REPORT = `/report/performance-evaluation-and-salary-increment`;
+
+// Others
+export const UNAUTHORIZED = "/unauthorized";

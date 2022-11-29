@@ -15,6 +15,8 @@ import ConfirmDialog from "../../../components/confirm-dialog/ConfirmDialog";
 import { USER_INFO } from "../../../utils/session/token";
 import { Navigate } from "react-router-dom";
 import { UNAUTHORIZED } from "../../../utils/APP_ROUTES";
+import DatePicker from "../../../components/date-picker/DatePicker";
+import { DATE_FORMAT } from "../../../utils/CONSTANT";
 
 export default function KpiEmployeeAssign() {
   const user = USER_INFO();
@@ -50,6 +52,7 @@ export default function KpiEmployeeAssign() {
       supervisor_id: emSupervisor.toString(),
       duration_startdate: startDate + " 00:00:00",
       duration_enddate: endDate + " 00:00:00",
+      type: yearly ? "Yearly" : "Half Yearly",
     };
     if (sbuId === "") {
       setSbuErr("Required");
@@ -67,6 +70,7 @@ export default function KpiEmployeeAssign() {
             setEndDate("");
             setYearly(false);
             setHalfYearly(false);
+            setIsConfirm(false);
           } else {
             error_alert(res.data.message);
           }
@@ -132,7 +136,7 @@ export default function KpiEmployeeAssign() {
     } else if (sbuId === "") {
       error_alert("Please Select SBU");
     } else {
-      setIsConfirm(!isConfirm);
+      setIsConfirm(true);
     }
   };
 
