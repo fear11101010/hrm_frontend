@@ -6,6 +6,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { EMPLOYEE_PERFORMANCE_CREATE, UNAUTHORIZED } from "../../../utils/APP_ROUTES";
 import { API } from "../../../utils/axios/axiosConfig";
 import {
+  APPRAISAL_FORM_GET,
   EMPLOYEE_ASSESTMENT_GET,
   KPI_PERFORMANCE_FORM,
   KPI_PERFORMANCE_FORM_DATE_VALIDATE,
@@ -29,7 +30,7 @@ function KpiPerformanceIndex(props) {
     const fetchData = async () => {
       try {
         // const response = await API.get(KPI_PERFORMANCE_FORM);
-        const response = await API.get(EMPLOYEE_ASSESTMENT_GET);
+        const response = await API.get(APPRAISAL_FORM_GET);
         setData(response.data);
         if (response.data.data.length <= 0) {
           const dateResponse = await API.get(KPI_PERFORMANCE_FORM_DATE_VALIDATE);

@@ -112,7 +112,7 @@ export default function Privileges() {
   return (
     <Layout>
       {loading && <Loader />}
-      <PageHeader title={`Privileges - ${location.state.role_name}`} onBack />
+      <PageHeader title={`Privileges - ${location?.state?.role_name}`} onBack />
 
       <Content>
         <Tabs id="controlled-tab-example" className="mb-3">

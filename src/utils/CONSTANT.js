@@ -1,5 +1,8 @@
 // export const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
+const server_ip = "http://192.168.7.148:8000";
 export const BASE_URL = "http://127.0.0.1:8000/api";
+// export const BASE_URL = `${server_ip}/api`;
 export const DATE_FORMAT = " DD-MMM-YYYY";
 export const ASSESTMENT_TYPE = [
   { label: "Yearly", value: "Yearly" },

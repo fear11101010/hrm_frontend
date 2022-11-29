@@ -21,10 +21,10 @@ export default function AssestmentEmployerReport() {
 
   //States
   const [loading, setLoading] = useState(false);
-  const [allDownload, setAllDownload] = useState(false);
   const [employee_id, setEmployee_id] = useState("");
   const [year, setYear] = useState("");
-  const [isConfirm, setIsConfirm] = useState(false);
+
+  const [isAll, setIsAll] = useState(false);
 
   //   Download report
   const handleDownload = async (e) => {
@@ -33,7 +33,7 @@ export default function AssestmentEmployerReport() {
       error_alert("Please select all the fields");
     } else {
       setLoading(true);
-      const payload = { employee_id: allDownload ? "all" : employee_id.toString(), year: year.toString() };
+      const payload = { employee_id: isAll ? "all" : employee_id.toString(), year: year.toString() };
       try {
         const res = await API.post(ASSESTMENT_EMPLOYER_REPORT_POST, payload, { responseType: "blob" });
         const url = window.URL.createObjectURL(new Blob([res.data]));
@@ -43,10 +43,8 @@ export default function AssestmentEmployerReport() {
         document.body.appendChild(link);
         link.click();
         setLoading(false);
-        setIsConfirm(false);
-        setAllDownload(false);
+        setIsAll(false);
         success_alert("File Downloaded");
-
         // if (res.data.statuscode === 200) {
         //   console.log(res.data.data);
         //   setReportData(res.data.data);
@@ -62,11 +60,6 @@ export default function AssestmentEmployerReport() {
     }
   };
 
-  const handleConfirmModal = (e) => {
-    e.preventDefault();
-    setIsConfirm(true);
-    setAllDownload(true);
-  };
   return user.accessibility.includes("AssestmentEmployerReport") ? (
     <Layout>
       {isLoading && <Loader />}
@@ -74,15 +67,28 @@ export default function AssestmentEmployerReport() {
       <PageHeader title="Assestment Employer Report" />
       <Content>
         <Form className="w-50 m-auto" onSubmit={handleDownload}>
-          <Form.Group className="mb-3">
-            <Form.Label className="mb-1">Employee</Form.Label>
-            <ReactSelect
-              options={data.data?.map((d) => ({ label: d?.name + " (" + d?.employee_id + ")", value: d?.id }))}
-              onChange={(e) => {
-                setEmployee_id(e.value);
-              }}
-            />
-          </Form.Group>
+          <Form.Check
+            type={"checkbox"}
+            id={`all`}
+            label="All"
+            className="mb-3 fw-bold"
+            checked={isAll}
+            onChange={() => {
+              setIsAll(!isAll);
+              setEmployee_id("");
+            }}
+          />
+          {!isAll && (
+            <Form.Group className="mb-3">
+              <Form.Label className="mb-1">Employee</Form.Label>
+              <ReactSelect
+                options={data.data?.map((d) => ({ label: d?.name + " (" + d?.employee_id + ")", value: d?.id }))}
+                onChange={(e) => {
+                  setEmployee_id(e.value);
+                }}
+              />
+            </Form.Group>
+          )}
           <Form.Group className="mb-3">
             <Form.Label className="mb-1">Year</Form.Label>
             <ReactSelect
@@ -97,30 +103,10 @@ export default function AssestmentEmployerReport() {
             />
           </Form.Group>
 
-          <Button type="submit" disabled={employee_id === "" || year === ""}>
-            View Report
-          </Button>
-          <Button
-            variant="dark"
-            type="submit"
-            className="ms-2"
-            onClick={(e) => {
-              handleConfirmModal(e);
-            }}
-            disabled={year === "" || employee_id !== ""}
-          >
-            All Report
+          <Button type="submit" className="ms-2">
+            Download
           </Button>
         </Form>
-        {isConfirm && (
-          <ConfirmDialog
-            message="Are you sure you want to download all employee report?"
-            onOkButtonClick={handleDownload}
-            onCancelButtonClick={() => {
-              setIsConfirm(false);
-            }}
-          />
-        )}
       </Content>
     </Layout>
   ) : (

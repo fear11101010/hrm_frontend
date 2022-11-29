@@ -1,23 +1,31 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { Navigate } from "react-router-dom";
 import ReactSelect from "react-select";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
 import Content from "../../../components/content/Content";
 import PageHeader from "../../../components/header/PageHeader";
 import Loader from "../../../components/loader/Loader";
+import useFetch from "../../../hooks/useFetch";
 import Layout from "../../../layout/Layout";
-import { REPORT_INCREMENT_ELIGIBLE_SALARY_SUMMERY_API, SALARY_INCREMENT_REPORT_POST } from "../../../utils/API_ROUTES";
+import { EMPLOYEE_LIST_GET, SALARY_INCREMENT_REPORT_POST } from "../../../utils/API_ROUTES";
+import { UNAUTHORIZED } from "../../../utils/APP_ROUTES";
 import { API } from "../../../utils/axios/axiosConfig";
+import { USER_INFO } from "../../../utils/session/token";
 
 export default function SalaryIncrementReport() {
+  const user = USER_INFO();
   const [loading, setLoading] = useState(false);
   const currYear = new Date().getFullYear();
+  const [employee_id, setEmployee_id] = useState("");
+  const [isAll, setIsAll] = useState(false);
   const [year, setYear] = useState("");
+  const { data, isLoading } = useFetch(EMPLOYEE_LIST_GET);
 
   const handleDownload = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const payload = { employee_id: "all", day: "0", month: "0", year: year.toString() };
+    const payload = { employee_id: isAll ? "all" : employee_id, day: "1", month: "March", year: year.toString() };
 
     try {
       const res = await API.post(SALARY_INCREMENT_REPORT_POST(year.toString()), payload, {
@@ -45,17 +53,39 @@ export default function SalaryIncrementReport() {
     } catch (err) {
       console.log(err);
       // error_alert(err?.response?.data.message);
-      error_alert("Error! Can not download data");
+      error_alert("No data found");
     } finally {
       setLoading(false);
     }
   };
-  return (
+  return user.accessibility.includes("SalaryIncrementReport") ? (
     <Layout>
       {loading && <Loader />}
-      <PageHeader title="Performance Evaluation and Salary Increment" />
+      <PageHeader title="Salary Increment & Performance Evaluation" />
       <Content>
         <Form className="w-50 m-auto" onSubmit={handleDownload}>
+          <Form.Check
+            type={"checkbox"}
+            id={`all`}
+            label="All"
+            className="mb-3 fw-bold"
+            checked={isAll}
+            onChange={() => {
+              setIsAll(!isAll);
+              setEmployee_id("");
+            }}
+          />
+          {!isAll && (
+            <Form.Group className="mb-3">
+              <Form.Label className="mb-1">Employee</Form.Label>
+              <ReactSelect
+                options={data.data?.map((d) => ({ label: d?.name + " (" + d?.employee_id + ")", value: d?.id }))}
+                onChange={(e) => {
+                  setEmployee_id(e.value);
+                }}
+              />
+            </Form.Group>
+          )}
           <Form.Group className="mb-3">
             <Form.Label className="mb-1">Select Year</Form.Label>
             <ReactSelect
@@ -69,11 +99,11 @@ export default function SalaryIncrementReport() {
               }}
             />
           </Form.Group>
-          <Button type="submit" disabled={year === ""}>
-            Download
-          </Button>
+          <Button type="submit">Download</Button>
         </Form>
       </Content>
     </Layout>
+  ) : (
+    <Navigate to={UNAUTHORIZED} />
   );
 }

@@ -227,7 +227,7 @@ function Navbar1(props) {
               )}
 
               {/* Requisition  */}
-              {user.sub_module.includes("Report")}
+              {/* {user.sub_module.includes("Report")}
               <Nav.Item as={"li"}>
                 <Nav.Link
                   onClick={() => openOrCloseMenu(3)}
@@ -252,7 +252,7 @@ function Navbar1(props) {
                     </ul>
                   </div>
                 </Collapse>
-              </Nav.Item>
+              </Nav.Item> */}
 
               {/* Report */}
               {user.sub_module.includes("Report") && (

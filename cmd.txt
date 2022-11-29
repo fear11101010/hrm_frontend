@@ -1,1 +1,9 @@
-serve -l 3000 -s build // serve in specific port
+serve -l 5000 -s build     // serve in specific port
+
+---------------------------------
+sudo service nginx restart
+---------------------------------
+
+
+
+

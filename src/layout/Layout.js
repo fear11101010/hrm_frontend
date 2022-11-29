@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Dropdown, Nav, Navbar } from "react-bootstrap";
+import { Button, Dropdown, Modal, Nav, Navbar } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import ConfirmDialog from "../components/confirm-dialog/ConfirmDialog";
 import { LOGOUT_API } from "../utils/API_ROUTES";
@@ -8,6 +8,7 @@ import { API } from "../utils/axios/axiosConfig";
 import { REMOVE_TOKEN, USER_INFO } from "../utils/session/token";
 import CustomNavbar from "./navbar/navbar";
 import Navbar1 from "./navbar/navbar1";
+import { useIdleTimer } from "react-idle-timer";
 import "./layout.css";
 
 export default function Layout({ children }) {
@@ -15,6 +16,7 @@ export default function Layout({ children }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
+  const [idleModal, setIdleModal] = useState(false);
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -33,10 +35,19 @@ export default function Layout({ children }) {
         setLoading(false);
       });
   };
+
   const handleConfirm = (e) => {
     e.preventDefault();
     setIsConfirm(true);
   };
+
+  // IDLE TIMER
+  const onIdle = () => {
+    setIdleModal(true);
+  };
+
+  const idleTimer = useIdleTimer({ onIdle, timeout: 1000 * 10 * 10 });
+
   return (
     <>
       <CustomNavbar />
@@ -77,6 +88,15 @@ export default function Layout({ children }) {
           onCancelButtonClick={(e) => setIsConfirm(false)}
         />
       )}
+      <Modal show={idleModal} centered>
+        <Modal.Body>
+          <div className="text-center py-4">
+            <h2 className="mb-2">You have been idle for 10 minute</h2>
+            <h5 className="mb-4 text-danger">Please Logout and login again!</h5>
+            <Button onClick={handleLogout}>Logout</Button>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }
