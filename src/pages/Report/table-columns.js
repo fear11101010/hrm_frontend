@@ -329,3 +329,5 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
   console.log(info.concat(...arr));
   return info.concat(...arr);
 };
+
+export const SBU_ASSESTMENT_REPORT_TABLE_COLUMN = [{}];

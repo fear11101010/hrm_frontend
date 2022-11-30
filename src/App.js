@@ -71,6 +71,7 @@ import RequisitionOutlet from "./outlets/RequisitionOutlet";
 import ResourceRequisitionForm from "./pages/Requisition_form/resource_requisition/ResourceRequisition";
 import RequestRequisitionList from "./pages/Requisition_form/resource_requisition/request_requisition_list";
 import SalaryIncrementReport from "./pages/Report/salary-increment-report/SalaryIncrementReport";
+import SbuAssestmentData from "./pages/Report/sbu-assestment-report/sbu-assestment-data";
 
 function App() {
   return (
@@ -125,7 +126,7 @@ function App() {
           <Route path={ASSESTMENT_EMPLOYER_REPORT} element={<AssestmentEmployerReport />} />
           <Route path={ASSESSMENT_YEAR_REPORT} element={<AssessmentYearReport />} />
           <Route path={SALARY_INCREMENT_REPORT} element={<SalaryIncrementReport />} />
-          <Route path={SBU_ASSESTMENT_REPORT} element={<SalaryIncrementReport />} />
+          <Route path={SBU_ASSESTMENT_REPORT} element={<SbuAssestmentData />} />
         </Route>
 
         <Route path={UNAUTHORIZED} element={<Unauth />} />

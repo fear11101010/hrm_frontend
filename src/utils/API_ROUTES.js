@@ -84,3 +84,4 @@ export const REPORT_INCREMENT_ELIGIBLE_SALARY_SUMMERY_API = (year) => `reports/$
 export const REPORT_GET_YEARS_DROPDOWN = `reports/$/get_available_years/`;
 export const ASSESTMENT_EMPLOYER_REPORT_POST = `report_individual_assessment/`;
 export const SALARY_INCREMENT_REPORT_POST = (year) => `/reports/${year}/confirmed_increments_by_year/`;
+export const SBU_ASSESTMENT_REPORT_GET = `report_performance_assessed_data/`;
