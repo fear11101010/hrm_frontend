@@ -21,6 +21,7 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
   });
   const ratingList = useHrRating();
   const valueList = useKpiValue();
+
   const submitKpiPerformanceForm = (data, event) => {
     if (beforeSubmit) {
       beforeSubmit();
@@ -58,6 +59,7 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
         afterSubmit({ status: "complete" });
       });
   };
+
   return (
     <Form onSubmit={(e) => e.preventDefault()}>
       <Card>
@@ -932,8 +934,6 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
           </div>
         </Card.Body>
       </Card>
-
-      <Row className="mt-4"></Row>
     </Form>
   );
 }

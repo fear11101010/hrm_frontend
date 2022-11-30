@@ -21,6 +21,7 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
   //Form State
   const [propsed_by_sbuDirPmSelf, setPropsed_by_sbuDirPmSelf] = useState("");
   const [propsed_designation, setProposed_designation] = useState("");
+  const [propsed_designation_new, setProposed_designation_new] = useState("");
   const [remarks1, setRemarks1] = useState("");
   const [remarks2, setRemarks2] = useState("");
   const [normalSubmit, setNormalSubmit] = useState(false);
@@ -52,7 +53,7 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
       best_performer_org: data.data?.best_performer_org,
       best_performer_pm: data.data?.best_performer_pm,
       confirmation_increment_noincrement: data.data?.confirmation_increment_noincrement,
-      proposed_designation: designationConfirm ? propsed_designation : propsed_designation,
+      proposed_designation: designationConfirm ? propsed_designation_new : propsed_designation,
       detail_save: "",
       report_save: "",
       final: finalSubmit ? true : false,
@@ -73,6 +74,7 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
       })
       .finally(() => {
         setLoading(false);
+        setIsConfirm(false);
       });
   };
 
@@ -121,7 +123,8 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
                     designationList?.map((d) => (d.value === propsed_designation ? d.label : null))
                   }
                   onChange={(e) => {
-                    setProposed_designation(e.value);
+                    // setProposed_designation(e.value);
+                    setProposed_designation_new(e.value);
                   }}
                 />
               </div>

@@ -59,6 +59,7 @@ export const PIVOT_TABLE_COLUMN = (year) => [
     selector: (row, index) => row["yoy%"],
   },
 ];
+
 export const ELIGIBLE_TABLE_COLUMN = (year) => [
   {
     name: "#",
@@ -92,6 +93,7 @@ export const ELIGIBLE_TABLE_COLUMN = (year) => [
     selector: (row, index) => row[`increment${year}%`],
   },
 ];
+
 export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
   const info = [
     {
@@ -330,4 +332,111 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
   return info.concat(...arr);
 };
 
-export const SBU_ASSESTMENT_REPORT_TABLE_COLUMN = [{}];
+export const SBU_ASSESTMENT_REPORT_TABLE_COLUMN = [
+  {
+    name: "Name",
+    selector: (row) => row?.employee?.name,
+    minWidth: "200px",
+  },
+  {
+    name: "ID",
+    selector: (row) => row?.employee?.employee_id,
+    width: "100px",
+  },
+  {
+    name: "Designation",
+    selector: (row) => row?.employee?.designation,
+    minWidth: "200px",
+    wrap: true,
+  },
+  {
+    name: "SBU",
+    selector: (row) => row?.employee?.sbu?.name,
+    minWidth: "200px",
+  },
+  {
+    name: "Production",
+    selector: (row) => row?.production,
+    minWidth: "200px",
+  },
+  {
+    name: "Support",
+    selector: (row) => row?.support,
+    minWidth: "200px",
+  },
+  {
+    name: "Innovation",
+    selector: (row) => row?.innovation,
+    minWidth: "200px",
+  },
+  {
+    name: "People",
+    selector: (row) => row?.people,
+    minWidth: "200px",
+  },
+  {
+    name: "Other",
+    selector: (row) => row?.other,
+    minWidth: "200px",
+  },
+  {
+    name: "Courageous",
+    selector: (row) => row?.courageous,
+    minWidth: "200px",
+  },
+  {
+    name: "Teamwork",
+    selector: (row) => row?.teamwork,
+    minWidth: "200px",
+  },
+  {
+    name: "Responsive",
+    selector: (row) => row?.responsive,
+    minWidth: "200px",
+  },
+  {
+    name: "Creative",
+    selector: (row) => row?.creative,
+    minWidth: "200px",
+  },
+  {
+    name: "Trustworthy",
+    selector: (row) => row?.trustworthy,
+    minWidth: "200px",
+  },
+  {
+    name: "Other Sustainable Achievement",
+    selector: (row) => row?.other_sustainable_achievement,
+    minWidth: "200px",
+  },
+  {
+    name: "Significant Issue",
+    selector: (row) => row?.significant_issue,
+    minWidth: "200px",
+  },
+  {
+    name: "Individual Comment",
+    selector: (row) => row?.individual_comment,
+    minWidth: "200px",
+  },
+  {
+    name: "Manager Comment",
+    selector: (row) => row?.manager_comment,
+    minWidth: "200px",
+  },
+  {
+    name: "Senior Manager Functional Head Comment",
+    selector: (row) => row?.senior_manager_functional_head_comment,
+    minWidth: "200px",
+  },
+  {
+    name: "Director Chief Operating Officer Comment",
+    selector: (row) => row?.director_chief_operating_officer_comment,
+    minWidth: "200px",
+  },
+  {
+    name: "Overall Performance",
+    selector: (row) => row?.overall_performance,
+    minWidth: "200px",
+  },
+];

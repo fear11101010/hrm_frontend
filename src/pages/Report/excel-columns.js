@@ -42,6 +42,7 @@ export const PIVOT_EXCEL_COLUMN = (year) => [
     value: (row, index) => row["yoy%"],
   },
 ];
+
 export const ELIGIBLE_EXCEL_COLUMN = (year) => [
   {
     key: "#",
@@ -68,6 +69,7 @@ export const ELIGIBLE_EXCEL_COLUMN = (year) => [
     value: (row, index) => row[`increment${year}%`],
   },
 ];
+
 export const SALARY_FULL_REPORT = (years) => {
   const info = [
     {
@@ -296,3 +298,90 @@ export const SALARY_FULL_REPORT = (years) => {
   console.log(info.concat(...arr));
   return info.concat(...arr);
 };
+
+export const SBU_ASSESTMENT_REPORT_EXCEL_COLUMN = [
+  {
+    key: "Name",
+    value: (row) => row?.employee?.name,
+  },
+  {
+    key: "ID",
+    value: (row) => row?.employee?.employee_id,
+  },
+  {
+    key: "Designation",
+    value: (row) => row?.employee?.designation,
+  },
+  {
+    key: "SBU",
+    value: (row) => row?.employee?.sbu?.name,
+  },
+  {
+    key: "Production",
+    value: (row) => row?.production,
+  },
+  {
+    key: "Support",
+    value: (row) => row?.support,
+  },
+  {
+    key: "Innovation",
+    value: (row) => row?.innovation,
+  },
+  {
+    key: "People",
+    value: (row) => row?.people,
+  },
+  {
+    key: "Other",
+    value: (row) => row?.other,
+  },
+  {
+    key: "Courageous",
+    value: (row) => row?.courageous,
+  },
+  {
+    key: "Teamwork",
+    value: (row) => row?.teamwork,
+  },
+  {
+    key: "Responsive",
+    value: (row) => row?.responsive,
+  },
+  {
+    key: "Creative",
+    value: (row) => row?.creative,
+  },
+  {
+    key: "Trustworthy",
+    value: (row) => row?.trustworthy,
+  },
+  {
+    key: "Other Sustainable Achievement",
+    value: (row) => row?.other_sustainable_achievement,
+  },
+  {
+    key: "Significant Issue",
+    value: (row) => row?.significant_issue,
+  },
+  {
+    key: "Individual Comment",
+    value: (row) => row?.individual_comment,
+  },
+  {
+    key: "Manager Comment",
+    value: (row) => row?.manager_comment,
+  },
+  {
+    key: "Senior Manager Functional Head Comment",
+    value: (row) => row?.senior_manager_functional_head_comment,
+  },
+  {
+    key: "Director Chief Operating Officer Comment",
+    value: (row) => row?.director_chief_operating_officer_comment,
+  },
+  {
+    key: "Overall Performance",
+    value: (row) => row?.overall_performance,
+  },
+];

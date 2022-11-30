@@ -37,6 +37,7 @@ export default function EmPerformanceSingle() {
     reset,
     formState: { errors },
   } = useForm();
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({});
@@ -185,7 +186,7 @@ export default function EmPerformanceSingle() {
                 <Col sm="12" md={admin ? "6" : "12"}>
                   <h1 className="text-center mb-2">{currYear}</h1>
                   <Accordion>
-                    <Accordion.Item eventKey="0">
+                    <Accordion.Item>
                       <Accordion.Header as={"div"}>
                         <div>
                           <h3 className="header-title mb-0">1. PRODUCTION</h3>
@@ -597,7 +598,7 @@ export default function EmPerformanceSingle() {
                 <Col sm="12" md={admin ? "6" : "12"}>
                   <h1 className="text-center mb-2">{currYear}</h1>
                   <Accordion>
-                    <Accordion.Item eventKey="0">
+                    <Accordion.Item>
                       <Accordion.Header as={"div"}>
                         <div>
                           <h3 className="header-title mb-0">1. COURAGEOUS</h3>
@@ -804,7 +805,7 @@ export default function EmPerformanceSingle() {
                   <Col sm="12" md="6">
                     <h1 className="text-center mb-2">{currYear - 1}</h1>
                     <Accordion>
-                      <Accordion.Item eventKey="0">
+                      <Accordion.Item>
                         <Accordion.Header as={"div"}>
                           <div>
                             <h3 className="header-title mb-0">1. COURAGEOUS</h3>
@@ -946,7 +947,7 @@ export default function EmPerformanceSingle() {
                 <Col sm="12" md={admin ? "6" : "12"}>
                   <h1 className="text-center mb-2">{currYear}</h1>
                   <Accordion>
-                    <Accordion.Item eventKey="0">
+                    <Accordion.Item>
                       <Accordion.Header as={"div"}>
                         <div>
                           <h3 className="header-title mb-0">OTHER SUBSTANTIAL ACHIEVEMENTS</h3>
@@ -992,7 +993,7 @@ export default function EmPerformanceSingle() {
                   <Col sm="12" md="6">
                     <h1 className="text-center mb-2">{currYear - 1}</h1>
                     <Accordion>
-                      <Accordion.Item eventKey="0">
+                      <Accordion.Item>
                         <Accordion.Header as={"div"}>
                           <div>
                             <h3 className="header-title mb-0">OTHER SUBSTANTIAL ACHIEVEMENTS</h3>
@@ -1040,7 +1041,7 @@ export default function EmPerformanceSingle() {
                 <Col sm="12" md={admin ? "6" : "12"}>
                   <h1 className="text-center mb-2">{currYear}</h1>
                   <Accordion>
-                    <Accordion.Item eventKey="0">
+                    <Accordion.Item>
                       <Accordion.Header as={"div"}>
                         <div>
                           <h3 className="header-title mb-0">INDIVIDUAL'S COMMENTS</h3>
@@ -1126,7 +1127,7 @@ export default function EmPerformanceSingle() {
                   <Col sm="12" md="6">
                     <h1 className="text-center mb-2">{currYear - 1}</h1>
                     <Accordion>
-                      <Accordion.Item eventKey="0">
+                      <Accordion.Item>
                         <Accordion.Header as={"div"}>
                           <div>
                             <h3 className="header-title mb-0">INDIVIDUAL'S COMMENTS</h3>
