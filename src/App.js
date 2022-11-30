@@ -50,6 +50,7 @@ import {
   REQUISITION_RESOURCE_LIST,
   REQUISITION_RESOURCE_FORM,
   SALARY_INCREMENT_REPORT,
+  SBU_ASSESTMENT_REPORT,
 } from "./utils/APP_ROUTES";
 import KpiPerformanceIndex from "./pages/KPI/kpi-performane-form/kpi-performance-index";
 import KpiPerformanceFormCreate from "./pages/KPI/kpi-performane-form/kpi-performance-form-create";
@@ -124,6 +125,7 @@ function App() {
           <Route path={ASSESTMENT_EMPLOYER_REPORT} element={<AssestmentEmployerReport />} />
           <Route path={ASSESSMENT_YEAR_REPORT} element={<AssessmentYearReport />} />
           <Route path={SALARY_INCREMENT_REPORT} element={<SalaryIncrementReport />} />
+          <Route path={SBU_ASSESTMENT_REPORT} element={<SalaryIncrementReport />} />
         </Route>
 
         <Route path={UNAUTHORIZED} element={<Unauth />} />

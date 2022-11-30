@@ -576,17 +576,17 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
         </Accordion>
 
         {/* Buttons */}
-        <div className="mt-4 mb-4 text-end">
+        <div className="mt-4 mb-4 d-flex justify-content-between">
           <Button
             type="submit"
-            variant="info"
-            className="ms-0"
+            variant="white"
+            className="fw-bold"
             onClick={() => {
               setNormalSubmit(true);
               setFinalSubmit(false);
             }}
           >
-            Save Changes
+            Draft Save
           </Button>
           {user.group_id.split(",").map(
             (d) =>
@@ -599,7 +599,7 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
                     setNormalSubmit(false);
                   }}
                 >
-                  Final Submit
+                  Confirm Submit
                 </Button>
               )
           )}

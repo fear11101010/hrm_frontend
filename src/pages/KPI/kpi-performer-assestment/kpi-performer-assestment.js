@@ -84,18 +84,20 @@ export default function KpiPerformerAssestment() {
       name: "Proposed",
       cell: (row) => (
         <>
-          <Button
-            size="sm"
-            variant="info"
-            title="Proposed"
-            className="btn-rounded-circle"
-            onClick={() => {
-              setSelectedRowId(row.id);
-              setIncAmountModal(true);
-            }}
-          >
-            <i className="fe fe-edit-3"></i>
-          </Button>
+          {row.flag === 0 && (
+            <Button
+              size="sm"
+              variant="info"
+              title="Proposed"
+              className="btn-rounded-circle"
+              onClick={() => {
+                setSelectedRowId(row.id);
+                setIncAmountModal(true);
+              }}
+            >
+              <i className="fe fe-edit-3"></i>
+            </Button>
+          )}
         </>
       ),
       width: "100px",

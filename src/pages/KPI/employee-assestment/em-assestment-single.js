@@ -95,7 +95,7 @@ export default function EmAssestmentSingle() {
           setBest_performer_pm_curr(res.data?.data?.best_performer_pm);
           setConf_inc_noInc(res.data?.data?.confirmation_increment_noincrement);
           setPropose_sbu(res.data?.data?.proposed_by_sbu_director_pm_self);
-          setProposed_designation(res.data?.data?.proposed_designation);
+          setProposed_designation(res.data?.data?.employee?.desig_id);
           setRemarks(res.data?.data?.remarks);
 
           // Employee duration formatiing
@@ -435,7 +435,7 @@ export default function EmAssestmentSingle() {
                         designationList?.map((d) => (d.value === proposed_designation ? d.label : null))
                       }
                       onChange={(e) => {
-                        setProposed_designation(e.target.value);
+                        setProposed_designation(e.value);
                       }}
                     />
                   </Col>
@@ -483,7 +483,7 @@ export default function EmAssestmentSingle() {
             <button className="btn btn-primary px-4" type="submit">
               Save
             </button>
-            <button className="btn btn-light px-4 ms-2" onClick={() => navigate(-1)}>
+            <button className="btn btn-light px-4 ms-2 fw-bold" onClick={() => navigate(-1)}>
               Cancel
             </button>
           </Form>
