@@ -311,24 +311,22 @@ export const SBU_ASSESTMENT_REPORT_EXCEL_COLUMN = [
   {
     key: "Designation",
     value: (row) => row?.employee?.designation,
-
-    wrap: true,
   },
   {
     key: "SBU",
-    value: (row) => row?.employee?.sbu?.key,
+    value: (row) => row?.employee?.sbu?.name,
   },
   {
     key: "Objective",
-    value: (row) => row?.kpi_objective,
+    value: (row) => row?.kpi_objective?.name,
   },
   {
     key: "Value",
-    value: (row) => row?.kpi_value,
+    value: (row) => row?.kpi_value?.name,
   },
   {
     key: "HR Rating",
-    value: (row) => row?.hr_rating,
+    value: (row) => row?.hr_rating?.name,
   },
   {
     key: "KPI",
@@ -336,31 +334,31 @@ export const SBU_ASSESTMENT_REPORT_EXCEL_COLUMN = [
   },
   {
     key: "Criticality ",
-    value: (row) => row?.criticality,
+    value: (row) => row?.criticality?.name,
   },
   {
     key: "Top/Average/Bottom Performer",
-    value: (row) => row?.top_average_bottom_performer,
+    value: (row) => row?.top_average_bottom_performer?.name,
   },
   {
     key: "Best performer inside team",
-    value: (row) => row?.best_performer_team,
+    value: (row) => row?.best_performer_team?.name,
   },
   {
     key: "Best performer in the organization",
-    value: (row) => row?.best_performer_org,
+    value: (row) => row?.best_performer_org?.name,
   },
   {
     key: "Best performer among all PM",
-    value: (row) => row?.best_performer_pm,
+    value: (row) => row?.best_performer_pm?.name,
   },
   {
     key: "Best innovator inside team",
-    value: (row) => row?.best_innovator_team,
+    value: (row) => row?.best_innovator_team?.name,
   },
   {
     key: "Potential for Improvement",
-    value: (row) => row?.potential_for_improvement,
+    value: (row) => row?.potential_for_improvement?.name,
   },
   {
     key: "Technical/Implementation/Operational",
@@ -368,7 +366,7 @@ export const SBU_ASSESTMENT_REPORT_EXCEL_COLUMN = [
   },
   {
     key: "Confirmation/Increment/No Increment",
-    value: (row) => row?.confirmation_increment_noincrement,
+    value: (row) => row?.confirmation_increment_noincrement?.name,
   },
   {
     key: "Proposed Designation",

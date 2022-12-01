@@ -69,6 +69,7 @@ export default function EmAssestmentSingle() {
   const [conf_inc_noInc, setConf_inc_noInc] = useState("");
   const [propose_SBU, setPropose_sbu] = useState("");
   const [proposed_designation, setProposed_designation] = useState("");
+  const [proposed_designation_id, setProposed_designation_id] = useState("");
   const [remarks, setRemarks] = useState("");
 
   const [diffByYear, setdiffByYear] = useState("");
@@ -97,7 +98,8 @@ export default function EmAssestmentSingle() {
           setBest_performer_pm_curr(res.data?.data?.best_performer_pm);
           setConf_inc_noInc(res.data?.data?.confirmation_increment_noincrement);
           setPropose_sbu(res.data?.data?.proposed_by_sbu_director_pm_self);
-          setProposed_designation(res.data?.data?.employee?.desig_id);
+          setProposed_designation(res.data?.data?.employee?.designation);
+          setProposed_designation_id(res.data?.data?.employee?.desig_id);
           setRemarks(res.data?.data?.remarks);
 
           // Employee duration formatiing
@@ -153,6 +155,7 @@ export default function EmAssestmentSingle() {
         confirmation_increment_noincrement: conf_inc_noInc,
         proposed_by_sbu_director_pm_self: propose_SBU,
         proposed_designation: proposed_designation,
+        proposed_designation_id: proposed_designation_id,
         remarks: remarks,
         final: false,
         // detail_save:""
@@ -170,6 +173,7 @@ export default function EmAssestmentSingle() {
         })
         .finally(() => {
           setLoading(false);
+          setIsConfirm(false);
         });
     }
   };
@@ -457,11 +461,12 @@ export default function EmAssestmentSingle() {
                     <ReactSelect
                       options={designationList}
                       placeholder={
-                        proposed_designation !== "" &&
-                        designationList?.map((d) => (d.value === proposed_designation ? d.label : null))
+                        proposed_designation_id !== "" &&
+                        designationList?.map((d) => (d.value === proposed_designation_id ? d.label : null))
                       }
                       onChange={(e) => {
-                        setProposed_designation(e.value);
+                        setProposed_designation(e.label);
+                        setProposed_designation_id(e.value);
                       }}
                     />
                   </Col>

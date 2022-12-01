@@ -21,7 +21,9 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
   //Form State
   const [propsed_by_sbuDirPmSelf, setPropsed_by_sbuDirPmSelf] = useState("");
   const [propsed_designation, setProposed_designation] = useState("");
+  const [propsed_designation_id, setProposed_designation_id] = useState("");
   const [propsed_designation_new, setProposed_designation_new] = useState("");
+  const [propsed_designation_new_id, setProposed_designation_new_id] = useState("");
   const [remarks1, setRemarks1] = useState("");
   const [remarks2, setRemarks2] = useState("");
   const [normalSubmit, setNormalSubmit] = useState(false);
@@ -39,8 +41,10 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
       .then((res) => {
         if (res.data.statuscode === 200) {
           setPropsed_by_sbuDirPmSelf(res.data.data?.proposed_by_sbu_director_pm_self);
-          setProposed_designation(res.data.data?.employee?.desig_id);
-          setProposed_designation_new(res.data.data?.employee?.desig_id);
+          setProposed_designation(res.data.data?.employee?.designation);
+          setProposed_designation_id(res.data.data?.employee?.desig_id);
+          setProposed_designation_new(res.data.data?.employee?.designation);
+          setProposed_designation_new_id(res.data.data?.employee?.desig_id);
           setRemarks1(res.data?.data?.remarks);
           setRemarks2(res.data?.data?.remarks_two);
         }
@@ -61,7 +65,6 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
         propsed_by_sbuDirPmSelf === "" ? data.data?.proposed_by_sbu_director_pm_self : propsed_by_sbuDirPmSelf,
       remarks: remarks1 === "" ? data.data?.remarks : remarks1,
       remarks_two: remarks2 === "" ? data.data?.remarks_two : remarks2,
-
       kpi_objective: data.data?.kpi_objective,
       kpi_value: data.data?.kpi_value,
       hr_rating: data.data?.hr_rating,
@@ -75,6 +78,7 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
       best_performer_pm: data.data?.best_performer_pm,
       confirmation_increment_noincrement: data.data?.confirmation_increment_noincrement,
       proposed_designation: designationConfirm ? propsed_designation_new : propsed_designation,
+      proposed_designation_id: designationConfirm ? propsed_designation_new_id : propsed_designation_id,
       detail_save: "",
       report_save: "",
       final: finalSubmit ? true : false,
@@ -121,12 +125,13 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
                 <ReactSelect
                   options={designationList}
                   placeholder={
-                    propsed_designation !== "" &&
-                    designationList?.map((d) => (d.value === propsed_designation ? d.label : null))
+                    propsed_designation_id !== "" &&
+                    designationList?.map((d) => (d.value === propsed_designation_id ? d.label : null))
                   }
                   onChange={(e) => {
                     // setProposed_designation(e.value);
-                    setProposed_designation_new(e.value);
+                    setProposed_designation_new(e.label);
+                    setProposed_designation_new_id(e.value);
                   }}
                 />
               </div>

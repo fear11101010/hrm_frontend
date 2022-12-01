@@ -49,9 +49,9 @@ export default function Login() {
   return GET_TOKEN() ? (
     <Navigate to={DASHBOARD_PAGE} />
   ) : (
-    <div className="min-vh-100 d-flex justify-content-center align-items-center">
+    <div className="min-vh-100 d-flex justify-content-center align-items-center bg-light">
       {loading && <Loader />}
-      <div className="card shadow-sm w-25">
+      <div className="card shadow-sm w-25 border">
         <div className="card-body">
           <h2 className="text-primary">Login</h2>
           <hr />
@@ -84,7 +84,7 @@ export default function Login() {
                 required
               />
             </div>
-            <button type="submit" className="btn btn-primary w-100 mt-4" disabled={loading}>
+            <button type="submit" className="btn btn-primary w-100 mt-3" disabled={loading}>
               Login
             </button>
           </form>
