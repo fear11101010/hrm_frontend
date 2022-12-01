@@ -107,8 +107,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
           </Row>
 
           <>
-            <Accordion className="mb-3">
-              <Accordion.Item eventKey="0">
+            <Accordion className="mb-3" alwaysOpen>
+              <Accordion.Item>
                 <Accordion.Header as={"div"}>
                   <div>
                     <h3 className="header-title mb-0">1. PRODUCTION</h3>
@@ -172,8 +172,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
-            <Accordion className="mb-3">
-              <Accordion.Item eventKey="0">
+            <Accordion className="mb-3" alwaysOpen>
+              <Accordion.Item>
                 <Accordion.Header as={"div"}>
                   <div>
                     <h3 className="header-title mb-0">2. SUPPORT</h3>
@@ -239,8 +239,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
-            <Accordion className="mb-3">
-              <Accordion.Item eventKey="0">
+            <Accordion className="mb-3" alwaysOpen>
+              <Accordion.Item>
                 <Accordion.Header as={"div"}>
                   <div>
                     <h3 className="header-title mb-0">3. INNOVATION</h3>
@@ -302,8 +302,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
-            <Accordion className="mb-3">
-              <Accordion.Item eventKey="0">
+            <Accordion className="mb-3" alwaysOpen>
+              <Accordion.Item>
                 <Accordion.Header as={"div"}>
                   <div>
                     <h3 className="header-title mb-0">4. PEOPLE</h3>
@@ -365,8 +365,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
-            <Accordion className="mb-3">
-              <Accordion.Item eventKey="0">
+            <Accordion className="mb-3" alwaysOpen>
+              <Accordion.Item>
                 <Accordion.Header as={"div"}>
                   <div>
                     <h3 className="header-title mb-0">5. OTHER</h3>
@@ -449,8 +449,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
           </Row>
           <hr className="mb-4" />
           <>
-            <Accordion className="mb-3">
-              <Accordion.Item eventKey="0">
+            <Accordion className="mb-3" alwaysOpen>
+              <Accordion.Item>
                 <Accordion.Header as={"div"}>
                   <div>
                     <h3 className="header-title mb-0">1. COURAGEOUS</h3>
@@ -503,8 +503,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
-            <Accordion className="mb-3">
-              <Accordion.Item eventKey="0">
+            <Accordion className="mb-3" alwaysOpen>
+              <Accordion.Item>
                 <Accordion.Header as={"div"}>
                   <div>
                     <h3 className="header-title mb-0">2. TEAMWORK</h3>
@@ -559,8 +559,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
-            <Accordion className="mb-3">
-              <Accordion.Item eventKey="0">
+            <Accordion className="mb-3" alwaysOpen>
+              <Accordion.Item>
                 <Accordion.Header as={"div"}>
                   <div>
                     <h3 className="header-title mb-0">3. RESPONSIVE</h3>
@@ -616,8 +616,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
-            <Accordion className="mb-3">
-              <Accordion.Item eventKey="0">
+            <Accordion className="mb-3" alwaysOpen>
+              <Accordion.Item>
                 <Accordion.Header as={"div"}>
                   <div>
                     <h3 className="header-title mb-0">4. CREATIVE</h3>
@@ -680,8 +680,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
-            <Accordion className="mb-3">
-              <Accordion.Item eventKey="0">
+            <Accordion className="mb-3" alwaysOpen>
+              <Accordion.Item>
                 <Accordion.Header as={"div"}>
                   <div>
                     <h3 className="header-title mb-0">5. TRUSTWORTHY</h3>
@@ -745,8 +745,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
       </Card>
       <Card>
         <Card.Body>
-          <Accordion className="mb-3">
-            <Accordion.Item eventKey="0">
+          <Accordion className="mb-3" alwaysOpen>
+            <Accordion.Item>
               <Accordion.Header as={"div"}>
                 <div>
                   <h3 className="header-title mb-0">OTHER SUBSTANTIAL ACHIEVEMENTS</h3>
@@ -768,8 +768,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
-          <Accordion className="mb-3">
-            <Accordion.Item eventKey="0">
+          <Accordion className="mb-3" alwaysOpen>
+            <Accordion.Item>
               <Accordion.Header as={"div"}>
                 <div>
                   <h3 className="header-title mb-0">SIGNIFICANT ISSUES</h3>
@@ -798,8 +798,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
         <Card.Body>
           <h2 className="header-title mb-0">Comments</h2>
           <hr className="mb-4" />
-          <Accordion className="mb-3">
-            <Accordion.Item eventKey="0">
+          <Accordion className="mb-3" alwaysOpen>
+            <Accordion.Item>
               <Accordion.Header as={"div"}>
                 <div>
                   <h3 className="header-title mb-0">INDIVIDUAL'S COMMENTS</h3>
@@ -821,8 +821,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
-          <Accordion className="mb-3">
-            <Accordion.Item eventKey="0">
+          <Accordion className="mb-3" alwaysOpen>
+            <Accordion.Item>
               <Accordion.Header as={"div"}>
                 <div>
                   <h3 className="header-title mb-0">MANAGERS COMMENTS</h3>
@@ -844,8 +844,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
-          <Accordion className="mb-3">
-            <Accordion.Item eventKey="0">
+          <Accordion className="mb-3" alwaysOpen>
+            <Accordion.Item>
               <Accordion.Header as={"div"}>
                 <div>
                   <h3 className="header-title mb-0">SENIOR MANAGER / FUNCTIONAL HEAD'S COMMENTS</h3>
@@ -867,8 +867,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
-          <Accordion className="mb-3">
-            <Accordion.Item eventKey="0">
+          <Accordion className="mb-3" alwaysOpen>
+            <Accordion.Item>
               <Accordion.Header as={"div"}>
                 <div>
                   <h3 className="header-title mb-0">DIRECTOR AND CHIEF OPERATING OFFICER'S COMMENTS</h3>
@@ -894,8 +894,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
       </Card>
       <Card>
         <Card.Body>
-          <Accordion className="mb-3">
-            <Accordion.Item eventKey="0">
+          <Accordion className="mb-3" alwaysOpen>
+            <Accordion.Item>
               <Accordion.Header as={"div"}>
                 <div>
                   <h3 className="header-title mb-0">OVERALL PERFORMANCE BASED ON ALL OF THE ABOVE RATING :</h3>

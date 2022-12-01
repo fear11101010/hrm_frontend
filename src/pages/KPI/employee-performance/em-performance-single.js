@@ -185,7 +185,7 @@ export default function EmPerformanceSingle() {
               <Row>
                 <Col sm="12" md={admin ? "6" : "12"}>
                   <h1 className="text-center mb-2">{currYear}</h1>
-                  <Accordion>
+                  <Accordion alwaysOpen>
                     <Accordion.Item>
                       <Accordion.Header as={"div"}>
                         <div>
@@ -233,7 +233,7 @@ export default function EmPerformanceSingle() {
                         </Row>
                       </Accordion.Body>
                     </Accordion.Item>
-                    <Accordion.Item eventKey="1">
+                    <Accordion.Item>
                       <Accordion.Header as={"div"}>
                         <div>
                           <h3 className="header-title mb-0">2. SUPPORT</h3>
@@ -282,7 +282,7 @@ export default function EmPerformanceSingle() {
                         </Row>
                       </Accordion.Body>
                     </Accordion.Item>
-                    <Accordion.Item eventKey="2">
+                    <Accordion.Item>
                       <Accordion.Header as={"div"}>
                         <div>
                           <h3 className="header-title mb-0">3. INNOVATION</h3>
@@ -329,7 +329,7 @@ export default function EmPerformanceSingle() {
                         </Row>
                       </Accordion.Body>
                     </Accordion.Item>
-                    <Accordion.Item eventKey="3">
+                    <Accordion.Item>
                       <Accordion.Header as={"div"}>
                         <div>
                           <h3 className="header-title mb-0">4. PEOPLE</h3>
@@ -376,7 +376,7 @@ export default function EmPerformanceSingle() {
                         </Row>
                       </Accordion.Body>
                     </Accordion.Item>
-                    <Accordion.Item eventKey="4">
+                    <Accordion.Item>
                       <Accordion.Header as={"div"}>
                         <div>
                           <h3 className="header-title mb-0">5. OTHER</h3>
@@ -429,7 +429,7 @@ export default function EmPerformanceSingle() {
                   <Col sm="12" md="6">
                     <h1 className="text-center mb-2">{currYear - 1}</h1>
                     <Accordion>
-                      <Accordion.Item eventKey="0">
+                      <Accordion.Item>
                         <Accordion.Header as={"div"}>
                           <div>
                             <h3 className="header-title mb-0">1. PRODUCTION</h3>
@@ -457,7 +457,7 @@ export default function EmPerformanceSingle() {
                           </Row>
                         </Accordion.Body>
                       </Accordion.Item>
-                      <Accordion.Item eventKey="1">
+                      <Accordion.Item>
                         <Accordion.Header as={"div"}>
                           <div>
                             <h3 className="header-title mb-0">2. SUPPORT</h3>
@@ -487,7 +487,7 @@ export default function EmPerformanceSingle() {
                           </Row>
                         </Accordion.Body>
                       </Accordion.Item>
-                      <Accordion.Item eventKey="2">
+                      <Accordion.Item>
                         <Accordion.Header as={"div"}>
                           <div>
                             <h3 className="header-title mb-0">3. INNOVATION</h3>
@@ -515,7 +515,7 @@ export default function EmPerformanceSingle() {
                           </Row>
                         </Accordion.Body>
                       </Accordion.Item>
-                      <Accordion.Item eventKey="3">
+                      <Accordion.Item>
                         <Accordion.Header as={"div"}>
                           <div>
                             <h3 className="header-title mb-0">4. PEOPLE</h3>
@@ -543,7 +543,7 @@ export default function EmPerformanceSingle() {
                           </Row>
                         </Accordion.Body>
                       </Accordion.Item>
-                      <Accordion.Item eventKey="4">
+                      <Accordion.Item>
                         <Accordion.Header as={"div"}>
                           <div>
                             <h3 className="header-title mb-0">5. OTHER</h3>
@@ -639,7 +639,7 @@ export default function EmPerformanceSingle() {
                         </Row>
                       </Accordion.Body>
                     </Accordion.Item>
-                    <Accordion.Item eventKey="1">
+                    <Accordion.Item>
                       <Accordion.Header as={"div"}>
                         <div>
                           <h3 className="header-title mb-0">2. TEAMWORK</h3>
@@ -680,7 +680,7 @@ export default function EmPerformanceSingle() {
                         </Row>
                       </Accordion.Body>
                     </Accordion.Item>
-                    <Accordion.Item eventKey="2">
+                    <Accordion.Item>
                       <Accordion.Header as={"div"}>
                         <div>
                           <h3 className="header-title mb-0">3. RESPONSIVE</h3>
@@ -721,7 +721,7 @@ export default function EmPerformanceSingle() {
                         </Row>
                       </Accordion.Body>
                     </Accordion.Item>
-                    <Accordion.Item eventKey="3">
+                    <Accordion.Item>
                       <Accordion.Header as={"div"}>
                         <div>
                           <h3 className="header-title mb-0">4. CREATIVE</h3>
@@ -760,7 +760,7 @@ export default function EmPerformanceSingle() {
                         </Row>
                       </Accordion.Body>
                     </Accordion.Item>
-                    <Accordion.Item eventKey="4">
+                    <Accordion.Item>
                       <Accordion.Header as={"div"}>
                         <div>
                           <h3 className="header-title mb-0">5. TRUSTWORTHY</h3>
@@ -831,7 +831,7 @@ export default function EmPerformanceSingle() {
                           </Row>
                         </Accordion.Body>
                       </Accordion.Item>
-                      <Accordion.Item eventKey="1">
+                      <Accordion.Item>
                         <Accordion.Header as={"div"}>
                           <div>
                             <h3 className="header-title mb-0">2. TEAMWORK</h3>
@@ -857,7 +857,7 @@ export default function EmPerformanceSingle() {
                           </Row>
                         </Accordion.Body>
                       </Accordion.Item>
-                      <Accordion.Item eventKey="2">
+                      <Accordion.Item>
                         <Accordion.Header as={"div"}>
                           <div>
                             <h3 className="header-title mb-0">3. RESPONSIVE</h3>
@@ -883,7 +883,7 @@ export default function EmPerformanceSingle() {
                           </Row>
                         </Accordion.Body>
                       </Accordion.Item>
-                      <Accordion.Item eventKey="3">
+                      <Accordion.Item>
                         <Accordion.Header as={"div"}>
                           <div>
                             <h3 className="header-title mb-0">4. CREATIVE</h3>
@@ -907,7 +907,7 @@ export default function EmPerformanceSingle() {
                           </Row>
                         </Accordion.Body>
                       </Accordion.Item>
-                      <Accordion.Item eventKey="4">
+                      <Accordion.Item>
                         <Accordion.Header as={"div"}>
                           <div>
                             <h3 className="header-title mb-0">5. TRUSTWORTHY</h3>
@@ -967,7 +967,7 @@ export default function EmPerformanceSingle() {
                         </Row>
                       </Accordion.Body>
                     </Accordion.Item>
-                    <Accordion.Item eventKey="1">
+                    <Accordion.Item>
                       <Accordion.Header as={"div"}>
                         <div>
                           <h3 className="header-title mb-0">SIGNIFICANT ISSUES</h3>
@@ -1009,7 +1009,7 @@ export default function EmPerformanceSingle() {
                           </Row>
                         </Accordion.Body>
                       </Accordion.Item>
-                      <Accordion.Item eventKey="1">
+                      <Accordion.Item>
                         <Accordion.Header as={"div"}>
                           <div>
                             <h3 className="header-title mb-0">SIGNIFICANT ISSUES</h3>
@@ -1061,7 +1061,7 @@ export default function EmPerformanceSingle() {
                         </Row>
                       </Accordion.Body>
                     </Accordion.Item>
-                    <Accordion.Item eventKey="1">
+                    <Accordion.Item>
                       <Accordion.Header as={"div"}>
                         <div>
                           <h3 className="header-title mb-0">MANAGERS COMMENTS</h3>
@@ -1081,7 +1081,7 @@ export default function EmPerformanceSingle() {
                         </Row>
                       </Accordion.Body>
                     </Accordion.Item>
-                    <Accordion.Item eventKey="2">
+                    <Accordion.Item>
                       <Accordion.Header as={"div"}>
                         <div>
                           <h3 className="header-title mb-0">SENIOR MANAGER / FUNCTIONAL HEAD'S COMMENTS</h3>
@@ -1101,7 +1101,7 @@ export default function EmPerformanceSingle() {
                         </Row>
                       </Accordion.Body>
                     </Accordion.Item>
-                    <Accordion.Item eventKey="3">
+                    <Accordion.Item>
                       <Accordion.Header as={"div"}>
                         <div>
                           <h3 className="header-title mb-0">DIRECTOR AND CHIEF OPERATING OFFICER'S COMMENTS</h3>
@@ -1143,7 +1143,7 @@ export default function EmPerformanceSingle() {
                           </Row>
                         </Accordion.Body>
                       </Accordion.Item>
-                      <Accordion.Item eventKey="1">
+                      <Accordion.Item>
                         <Accordion.Header as={"div"}>
                           <div>
                             <h3 className="header-title mb-0">MANAGERS COMMENTS</h3>
@@ -1159,7 +1159,7 @@ export default function EmPerformanceSingle() {
                           </Row>
                         </Accordion.Body>
                       </Accordion.Item>
-                      <Accordion.Item eventKey="2">
+                      <Accordion.Item>
                         <Accordion.Header as={"div"}>
                           <div>
                             <h3 className="header-title mb-0">SENIOR MANAGER / FUNCTIONAL HEAD'S COMMENTS</h3>
@@ -1175,7 +1175,7 @@ export default function EmPerformanceSingle() {
                           </Row>
                         </Accordion.Body>
                       </Accordion.Item>
-                      <Accordion.Item eventKey="3">
+                      <Accordion.Item>
                         <Accordion.Header as={"div"}>
                           <div>
                             <h3 className="header-title mb-0">DIRECTOR AND CHIEF OPERATING OFFICER'S COMMENTS</h3>
@@ -1252,7 +1252,13 @@ export default function EmPerformanceSingle() {
                   Save as draft
                 </Button>
               </div> */}
-            <Button onClick={handleConfirm} variant="primary" className="mb-4" title="Submit">
+            <Button
+              // onClick={handleConfirm}
+              onClick={handleSubmit(submitKpiPerformanceForm)}
+              variant="primary"
+              className="mb-4"
+              title="Submit"
+            >
               Submit
             </Button>
             <Modal
