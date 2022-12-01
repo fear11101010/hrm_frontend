@@ -35,6 +35,7 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
   const currYear = new Date().getFullYear();
 
   // FETCH ASSESTMENT DATA
+
   const getAssestmentData = () => {
     setLoading(true);
     API.get(KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET(id))

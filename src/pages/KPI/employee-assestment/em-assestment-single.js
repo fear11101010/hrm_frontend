@@ -160,6 +160,7 @@ export default function EmAssestmentSingle() {
         final: false,
         // detail_save:""
       };
+
       setLoading(true);
       API.put(EMPLOYEE_ASSESTMENT_SINGLE_POST(id), payload)
         .then((res) => {
