@@ -49,7 +49,7 @@ import {
   ASSESSMENT_YEAR_REPORT,
   REQUISITION_RESOURCE_LIST,
   REQUISITION_RESOURCE_FORM,
-  SALARY_INCREMENT_REPORT,
+  SALARY_INCREMENT_REPORT, BILL_LIST_URL, CONVEYANCE_LIST_URL, BILL_ADD_URL, CONVEYANCE_ADD_URL,
 } from "./utils/APP_ROUTES";
 import KpiPerformanceIndex from "./pages/KPI/kpi-performane-form/kpi-performance-index";
 import KpiPerformanceFormCreate from "./pages/KPI/kpi-performane-form/kpi-performance-form-create";
@@ -70,6 +70,14 @@ import RequisitionOutlet from "./outlets/RequisitionOutlet";
 import ResourceRequisitionForm from "./pages/Requisition_form/resource_requisition/ResourceRequisition";
 import RequestRequisitionList from "./pages/Requisition_form/resource_requisition/request_requisition_list";
 import SalaryIncrementReport from "./pages/Report/salary-increment-report/SalaryIncrementReport";
+import ReportOutlet from "./outlets/ReportOutlet";
+import Bill from "./pages/bill-management/Bill/Bill";
+import Conveyance from "./pages/bill-management/Conveyance/Conveyance";
+import BillManagementOutlet from "./outlets/BillManagementOutlet";
+import AddBill from "./pages/bill-management/AddBill/AddBill";
+import {CREATE_TICKET_URL} from "./utils/support/SP_APP_ROUTES";
+import CreateTicket from "./pages/support/CreateTicket/CreateTicket";
+import SupportOutlet from "./outlets/SupportOutlet";
 
 function App() {
   return (
@@ -116,14 +124,25 @@ function App() {
           <Route path={REQUISITION_RESOURCE_FORM} element={<ResourceRequisitionForm />} />
         </Route>
 
+        {/* BILL MANAGEMENT */}
+        <Route path={"/"} element={<BillManagementOutlet />}>
+          <Route path={BILL_LIST_URL} element={<Bill />} />
+          <Route path={BILL_ADD_URL} element={<AddBill />} />
+          <Route path={CONVEYANCE_LIST_URL} element={<Conveyance />} />
+          <Route path={CONVEYANCE_ADD_URL} element={<Conveyance />} />
+        </Route>
+
         {/* REPORT */}
-        <Route path={"/report"} element={<KpiOutlet />}>
+        <Route path={"/report"} element={<ReportOutlet />}>
           <Route path={SALARY_FULL_REPORT_URL} element={<SalaryFullReport />} />
           <Route path={SALARY_PIVOT_SUMMARY_REPORT_URL} element={<SalaryPivotReport />} />
           <Route path={SALARY_INCREMENT_ELIGIBLE_REPORT_URL} element={<SalaryIncrementEligibleReport />} />
           <Route path={ASSESTMENT_EMPLOYER_REPORT} element={<AssestmentEmployerReport />} />
           <Route path={ASSESSMENT_YEAR_REPORT} element={<AssessmentYearReport />} />
           <Route path={SALARY_INCREMENT_REPORT} element={<SalaryIncrementReport />} />
+        </Route>
+        <Route path={"/support"} element={<SupportOutlet />}>
+          <Route path={CREATE_TICKET_URL} element={<CreateTicket />} />
         </Route>
 
         <Route path={UNAUTHORIZED} element={<Unauth />} />

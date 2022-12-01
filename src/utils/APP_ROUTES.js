@@ -50,5 +50,12 @@ export const SALARY_INCREMENT_ELIGIBLE_REPORT_URL = `/report/salary_increment_el
 export const ASSESTMENT_EMPLOYER_REPORT = `/report/assestment_employer_report`;
 export const SALARY_INCREMENT_REPORT = `/report/performance-evaluation-and-salary-increment`;
 
+//Bill Management
+export const BILL_LIST_URL = '/bill_management/bill_list';
+export const BILL_ADD_URL = '/bill_management/add_bill';
+export const CONVEYANCE_LIST_URL = '/bill_management/conveyance_list';
+export const CONVEYANCE_ADD_URL = '/bill_management/add_conveyance';
+
+
 // Others
 export const UNAUTHORIZED = "/unauthorized";

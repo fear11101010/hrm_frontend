@@ -1,31 +1,95 @@
 import { Form } from "react-bootstrap";
 import "./select.css";
 import styles from "./style.module.css";
-import { useState } from "react";
+import {useEffect, useRef, useState} from "react";
+import ReactDOM from 'react-dom'
 
-function Select({ options, onChange, placeholder }) {
-  const [selectedOption, setSelectedOption] = useState({ value: 10, label: "10 per page" });
+function Select({ options, onChange, placeholder,size,type,value }) {
+  const [selectedOption, setSelectedOption] = useState(value??'');
   const [isOpen, setIsOpen] = useState(false);
+  const dropDownContainerRef = useRef(null);
+  const dropDownRef = useRef(null);
+  useEffect(()=>{
+    function onBodyClick(e) {
+      // setIsOpen(false);
+      ReactDOM.findDOMNode(dropDownContainerRef.current).setAttribute('aria-expanded', "true");
+      ReactDOM.findDOMNode(dropDownRef.current).setAttribute('aria-expanded', "true");
+      ReactDOM.findDOMNode(dropDownRef.current).classList.add('show');
+    }
+    document.body.addEventListener("click", onBodyClick);
+    return () => {
+      document.body.removeEventListener("click", onBodyClick);
+    }
+  },[])
+  /*const resizeDropDownPosition = () =>{
+    if(isOpen){
+      const rect = ReactDOM.findDOMNode(dropDownContainerRef?.current).getBoundingClientRect();
+      const bodyHeight = document.body.getBoundingClientRect().height;
+      const {y,height,bottom} = ReactDOM.findDOMNode(dropDownRef?.current).getBoundingClientRect();
+      const bottomDis = y+height
+      console.log(rect,bottomDis,bodyHeight,(bodyHeight-height)/2)
+      if(bottomDis>bodyHeight){
+        if(height>rect.top){
+          if(height>bodyHeight){
+            dropDownRef.current.style.top = `-${y-rect.height}px`
+          } else {
+            dropDownRef.current.style.top = `-${y-rect.height-((bodyHeight-height)/2)}px`
+          }
+        }else{
+          dropDownRef.current.style.top = ``
+        }
+      } else{
+        dropDownRef.current.style.top = ``
+      }
+      console.log({y,height,bottom})
+    }
+  }*/
+  const showHideDropDown = (e) =>{
+    e.stopPropagation();
+    e.preventDefault();
+    document.querySelectorAll('.custom-dropdown[aria-expanded="true"]').forEach(e=>{
+        e.setAttribute('aria-expanded', "false");
+        e.querySelectorAll(".custom-dropdown-list").item(0).classList.remove('show')
+        e.querySelectorAll(".custom-dropdown-list").item(0).setAttribute('aria-expanded', "false");
+    })
+    console.log(isOpen)
+    console.log(dropDownContainerRef.current)
+    console.log('equal: 1',ReactDOM.findDOMNode(dropDownContainerRef.current).getAttribute('aria-expanded')==='false')
+    openOrCloseDropdown();
+  }
+  const openOrCloseDropdown=()=>{
+    if(ReactDOM.findDOMNode(dropDownContainerRef.current).getAttribute('aria-expanded')==='false'){
+      ReactDOM.findDOMNode(dropDownContainerRef.current).setAttribute('aria-expanded', "true");
+      ReactDOM.findDOMNode(dropDownRef.current).setAttribute('aria-expanded', "true");
+      ReactDOM.findDOMNode(dropDownRef.current).classList.add('show');
+    } else {
+      ReactDOM.findDOMNode(dropDownContainerRef.current).setAttribute('aria-expanded', "false");
+      ReactDOM.findDOMNode(dropDownRef.current).setAttribute('aria-expanded', "false");
+      ReactDOM.findDOMNode(dropDownRef.current).classList.remove('show');
+    }
+  }
   const onHandleChange = (e, v) => {
     e.preventDefault();
+    e.stopPropagation();
     console.log(v);
     setSelectedOption(v);
-    setIsOpen(!isOpen);
+    // setIsOpen(!isOpen);
+    openOrCloseDropdown();
     if (onChange) {
       onChange(v);
     }
   };
   return (
-    <div className="custom-dropdown" aria-expanded={isOpen} onClick={(e) => setIsOpen(!isOpen)}>
-      <div className="form-select form-select-sm form-control-flush">
-        <Form.Select value={selectedOption.value} className="form-select form-select-sm form-control-flush">
-          <option value={selectedOption.value}>{selectedOption.label}</option>
+    <div className="custom-dropdown" ref={dropDownContainerRef}  aria-expanded={isOpen} onClick={showHideDropDown}>
+      <div className={`form-select ${size?'form-select-'+size:''} ${type?' form-control-'+type:' form-control'}`}>
+        <Form.Select value={selectedOption?.value} className="form-select form-select-sm form-control-flush">
+          <option value={selectedOption?.value}>{selectedOption?.label}</option>
         </Form.Select>
-        <div className="selected-option">{selectedOption.label}</div>
-        <div className={`custom-dropdown-list ${isOpen ? "show" : ""}`} aria-expanded={isOpen}>
+        <div className="selected-option">{selectedOption?.label??placeholder}</div>
+        <div ref={dropDownRef} className={`custom-dropdown-list ${isOpen ? "show" : ""}`} aria-expanded={isOpen}>
           <ul>
-            {options?.map((option) => (
-              <li key={`${option.value}_${option.label}`}>
+            {options?.map((option,i) => (
+              <li key={`${option.value}_${option.label}_${i}`}>
                 <a href="#" onClick={(e) => onHandleChange(e, option)}>
                   {option.label}
                 </a>

@@ -11,19 +11,16 @@ import {
 
 import PrivateRoute from "../utils/routes/PrivateRoute";
 import { GET_TOKEN } from "../utils/session/token";
+import {CREATE_TICKET_URL} from "../utils/support/SP_APP_ROUTES";
 
-export default function ReportOutlet() {
+export default function SupportOutlet() {
   return (
     <div>
       {!GET_TOKEN() ? (
         <Navigate to={LOGIN_PAGE} />
       ) : (
         <>
-          <PrivateRoute to={SALARY_FULL_REPORT_URL} />
-          <PrivateRoute to={SALARY_PIVOT_SUMMARY_REPORT_URL} />
-          <PrivateRoute to={SALARY_INCREMENT_ELIGIBLE_REPORT_URL} />
-          <PrivateRoute to={ASSESTMENT_EMPLOYER_REPORT} />
-          <PrivateRoute to={SALARY_INCREMENT_REPORT} />
+          <PrivateRoute to={CREATE_TICKET_URL} />
           <Outlet />
         </>
       )}

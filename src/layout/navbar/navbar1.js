@@ -28,7 +28,7 @@ import {
   USER_LIST_PAGE,
   USER_ROLE_LIST_PAGE,
   REQUISITION_RESOURCE_LIST,
-  SALARY_INCREMENT_REPORT,
+  SALARY_INCREMENT_REPORT, BILL_LIST_URL, CONVEYANCE_LIST_URL,
 } from "../../utils/APP_ROUTES";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../utils/axios/axiosConfig";
@@ -37,6 +37,7 @@ import Loader from "../../components/loader/Loader";
 import { REMOVE_TOKEN, USER_INFO } from "../../utils/session/token";
 import ConfirmDialog from "../../components/confirm-dialog/ConfirmDialog";
 import { AiOutlineAudit } from "react-icons/ai";
+import {FaMoneyBill} from "react-icons/fa";
 function Navbar1(props) {
   const user = USER_INFO();
   const navigate = useNavigate();
@@ -225,6 +226,47 @@ function Navbar1(props) {
                   </Collapse>
                 </Nav.Item>
               )}
+              {/* BILL MANAGEMENT */}
+              {user.sub_module.includes("Kpi Management") && (
+                  <Nav.Item as={"li"}>
+                    <Nav.Link
+                        onClick={() => openOrCloseMenu(2)}
+                        href="#"
+                        className={menuOpenCloseState[2] ? "collapsed" : ""}
+                        data-bs-toggle="collapse"
+                        role="button"
+                        aria-expanded={menuOpenCloseState[2] ? "true" : "false"}
+                        aria-controls="sidebarKpi"
+                    >
+                      {/* <i className="fe fe-home"></i> */}
+                      <FaMoneyBill className="me-3" />
+                      Bill Management
+                    </Nav.Link>
+
+                    <Collapse in={menuOpenCloseState[2]}>
+                      <div id="sidebarKpi">
+                        <ul className="nav nav-sm flex-column">
+                          <li className="nav-item">
+                            {user.module.includes("Circularte To Employees") && (
+                                <Link className={"nav-link"} to={BILL_LIST_URL}>
+                                  {/* Employee Assign */}
+                                  Bill
+                                </Link>
+                            )}
+                          </li>
+                          <li className="nav-item">
+                            {user.module.includes("Appraisal Form") && (
+                                <Link className={"nav-link"} to={CONVEYANCE_LIST_URL}>
+                                  {/* KPI Performance Form */}
+                                  Conveyance
+                                </Link>
+                            )}
+                          </li>
+                        </ul>
+                      </div>
+                    </Collapse>
+                  </Nav.Item>
+              )}
 
               {/* Requisition  */}
               {user.sub_module.includes("Report")}
@@ -258,17 +300,17 @@ function Navbar1(props) {
               {user.sub_module.includes("Report") && (
                 <Nav.Item as={"li"}>
                   <Nav.Link
-                    onClick={() => openOrCloseMenu(2)}
+                    onClick={() => openOrCloseMenu(4)}
                     href="#"
-                    className={menuOpenCloseState[2] ? "collapsed" : ""}
+                    className={menuOpenCloseState[4] ? "collapsed" : ""}
                     data-bs-toggle="collapse"
                     role="button"
-                    aria-expanded={menuOpenCloseState[2] ? "true" : "false"}
+                    aria-expanded={menuOpenCloseState[4] ? "true" : "false"}
                     aria-controls="sidebarReport"
                   >
                     <i className="fe fe-file-text"></i> Report
                   </Nav.Link>
-                  <Collapse in={menuOpenCloseState[2]}>
+                  <Collapse in={menuOpenCloseState[4]}>
                     <div id="sidebarDashboards">
                       <ul className="nav nav-sm flex-column">
                         <li className="nav-item">
