@@ -335,108 +335,103 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
 export const SBU_ASSESTMENT_REPORT_TABLE_COLUMN = [
   {
     name: "Name",
-    selector: (row) => row?.employee?.name,
+    selector: (row) => row?.name,
     minWidth: "200px",
   },
   {
     name: "ID",
-    selector: (row) => row?.employee?.employee_id,
+    selector: (row) => row?.ID,
     width: "100px",
   },
   {
     name: "Designation",
-    selector: (row) => row?.employee?.designation,
+    selector: (row) => row?.Designation,
     minWidth: "200px",
     wrap: true,
   },
   {
     name: "SBU",
-    selector: (row) => row?.employee?.sbu?.name,
+    selector: (row) => row?.SBU,
     minWidth: "200px",
   },
   {
-    name: "Production",
-    selector: (row) => row?.production,
+    name: "Objective",
+    selector: (row) => row?.Objective?.name,
     minWidth: "200px",
   },
-  {
-    name: "Support",
-    selector: (row) => row?.support,
-    minWidth: "200px",
-  },
-  {
-    name: "Innovation",
-    selector: (row) => row?.innovation,
-    minWidth: "200px",
-  },
-  {
-    name: "People",
-    selector: (row) => row?.people,
-    minWidth: "200px",
-  },
-  {
-    name: "Other",
-    selector: (row) => row?.other,
-    minWidth: "200px",
-  },
-  {
-    name: "Courageous",
-    selector: (row) => row?.courageous,
-    minWidth: "200px",
-  },
-  {
-    name: "Teamwork",
-    selector: (row) => row?.teamwork,
-    minWidth: "200px",
-  },
-  {
-    name: "Responsive",
-    selector: (row) => row?.responsive,
-    minWidth: "200px",
-  },
-  {
-    name: "Creative",
-    selector: (row) => row?.creative,
-    minWidth: "200px",
-  },
-  {
-    name: "Trustworthy",
-    selector: (row) => row?.trustworthy,
-    minWidth: "200px",
-  },
-  {
-    name: "Other Sustainable Achievement",
-    selector: (row) => row?.other_sustainable_achievement,
-    minWidth: "200px",
-  },
-  {
-    name: "Significant Issue",
-    selector: (row) => row?.significant_issue,
-    minWidth: "200px",
-  },
-  {
-    name: "Individual Comment",
-    selector: (row) => row?.individual_comment,
-    minWidth: "200px",
-  },
-  {
-    name: "Manager Comment",
-    selector: (row) => row?.manager_comment,
-    minWidth: "200px",
-  },
-  {
-    name: "Senior Manager Functional Head Comment",
-    selector: (row) => row?.senior_manager_functional_head_comment,
-    minWidth: "200px",
-  },
-  {
-    name: "Director Chief Operating Officer Comment",
-    selector: (row) => row?.director_chief_operating_officer_comment,
-    minWidth: "200px",
-  },
-  {
-    name: "Overall Performance",
-    selector: (row) => row?.overall_performance,
-    minWidth: "200px",
-  },
+  // {
+  //   name: "Value",
+  //   selector: (row) => row?.kpi_value,
+  //   minWidth: "200px",
+  // },
+  // {
+  //   name: "HR Rating",
+  //   selector: (row) => row?.hr_rating,
+  //   minWidth: "200px",
+  // },
+  // {
+  //   name: "KPI",
+  //   selector: (row) => row?.kpi_overall,
+  //   minWidth: "200px",
+  // },
+  // {
+  //   name: "Criticality ",
+  //   selector: (row) => row?.criticality,
+  //   minWidth: "200px",
+  // },
+  // {
+  //   name: "Top/Average/Bottom Performer",
+  //   selector: (row) => row?.top_average_bottom_performer,
+  //   minWidth: "200px",
+  // },
+  // {
+  //   name: "Best performer inside team",
+  //   selector: (row) => row?.best_performer_team,
+  //   minWidth: "200px",
+  // },
+  // {
+  //   name: "Best performer in the organization",
+  //   selector: (row) => row?.best_performer_org,
+  //   minWidth: "200px",
+  // },
+  // {
+  //   name: "Best performer among all PM",
+  //   selector: (row) => row?.best_performer_pm,
+  //   minWidth: "200px",
+  // },
+  // {
+  //   name: "Best innovator inside team",
+  //   selector: (row) => row?.best_innovator_team,
+  //   minWidth: "200px",
+  // },
+  // {
+  //   name: "Potential for Improvement",
+  //   selector: (row) => row?.potential_for_improvement,
+  //   minWidth: "200px",
+  // },
+  // {
+  //   name: "Technical/Implementation/Operational",
+  //   selector: (row) => row?.technical_implementation_operational,
+  //   minWidth: "200px",
+  // },
+  // {
+  //   name: "Confirmation/Increment/No Increment",
+  //   selector: (row) => row?.confirmation_increment_noincrement,
+  //   minWidth: "200px",
+  // },
+  // {
+  //   name: "Proposed Designation",
+  //   selector: (row) => row?.proposed_designation,
+  //   minWidth: "200px",
+  // },
+  // {
+  //   name: "Proposed Amount By Supervisor",
+  //   selector: (row) => row?.proposed_by_sbu_director_pm_self,
+  //   minWidth: "200px",
+  // },
+  // {
+  //   name: "Remarks ",
+  //   selector: (row) => row?.remarks,
+  //   minWidth: "200px",
+  // },
 ];

@@ -311,77 +311,75 @@ export const SBU_ASSESTMENT_REPORT_EXCEL_COLUMN = [
   {
     key: "Designation",
     value: (row) => row?.employee?.designation,
+
+    wrap: true,
   },
   {
     key: "SBU",
-    value: (row) => row?.employee?.sbu?.name,
+    value: (row) => row?.employee?.sbu?.key,
   },
   {
-    key: "Production",
-    value: (row) => row?.production,
+    key: "Objective",
+    value: (row) => row?.kpi_objective,
   },
   {
-    key: "Support",
-    value: (row) => row?.support,
+    key: "Value",
+    value: (row) => row?.kpi_value,
   },
   {
-    key: "Innovation",
-    value: (row) => row?.innovation,
+    key: "HR Rating",
+    value: (row) => row?.hr_rating,
   },
   {
-    key: "People",
-    value: (row) => row?.people,
+    key: "KPI",
+    value: (row) => row?.kpi_overall,
   },
   {
-    key: "Other",
-    value: (row) => row?.other,
+    key: "Criticality ",
+    value: (row) => row?.criticality,
   },
   {
-    key: "Courageous",
-    value: (row) => row?.courageous,
+    key: "Top/Average/Bottom Performer",
+    value: (row) => row?.top_average_bottom_performer,
   },
   {
-    key: "Teamwork",
-    value: (row) => row?.teamwork,
+    key: "Best performer inside team",
+    value: (row) => row?.best_performer_team,
   },
   {
-    key: "Responsive",
-    value: (row) => row?.responsive,
+    key: "Best performer in the organization",
+    value: (row) => row?.best_performer_org,
   },
   {
-    key: "Creative",
-    value: (row) => row?.creative,
+    key: "Best performer among all PM",
+    value: (row) => row?.best_performer_pm,
   },
   {
-    key: "Trustworthy",
-    value: (row) => row?.trustworthy,
+    key: "Best innovator inside team",
+    value: (row) => row?.best_innovator_team,
   },
   {
-    key: "Other Sustainable Achievement",
-    value: (row) => row?.other_sustainable_achievement,
+    key: "Potential for Improvement",
+    value: (row) => row?.potential_for_improvement,
   },
   {
-    key: "Significant Issue",
-    value: (row) => row?.significant_issue,
+    key: "Technical/Implementation/Operational",
+    value: (row) => row?.technical_implementation_operational,
   },
   {
-    key: "Individual Comment",
-    value: (row) => row?.individual_comment,
+    key: "Confirmation/Increment/No Increment",
+    value: (row) => row?.confirmation_increment_noincrement,
   },
   {
-    key: "Manager Comment",
-    value: (row) => row?.manager_comment,
+    key: "Proposed Designation",
+    value: (row) => row?.proposed_designation,
   },
   {
-    key: "Senior Manager Functional Head Comment",
-    value: (row) => row?.senior_manager_functional_head_comment,
+    key: "Proposed Amount By Supervisor",
+    value: (row) => row?.proposed_by_sbu_director_pm_self,
   },
   {
-    key: "Director Chief Operating Officer Comment",
-    value: (row) => row?.director_chief_operating_officer_comment,
-  },
-  {
-    key: "Overall Performance",
-    value: (row) => row?.overall_performance,
+    key: "Remarks ",
+    value: (row) => row?.remarks,
   },
 ];

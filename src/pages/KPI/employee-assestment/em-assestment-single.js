@@ -24,10 +24,12 @@ import { API } from "../../../utils/axios/axiosConfig";
 import { EMPLOYEE_ASSESTMENT_PAGE } from "../../../utils/APP_ROUTES";
 import { DATE_FORMAT } from "../../../utils/CONSTANT";
 import ConfirmDialog from "../../../components/confirm-dialog/ConfirmDialog";
-import { success_alert } from "../../../components/alert/Alert";
+import { error_alert, success_alert } from "../../../components/alert/Alert";
 import useDesignation from "../../../hooks/useDesignation";
+import { USER_INFO } from "../../../utils/session/token";
 
 export default function EmAssestmentSingle() {
+  const user = USER_INFO();
   const { id } = useParams();
   const navigate = useNavigate();
   // Fetch Hooks
@@ -55,7 +57,7 @@ export default function EmAssestmentSingle() {
   const [kpi_obj_curr, setKpi_obj_curr] = useState("");
   const [kpi_val_curr, setKpi_val_curr] = useState("");
   const [kpi_overall_curr, setKpi_overall_curr] = useState("");
-  const [hr_rat_curr, setHr_rat_curr] = useState("");
+  const [hr_rat_curr, setHr_rat_curr] = useState(""); //default 3
   const [criticality_curr, setCriticality_curr] = useState("");
   const [pot_improve_curr, setPot_improve_curr] = useState("");
   const [tech_imple_opera_curr, setTech_imple_opera_curr_curr] = useState("");
@@ -115,40 +117,61 @@ export default function EmAssestmentSingle() {
   // Save Func
   const handleSave = (e) => {
     e.preventDefault();
-    const payload = {
-      employee: id,
-      kpi_objective: kpi_obj_curr,
-      kpi_value: kpi_val_curr,
-      hr_rating: hr_rat_curr,
-      criticality: criticality_curr,
-      potential_for_improvement: pot_improve_curr,
-      technical_implementation_operational: tech_imple_opera_curr,
-      top_average_bottom_performer: top_avg_bot_performer_curr,
-      best_performer_team: best_performer_team_curr,
-      best_innovator_team: best_innovator_team_curr,
-      best_performer_org: best_performer_org_curr,
-      best_performer_pm: best_performer_pm_curr,
-      confirmation_increment_noincrement: conf_inc_noInc,
-      proposed_by_sbu_director_pm_self: propose_SBU,
-      proposed_designation: proposed_designation,
-      remarks: remarks,
-      final: false,
-      // detail_save:""
-    };
-    setLoading(true);
-    API.put(EMPLOYEE_ASSESTMENT_SINGLE_POST(id), payload)
-      .then((res) => {
-        if (res.data.statuscode === 200) {
-          success_alert(res.data.message);
-          navigate(EMPLOYEE_ASSESTMENT_PAGE);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    if (
+      employee_details === "" ||
+      kpi_obj_curr === "" ||
+      kpi_val_curr === "" ||
+      kpi_overall_curr === "" ||
+      hr_rat_curr === "" ||
+      criticality_curr === "" ||
+      pot_improve_curr === "" ||
+      tech_imple_opera_curr === "" ||
+      top_avg_bot_performer_curr === "" ||
+      best_performer_team_curr === "" ||
+      best_innovator_team_curr === "" ||
+      best_performer_org_curr === "" ||
+      best_performer_pm_curr === "" ||
+      conf_inc_noInc === "" ||
+      propose_SBU === "" ||
+      proposed_designation === ""
+    ) {
+      error_alert("please select all feild");
+    } else {
+      const payload = {
+        employee: id,
+        kpi_objective: kpi_obj_curr,
+        kpi_value: kpi_val_curr,
+        hr_rating: hr_rat_curr,
+        criticality: criticality_curr,
+        potential_for_improvement: pot_improve_curr,
+        technical_implementation_operational: tech_imple_opera_curr,
+        top_average_bottom_performer: top_avg_bot_performer_curr,
+        best_performer_team: best_performer_team_curr,
+        best_innovator_team: best_innovator_team_curr,
+        best_performer_org: best_performer_org_curr,
+        best_performer_pm: best_performer_pm_curr,
+        confirmation_increment_noincrement: conf_inc_noInc,
+        proposed_by_sbu_director_pm_self: propose_SBU,
+        proposed_designation: proposed_designation,
+        remarks: remarks,
+        final: false,
+        // detail_save:""
+      };
+      setLoading(true);
+      API.put(EMPLOYEE_ASSESTMENT_SINGLE_POST(id), payload)
+        .then((res) => {
+          if (res.data.statuscode === 200) {
+            success_alert(res.data.message);
+            navigate(EMPLOYEE_ASSESTMENT_PAGE);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   };
 
   //Lifecycle
@@ -238,20 +261,23 @@ export default function EmAssestmentSingle() {
                       }}
                     />
                   </Col>
-                  <Col sm="6" md="4" className="mb-4">
-                    <Form.Group>
-                      <h4 className="text-secondary">HR Rating {new Date().getFullYear()}</h4>
-                    </Form.Group>
-                    <ReactSelect
-                      options={hrRatingList}
-                      placeholder={
-                        hr_rat_curr !== "" && hrRatingList?.map((d) => (d.value === hr_rat_curr ? d.label : null))
-                      }
-                      onChange={(e) => {
-                        setHr_rat_curr(e.value);
-                      }}
-                    />
-                  </Col>
+                  {user.group_id.split(",").includes("7") && (
+                    <Col sm="6" md="4" className="mb-4">
+                      <Form.Group>
+                        <h4 className="text-secondary">HR Rating {new Date().getFullYear()}</h4>
+                      </Form.Group>
+                      <ReactSelect
+                        options={hrRatingList}
+                        placeholder={
+                          hr_rat_curr !== "" && hrRatingList?.map((d) => (d.value === hr_rat_curr ? d.label : null))
+                        }
+                        onChange={(e) => {
+                          setHr_rat_curr(e.value);
+                        }}
+                      />
+                    </Col>
+                  )}
+
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
                       <h4 className="text-secondary"> KPI {new Date().getFullYear()}</h4>

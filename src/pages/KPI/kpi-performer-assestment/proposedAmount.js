@@ -32,6 +32,27 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
   // Getting current year
   const currYear = new Date().getFullYear();
 
+  // FETCH ASSESTMENT DATA
+  const getAssestmentData = () => {
+    setLoading(true);
+    API.get(KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET(id))
+      .then((res) => {
+        if (res.data.statuscode === 200) {
+          setPropsed_by_sbuDirPmSelf(res.data.data?.proposed_by_sbu_director_pm_self);
+          setProposed_designation(res.data.data?.employee?.desig_id);
+          setProposed_designation_new(res.data.data?.employee?.desig_id);
+          setRemarks1(res.data?.data?.remarks);
+          setRemarks2(res.data?.data?.remarks_two);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   // Submit func
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -83,25 +104,6 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
     setIsConfirm(true);
   };
 
-  // FETCH ASSESTMENT DATA
-  const getAssestmentData = () => {
-    setLoading(true);
-    API.get(KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET(id))
-      .then((res) => {
-        if (res.data.statuscode === 200) {
-          setPropsed_by_sbuDirPmSelf(res.data.data?.proposed_by_sbu_director_pm_self);
-          setProposed_designation(res.data.data?.employee?.desig_id);
-          setRemarks1(res.data?.data?.remarks);
-          setRemarks2(res.data?.data?.remarks_two);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
   //Lifecycle
   useEffect(() => {
     getAssestmentData();

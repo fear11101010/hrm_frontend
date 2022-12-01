@@ -224,6 +224,7 @@ export default function KpiPerformerAssestment() {
   const [filter_type, setFilter_type] = useState("");
   const [filter_employee, setFilter_employee] = useState("");
   const [filter_designation, setFilter_designation] = useState("");
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const handleFiltering = (e) => {
     e.preventDefault();
@@ -287,7 +288,7 @@ export default function KpiPerformerAssestment() {
         {sbuData.length > 0 && (
           <div className="mt-5">
             <h2 className="text-center">{`Employee Lists - ${selectedSbuName}`} </h2>
-            {/* <Filter>
+            {/* <Filter onShow={isFilterOpen}>
               <Form onSubmit={handleFiltering}>
                 <Form.Group className="mb-3">
                   <Form.Label className="mb-0">Year</Form.Label>
