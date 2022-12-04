@@ -74,6 +74,7 @@ export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET = (id) => `/assessment/${id
 export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_PUT = (id) => `/performer_assessment/${id}/`;
 
 export const PERFORMANCE_REVIEW_FILTER = "/performer_assessment/$/search_filter/";
+export const GLOBAL_FILTER = "/global_filtering/";
 
 ////////////////////////////////////
 ////////////REPORT//////////////////

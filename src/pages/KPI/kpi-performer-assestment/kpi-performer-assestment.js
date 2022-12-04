@@ -7,7 +7,7 @@ import useSbu from "../../../hooks/SBU/useSbu";
 import Layout from "../../../layout/Layout";
 import Select from "react-select";
 import { API } from "../../../utils/axios/axiosConfig";
-import { KPI_PERMORMER_ASSESTMENT_BY_SBU_GET, PERFORMANCE_REVIEW_FILTER } from "../../../utils/API_ROUTES";
+import { GLOBAL_FILTER, KPI_PERMORMER_ASSESTMENT_BY_SBU_GET, PERFORMANCE_REVIEW_FILTER } from "../../../utils/API_ROUTES";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
 import Table from "../../../components/table/Table";
 import { dataColumns } from "./data-columns";
@@ -229,6 +229,7 @@ export default function KpiPerformerAssestment() {
   const handleFiltering = (e) => {
     e.preventDefault();
     const payload = {
+      model_name: "assessment_detail",
       year: filter_year,
       type: filter_type,
       sbu_id: selectedSbu,
@@ -236,12 +237,14 @@ export default function KpiPerformerAssestment() {
       designation_id: filter_designation,
     };
     setLoading(true);
-    API.post(PERFORMANCE_REVIEW_FILTER, payload)
+    API.post(GLOBAL_FILTER, payload)
       .then((res) => {
+        console.log(res);
         if (res.data.statuscode === 200) {
           if (res.data.data.length > 0) {
             setSbuData([]);
             setSbuData(res.data.data);
+            setIsFilterOpen(false);
           } else {
             error_alert("No Data Found");
           }
