@@ -4,15 +4,15 @@ export const dataColumns = [
     selector: (row) => row?.flag,
     cell: (row) => (
       <div>
-        {row?.flag ? (
-          <h5 className="text-success mb-0" style={{ fontSize: "12px" }}>
-            Complete
-          </h5>
-        ) : (
-          <h5 className="text-info mb-0" style={{ fontSize: "12px" }}>
-            In Progress
-          </h5>
-        )}
+        <span>
+          {row?.flag === 1 ? (
+            <h5 className="text-success mb-0"> Complete </h5>
+          ) : row?.flag === 2 ? (
+            <h5 className="text-primary mb-0"> Supervisor Review </h5>
+          ) : (
+            <h5 className="text-info mb-0"> In Progress </h5>
+          )}
+        </span>
       </div>
     ),
     width: "100px",

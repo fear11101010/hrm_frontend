@@ -27,6 +27,9 @@ export default function SbuAssestmentData() {
       .then((res) => {
         if (res.data.statuscode === 200) {
           setData(res.data.data);
+          if (res.data.data.length === 0) {
+            error_alert("No data found");
+          }
         }
       })
       .catch((err) => {

@@ -241,7 +241,6 @@ export default function KpiPerformerAssestment() {
         if (res.data.statuscode === 200) {
           if (res.data.data.length > 0) {
             setSbuData([]);
-            console.log("filter entry");
             setSbuData(res.data.data);
           } else {
             error_alert("No Data Found");
@@ -288,7 +287,15 @@ export default function KpiPerformerAssestment() {
         {sbuData.length > 0 && (
           <div className="mt-5">
             <h2 className="text-center">{`Employee Lists - ${selectedSbuName}`} </h2>
-            {/* <Filter onShow={isFilterOpen}>
+            <Filter
+              show={isFilterOpen}
+              onClick={() => {
+                setIsFilterOpen(true);
+              }}
+              onHide={() => {
+                setIsFilterOpen(false);
+              }}
+            >
               <Form onSubmit={handleFiltering}>
                 <Form.Group className="mb-3">
                   <Form.Label className="mb-0">Year</Form.Label>
@@ -346,14 +353,16 @@ export default function KpiPerformerAssestment() {
                     value={filter_designation}
                   />
                 </Form.Group>
-                <Button type="submit" className="mt-2 w-100">
-                  Apply Filter
-                </Button>
-                <Button variant="light" className="mt-2 w-100 fw-bold" onClick={reset_filter}>
-                  Clear Filter
-                </Button>
+                <div className="d-flex justify-content-between">
+                  <Button variant="light" className="mt-2  ms-2 fw-bold" onClick={reset_filter}>
+                    Clear Filter
+                  </Button>
+                  <Button type="submit" className="mt-2 ">
+                    Apply Filter
+                  </Button>
+                </div>
               </Form>
-            </Filter> */}
+            </Filter>
             <Table columns={dataColumns.concat(extended_columns)} data={sbuData} />
           </div>
         )}

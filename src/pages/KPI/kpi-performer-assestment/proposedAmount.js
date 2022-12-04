@@ -183,7 +183,7 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
           </Col>
 
           <Col sm="12" md="12" className="mt-3 d-flex justify-content-between">
-            <Button
+            {/* <Button
               type="submit"
               variant="light"
               className="fw-bold"
@@ -193,7 +193,7 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
               }}
             >
               Draft Save
-            </Button>
+            </Button> */}
             {user.group_id.split(",").map(
               (d) =>
                 d === "1" && (

@@ -99,6 +99,7 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
     {
       name: `#`,
       selector: (row, index) => index + 1,
+      width: "50px",
     },
     {
       name: "Employee Name",

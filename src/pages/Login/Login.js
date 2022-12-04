@@ -51,7 +51,7 @@ export default function Login() {
   ) : (
     <div className="min-vh-100 d-flex justify-content-center align-items-center bg-light">
       {loading && <Loader />}
-      <div className="card shadow-sm w-25 border">
+      <div className="card login__card shadow-sm border">
         <div className="card-body">
           <h2 className="text-primary">Login</h2>
           <hr />

@@ -19,3 +19,16 @@ export const COLUMNS = [
   //   wrap: true,
   // },
 ];
+
+// export const COLUMNS = [
+//   { Header: "ID", accessor: "id" },
+//   { Header: "Username", accessor: "username" },
+
+//   // {
+//   //   name: "Group",
+//   //   selector: (row) => row?.group_name,
+//   //   cell: (row) => <div>{row?.group_name[0]}</div>,
+//   //   width: "150px",
+//   //   wrap: true,
+//   // },
+// ];

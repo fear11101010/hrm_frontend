@@ -33,6 +33,7 @@ export default function Layout({ children }) {
       })
       .finally(() => {
         setLoading(false);
+        setIsConfirm(false);
       });
   };
 

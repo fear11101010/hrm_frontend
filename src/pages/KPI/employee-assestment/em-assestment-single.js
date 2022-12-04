@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../../layout/Layout";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import PageHeader from "../../../components/header/PageHeader";
 import Content from "../../../components/content/Content";
 import { EMPLOYEE_ASSESTMENT_SINGLE_GET, EMPLOYEE_ASSESTMENT_SINGLE_POST } from "../../../utils/API_ROUTES";
@@ -21,7 +21,7 @@ import useBestPerformerOrganization from "../../../hooks/kpi/best_performer_orga
 import useBestPerformerPm from "../../../hooks/kpi/best_performer_pm";
 import useConfIncNoinc from "../../../hooks/kpi/confirmation_increment_no_increment";
 import { API } from "../../../utils/axios/axiosConfig";
-import { EMPLOYEE_ASSESTMENT_PAGE } from "../../../utils/APP_ROUTES";
+import { EMPLOYEE_ASSESTMENT_PAGE, UNAUTHORIZED } from "../../../utils/APP_ROUTES";
 import { DATE_FORMAT } from "../../../utils/CONSTANT";
 import ConfirmDialog from "../../../components/confirm-dialog/ConfirmDialog";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
@@ -71,6 +71,7 @@ export default function EmAssestmentSingle() {
   const [proposed_designation, setProposed_designation] = useState("");
   const [proposed_designation_id, setProposed_designation_id] = useState("");
   const [remarks, setRemarks] = useState("");
+  const [flag, setFlag] = useState("");
 
   const [diffByYear, setdiffByYear] = useState("");
   const [diffByMonths, setdiffByMonths] = useState("");
@@ -101,6 +102,7 @@ export default function EmAssestmentSingle() {
           setProposed_designation(res.data?.data?.employee?.designation);
           setProposed_designation_id(res.data?.data?.employee?.desig_id);
           setRemarks(res.data?.data?.remarks);
+          setFlag(res.data?.data?.flag);
 
           // Employee duration formatiing
           let diff = moment().diff(res.data?.data?.employee.date_of_joining, "months", false) / 12;
@@ -189,6 +191,9 @@ export default function EmAssestmentSingle() {
     setIsConfirm(true);
   };
 
+  if (flag === 1 && user.group_id.split(",").includes("1")) {
+    return <Navigate to={UNAUTHORIZED} />;
+  }
   return (
     <Layout>
       {loading && <Loader />}

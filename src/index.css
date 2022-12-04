@@ -5,3 +5,7 @@
 .css-14el2xx-placeholder {
     color: #555 !important;
 }
+
+.login__card {
+    min-width: 320px;
+}

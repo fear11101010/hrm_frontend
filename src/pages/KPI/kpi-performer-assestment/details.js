@@ -86,7 +86,7 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
       confirmation_increment_noincrement:
         kpi_inc_no_inc === "" ? data.data?.confirmation_increment_noincrement : kpi_inc_no_inc,
       proposed_designation: propsed_designation === "" ? data.data?.proposed_designation : propsed_designation,
-      proposed_by_sbu_director_pm_sel: data.data?.proposed_by_sbu_director_pm_self,
+      proposed_by_sbu_director_pm_self: data.data?.proposed_by_sbu_director_pm_self,
       remarks: data.data?.remarks,
       remarks_two: data.data?.remarks_two,
       detail_save: "",
@@ -578,7 +578,7 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
 
         {/* Buttons */}
         <div className="mt-4 mb-4 d-flex justify-content-between">
-          <Button
+          {/* <Button
             type="submit"
             variant="white"
             className="fw-bold"
@@ -588,7 +588,7 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
             }}
           >
             Draft Save
-          </Button>
+          </Button> */}
           {user.group_id.split(",").map(
             (d) =>
               d === "1" && (
