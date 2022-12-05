@@ -23,7 +23,7 @@ import { USER_INFO } from "../../../utils/session/token";
 
 export default function EmPerformanceSingle() {
   const user = USER_INFO();
-  const admin = user.group_id.split(",").includes("7");
+  const admin = user.group_id.split(",").includes("7") || user.group_id.split(",").includes("7");
   const supervisor = user.group_id.split(",").includes("6");
 
   ////////////////////////////////////////////////////////////////
@@ -48,11 +48,11 @@ export default function EmPerformanceSingle() {
     setIsConfirm(false);
     const type = event.target.attributes["name"].value;
     if (type === "draft") {
-      data["draft_save"] = true;
+      data["draft_save"] = false;
     } else {
       data["submit"] = true;
     }
-    API.put(EMPLOYEE_PERFORMANCE_EACH_PUT(id), { ...data, submit: "" })
+    API.put(EMPLOYEE_PERFORMANCE_EACH_PUT(id), { ...data })
       .then((res) => {
         if (res.data.statuscode === 200) {
           console.log(res.data);
@@ -1288,10 +1288,10 @@ export default function EmPerformanceSingle() {
             {data?.flag === false && (
               <Button
                 // onClick={handleConfirm}
+                type="submit"
+                name="submit"
+                className="btn btn-primary"
                 onClick={handleSubmit(submitKpiPerformanceForm)}
-                variant="primary"
-                className="mb-4"
-                title="Submit"
               >
                 Submit
               </Button>

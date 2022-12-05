@@ -69,6 +69,8 @@ export const KPI_PERFORMANCE_FORM_DATE_VALIDATE = "kpi_performance/$/get_date_ra
 export const KPI_PERFORMANCE_FORM_DRAFT = "/kpi_performance/";
 export const KPI_PERFORMANCE_FORM_SINGLE = (id) => `/kpi_performance/${id}/`;
 export const KPI_PERFORMANCE_FORM_SUBMIT = (id) => `/kpi_performance/${id}/`;
+export const KPI_SUPERVISOR_APPRAISAL_REVIEW_GET = `/kpi_performance/$/supervisor/`;
+
 export const KPI_PERFORMANCE_THREE_YEARS_GET = (id) => `/salary_three_years/${id}/`;
 export const KPI_PERMORMER_ASSESTMENT_BY_SBU_GET = (id) => `/performer_assessment/${id}/search_by_sbu/`;
 export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET = (id) => `/assessment/${id}/`;

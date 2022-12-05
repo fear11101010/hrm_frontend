@@ -168,7 +168,7 @@ export default function EmAssestmentSingle() {
         .then((res) => {
           if (res.data.statuscode === 200) {
             success_alert(res.data.message);
-            // navigate(EMPLOYEE_ASSESTMENT_PAGE);
+            navigate(-1);
             getAssestmentData();
           }
         })

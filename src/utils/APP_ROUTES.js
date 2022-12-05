@@ -18,6 +18,9 @@ export const EMPLOYEE_LIST_PAGE = "/employee";
 export const EMPLOYEE_EDIT_PAGE_URL = `/employee/edit/:id`;
 export const EMPLOYEE_EDIT_PAGE = (id) => `/employee/edit/${id}`;
 
+// Configuration
+export const FILE_UPLOAD_PAGE = "/file-upload";
+
 // KPI
 export const KPI_EMPLOYEE_ASSIGN_PAGE = "/kpi-assign";
 export const KPI_PERMORMANCE_FORM_PAGE = (id) => `/kpi-performance-form/${id}`;
@@ -33,6 +36,7 @@ export const EMPLOYEE_PERFORMANCE_PAGE = "/employee-performance";
 
 export const EMPLOYEE_PERFORMANCE_SINGLE_PAGE_URL = "/employee-performance/:id";
 export const EMPLOYEE_PERFORMANCE_SINGLE_PAGE = (id) => `/employee-performance/${id}`;
+export const SUPERVISOR_APPRAISAL_REVIEW_PAGE = "/supervisor-appraisal-review";
 
 export const EMPLOYEE_PERFORMANCE_INDEX_PAGE = "/employee-performance-index";
 export const EMPLOYEE_PERFORMANCE_CREATE = "/employee-performance-create";

@@ -52,6 +52,8 @@ import {
   SALARY_INCREMENT_REPORT,
   SBU_ASSESTMENT_REPORT,
   SUPERVISOR_ASSESTMENT_PERFORMANE_PAGE,
+  SUPERVISOR_APPRAISAL_REVIEW_PAGE,
+  FILE_UPLOAD_PAGE,
 } from "./utils/APP_ROUTES";
 import KpiPerformanceIndex from "./pages/KPI/kpi-performane-form/kpi-performance-index";
 import KpiPerformanceFormCreate from "./pages/KPI/kpi-performane-form/kpi-performance-form-create";
@@ -74,6 +76,9 @@ import RequestRequisitionList from "./pages/Requisition_form/resource_requisitio
 import SalaryIncrementReport from "./pages/Report/salary-increment-report/SalaryIncrementReport";
 import SbuAssestmentData from "./pages/Report/sbu-assestment-report/sbu-assestment-data";
 import SupervisorAssestmentPerformance from "./pages/KPI/supervisor-assestment-performance/list";
+import SupervisorAppraisalReview from "./pages/KPI/supervisor-appraisal-review/List";
+import ConfigurationOutlet from "./outlets/ConfigurationOutlet";
+import FileUpload from "./pages/Configuration/file-upload/FileUpload";
 
 function App() {
   return (
@@ -98,6 +103,11 @@ function App() {
           <Route path={EMPLOYEE_EDIT_PAGE_URL} element={<EmployeeEdit />} />
         </Route>
 
+        {/* Configuration */}
+        <Route path={"/"} element={<ConfigurationOutlet />}>
+          <Route path={FILE_UPLOAD_PAGE} element={<FileUpload />} />
+        </Route>
+
         {/* KPI */}
         <Route path={"/"} element={<KpiOutlet />}>
           <Route path={KPI_EMPLOYEE_ASSIGN_PAGE} element={<KpiEmployeeAssign />} />
@@ -113,6 +123,7 @@ function App() {
           <Route path={EMPLOYEE_PERFORMANCE_INDEX_PAGE} element={<KpiPerformanceIndex />} />
           <Route path={EMPLOYEE_PERFORMANCE_CREATE} element={<KpiPerformanceFormCreate />} />
           <Route path={EMPLOYEE_PERFORMANCE_VIEW_url} element={<KpiPerformanceFormView />} />
+          <Route path={SUPERVISOR_APPRAISAL_REVIEW_PAGE} element={<SupervisorAppraisalReview />} />
         </Route>
 
         {/* REQUISITION */}
