@@ -37,6 +37,12 @@ export const EMPLOYEE_EDIT_POST = (id) => `/employee_update/${id}/`;
 export const DESIGNATION_BAND_GET = `/designation_band/`;
 
 ////////////////////////////////////
+////////////Configuration//////////
+////////////////////////////////////
+
+export const FILE_UPLOAD_POST = (id) => `/kpi_performance/${id}/file_data_upload/`;
+
+////////////////////////////////////
 ////////////KPI//////////////
 ////////////////////////////////////
 export const KPI_VALUE_GET = "/kpi_value/";
