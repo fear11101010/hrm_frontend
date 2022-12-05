@@ -21,7 +21,7 @@ export default function EmployeeAssestment() {
   return user.accessibility.includes("TeamAssessmentPerformance") ? (
     <Layout>
       {isLoading && <Loader />}
-      <PageHeader title={"Team Assessment Performance"} />
+      <PageHeader title={"Assessment Performance"} />
       <Content>
         <Table data={data.data} columns={columns} />
       </Content>

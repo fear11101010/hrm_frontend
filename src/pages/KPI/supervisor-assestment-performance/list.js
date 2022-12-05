@@ -21,7 +21,7 @@ export default function SupervisorAssestmentPerformance() {
   return (
     <Layout>
       {isLoading && <Loader />}
-      <PageHeader title={"Supervisor Assestment Performance"} />
+      <PageHeader title={"Team Assestment Performance"} />
       <Content>
         <Table data={data.data} columns={columns} />
       </Content>

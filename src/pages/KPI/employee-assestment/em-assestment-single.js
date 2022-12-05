@@ -168,7 +168,8 @@ export default function EmAssestmentSingle() {
         .then((res) => {
           if (res.data.statuscode === 200) {
             success_alert(res.data.message);
-            navigate(EMPLOYEE_ASSESTMENT_PAGE);
+            // navigate(EMPLOYEE_ASSESTMENT_PAGE);
+            getAssestmentData();
           }
         })
         .catch((err) => {
@@ -197,7 +198,7 @@ export default function EmAssestmentSingle() {
   return (
     <Layout>
       {loading && <Loader />}
-      <PageHeader title="Assessment Details" onBack />
+      <PageHeader title="Assessment Details" />
       <Content>
         {/* Heading */}
         <Row className="d-flex align-items-center">
@@ -521,9 +522,9 @@ export default function EmAssestmentSingle() {
               Save
             </button>
 
-            <button className="btn btn-light px-4 ms-2 fw-bold" onClick={() => navigate(-1)}>
+            {/* <button className="btn btn-light px-4 ms-2 fw-bold" onClick={() => navigate(-1)}>
               Cancel
-            </button>
+            </button> */}
           </Form>
         </div>
 
