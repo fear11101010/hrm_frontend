@@ -239,7 +239,6 @@ export default function KpiPerformerAssestment() {
     setLoading(true);
     API.post(GLOBAL_FILTER, payload)
       .then((res) => {
-        console.log(res);
         if (res.data.statuscode === 200) {
           if (res.data.data.length > 0) {
             setSbuData([]);

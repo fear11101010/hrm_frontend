@@ -196,6 +196,7 @@ export default function EmPerformanceSingle() {
                       <Accordion.Body>
                         <h6 className="header-pretitle mb-2">Objective</h6>
                         <Form.Control
+                          readOnly={data?.flag === true}
                           as={"textarea"}
                           {...register("production", { required: true })}
                           placeholder="PRODUCTION (Product/ Project) (Cost, revenue, quality, quantity)"
@@ -208,6 +209,7 @@ export default function EmPerformanceSingle() {
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Weightage Value</h6>
                             <Form.Control
+                              readOnly={data?.flag === true}
                               type={"text"}
                               {...register("production_weightage", { required: true })}
                               placeholder="Weightage"
@@ -219,6 +221,7 @@ export default function EmPerformanceSingle() {
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
                             <Form.Select
+                              disabled={data?.flag === true}
                               {...register("production_rating", { required: true })}
                               className={errors.production_rating ? "is-invalid" : ""}
                             >
@@ -245,6 +248,7 @@ export default function EmPerformanceSingle() {
                       <Accordion.Body>
                         <h6 className="header-pretitle mb-2">Objective</h6>
                         <Form.Control
+                          readOnly={data?.flag === true}
                           as={"textarea"}
                           {...register("support", { required: true })}
                           placeholder="SUPPORT (Service, problem resolution, customer perception, business risk & reputation )"
@@ -257,6 +261,7 @@ export default function EmPerformanceSingle() {
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Weightage Value</h6>
                             <Form.Control
+                              readOnly={data?.flag === true}
                               type={"text"}
                               {...register("support_weightage", { required: true })}
                               className={errors.support_weightage ? "is-invalid" : ""}
@@ -268,6 +273,7 @@ export default function EmPerformanceSingle() {
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
                             <Form.Select
+                              disabled={data?.flag === true}
                               {...register("support_rating", { required: true })}
                               className={errors.support_rating ? "is-invalid" : ""}
                             >
@@ -292,6 +298,7 @@ export default function EmPerformanceSingle() {
                       <Accordion.Body>
                         <h6 className="header-pretitle mb-2">Objective</h6>
                         <Form.Control
+                          readOnly={data?.flag === true}
                           as={"textarea"}
                           {...register("innovation", { required: true })}
                           placeholder="INNOVATION (New ideas and implementation)"
@@ -304,6 +311,7 @@ export default function EmPerformanceSingle() {
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Weightage Value</h6>
                             <Form.Control
+                              readOnly={data?.flag === true}
                               type={"text"}
                               {...register("innovation_weightage", { required: true })}
                               className={errors.innovation_weightage ? "is-invalid" : ""}
@@ -315,6 +323,7 @@ export default function EmPerformanceSingle() {
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
                             <Form.Select
+                              disabled={data?.flag === true}
                               {...register("innovation_rating", { required: true })}
                               className={errors.innovation_rating ? "is-invalid" : ""}
                             >
@@ -339,6 +348,7 @@ export default function EmPerformanceSingle() {
                       <Accordion.Body>
                         <h6 className="header-pretitle mb-2">Objective</h6>
                         <Form.Control
+                          readOnly={data?.flag === true}
                           as={"textarea"}
                           {...register("people", { required: true })}
                           placeholder="PEOPLE (Leadership, management, training)"
@@ -351,6 +361,7 @@ export default function EmPerformanceSingle() {
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Weightage Value</h6>
                             <Form.Control
+                              readOnly={data?.flag === true}
                               type={"text"}
                               className={errors.people_weightage ? "is-invalid" : ""}
                               {...register("people_weightage", { required: true })}
@@ -362,6 +373,7 @@ export default function EmPerformanceSingle() {
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
                             <Form.Select
+                              disabled={data?.flag === true}
                               className={errors.people_rating ? "is-invalid" : ""}
                               {...register("people_rating", { required: true })}
                             >
@@ -386,6 +398,7 @@ export default function EmPerformanceSingle() {
                       <Accordion.Body>
                         <h6 className="header-pretitle mb-2">Objective</h6>
                         <Form.Control
+                          readOnly={data?.flag === true}
                           as={"textarea"}
                           {...register("other", { required: true })}
                           placeholder="OTHER (Learning & development)"
@@ -398,6 +411,7 @@ export default function EmPerformanceSingle() {
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Weightage Value</h6>
                             <Form.Control
+                              readOnly={data?.flag === true}
                               type={"text"}
                               {...register("other_weightage", { required: true })}
                               className={errors.other_weightage ? "is-invalid" : ""}
@@ -409,6 +423,7 @@ export default function EmPerformanceSingle() {
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
                             <Form.Select
+                              disabled={data?.flag === true}
                               {...register("other_rating", { required: true })}
                               className={errors.other_rating ? "is-invalid" : ""}
                             >
@@ -612,6 +627,7 @@ export default function EmPerformanceSingle() {
                           <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Value</h6>
                             <Form.Control
+                              readOnly={data?.flag === true}
                               as={"textarea"}
                               className={errors.courageous ? "is-invalid" : ""}
                               {...register("courageous", { required: true })}
@@ -624,6 +640,7 @@ export default function EmPerformanceSingle() {
                           <Col sm={12} xs={12} md={12} className="mt-2">
                             <h6 className="header-pretitle mb-2">Rating</h6>
                             <Form.Select
+                              disabled={data?.flag === true}
                               {...register("courageous_rating", { required: true })}
                               className={errors.courageous_rating ? "is-invalid" : ""}
                             >
@@ -653,6 +670,7 @@ export default function EmPerformanceSingle() {
                           <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Value</h6>
                             <Form.Control
+                              readOnly={data?.flag === true}
                               as={"textarea"}
                               {...register("teamwork", { required: true })}
                               placeholder="TEAMWORK (Team player, not exclusive: Enjoy sharing and collaborating with relevent parties):"
@@ -665,6 +683,7 @@ export default function EmPerformanceSingle() {
                           <Col sm={12} xs={12} md={12} className="mt-2">
                             <h6 className="header-pretitle mb-2">Rating</h6>
                             <Form.Select
+                              disabled={data?.flag === true}
                               {...register("teamwork_rating", { required: true })}
                               className={errors.teamwork_rating ? "is-invalid" : ""}
                             >
@@ -694,6 +713,7 @@ export default function EmPerformanceSingle() {
                           <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Value</h6>
                             <Form.Control
+                              readOnly={data?.flag === true}
                               as={"textarea"}
                               {...register("responsive", { required: true })}
                               placeholder="RESPONSIVE (Attentive, Interactive : consider everyone inside & outside as customer ; stakeholder)"
@@ -706,6 +726,7 @@ export default function EmPerformanceSingle() {
                           <Col sm={12} xs={12} md={12} className="mt-2">
                             <h6 className="header-pretitle mb-2">Rating</h6>
                             <Form.Select
+                              disabled={data?.flag === true}
                               {...register("responsive_rating", { required: true })}
                               className={errors.responsive_rating ? "is-invalid" : ""}
                             >
@@ -733,6 +754,7 @@ export default function EmPerformanceSingle() {
                           <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Value</h6>
                             <Form.Control
+                              readOnly={data?.flag === true}
                               as={"textarea"}
                               {...register("creative", { required: true })}
                               placeholder="CREATIVE (Business minds: Translates imagination into business)"
@@ -745,6 +767,7 @@ export default function EmPerformanceSingle() {
                           <Col sm={12} xs={12} md={12} className="mt-2">
                             <h6 className="header-pretitle mb-2">Rating</h6>
                             <Form.Select
+                              disabled={data?.flag === true}
                               {...register("creative_rating", { required: true })}
                               className={errors.creative_rating ? "is-invalid" : ""}
                             >
@@ -772,6 +795,7 @@ export default function EmPerformanceSingle() {
                           <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Value</h6>
                             <Form.Control
+                              readOnly={data?.flag === true}
                               as={"textarea"}
                               {...register("trustworthy", { required: true })}
                               placeholder="TRUSTWORTHY (Deserving of trust , confidence , reliable, dependable)"
@@ -784,6 +808,7 @@ export default function EmPerformanceSingle() {
                           <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
                             <Form.Select
+                              disabled={data?.flag === true}
                               {...register("trustworthy_rating", { required: true })}
                               className={errors.trustworthy_rating ? "is-invalid" : ""}
                             >
@@ -957,6 +982,7 @@ export default function EmPerformanceSingle() {
                         <Row>
                           <Col sm={12} xs={12} md={12}>
                             <Form.Control
+                              readOnly={data?.flag === true}
                               as={"textarea"}
                               {...register("other_sustainable_achievement")}
                               placeholder="OTHER SUBSTANTIAL ACHIEVEMENTS"
@@ -977,6 +1003,7 @@ export default function EmPerformanceSingle() {
                         <Row>
                           <Col sm={12} xs={12} md={12}>
                             <Form.Control
+                              readOnly={data?.flag === true}
                               as={"textarea"}
                               {...register("significant_issue")}
                               placeholder="SIGNIFICANT ISSUES"
@@ -1051,6 +1078,7 @@ export default function EmPerformanceSingle() {
                         <Row>
                           <Col sm={12} xs={12} md={12}>
                             <Form.Control
+                              readOnly={data?.flag === true}
                               as={"textarea"}
                               {...register("individual_comment")}
                               placeholder="INDIVIDUAL'S COMMENTS"
@@ -1071,6 +1099,7 @@ export default function EmPerformanceSingle() {
                         <Row>
                           <Col sm={12} xs={12} md={12}>
                             <Form.Control
+                              readOnly={data?.flag === true}
                               as={"textarea"}
                               {...register("manager_comment")}
                               placeholder="MANAGERS COMMENTS"
@@ -1091,6 +1120,7 @@ export default function EmPerformanceSingle() {
                         <Row>
                           <Col sm={12} xs={12} md={12}>
                             <Form.Control
+                              readOnly={data?.flag === true}
                               as={"textarea"}
                               {...register("senior_manager_functional_head_comment")}
                               placeholder="SENIOR MANAGER / FUNCTIONAL HEAD'S COMMENTS"
@@ -1111,6 +1141,7 @@ export default function EmPerformanceSingle() {
                         <Row>
                           <Col sm={12} xs={12} md={12}>
                             <Form.Control
+                              readOnly={data?.flag === true}
                               as={"textarea"}
                               {...register("director_chief_operating_officer_comment")}
                               placeholder="DIRECTOR AND CHIEF OPERATING OFFICER'S COMMENTS :"
@@ -1212,6 +1243,7 @@ export default function EmPerformanceSingle() {
                         <Row>
                           <Col sm={12} xs={12} md={12}>
                             <Form.Control
+                              readOnly={data?.flag === true}
                               as={"textarea"}
                               {...register("overall_performance")}
                               placeholder="OVERALL PERFORMANCE BASED ON ALL OF THE ABOVE RATING"
@@ -1252,15 +1284,18 @@ export default function EmPerformanceSingle() {
                   Save as draft
                 </Button>
               </div> */}
-            <Button
-              // onClick={handleConfirm}
-              onClick={handleSubmit(submitKpiPerformanceForm)}
-              variant="primary"
-              className="mb-4"
-              title="Submit"
-            >
-              Submit
-            </Button>
+
+            {data?.flag === false && (
+              <Button
+                // onClick={handleConfirm}
+                onClick={handleSubmit(submitKpiPerformanceForm)}
+                variant="primary"
+                className="mb-4"
+                title="Submit"
+              >
+                Submit
+              </Button>
+            )}
             <Modal
               show={isConfirm}
               onHide={(e) => {
@@ -1335,6 +1370,7 @@ export default function EmPerformanceSingle() {
 //               <h4 className="mb-0">PRODUCTION (Product/Project) (Cost, revenue, quality, quantity)</h4>
 //             </Form.Label>
 //             <Form.Control
+// readOnly={data?.flag === true}
 //               as={"textarea"}
 //               {...register("production", { required: true })}
 //               placeholder="PRODUCTION (Product/ Project) (Cost, revenue, quality, quantity)"
@@ -1347,6 +1383,7 @@ export default function EmPerformanceSingle() {
 //           <Form.Group className="mt-4">
 //             <Form.Label htmlFor="weightage-value">Weightage</Form.Label>
 //             <Form.Control
+// readOnly={data?.flag === true}
 //               type={"text"}
 //               {...register("production_weightage", { required: true })}
 //               placeholder="Weightage"
@@ -1359,7 +1396,8 @@ export default function EmPerformanceSingle() {
 //         <Col xs={12} sm={12} md={6} className="d-flex flex-column">
 //           <Form.Group>
 //             <Form.Label htmlFor="rating">Rating</Form.Label>
-//             <Form.Select
+//              <Form.Select
+// disabled={data?.flag === true}
 //               {...register("production_rating", { required: true })}
 //               className={errors.production_rating ? "is-invalid" : ""}
 //             >
@@ -1384,6 +1422,7 @@ export default function EmPerformanceSingle() {
 //               </h4>
 //             </Form.Label>
 //             <Form.Control
+// readOnly={data?.flag === true}
 //               as={"textarea"}
 //               {...register("support", { required: true })}
 //               placeholder="SUPPORT (Service, problem resolution, customer perception, business risk & reputation )"
@@ -1396,6 +1435,7 @@ export default function EmPerformanceSingle() {
 //           <Form.Group className="mt-4">
 //             <Form.Label htmlFor="weightage-value">Weightage</Form.Label>
 //             <Form.Control
+// readOnly={data?.flag === true}
 //               type={"text"}
 //               {...register("support_weightage", { required: true })}
 //               className={errors.support_weightage ? "is-invalid" : ""}
@@ -1408,7 +1448,8 @@ export default function EmPerformanceSingle() {
 //         <Col xs={12} sm={12} md={6} className="d-flex flex-column">
 //           <Form.Group>
 //             <Form.Label htmlFor="rating">Rating</Form.Label>
-//             <Form.Select
+//              <Form.Select
+// disabled={data?.flag === true}
 //               {...register("support_rating", { required: true })}
 //               className={errors.support_rating ? "is-invalid" : ""}
 //             >
@@ -1431,6 +1472,7 @@ export default function EmPerformanceSingle() {
 //               <h4 className="mb-0">INNOVATION (New ideas and implementation):</h4>
 //             </Form.Label>
 //             <Form.Control
+// readOnly={data?.flag === true}
 //               as={"textarea"}
 //               {...register("innovation", { required: true })}
 //               placeholder="INNOVATION (New ideas and implementation)"
@@ -1443,6 +1485,7 @@ export default function EmPerformanceSingle() {
 //           <Form.Group className="mt-4">
 //             <Form.Label htmlFor="weightage-value">Weightage</Form.Label>
 //             <Form.Control
+// readOnly={data?.flag === true}
 //               type={"text"}
 //               {...register("innovation_weightage", { required: true })}
 //               className={errors.innovation_weightage ? "is-invalid" : ""}
@@ -1455,7 +1498,8 @@ export default function EmPerformanceSingle() {
 //         <Col xs={12} sm={12} md={6} className="d-flex flex-column">
 //           <Form.Group>
 //             <Form.Label htmlFor="rating">Rating</Form.Label>
-//             <Form.Select
+//              <Form.Select
+// disabled={data?.flag === true}
 //               {...register("innovation_rating", { required: true })}
 //               className={errors.innovation_rating ? "is-invalid" : ""}
 //             >
@@ -1478,6 +1522,7 @@ export default function EmPerformanceSingle() {
 //               <h4 className="mb-0">PEOPLE (Leadership, management, training):</h4>
 //             </Form.Label>
 //             <Form.Control
+// readOnly={data?.flag === true}
 //               as={"textarea"}
 //               {...register("people", { required: true })}
 //               placeholder="PEOPLE (Leadership, management, training)"
@@ -1490,6 +1535,7 @@ export default function EmPerformanceSingle() {
 //           <Form.Group className="mt-4">
 //             <Form.Label htmlFor="weightage-value">Weightage</Form.Label>
 //             <Form.Control
+// readOnly={data?.flag === true}
 //               type={"text"}
 //               className={errors.people_weightage ? "is-invalid" : ""}
 //               {...register("people_weightage", { required: true })}
@@ -1502,7 +1548,8 @@ export default function EmPerformanceSingle() {
 //         <Col xs={12} sm={12} md={6} className="d-flex flex-column">
 //           <Form.Group>
 //             <Form.Label htmlFor="rating">Rating</Form.Label>
-//             <Form.Select
+//              <Form.Select
+// disabled={data?.flag === true}
 //               className={errors.people_rating ? "is-invalid" : ""}
 //               {...register("people_rating", { required: true })}
 //             >
@@ -1525,6 +1572,7 @@ export default function EmPerformanceSingle() {
 //               <h4 className="mb-0">OTHER (Learning & development):</h4>
 //             </Form.Label>
 //             <Form.Control
+// readOnly={data?.flag === true}
 //               as={"textarea"}
 //               {...register("other", { required: true })}
 //               placeholder="OTHER (Learning & development)"
@@ -1537,6 +1585,7 @@ export default function EmPerformanceSingle() {
 //           <Form.Group className="mt-4">
 //             <Form.Label htmlFor="weightage-value">Weightage</Form.Label>
 //             <Form.Control
+// readOnly={data?.flag === true}
 //               type={"text"}
 //               {...register("other_weightage", { required: true })}
 //               className={errors.other_weightage ? "is-invalid" : ""}
@@ -1549,7 +1598,8 @@ export default function EmPerformanceSingle() {
 //         <Col xs={12} sm={12} md={6} className="d-flex flex-column">
 //           <Form.Group>
 //             <Form.Label htmlFor="rating">Rating</Form.Label>
-//             <Form.Select
+//              <Form.Select
+// disabled={data?.flag === true}
 //               {...register("other_rating", { required: true })}
 //               className={errors.other_rating ? "is-invalid" : ""}
 //             >
@@ -1601,6 +1651,7 @@ export default function EmPerformanceSingle() {
 //               </h5>
 //             </Form.Label>
 //             <Form.Control
+// readOnly={data?.flag === true}
 //               as={"textarea"}
 //               className={errors.courageous ? "is-invalid" : ""}
 //               {...register("courageous", { required: true })}
@@ -1616,7 +1667,8 @@ export default function EmPerformanceSingle() {
 //             <Form.Label htmlFor="rating" className="mb-3">
 //               Rating
 //             </Form.Label>
-//             <Form.Select
+//              <Form.Select
+// disabled={data?.flag === true}
 //               {...register("courageous_rating", { required: true })}
 //               className={errors.courageous_rating ? "is-invalid" : ""}
 //             >
@@ -1643,6 +1695,7 @@ export default function EmPerformanceSingle() {
 //               </h5>
 //             </Form.Label>
 //             <Form.Control
+// readOnly={data?.flag === true}
 //               as={"textarea"}
 //               {...register("teamwork", { required: true })}
 //               placeholder="TEAMWORK (Team player, not exclusive: Enjoy sharing and collaborating with relevent parties):"
@@ -1658,7 +1711,8 @@ export default function EmPerformanceSingle() {
 //             <Form.Label className="mb-3" htmlFor="rating">
 //               Rating
 //             </Form.Label>
-//             <Form.Select
+//              <Form.Select
+// disabled={data?.flag === true}
 //               {...register("teamwork_rating", { required: true })}
 //               className={errors.teamwork_rating ? "is-invalid" : ""}
 //             >
@@ -1685,6 +1739,7 @@ export default function EmPerformanceSingle() {
 //               </h5>
 //             </Form.Label>
 //             <Form.Control
+// readOnly={data?.flag === true}
 //               as={"textarea"}
 //               {...register("responsive", { required: true })}
 //               placeholder="RESPONSIVE (Attentive, Interactive : consider everyone inside & outside as customer ; stakeholder)"
@@ -1700,7 +1755,8 @@ export default function EmPerformanceSingle() {
 //             <Form.Label className="mb-4" htmlFor="rating">
 //               Rating
 //             </Form.Label>
-//             <Form.Select
+//  <Form.Select
+// disabled={data?.flag === true}
 //               {...register("responsive_rating", { required: true })}
 //               className={errors.responsive_rating ? "is-invalid" : ""}
 //             >
@@ -1734,6 +1790,7 @@ export default function EmPerformanceSingle() {
 //             <Col xs={12} sm={12} md={7}>
 //               <Form.Group>
 //                 <Form.Control
+// readOnly={data?.flag === true}
 //                   as={"textarea"}
 //                   {...register("creative", { required: true })}
 //                   placeholder="CREATIVE (Business minds: Translates imagination into business)"
@@ -1746,7 +1803,8 @@ export default function EmPerformanceSingle() {
 //             </Col>
 //             <Col xs={12} sm={12} md={5}>
 //               <Form.Group>
-//                 <Form.Select
+//                  <Form.Select
+// disabled={data?.flag === true}
 //                   {...register("creative_rating", { required: true })}
 //                   className={errors.creative_rating ? "is-invalid" : ""}
 //                 >
@@ -1778,6 +1836,7 @@ export default function EmPerformanceSingle() {
 //             <Col xs={12} sm={12} md={7}>
 //               <Form.Group>
 //                 <Form.Control
+// readOnly={data?.flag === true}
 //                   as={"textarea"}
 //                   {...register("trustworthy", { required: true })}
 //                   placeholder="TRUSTWORTHY (Deserving of trust , confidence , reliable, dependable)"
@@ -1790,7 +1849,8 @@ export default function EmPerformanceSingle() {
 //             </Col>
 //             <Col xs={12} sm={12} md={5}>
 //               <Form.Group>
-//                 <Form.Select
+//                  <Form.Select
+// disabled={data?.flag === true}
 //                   {...register("trustworthy_rating", { required: true })}
 //                   className={errors.trustworthy_rating ? "is-invalid" : ""}
 //                 >
@@ -1839,6 +1899,7 @@ export default function EmPerformanceSingle() {
 //                <h4 className="mb-0">OTHER SUBSTANTIAL ACHIEVEMENTS:</h4>
 //              </Form.Label>
 //              <Form.Control
+// readOnly={data?.flag === true}
 //                as={"textarea"}
 //                {...register("other_sustainable_achievement")}
 //                placeholder="OTHER SUBSTANTIAL ACHIEVEMENTS"
@@ -1851,6 +1912,7 @@ export default function EmPerformanceSingle() {
 //            <Form.Group>
 //              <Form.Label htmlFor="ISSUES">SIGNIFICANT ISSUES :</Form.Label>
 //              <Form.Control
+// readOnly={data?.flag === true}
 //                as={"textarea"}
 //                {...register("significant_issue")}
 //                placeholder="SIGNIFICANT ISSUES"
@@ -1863,6 +1925,7 @@ export default function EmPerformanceSingle() {
 //            <Form.Group>
 //              <Form.Label htmlFor="INDIVIDUAL">INDIVIDUAL'S COMMENTS :</Form.Label>
 //              <Form.Control
+// readOnly={data?.flag === true}
 //                as={"textarea"}
 //                {...register("individual_comment")}
 //                placeholder="INDIVIDUAL'S COMMENTS"
@@ -1875,6 +1938,7 @@ export default function EmPerformanceSingle() {
 //            <Form.Group>
 //              <Form.Label htmlFor="MANAGERS">MANAGERS COMMENTS :</Form.Label>
 //              <Form.Control
+// readOnly={data?.flag === true}
 //                as={"textarea"}
 //                {...register("manager_comment")}
 //                placeholder="MANAGERS COMMENTS"
@@ -1889,6 +1953,7 @@ export default function EmPerformanceSingle() {
 //            <Form.Group>
 //              <Form.Label htmlFor="FUNCTIONAL">SENIOR MANAGER / FUNCTIONAL HEAD'S COMMENTS :</Form.Label>
 //              <Form.Control
+// readOnly={data?.flag === true}
 //                as={"textarea"}
 //                {...register("senior_manager_functional_head_comment")}
 //                placeholder="SENIOR MANAGER / FUNCTIONAL HEAD'S COMMENTS"
@@ -1901,6 +1966,7 @@ export default function EmPerformanceSingle() {
 //            <Form.Group>
 //              <Form.Label htmlFor="DIRECTOR">DIRECTOR AND CHIEF OPERATING OFFICER'S COMMENTS :</Form.Label>
 //              <Form.Control
+// readOnly={data?.flag === true}
 //                as={"textarea"}
 //                {...register("director_chief_operating_officer_comment")}
 //                placeholder="DIRECTOR AND CHIEF OPERATING OFFICER'S COMMENTS :"
@@ -1915,6 +1981,7 @@ export default function EmPerformanceSingle() {
 //            <Form.Group>
 //              <Form.Label htmlFor="OVERALL">OVERALL PERFORMANCE BASED ON ALL OF THE ABOVE RATING :</Form.Label>
 //              <Form.Control
+// readOnly={data?.flag === true}
 //                as={"textarea"}
 //                {...register("overall_performance")}
 //                placeholder="OVERALL PERFORMANCE BASED ON ALL OF THE ABOVE RATING"

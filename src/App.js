@@ -51,6 +51,7 @@ import {
   REQUISITION_RESOURCE_FORM,
   SALARY_INCREMENT_REPORT,
   SBU_ASSESTMENT_REPORT,
+  SUPERVISOR_ASSESTMENT_PERFORMANE_PAGE,
 } from "./utils/APP_ROUTES";
 import KpiPerformanceIndex from "./pages/KPI/kpi-performane-form/kpi-performance-index";
 import KpiPerformanceFormCreate from "./pages/KPI/kpi-performane-form/kpi-performance-form-create";
@@ -72,6 +73,7 @@ import ResourceRequisitionForm from "./pages/Requisition_form/resource_requisiti
 import RequestRequisitionList from "./pages/Requisition_form/resource_requisition/request_requisition_list";
 import SalaryIncrementReport from "./pages/Report/salary-increment-report/SalaryIncrementReport";
 import SbuAssestmentData from "./pages/Report/sbu-assestment-report/sbu-assestment-data";
+import SupervisorAssestmentPerformance from "./pages/KPI/supervisor-assestment-performance/list";
 
 function App() {
   return (
@@ -104,6 +106,7 @@ function App() {
           <Route path={KPI_PERMORMER_ASSESTMENT_PAGE} element={<KpiPerformerAssestment />} />
           <Route path={KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE} element={<KpiAllEmployeeAssestment />} />
           <Route path={EMPLOYEE_ASSESTMENT_PAGE} element={<EmployeeAssestment />} />
+          <Route path={SUPERVISOR_ASSESTMENT_PERFORMANE_PAGE} element={<SupervisorAssestmentPerformance />} />
           <Route path={EMPLOYEE_ASSESTMENT_SINGLE_URL} element={<EmAssestmentSingle />} />
           <Route path={EMPLOYEE_PERFORMANCE_PAGE} element={<EmployeePerformance />} />
           <Route path={EMPLOYEE_PERFORMANCE_SINGLE_PAGE_URL} element={<EmPerformanceSingle />} />

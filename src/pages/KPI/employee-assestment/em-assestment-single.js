@@ -520,6 +520,7 @@ export default function EmAssestmentSingle() {
             <button className="btn btn-primary px-4" type="submit">
               Save
             </button>
+
             <button className="btn btn-light px-4 ms-2 fw-bold" onClick={() => navigate(-1)}>
               Cancel
             </button>
