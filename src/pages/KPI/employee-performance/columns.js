@@ -57,12 +57,16 @@ export const columns = [
     // name: `${user.group_id}`,
     cell: (row) => (
       <>
-        {user?.group_id.split(",").includes("6") && (
+        {user?.group_id.split(",").includes("6") ||
+        user?.group_id.split(",").includes("1") ||
+        user?.group_id.split(",").includes("7") ? (
           <Link to={EMPLOYEE_PERFORMANCE_PREV_YEAR_PAGE(row.id)}>
             <button className="btn btn-sm btn-rounded-circle btn-light" title="Previous Year Data">
               <i className="fe fe-file-text"></i>
             </button>
           </Link>
+        ) : (
+          ""
         )}
       </>
     ),

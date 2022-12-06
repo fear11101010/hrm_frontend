@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate, useHistory } from "react-router-dom";
 import ReactSelect from "react-select";
 import Content from "../../../components/content/Content";
 import PageHeader from "../../../components/header/PageHeader";
@@ -16,10 +16,14 @@ import { error_alert, success_alert } from "../../../components/alert/Alert";
 
 export default function FileUpload() {
   const user = USER_INFO();
+  const navigate = useNavigate();
+
+  const { state, code } = useLocation();
   const [loading, setLoading] = useState(false);
   const [em_id, setEm_id] = useState("");
   const [year, setYear] = useState("2022");
   const [xls, setXls] = useState(null);
+  const [xls_filename, setXls_filename] = useState(null);
 
   const employeeList = useEmployee()?.map((d) => ({
     label: d.name + " (" + d.employee_id + ")",
@@ -49,9 +53,12 @@ export default function FileUpload() {
             setEm_id("");
             setYear("2022");
             setXls(null);
+            setXls("");
+            navigate("/file-upload", { state: res.data.message });
             window.location.reload();
           } else {
             error_alert(res.data.message);
+            navigate("/file-upload", { state: res.data.message });
           }
         })
         .catch((err) => {
@@ -62,19 +69,28 @@ export default function FileUpload() {
         });
     }
   };
+
+  console.log(state, code);
   return user.accessibility.includes("FileUpload") ? (
     <Layout>
       {loading && <Loader />}
       <PageHeader title="File Upload" />
       <Content>
         <Form className="m-auto w-50" onSubmit={onUpload}>
+          {state !== null && (
+            <div className="alert alert-info">
+              <h5 className="mb-0">{state}</h5>
+            </div>
+          )}
           <Form.Group className="mb-3">
             <Form.Label className="mb-0">Select Employee</Form.Label>
             <ReactSelect
               options={employeeList}
+              placeholder={em_id !== "" ? employeeList?.map((d) => d.value === em_id && d.label) : "Select Employee"}
               onChange={(e) => {
                 setEm_id(e.value);
               }}
+              value={em_id}
             />
           </Form.Group>
           <Form.Group className="mb-3">
@@ -92,6 +108,7 @@ export default function FileUpload() {
             <Form.Control
               type="file"
               onChange={(e) => {
+                setXls_filename(e.target.files[0]?.name);
                 setXls(e.target.files[0]);
               }}
             />

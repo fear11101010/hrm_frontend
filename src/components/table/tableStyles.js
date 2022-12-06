@@ -1,7 +1,7 @@
 export const tableStyles = {
   table: {
     style: {
-      // border: "1px solid #e6e6e6",
+      border: "1px solid #e6e6e6",
       borderStyle: "solid",
       borderLeftWidth: "1px",
       borderRightWidth: "1px",
@@ -25,9 +25,9 @@ export const tableStyles = {
     style: {
       fontSize: "14px",
       "&:not(:last-of-type)": {
-        // borderRightStyle: "solid",
-        // borderRightWidth: "1px",
-        // borderColor: "#e6e6e6",
+        borderRightStyle: "solid",
+        borderRightWidth: "1px",
+        borderColor: "#e6e6e6",
       },
     },
   },
@@ -36,9 +36,9 @@ export const tableStyles = {
       fontSize: "14px",
       backgroundColor: "#FFFFFF",
       "&:not(:last-of-type)": {
-        // borderColor: "#e6e6e6",
-        // borderRightStyle: "solid",
-        // borderRightWidth: "1px",
+        borderColor: "#e6e6e6",
+        borderRightStyle: "solid",
+        borderRightWidth: "1px",
         borderBottomLeftRadius: "4px",
         borderBottomRightRadius: "4px",
       },

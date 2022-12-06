@@ -9,6 +9,7 @@ import PageHeader from "../../components/header/PageHeader";
 import Loader from "../../components/loader/Loader";
 import useSbu from "../../hooks/SBU/useSbu";
 import useSubSbu from "../../hooks/SBU/useSubSbu";
+import useDesignation from "../../hooks/useDesignation";
 import useSupervisor from "../../hooks/useSupervisor";
 import Layout from "../../layout/Layout";
 import { EMPLOYEE_EACH_GET, EMPLOYEE_EDIT_POST } from "../../utils/API_ROUTES";
@@ -53,6 +54,8 @@ export default function EmployeeEdit() {
   const { data } = useSbu();
   const { subSbudata } = useSubSbu();
   const supervisorList = useSupervisor();
+  const designationList = useDesignation();
+  console.log(designationList);
 
   //Fetch
   useEffect(() => {
@@ -65,7 +68,7 @@ export default function EmployeeEdit() {
           setSbu(res.data?.data?.sbu?.id);
           setSubSbu(res.data?.data?.sub_sbu?.id);
           setDate_of_joining(res.data?.data?.date_of_joining);
-          setDesignation(res.data?.data?.designation);
+          setDesignation(res.data?.data?.desig_id);
           setsupervisor(res.data?.data?.supervisor?.id);
           setTotal_salary_and_allowance(res.data?.data?.total_salary_and_allowance);
           setbasic_salary(res.data?.data?.basic_salary);
@@ -108,7 +111,7 @@ export default function EmployeeEdit() {
       name: name,
       status: "1",
       employee_id: emId,
-      designation: designation,
+      designation_id: designation,
       date_of_joining: date_of_joining,
       total_salary_and_allowance: total_salary_and_allowance,
       basic_salary: basic_salary,
@@ -184,6 +187,31 @@ export default function EmployeeEdit() {
                         value={emId}
                         onChange={(e) => {
                           setEmId(e.target.value);
+                        }}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col sm="12" md="6" className="mb-3">
+                    <Form.Group>
+                      <Form.Label className="mb-1">Designation</Form.Label>
+                      <ReactSelect
+                        options={designationList?.map((d) => ({ label: d.designation, value: d.id }))}
+                        placeholder={designationList?.map((d) => d.id === designation && d.designation)}
+                        onChange={(e) => {
+                          setDesignation(e.value);
+                        }}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col sm="12" md="6" className="mb-3">
+                    <Form.Group>
+                      <Form.Label className="mb-1"> Level</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter Level"
+                        value={level}
+                        onChange={(e) => {
+                          setLevel(e.target.value);
                         }}
                       />
                     </Form.Group>
