@@ -21,7 +21,7 @@ import { toast } from "react-toastify";
 import ConfirmDialog from "../../../components/confirm-dialog/ConfirmDialog";
 import { USER_INFO } from "../../../utils/session/token";
 
-export default function EmPerformanceSingle() {
+export default function EmPerformancePrevYear() {
   const user = USER_INFO();
   const admin = user.group_id.split(",").includes("7") || user.group_id.split(",").includes("7");
   const supervisor = user.group_id.split(",").includes("6");
@@ -76,22 +76,21 @@ export default function EmPerformanceSingle() {
   };
 
   // Fetching individual user
-  useEffect(() => {
-    setLoading(true);
-    API.get(EMPLOYEE_PERFORMANCE_EACH_GET(id))
-      .then((res) => {
-        if (res.data.statuscode === 200) {
-          setData(res.data.data);
-          reset(res.data.data);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+  //   useEffect(() => {
+  //     setLoading(true);
+  //     API.get(EMPLOYEE_PERFORMANCE_EACH_GET(id))
+  //       .then((res) => {
+  //         if (res.data.statuscode === 200) {
+  //           setData(res.data.data_last_year);
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       })
+  //       .finally(() => {
+  //         setLoading(false);
+  //       });
+  //   }, []);
 
   ////////////////////////////////////////////////////////////////
   //////////////////// NEW  VERSION///////////////////////////////
@@ -109,6 +108,7 @@ export default function EmPerformanceSingle() {
       .then((response) => {
         setData(response.data.data);
         setPrevYearData(response.data?.data_last_year);
+        reset({ ...response.data?.data_last_year });
       })
       .catch((err) => {
         toast(err.response?.data?.non_field_errors[0]);
@@ -183,9 +183,9 @@ export default function EmPerformanceSingle() {
               </Row>
               <hr className="mb-4" />
               <Row>
-                <Col sm="12" md={admin ? "6" : "12"}>
-                  <h1 className="text-center mb-2">{currYear + 1}</h1>
-                  <Accordion alwaysOpen>
+                <Col sm="12" md="12">
+                  <h1 className="text-center mb-2">{currYear}</h1>
+                  <Accordion>
                     <Accordion.Item>
                       <Accordion.Header as={"div"}>
                         <div>
@@ -195,43 +195,21 @@ export default function EmPerformanceSingle() {
                       </Accordion.Header>
                       <Accordion.Body>
                         <h6 className="header-pretitle mb-2">Objective</h6>
-                        <Form.Control
-                          readOnly={data?.flag === true}
-                          as={"textarea"}
-                          {...register("production", { required: true })}
-                          placeholder="PRODUCTION (Product/ Project) (Cost, revenue, quality, quantity)"
-                          id="production-cost-revenue"
-                          rows={3}
-                          className={errors.production ? "is-invalid" : ""}
-                        />
-                        {errors.production && <div className="invalid-feedback">This field is required</div>}
-                        <Row className="mt-2">
+                        <p className="fs-5 fw-bold" contentEditable={false}>
+                          {prevYearData?.production || "N\\A"}
+                        </p>
+                        <Row>
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Weightage Value</h6>
-                            <Form.Control
-                              readOnly={data?.flag === true}
-                              type={"text"}
-                              {...register("production_weightage", { required: true })}
-                              placeholder="Weightage"
-                              id="weightage-value"
-                              className={errors.production_weightage ? "is-invalid" : ""}
-                            />
-                            {errors.production_weightage && <div className="invalid-feedback">This field is required</div>}
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {prevYearData?.production_weightage || "N\\A"}
+                            </p>
                           </Col>
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
-                            <Form.Select
-                              disabled={data?.flag === true}
-                              {...register("production_rating", { required: true })}
-                              className={errors.production_rating ? "is-invalid" : ""}
-                            >
-                              <option>------</option>
-                              <option value="1">Exceeded</option>
-                              <option value="2">Achieved all aspects</option>
-                              <option value="3">Achieved the essential requirements</option>
-                              <option value="4">Did not achieve</option>
-                            </Form.Select>
-                            {errors.production_rating && <div className="invalid-feedback">This field is required</div>}
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {findRatingElem(prevYearData?.production_rating) || "N\\A"}
+                            </p>
                           </Col>
                         </Row>
                       </Accordion.Body>
@@ -247,43 +225,21 @@ export default function EmPerformanceSingle() {
                       </Accordion.Header>
                       <Accordion.Body>
                         <h6 className="header-pretitle mb-2">Objective</h6>
-                        <Form.Control
-                          readOnly={data?.flag === true}
-                          as={"textarea"}
-                          {...register("support", { required: true })}
-                          placeholder="SUPPORT (Service, problem resolution, customer perception, business risk & reputation )"
-                          id="support"
-                          rows={3}
-                          className={errors.support ? "is-invalid" : ""}
-                        />
-                        {errors.support && <div className="invalid-feedback">This field is required</div>}
-                        <Row className="mt-2">
+                        <p className="fs-5 fw-bold" contentEditable={false}>
+                          {prevYearData?.support || "N\\A"}
+                        </p>
+                        <Row>
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Weightage Value</h6>
-                            <Form.Control
-                              readOnly={data?.flag === true}
-                              type={"text"}
-                              {...register("support_weightage", { required: true })}
-                              className={errors.support_weightage ? "is-invalid" : ""}
-                              placeholder="Weightage"
-                              id="weightage-value"
-                            />
-                            {errors.support_weightage && <div className="invalid-feedback">This field is required</div>}
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {prevYearData?.support_weightage || "N\\A"}
+                            </p>
                           </Col>
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
-                            <Form.Select
-                              disabled={data?.flag === true}
-                              {...register("support_rating", { required: true })}
-                              className={errors.support_rating ? "is-invalid" : ""}
-                            >
-                              <option>--------</option>
-                              <option value="1">Exceeded</option>
-                              <option value="2">Achieved all aspects</option>
-                              <option value="3">Achieved the essential requirements</option>
-                              <option value="4">Did not achieve</option>
-                            </Form.Select>
-                            {errors.support_rating && <div className="invalid-feedback">This field is required</div>}
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {findRatingElem(prevYearData?.support_rating) || "N\\A"}
+                            </p>
                           </Col>
                         </Row>
                       </Accordion.Body>
@@ -297,43 +253,21 @@ export default function EmPerformanceSingle() {
                       </Accordion.Header>
                       <Accordion.Body>
                         <h6 className="header-pretitle mb-2">Objective</h6>
-                        <Form.Control
-                          readOnly={data?.flag === true}
-                          as={"textarea"}
-                          {...register("innovation", { required: true })}
-                          placeholder="INNOVATION (New ideas and implementation)"
-                          id="innovation"
-                          rows={3}
-                          className={errors.innovation ? "is-invalid" : ""}
-                        />
-                        {errors.innovation && <div className="invalid-feedback">This field is required</div>}
-                        <Row className="mt-2">
+                        <p className="fs-5 fw-bold" contentEditable={false}>
+                          {prevYearData?.innovation || "N\\A"}
+                        </p>
+                        <Row>
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Weightage Value</h6>
-                            <Form.Control
-                              readOnly={data?.flag === true}
-                              type={"text"}
-                              {...register("innovation_weightage", { required: true })}
-                              className={errors.innovation_weightage ? "is-invalid" : ""}
-                              placeholder="Weightage"
-                              id="weightage-value"
-                            />
-                            {errors.innovation_weightage && <div className="invalid-feedback">This field is required</div>}
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {prevYearData?.innovation_weightage || "N\\A"}
+                            </p>
                           </Col>
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
-                            <Form.Select
-                              disabled={data?.flag === true}
-                              {...register("innovation_rating", { required: true })}
-                              className={errors.innovation_rating ? "is-invalid" : ""}
-                            >
-                              <option>---------</option>
-                              <option value="1">Exceeded</option>
-                              <option value="2">Achieved all aspects</option>
-                              <option value="3">Achieved the essential requirements</option>
-                              <option value="4">Did not achieve</option>
-                            </Form.Select>
-                            {errors.innovation_rating && <div className="invalid-feedback">This field is required</div>}
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {findRatingElem(prevYearData?.innovation_rating) || "N\\A"}
+                            </p>
                           </Col>
                         </Row>
                       </Accordion.Body>
@@ -347,43 +281,21 @@ export default function EmPerformanceSingle() {
                       </Accordion.Header>
                       <Accordion.Body>
                         <h6 className="header-pretitle mb-2">Objective</h6>
-                        <Form.Control
-                          readOnly={data?.flag === true}
-                          as={"textarea"}
-                          {...register("people", { required: true })}
-                          placeholder="PEOPLE (Leadership, management, training)"
-                          id="people-leadership"
-                          rows={3}
-                          className={errors.people ? "is-invalid" : ""}
-                        />
-                        {errors.people && <div className="invalid-feedback">This field is required</div>}
-                        <Row className="mt-2">
+                        <p className="fs-5 fw-bold" contentEditable={false}>
+                          {prevYearData?.people || "N\\A"}
+                        </p>
+                        <Row>
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Weightage Value</h6>
-                            <Form.Control
-                              readOnly={data?.flag === true}
-                              type={"text"}
-                              className={errors.people_weightage ? "is-invalid" : ""}
-                              {...register("people_weightage", { required: true })}
-                              placeholder="Weightage"
-                              id="weightage-value"
-                            />
-                            {errors.people_weightage && <div className="invalid-feedback">This field is required</div>}
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {prevYearData?.people_weightage || "N\\A"}
+                            </p>
                           </Col>
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
-                            <Form.Select
-                              disabled={data?.flag === true}
-                              className={errors.people_rating ? "is-invalid" : ""}
-                              {...register("people_rating", { required: true })}
-                            >
-                              <option>---------</option>
-                              <option value="1">Exceeded</option>
-                              <option value="2">Achieved all aspects</option>
-                              <option value="3">Achieved the essential requirements</option>
-                              <option value="4">Did not achieve</option>
-                            </Form.Select>
-                            {errors.people_rating && <div className="invalid-feedback">This field is required</div>}
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {findRatingElem(prevYearData?.people_rating) || "N\\A"}
+                            </p>
                           </Col>
                         </Row>
                       </Accordion.Body>
@@ -397,198 +309,27 @@ export default function EmPerformanceSingle() {
                       </Accordion.Header>
                       <Accordion.Body>
                         <h6 className="header-pretitle mb-2">Objective</h6>
-                        <Form.Control
-                          readOnly={data?.flag === true}
-                          as={"textarea"}
-                          {...register("other", { required: true })}
-                          placeholder="OTHER (Learning & development)"
-                          id="people-leadership"
-                          rows={3}
-                          className={errors.other ? "is-invalid" : ""}
-                        />
-                        {errors.other && <div className="invalid-feedback">This field is required</div>}
-                        <Row className="mt-2">
+                        <p className="fs-5 fw-bold" contentEditable={false}>
+                          {prevYearData?.other || "N\\A"}
+                        </p>
+                        <Row>
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Weightage Value</h6>
-                            <Form.Control
-                              readOnly={data?.flag === true}
-                              type={"text"}
-                              {...register("other_weightage", { required: true })}
-                              className={errors.other_weightage ? "is-invalid" : ""}
-                              placeholder="Weightage"
-                              id="weightage-value"
-                            />
-                            {errors.other_weightage && <div className="invalid-feedback">This field is required</div>}
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {prevYearData?.other_weightage || "N\\A"}
+                            </p>
                           </Col>
                           <Col sm={6} xs={12} md={6}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
-                            <Form.Select
-                              disabled={data?.flag === true}
-                              {...register("other_rating", { required: true })}
-                              className={errors.other_rating ? "is-invalid" : ""}
-                            >
-                              <option>---------</option>
-                              <option value="1">Exceeded</option>
-                              <option value="2">Achieved all aspects</option>
-                              <option value="3">Achieved the essential requirements</option>
-                              <option value="4">Did not achieve</option>
-                            </Form.Select>
-                            {errors.other_rating && <div className="invalid-feedback">This field is required</div>}
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {findRatingElem(prevYearData?.other_rating) || "N\\A"}
+                            </p>
                           </Col>
                         </Row>
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
                 </Col>
-                {admin && (
-                  <Col sm="12" md="6">
-                    <h1 className="text-center mb-2">{currYear}</h1>
-                    <Accordion>
-                      <Accordion.Item>
-                        <Accordion.Header as={"div"}>
-                          <div>
-                            <h3 className="header-title mb-0">1. PRODUCTION</h3>
-                            <h6 className="header-pretitle mb-0">(Product/ Project) (Cost, revenue, quality, quantity)</h6>
-                          </div>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <h6 className="header-pretitle mb-2">Objective</h6>
-                          <p className="fs-5 fw-bold" contentEditable={false}>
-                            {prevYearData?.production || "N\\A"}
-                          </p>
-                          <Row>
-                            <Col sm={6} xs={12} md={6}>
-                              <h6 className="header-pretitle mb-2">Weightage Value</h6>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {prevYearData?.production_weightage || "N\\A"}
-                              </p>
-                            </Col>
-                            <Col sm={6} xs={12} md={6}>
-                              <h6 className="header-pretitle mb-2">Rating</h6>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {findRatingElem(prevYearData?.production_rating) || "N\\A"}
-                              </p>
-                            </Col>
-                          </Row>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                      <Accordion.Item>
-                        <Accordion.Header as={"div"}>
-                          <div>
-                            <h3 className="header-title mb-0">2. SUPPORT</h3>
-                            <h6 className="header-pretitle mb-0">
-                              (Service, problem resolution, customer perception, business risk & reputation )
-                            </h6>
-                          </div>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <h6 className="header-pretitle mb-2">Objective</h6>
-                          <p className="fs-5 fw-bold" contentEditable={false}>
-                            {prevYearData?.support || "N\\A"}
-                          </p>
-                          <Row>
-                            <Col sm={6} xs={12} md={6}>
-                              <h6 className="header-pretitle mb-2">Weightage Value</h6>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {prevYearData?.support_weightage || "N\\A"}
-                              </p>
-                            </Col>
-                            <Col sm={6} xs={12} md={6}>
-                              <h6 className="header-pretitle mb-2">Rating</h6>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {findRatingElem(prevYearData?.support_rating) || "N\\A"}
-                              </p>
-                            </Col>
-                          </Row>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                      <Accordion.Item>
-                        <Accordion.Header as={"div"}>
-                          <div>
-                            <h3 className="header-title mb-0">3. INNOVATION</h3>
-                            <h6 className="header-pretitle mb-0">(New ideas and implementation)</h6>
-                          </div>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <h6 className="header-pretitle mb-2">Objective</h6>
-                          <p className="fs-5 fw-bold" contentEditable={false}>
-                            {prevYearData?.innovation || "N\\A"}
-                          </p>
-                          <Row>
-                            <Col sm={6} xs={12} md={6}>
-                              <h6 className="header-pretitle mb-2">Weightage Value</h6>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {prevYearData?.innovation_weightage || "N\\A"}
-                              </p>
-                            </Col>
-                            <Col sm={6} xs={12} md={6}>
-                              <h6 className="header-pretitle mb-2">Rating</h6>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {findRatingElem(prevYearData?.innovation_rating) || "N\\A"}
-                              </p>
-                            </Col>
-                          </Row>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                      <Accordion.Item>
-                        <Accordion.Header as={"div"}>
-                          <div>
-                            <h3 className="header-title mb-0">4. PEOPLE</h3>
-                            <h6 className="header-pretitle mb-0">(Leadership, management, training)</h6>
-                          </div>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <h6 className="header-pretitle mb-2">Objective</h6>
-                          <p className="fs-5 fw-bold" contentEditable={false}>
-                            {prevYearData?.people || "N\\A"}
-                          </p>
-                          <Row>
-                            <Col sm={6} xs={12} md={6}>
-                              <h6 className="header-pretitle mb-2">Weightage Value</h6>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {prevYearData?.people_weightage || "N\\A"}
-                              </p>
-                            </Col>
-                            <Col sm={6} xs={12} md={6}>
-                              <h6 className="header-pretitle mb-2">Rating</h6>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {findRatingElem(prevYearData?.people_rating) || "N\\A"}
-                              </p>
-                            </Col>
-                          </Row>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                      <Accordion.Item>
-                        <Accordion.Header as={"div"}>
-                          <div>
-                            <h3 className="header-title mb-0">5. OTHER</h3>
-                            <h6 className="header-pretitle mb-0">(Learning & development)</h6>
-                          </div>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <h6 className="header-pretitle mb-2">Objective</h6>
-                          <p className="fs-5 fw-bold" contentEditable={false}>
-                            {prevYearData?.other || "N\\A"}
-                          </p>
-                          <Row>
-                            <Col sm={6} xs={12} md={6}>
-                              <h6 className="header-pretitle mb-2">Weightage Value</h6>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {prevYearData?.other_weightage || "N\\A"}
-                              </p>
-                            </Col>
-                            <Col sm={6} xs={12} md={6}>
-                              <h6 className="header-pretitle mb-2">Rating</h6>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {findRatingElem(prevYearData?.other_rating) || "N\\A"}
-                              </p>
-                            </Col>
-                          </Row>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                    </Accordion>
-                  </Col>
-                )}
               </Row>
             </Card.Body>
           </Card>
@@ -610,8 +351,8 @@ export default function EmPerformanceSingle() {
               </Row>
               <hr className="mb-4" />
               <Row>
-                <Col sm="12" md={admin ? "6" : "12"}>
-                  <h1 className="text-center mb-2">{currYear + 1}</h1>
+                <Col sm="12" md="12">
+                  <h1 className="text-center mb-2">{currYear}</h1>
                   <Accordion>
                     <Accordion.Item>
                       <Accordion.Header as={"div"}>
@@ -626,32 +367,15 @@ export default function EmPerformanceSingle() {
                         <Row>
                           <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Value</h6>
-                            <Form.Control
-                              readOnly={data?.flag === true}
-                              as={"textarea"}
-                              className={errors.courageous ? "is-invalid" : ""}
-                              {...register("courageous", { required: true })}
-                              placeholder="COURAGEOUS (Moral Strength: faith and belief in oneself, self confidence)"
-                              id="COURAGEOUS"
-                              rows={3}
-                            />
-                            {errors.courageous && <div className="invalid-feedback">This field is required</div>}
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {prevYearData?.courageous || "N\\A"}
+                            </p>
                           </Col>
-                          <Col sm={12} xs={12} md={12} className="mt-2">
+                          <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
-                            <Form.Select
-                              disabled={data?.flag === true}
-                              {...register("courageous_rating", { required: true })}
-                              className={errors.courageous_rating ? "is-invalid" : ""}
-                            >
-                              <option>---------</option>
-                              <option value="1">Exceeded</option>
-                              <option value="2">Achieved all aspects</option>
-                              <option value="3">Achieved the essential requirements</option>
-                              <option value="4">Did not achieve</option>
-                              <option value="5">Unacceptable</option>
-                            </Form.Select>
-                            {errors.courageous_rating && <div className="invalid-feedback">This field is required</div>}
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {findValueElem(prevYearData?.courageous_rating) || "N\\A"}
+                            </p>
                           </Col>
                         </Row>
                       </Accordion.Body>
@@ -669,32 +393,15 @@ export default function EmPerformanceSingle() {
                         <Row>
                           <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Value</h6>
-                            <Form.Control
-                              readOnly={data?.flag === true}
-                              as={"textarea"}
-                              {...register("teamwork", { required: true })}
-                              placeholder="TEAMWORK (Team player, not exclusive: Enjoy sharing and collaborating with relevent parties):"
-                              id="TEAMWORK"
-                              rows={3}
-                              className={errors.teamwork ? "is-invalid" : ""}
-                            />
-                            {errors.teamwork && <div className="invalid-feedback">This field is required</div>}
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {prevYearData?.teamwork || "N\\A"}
+                            </p>
                           </Col>
-                          <Col sm={12} xs={12} md={12} className="mt-2">
+                          <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
-                            <Form.Select
-                              disabled={data?.flag === true}
-                              {...register("teamwork_rating", { required: true })}
-                              className={errors.teamwork_rating ? "is-invalid" : ""}
-                            >
-                              <option>---------</option>
-                              <option value="1">Exceeded</option>
-                              <option value="2">Achieved all aspects</option>
-                              <option value="3">Achieved the essential requirements</option>
-                              <option value="4">Did not achieve</option>
-                              <option value="5">Unacceptable</option>
-                            </Form.Select>
-                            {errors.teamwork_rating && <div className="invalid-feedback">This field is required</div>}
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {findValueElem(prevYearData?.teamwork_rating) || "N\\A"}
+                            </p>
                           </Col>
                         </Row>
                       </Accordion.Body>
@@ -712,32 +419,15 @@ export default function EmPerformanceSingle() {
                         <Row>
                           <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Value</h6>
-                            <Form.Control
-                              readOnly={data?.flag === true}
-                              as={"textarea"}
-                              {...register("responsive", { required: true })}
-                              placeholder="RESPONSIVE (Attentive, Interactive : consider everyone inside & outside as customer ; stakeholder)"
-                              id="RESPONSIVE"
-                              rows={3}
-                              className={errors.responsive ? "is-invalid" : ""}
-                            />
-                            {errors.responsive && <div className="invalid-feedback">This field is required</div>}
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {prevYearData?.responsive || "N\\A"}
+                            </p>
                           </Col>
-                          <Col sm={12} xs={12} md={12} className="mt-2">
+                          <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
-                            <Form.Select
-                              disabled={data?.flag === true}
-                              {...register("responsive_rating", { required: true })}
-                              className={errors.responsive_rating ? "is-invalid" : ""}
-                            >
-                              <option>---------</option>
-                              <option value="1">Exceeded</option>
-                              <option value="2">Achieved all aspects</option>
-                              <option value="3">Achieved the essential requirements</option>
-                              <option value="4">Did not achieve</option>
-                              <option value="5">Unacceptable</option>
-                            </Form.Select>
-                            {errors.responsive_rating && <div className="invalid-feedback">This field is required</div>}
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {findValueElem(prevYearData?.responsive_rating) || "N\\A"}
+                            </p>
                           </Col>
                         </Row>
                       </Accordion.Body>
@@ -753,32 +443,15 @@ export default function EmPerformanceSingle() {
                         <Row>
                           <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Value</h6>
-                            <Form.Control
-                              readOnly={data?.flag === true}
-                              as={"textarea"}
-                              {...register("creative", { required: true })}
-                              placeholder="CREATIVE (Business minds: Translates imagination into business)"
-                              id="CREATIVE"
-                              rows={3}
-                              className={errors.creative ? "is-invalid" : ""}
-                            />
-                            {errors.creative && <div className="invalid-feedback">This field is required</div>}
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {prevYearData?.creative || "N\\A"}
+                            </p>
                           </Col>
-                          <Col sm={12} xs={12} md={12} className="mt-2">
+                          <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
-                            <Form.Select
-                              disabled={data?.flag === true}
-                              {...register("creative_rating", { required: true })}
-                              className={errors.creative_rating ? "is-invalid" : ""}
-                            >
-                              <option>---------</option>
-                              <option value="1">Exceeded</option>
-                              <option value="2">Achieved all aspects</option>
-                              <option value="3">Achieved the essential requirements</option>
-                              <option value="4">Did not achieve</option>
-                              <option value="5">Unacceptable</option>
-                            </Form.Select>
-                            {errors.creative_rating && <div className="invalid-feedback">This field is required</div>}
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {findValueElem(prevYearData?.creative_rating) || "N\\A"}
+                            </p>
                           </Col>
                         </Row>
                       </Accordion.Body>
@@ -794,173 +467,21 @@ export default function EmPerformanceSingle() {
                         <Row>
                           <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Value</h6>
-                            <Form.Control
-                              readOnly={data?.flag === true}
-                              as={"textarea"}
-                              {...register("trustworthy", { required: true })}
-                              placeholder="TRUSTWORTHY (Deserving of trust , confidence , reliable, dependable)"
-                              id="TRUSTWORTHY"
-                              rows={3}
-                              className={errors.trustworthy ? "is-invalid" : ""}
-                            />
-                            {errors.trustworthy && <div className="invalid-feedback">This field is required</div>}
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {prevYearData?.trustworthy || "N\\A"}
+                            </p>
                           </Col>
                           <Col sm={12} xs={12} md={12}>
                             <h6 className="header-pretitle mb-2">Rating</h6>
-                            <Form.Select
-                              disabled={data?.flag === true}
-                              {...register("trustworthy_rating", { required: true })}
-                              className={errors.trustworthy_rating ? "is-invalid" : ""}
-                            >
-                              <option>---------</option>
-                              <option value="1">Exceeded</option>
-                              <option value="2">Achieved all aspects</option>
-                              <option value="3">Achieved the essential requirements</option>
-                              <option value="4">Did not achieve</option>
-                              <option value="5">Unacceptable</option>
-                            </Form.Select>
-                            {errors.trustworthy_rating && <div className="invalid-feedback">This field is required</div>}
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {findValueElem(prevYearData?.trustworthy_rating) || "N\\A"}
+                            </p>
                           </Col>
                         </Row>
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
                 </Col>
-                {admin && (
-                  <Col sm="12" md="6">
-                    <h1 className="text-center mb-2">{currYear}</h1>
-                    <Accordion>
-                      <Accordion.Item>
-                        <Accordion.Header as={"div"}>
-                          <div>
-                            <h3 className="header-title mb-0">1. COURAGEOUS</h3>
-                            <h6 className="header-pretitle mb-0">
-                              (Moral Strength: faith and belief in oneself, self confidence)
-                            </h6>
-                          </div>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <Row>
-                            <Col sm={12} xs={12} md={12}>
-                              <h6 className="header-pretitle mb-2">Value</h6>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {prevYearData?.courageous || "N\\A"}
-                              </p>
-                            </Col>
-                            <Col sm={12} xs={12} md={12}>
-                              <h6 className="header-pretitle mb-2">Rating</h6>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {findValueElem(prevYearData?.courageous_rating) || "N\\A"}
-                              </p>
-                            </Col>
-                          </Row>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                      <Accordion.Item>
-                        <Accordion.Header as={"div"}>
-                          <div>
-                            <h3 className="header-title mb-0">2. TEAMWORK</h3>
-                            <h6 className="header-pretitle mb-0">
-                              (Team player, not exclusive: Enjoy sharing and collaborating with relevent parties)
-                            </h6>
-                          </div>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <Row>
-                            <Col sm={12} xs={12} md={12}>
-                              <h6 className="header-pretitle mb-2">Value</h6>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {prevYearData?.teamwork || "N\\A"}
-                              </p>
-                            </Col>
-                            <Col sm={12} xs={12} md={12}>
-                              <h6 className="header-pretitle mb-2">Rating</h6>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {findValueElem(prevYearData?.teamwork_rating) || "N\\A"}
-                              </p>
-                            </Col>
-                          </Row>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                      <Accordion.Item>
-                        <Accordion.Header as={"div"}>
-                          <div>
-                            <h3 className="header-title mb-0">3. RESPONSIVE</h3>
-                            <h6 className="header-pretitle mb-0">
-                              (Attentive, Interactive : consider everyone inside & outside as customer ; stakeholder)
-                            </h6>
-                          </div>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <Row>
-                            <Col sm={12} xs={12} md={12}>
-                              <h6 className="header-pretitle mb-2">Value</h6>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {prevYearData?.responsive || "N\\A"}
-                              </p>
-                            </Col>
-                            <Col sm={12} xs={12} md={12}>
-                              <h6 className="header-pretitle mb-2">Rating</h6>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {findValueElem(prevYearData?.responsive_rating) || "N\\A"}
-                              </p>
-                            </Col>
-                          </Row>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                      <Accordion.Item>
-                        <Accordion.Header as={"div"}>
-                          <div>
-                            <h3 className="header-title mb-0">4. CREATIVE</h3>
-                            <h6 className="header-pretitle mb-0">(Business minds: Translates imagination into business)</h6>
-                          </div>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <Row>
-                            <Col sm={12} xs={12} md={12}>
-                              <h6 className="header-pretitle mb-2">Value</h6>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {prevYearData?.creative || "N\\A"}
-                              </p>
-                            </Col>
-                            <Col sm={12} xs={12} md={12}>
-                              <h6 className="header-pretitle mb-2">Rating</h6>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {findValueElem(prevYearData?.creative_rating) || "N\\A"}
-                              </p>
-                            </Col>
-                          </Row>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                      <Accordion.Item>
-                        <Accordion.Header as={"div"}>
-                          <div>
-                            <h3 className="header-title mb-0">5. TRUSTWORTHY</h3>
-                            <h6 className="header-pretitle mb-0">
-                              (Deserving of trust , confidence , reliable, dependable)
-                            </h6>
-                          </div>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <Row>
-                            <Col sm={12} xs={12} md={12}>
-                              <h6 className="header-pretitle mb-2">Value</h6>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {prevYearData?.trustworthy || "N\\A"}
-                              </p>
-                            </Col>
-                            <Col sm={12} xs={12} md={12}>
-                              <h6 className="header-pretitle mb-2">Rating</h6>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {findValueElem(prevYearData?.trustworthy_rating) || "N\\A"}
-                              </p>
-                            </Col>
-                          </Row>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                    </Accordion>
-                  </Col>
-                )}
               </Row>
             </Card.Body>
           </Card>
@@ -969,8 +490,8 @@ export default function EmPerformanceSingle() {
           <Card>
             <Card.Body>
               <Row>
-                <Col sm="12" md={admin ? "6" : "12"}>
-                  <h1 className="text-center mb-2">{currYear + 1}</h1>
+                <Col sm="12" md="12">
+                  <h1 className="text-center mb-2">{currYear}</h1>
                   <Accordion>
                     <Accordion.Item>
                       <Accordion.Header as={"div"}>
@@ -981,14 +502,9 @@ export default function EmPerformanceSingle() {
                       <Accordion.Body>
                         <Row>
                           <Col sm={12} xs={12} md={12}>
-                            <Form.Control
-                              readOnly={data?.flag === true}
-                              as={"textarea"}
-                              {...register("other_sustainable_achievement")}
-                              placeholder="OTHER SUBSTANTIAL ACHIEVEMENTS"
-                              id="SUBSTANTIAL"
-                              rows={6}
-                            />
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {prevYearData?.other_sustainable_achievement || "N\\A"}
+                            </p>
                           </Col>
                         </Row>
                       </Accordion.Body>
@@ -1002,59 +518,15 @@ export default function EmPerformanceSingle() {
                       <Accordion.Body>
                         <Row>
                           <Col sm={12} xs={12} md={12}>
-                            <Form.Control
-                              readOnly={data?.flag === true}
-                              as={"textarea"}
-                              {...register("significant_issue")}
-                              placeholder="SIGNIFICANT ISSUES"
-                              id="ISSUES"
-                              rows={6}
-                            />
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {prevYearData?.significant_issue || "N\\A"}
+                            </p>
                           </Col>
                         </Row>
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
                 </Col>
-                {admin && (
-                  <Col sm="12" md="6">
-                    <h1 className="text-center mb-2">{currYear}</h1>
-                    <Accordion>
-                      <Accordion.Item>
-                        <Accordion.Header as={"div"}>
-                          <div>
-                            <h3 className="header-title mb-0">OTHER SUBSTANTIAL ACHIEVEMENTS</h3>
-                          </div>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <Row>
-                            <Col sm={12} xs={12} md={12}>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {prevYearData?.other_sustainable_achievement || "N\\A"}
-                              </p>
-                            </Col>
-                          </Row>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                      <Accordion.Item>
-                        <Accordion.Header as={"div"}>
-                          <div>
-                            <h3 className="header-title mb-0">SIGNIFICANT ISSUES</h3>
-                          </div>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <Row>
-                            <Col sm={12} xs={12} md={12}>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {prevYearData?.significant_issue || "N\\A"}
-                              </p>
-                            </Col>
-                          </Row>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                    </Accordion>
-                  </Col>
-                )}
               </Row>
             </Card.Body>
           </Card>
@@ -1065,8 +537,8 @@ export default function EmPerformanceSingle() {
               <h2 className="header-title mb-0">Comments</h2>
               <hr className="mb-4" />
               <Row>
-                <Col sm="12" md={admin ? "6" : "12"}>
-                  <h1 className="text-center mb-2">{currYear + 1}</h1>
+                <Col sm="12" md="12">
+                  <h1 className="text-center mb-2">{currYear}</h1>
                   <Accordion>
                     <Accordion.Item>
                       <Accordion.Header as={"div"}>
@@ -1077,14 +549,9 @@ export default function EmPerformanceSingle() {
                       <Accordion.Body>
                         <Row>
                           <Col sm={12} xs={12} md={12}>
-                            <Form.Control
-                              readOnly={data?.flag === true}
-                              as={"textarea"}
-                              {...register("individual_comment")}
-                              placeholder="INDIVIDUAL'S COMMENTS"
-                              id="INDIVIDUAL"
-                              rows={6}
-                            />
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {prevYearData?.individual_comment || "N\\A"}
+                            </p>
                           </Col>
                         </Row>
                       </Accordion.Body>
@@ -1098,14 +565,9 @@ export default function EmPerformanceSingle() {
                       <Accordion.Body>
                         <Row>
                           <Col sm={12} xs={12} md={12}>
-                            <Form.Control
-                              readOnly={data?.flag === true}
-                              as={"textarea"}
-                              {...register("manager_comment")}
-                              placeholder="MANAGERS COMMENTS"
-                              id="MANAGERS"
-                              rows={6}
-                            />
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {prevYearData?.manager_comment || "N\\A"}
+                            </p>
                           </Col>
                         </Row>
                       </Accordion.Body>
@@ -1119,14 +581,9 @@ export default function EmPerformanceSingle() {
                       <Accordion.Body>
                         <Row>
                           <Col sm={12} xs={12} md={12}>
-                            <Form.Control
-                              readOnly={data?.flag === true}
-                              as={"textarea"}
-                              {...register("senior_manager_functional_head_comment")}
-                              placeholder="SENIOR MANAGER / FUNCTIONAL HEAD'S COMMENTS"
-                              id="FUNCTIONAL"
-                              rows={6}
-                            />
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {prevYearData?.senior_manager_functional_head_comment || "N\\A"}
+                            </p>
                           </Col>
                         </Row>
                       </Accordion.Body>
@@ -1140,91 +597,15 @@ export default function EmPerformanceSingle() {
                       <Accordion.Body>
                         <Row>
                           <Col sm={12} xs={12} md={12}>
-                            <Form.Control
-                              readOnly={data?.flag === true}
-                              as={"textarea"}
-                              {...register("director_chief_operating_officer_comment")}
-                              placeholder="DIRECTOR AND CHIEF OPERATING OFFICER'S COMMENTS :"
-                              id="DIRECTOR"
-                              rows={6}
-                            />
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {prevYearData?.director_chief_operating_officer_comment || "N\\A"}
+                            </p>
                           </Col>
                         </Row>
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
                 </Col>
-                {admin && (
-                  <Col sm="12" md="6">
-                    <h1 className="text-center mb-2">{currYear}</h1>
-                    <Accordion>
-                      <Accordion.Item>
-                        <Accordion.Header as={"div"}>
-                          <div>
-                            <h3 className="header-title mb-0">INDIVIDUAL'S COMMENTS</h3>
-                          </div>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <Row>
-                            <Col sm={12} xs={12} md={12}>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {prevYearData?.individual_comment || "N\\A"}
-                              </p>
-                            </Col>
-                          </Row>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                      <Accordion.Item>
-                        <Accordion.Header as={"div"}>
-                          <div>
-                            <h3 className="header-title mb-0">MANAGERS COMMENTS</h3>
-                          </div>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <Row>
-                            <Col sm={12} xs={12} md={12}>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {prevYearData?.manager_comment || "N\\A"}
-                              </p>
-                            </Col>
-                          </Row>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                      <Accordion.Item>
-                        <Accordion.Header as={"div"}>
-                          <div>
-                            <h3 className="header-title mb-0">SENIOR MANAGER / FUNCTIONAL HEAD'S COMMENTS</h3>
-                          </div>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <Row>
-                            <Col sm={12} xs={12} md={12}>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {prevYearData?.senior_manager_functional_head_comment || "N\\A"}
-                              </p>
-                            </Col>
-                          </Row>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                      <Accordion.Item>
-                        <Accordion.Header as={"div"}>
-                          <div>
-                            <h3 className="header-title mb-0">DIRECTOR AND CHIEF OPERATING OFFICER'S COMMENTS</h3>
-                          </div>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <Row>
-                            <Col sm={12} xs={12} md={12}>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {prevYearData?.director_chief_operating_officer_comment || "N\\A"}
-                              </p>
-                            </Col>
-                          </Row>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                    </Accordion>
-                  </Col>
-                )}
               </Row>
             </Card.Body>
           </Card>
@@ -1235,45 +616,22 @@ export default function EmPerformanceSingle() {
               <h2 className="header-title mb-0">OVERALL PERFORMANCE BASED ON ALL OF THE ABOVE RATING</h2>
               <hr className="mb-4" />
               <Row>
-                <Col sm="12" md={admin ? "6" : "12"}>
-                  <h1 className="text-center mb-2">{currYear + 1}</h1>
+                <Col sm="12" md="12">
+                  <h1 className="text-center mb-2">{currYear}</h1>
                   <Accordion>
                     <Accordion.Item>
                       <Accordion.Body className={"show"}>
                         <Row>
                           <Col sm={12} xs={12} md={12}>
-                            <Form.Control
-                              readOnly={data?.flag === true}
-                              as={"textarea"}
-                              {...register("overall_performance")}
-                              placeholder="OVERALL PERFORMANCE BASED ON ALL OF THE ABOVE RATING"
-                              id="OVERALL"
-                              rows={6}
-                            />
+                            <p className="fs-5 fw-bold" contentEditable={false}>
+                              {prevYearData?.overall_performance || "N\\A"}
+                            </p>
                           </Col>
                         </Row>
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
                 </Col>
-                {admin && (
-                  <Col sm="12" md="6">
-                    <h1 className="text-center mb-2">{currYear}</h1>
-                    <Accordion>
-                      <Accordion.Item>
-                        <Accordion.Body className={"show"}>
-                          <Row>
-                            <Col sm={12} xs={12} md={12}>
-                              <p className="fs-5 fw-bold" contentEditable={false}>
-                                {prevYearData?.overall_performance || "N\\A"}
-                              </p>
-                            </Col>
-                          </Row>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                    </Accordion>
-                  </Col>
-                )}
               </Row>
             </Card.Body>
           </Card>
@@ -1285,7 +643,7 @@ export default function EmPerformanceSingle() {
                 </Button>
               </div> */}
 
-            {data?.flag === false && (
+            {/* {data?.flag === false && (
               <Button
                 // onClick={handleConfirm}
                 type="submit"
@@ -1295,7 +653,7 @@ export default function EmPerformanceSingle() {
               >
                 Submit
               </Button>
-            )}
+            )} */}
             <Modal
               show={isConfirm}
               onHide={(e) => {
@@ -1370,7 +728,7 @@ export default function EmPerformanceSingle() {
 //               <h4 className="mb-0">PRODUCTION (Product/Project) (Cost, revenue, quality, quantity)</h4>
 //             </Form.Label>
 //             <Form.Control
-// readOnly={data?.flag === true}
+//readOnly
 //               as={"textarea"}
 //               {...register("production", { required: true })}
 //               placeholder="PRODUCTION (Product/ Project) (Cost, revenue, quality, quantity)"
@@ -1383,7 +741,7 @@ export default function EmPerformanceSingle() {
 //           <Form.Group className="mt-4">
 //             <Form.Label htmlFor="weightage-value">Weightage</Form.Label>
 //             <Form.Control
-// readOnly={data?.flag === true}
+//readOnly
 //               type={"text"}
 //               {...register("production_weightage", { required: true })}
 //               placeholder="Weightage"
@@ -1397,7 +755,7 @@ export default function EmPerformanceSingle() {
 //           <Form.Group>
 //             <Form.Label htmlFor="rating">Rating</Form.Label>
 //              <Form.Select
-// disabled={data?.flag === true}
+// disabled
 //               {...register("production_rating", { required: true })}
 //               className={errors.production_rating ? "is-invalid" : ""}
 //             >
@@ -1422,7 +780,7 @@ export default function EmPerformanceSingle() {
 //               </h4>
 //             </Form.Label>
 //             <Form.Control
-// readOnly={data?.flag === true}
+//readOnly
 //               as={"textarea"}
 //               {...register("support", { required: true })}
 //               placeholder="SUPPORT (Service, problem resolution, customer perception, business risk & reputation )"
@@ -1435,7 +793,7 @@ export default function EmPerformanceSingle() {
 //           <Form.Group className="mt-4">
 //             <Form.Label htmlFor="weightage-value">Weightage</Form.Label>
 //             <Form.Control
-// readOnly={data?.flag === true}
+//readOnly
 //               type={"text"}
 //               {...register("support_weightage", { required: true })}
 //               className={errors.support_weightage ? "is-invalid" : ""}
@@ -1449,7 +807,7 @@ export default function EmPerformanceSingle() {
 //           <Form.Group>
 //             <Form.Label htmlFor="rating">Rating</Form.Label>
 //              <Form.Select
-// disabled={data?.flag === true}
+// disabled
 //               {...register("support_rating", { required: true })}
 //               className={errors.support_rating ? "is-invalid" : ""}
 //             >
@@ -1472,7 +830,7 @@ export default function EmPerformanceSingle() {
 //               <h4 className="mb-0">INNOVATION (New ideas and implementation):</h4>
 //             </Form.Label>
 //             <Form.Control
-// readOnly={data?.flag === true}
+//readOnly
 //               as={"textarea"}
 //               {...register("innovation", { required: true })}
 //               placeholder="INNOVATION (New ideas and implementation)"
@@ -1485,7 +843,7 @@ export default function EmPerformanceSingle() {
 //           <Form.Group className="mt-4">
 //             <Form.Label htmlFor="weightage-value">Weightage</Form.Label>
 //             <Form.Control
-// readOnly={data?.flag === true}
+//readOnly
 //               type={"text"}
 //               {...register("innovation_weightage", { required: true })}
 //               className={errors.innovation_weightage ? "is-invalid" : ""}
@@ -1499,7 +857,7 @@ export default function EmPerformanceSingle() {
 //           <Form.Group>
 //             <Form.Label htmlFor="rating">Rating</Form.Label>
 //              <Form.Select
-// disabled={data?.flag === true}
+// disabled
 //               {...register("innovation_rating", { required: true })}
 //               className={errors.innovation_rating ? "is-invalid" : ""}
 //             >
@@ -1522,7 +880,7 @@ export default function EmPerformanceSingle() {
 //               <h4 className="mb-0">PEOPLE (Leadership, management, training):</h4>
 //             </Form.Label>
 //             <Form.Control
-// readOnly={data?.flag === true}
+//readOnly
 //               as={"textarea"}
 //               {...register("people", { required: true })}
 //               placeholder="PEOPLE (Leadership, management, training)"
@@ -1535,7 +893,7 @@ export default function EmPerformanceSingle() {
 //           <Form.Group className="mt-4">
 //             <Form.Label htmlFor="weightage-value">Weightage</Form.Label>
 //             <Form.Control
-// readOnly={data?.flag === true}
+//readOnly
 //               type={"text"}
 //               className={errors.people_weightage ? "is-invalid" : ""}
 //               {...register("people_weightage", { required: true })}
@@ -1549,7 +907,7 @@ export default function EmPerformanceSingle() {
 //           <Form.Group>
 //             <Form.Label htmlFor="rating">Rating</Form.Label>
 //              <Form.Select
-// disabled={data?.flag === true}
+// disabled
 //               className={errors.people_rating ? "is-invalid" : ""}
 //               {...register("people_rating", { required: true })}
 //             >
@@ -1572,7 +930,7 @@ export default function EmPerformanceSingle() {
 //               <h4 className="mb-0">OTHER (Learning & development):</h4>
 //             </Form.Label>
 //             <Form.Control
-// readOnly={data?.flag === true}
+//readOnly
 //               as={"textarea"}
 //               {...register("other", { required: true })}
 //               placeholder="OTHER (Learning & development)"
@@ -1585,7 +943,7 @@ export default function EmPerformanceSingle() {
 //           <Form.Group className="mt-4">
 //             <Form.Label htmlFor="weightage-value">Weightage</Form.Label>
 //             <Form.Control
-// readOnly={data?.flag === true}
+//readOnly
 //               type={"text"}
 //               {...register("other_weightage", { required: true })}
 //               className={errors.other_weightage ? "is-invalid" : ""}
@@ -1599,7 +957,7 @@ export default function EmPerformanceSingle() {
 //           <Form.Group>
 //             <Form.Label htmlFor="rating">Rating</Form.Label>
 //              <Form.Select
-// disabled={data?.flag === true}
+// disabled
 //               {...register("other_rating", { required: true })}
 //               className={errors.other_rating ? "is-invalid" : ""}
 //             >
@@ -1651,7 +1009,7 @@ export default function EmPerformanceSingle() {
 //               </h5>
 //             </Form.Label>
 //             <Form.Control
-// readOnly={data?.flag === true}
+//readOnly
 //               as={"textarea"}
 //               className={errors.courageous ? "is-invalid" : ""}
 //               {...register("courageous", { required: true })}
@@ -1668,7 +1026,7 @@ export default function EmPerformanceSingle() {
 //               Rating
 //             </Form.Label>
 //              <Form.Select
-// disabled={data?.flag === true}
+// disabled
 //               {...register("courageous_rating", { required: true })}
 //               className={errors.courageous_rating ? "is-invalid" : ""}
 //             >
@@ -1695,7 +1053,7 @@ export default function EmPerformanceSingle() {
 //               </h5>
 //             </Form.Label>
 //             <Form.Control
-// readOnly={data?.flag === true}
+//readOnly
 //               as={"textarea"}
 //               {...register("teamwork", { required: true })}
 //               placeholder="TEAMWORK (Team player, not exclusive: Enjoy sharing and collaborating with relevent parties):"
@@ -1712,7 +1070,7 @@ export default function EmPerformanceSingle() {
 //               Rating
 //             </Form.Label>
 //              <Form.Select
-// disabled={data?.flag === true}
+// disabled
 //               {...register("teamwork_rating", { required: true })}
 //               className={errors.teamwork_rating ? "is-invalid" : ""}
 //             >
@@ -1739,7 +1097,7 @@ export default function EmPerformanceSingle() {
 //               </h5>
 //             </Form.Label>
 //             <Form.Control
-// readOnly={data?.flag === true}
+//readOnly
 //               as={"textarea"}
 //               {...register("responsive", { required: true })}
 //               placeholder="RESPONSIVE (Attentive, Interactive : consider everyone inside & outside as customer ; stakeholder)"
@@ -1756,7 +1114,7 @@ export default function EmPerformanceSingle() {
 //               Rating
 //             </Form.Label>
 //  <Form.Select
-// disabled={data?.flag === true}
+// disabled
 //               {...register("responsive_rating", { required: true })}
 //               className={errors.responsive_rating ? "is-invalid" : ""}
 //             >
@@ -1790,7 +1148,7 @@ export default function EmPerformanceSingle() {
 //             <Col xs={12} sm={12} md={7}>
 //               <Form.Group>
 //                 <Form.Control
-// readOnly={data?.flag === true}
+//readOnly
 //                   as={"textarea"}
 //                   {...register("creative", { required: true })}
 //                   placeholder="CREATIVE (Business minds: Translates imagination into business)"
@@ -1804,7 +1162,7 @@ export default function EmPerformanceSingle() {
 //             <Col xs={12} sm={12} md={5}>
 //               <Form.Group>
 //                  <Form.Select
-// disabled={data?.flag === true}
+// disabled
 //                   {...register("creative_rating", { required: true })}
 //                   className={errors.creative_rating ? "is-invalid" : ""}
 //                 >
@@ -1836,7 +1194,7 @@ export default function EmPerformanceSingle() {
 //             <Col xs={12} sm={12} md={7}>
 //               <Form.Group>
 //                 <Form.Control
-// readOnly={data?.flag === true}
+//readOnly
 //                   as={"textarea"}
 //                   {...register("trustworthy", { required: true })}
 //                   placeholder="TRUSTWORTHY (Deserving of trust , confidence , reliable, dependable)"
@@ -1850,7 +1208,7 @@ export default function EmPerformanceSingle() {
 //             <Col xs={12} sm={12} md={5}>
 //               <Form.Group>
 //                  <Form.Select
-// disabled={data?.flag === true}
+// disabled
 //                   {...register("trustworthy_rating", { required: true })}
 //                   className={errors.trustworthy_rating ? "is-invalid" : ""}
 //                 >
@@ -1899,7 +1257,7 @@ export default function EmPerformanceSingle() {
 //                <h4 className="mb-0">OTHER SUBSTANTIAL ACHIEVEMENTS:</h4>
 //              </Form.Label>
 //              <Form.Control
-// readOnly={data?.flag === true}
+//readOnly
 //                as={"textarea"}
 //                {...register("other_sustainable_achievement")}
 //                placeholder="OTHER SUBSTANTIAL ACHIEVEMENTS"
@@ -1912,7 +1270,7 @@ export default function EmPerformanceSingle() {
 //            <Form.Group>
 //              <Form.Label htmlFor="ISSUES">SIGNIFICANT ISSUES :</Form.Label>
 //              <Form.Control
-// readOnly={data?.flag === true}
+//readOnly
 //                as={"textarea"}
 //                {...register("significant_issue")}
 //                placeholder="SIGNIFICANT ISSUES"
@@ -1925,7 +1283,7 @@ export default function EmPerformanceSingle() {
 //            <Form.Group>
 //              <Form.Label htmlFor="INDIVIDUAL">INDIVIDUAL'S COMMENTS :</Form.Label>
 //              <Form.Control
-// readOnly={data?.flag === true}
+//readOnly
 //                as={"textarea"}
 //                {...register("individual_comment")}
 //                placeholder="INDIVIDUAL'S COMMENTS"
@@ -1938,7 +1296,7 @@ export default function EmPerformanceSingle() {
 //            <Form.Group>
 //              <Form.Label htmlFor="MANAGERS">MANAGERS COMMENTS :</Form.Label>
 //              <Form.Control
-// readOnly={data?.flag === true}
+//readOnly
 //                as={"textarea"}
 //                {...register("manager_comment")}
 //                placeholder="MANAGERS COMMENTS"
@@ -1953,7 +1311,7 @@ export default function EmPerformanceSingle() {
 //            <Form.Group>
 //              <Form.Label htmlFor="FUNCTIONAL">SENIOR MANAGER / FUNCTIONAL HEAD'S COMMENTS :</Form.Label>
 //              <Form.Control
-// readOnly={data?.flag === true}
+//readOnly
 //                as={"textarea"}
 //                {...register("senior_manager_functional_head_comment")}
 //                placeholder="SENIOR MANAGER / FUNCTIONAL HEAD'S COMMENTS"
@@ -1966,7 +1324,7 @@ export default function EmPerformanceSingle() {
 //            <Form.Group>
 //              <Form.Label htmlFor="DIRECTOR">DIRECTOR AND CHIEF OPERATING OFFICER'S COMMENTS :</Form.Label>
 //              <Form.Control
-// readOnly={data?.flag === true}
+//readOnly
 //                as={"textarea"}
 //                {...register("director_chief_operating_officer_comment")}
 //                placeholder="DIRECTOR AND CHIEF OPERATING OFFICER'S COMMENTS :"
@@ -1981,7 +1339,7 @@ export default function EmPerformanceSingle() {
 //            <Form.Group>
 //              <Form.Label htmlFor="OVERALL">OVERALL PERFORMANCE BASED ON ALL OF THE ABOVE RATING :</Form.Label>
 //              <Form.Control
-// readOnly={data?.flag === true}
+//readOnly
 //                as={"textarea"}
 //                {...register("overall_performance")}
 //                placeholder="OVERALL PERFORMANCE BASED ON ALL OF THE ABOVE RATING"

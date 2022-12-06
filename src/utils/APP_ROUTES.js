@@ -36,6 +36,8 @@ export const EMPLOYEE_PERFORMANCE_PAGE = "/employee-performance";
 
 export const EMPLOYEE_PERFORMANCE_SINGLE_PAGE_URL = "/employee-performance/:id";
 export const EMPLOYEE_PERFORMANCE_SINGLE_PAGE = (id) => `/employee-performance/${id}`;
+export const EMPLOYEE_PERFORMANCE_PREV_YEAR_PAGE_URL = "/employee-performance-previous-year/:id";
+export const EMPLOYEE_PERFORMANCE_PREV_YEAR_PAGE = (id) => `/employee-performance-previous-year/${id}`;
 export const SUPERVISOR_APPRAISAL_REVIEW_PAGE = "/supervisor-appraisal-review";
 
 export const EMPLOYEE_PERFORMANCE_INDEX_PAGE = "/employee-performance-index";

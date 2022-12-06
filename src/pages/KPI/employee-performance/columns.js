@@ -1,8 +1,9 @@
 import moment from "moment";
 import { Link } from "react-router-dom";
-import { EMPLOYEE_PERFORMANCE_SINGLE_PAGE } from "../../../utils/APP_ROUTES";
+import { EMPLOYEE_PERFORMANCE_PREV_YEAR_PAGE, EMPLOYEE_PERFORMANCE_SINGLE_PAGE } from "../../../utils/APP_ROUTES";
 import { DATE_FORMAT } from "../../../utils/CONSTANT";
-
+import { USER_INFO } from "../../../utils/session/token";
+const user = USER_INFO();
 export const columns = [
   {
     name: "Status",
@@ -44,5 +45,24 @@ export const columns = [
     width: "80px",
     wrap: true,
     center: true,
+  },
+  {
+    name: "Previous Year Data",
+    // name: `${user.group_id}`,
+    cell: (row) => (
+      <>
+        {user?.group_id.split(",").includes("6") && (
+          <Link to={EMPLOYEE_PERFORMANCE_PREV_YEAR_PAGE(row.id)}>
+            <button className="btn btn-sm btn-rounded-circle btn-light" title="Previous Year Data">
+              <i className="fe fe-file-text"></i>
+            </button>
+          </Link>
+        )}
+      </>
+    ),
+    width: "80px",
+    wrap: true,
+    center: true,
+    // omit: user.group_id.split(",").includes("6") === false,
   },
 ];

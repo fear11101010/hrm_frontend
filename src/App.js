@@ -54,6 +54,7 @@ import {
   SUPERVISOR_ASSESTMENT_PERFORMANE_PAGE,
   SUPERVISOR_APPRAISAL_REVIEW_PAGE,
   FILE_UPLOAD_PAGE,
+  EMPLOYEE_PERFORMANCE_PREV_YEAR_PAGE_URL,
 } from "./utils/APP_ROUTES";
 import KpiPerformanceIndex from "./pages/KPI/kpi-performane-form/kpi-performance-index";
 import KpiPerformanceFormCreate from "./pages/KPI/kpi-performane-form/kpi-performance-form-create";
@@ -79,6 +80,7 @@ import SupervisorAssestmentPerformance from "./pages/KPI/supervisor-assestment-p
 import SupervisorAppraisalReview from "./pages/KPI/supervisor-appraisal-review/List";
 import ConfigurationOutlet from "./outlets/ConfigurationOutlet";
 import FileUpload from "./pages/Configuration/file-upload/FileUpload";
+import EmPerformancePrevYear from "./pages/KPI/employee-performance/em-performance-prevYear";
 
 function App() {
   return (
@@ -120,6 +122,7 @@ function App() {
           <Route path={EMPLOYEE_ASSESTMENT_SINGLE_URL} element={<EmAssestmentSingle />} />
           <Route path={EMPLOYEE_PERFORMANCE_PAGE} element={<EmployeePerformance />} />
           <Route path={EMPLOYEE_PERFORMANCE_SINGLE_PAGE_URL} element={<EmPerformanceSingle />} />
+          <Route path={EMPLOYEE_PERFORMANCE_PREV_YEAR_PAGE_URL} element={<EmPerformancePrevYear />} />
           <Route path={EMPLOYEE_PERFORMANCE_INDEX_PAGE} element={<KpiPerformanceIndex />} />
           <Route path={EMPLOYEE_PERFORMANCE_CREATE} element={<KpiPerformanceFormCreate />} />
           <Route path={EMPLOYEE_PERFORMANCE_VIEW_url} element={<KpiPerformanceFormView />} />

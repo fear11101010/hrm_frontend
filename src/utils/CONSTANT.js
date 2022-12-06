@@ -2,6 +2,7 @@
 
 // const server_ip = "http://192.168.7.148:9000";
 const server_ip = "http://182.163.112.207:5001";
+// const server_ip = "http://192.168.7.148:5001";
 
 export const BASE_URL = "http://127.0.0.1:8000/api";
 // export const BASE_URL = `${server_ip}/api`;
