@@ -151,11 +151,11 @@ export default function EmPerformancePrevYear() {
               <Row>
                 <Col xs={12} sm={12} md={6}>
                   <h5 className="header-pretitle mb-1">Name : </h5>
-                  <h2 className="header-title mb-0">{data?.employee?.name}</h2>
+                  <h2 className="header-title mb-0">{prevYearData?.employee?.name}</h2>
                 </Col>
                 <Col xs={12} sm={12} md={6}>
                   <h5 className="header-pretitle mb-0">Designation : </h5>
-                  <h2 className="header-title mb-0">{data?.employee?.designation} </h2>
+                  <h2 className="header-title mb-0">{prevYearData?.employee?.designation} </h2>
                 </Col>
               </Row>
             </Card.Body>
