@@ -139,6 +139,10 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
 
       selector: (row, index) => Object.values(row)[0]?.employee?.sub_sbu?.name,
     },
+    {
+      name: "Supervisor",
+      selector: (row, index) => Object.values(row)[0]?.employee?.supervisor?.name,
+    },
   ];
 
   const arr = years.map((year) => [
@@ -354,6 +358,11 @@ export const SBU_ASSESTMENT_REPORT_TABLE_COLUMN = [
     name: "SBU",
     selector: (row) => row?.employee?.sbu?.name,
     minWidth: "200px",
+  },
+  {
+    name: "Supervisor",
+    selector: (row) => row?.employee?.supervisor?.name,
+    minWidth: "120px",
   },
   {
     name: "Objective",

@@ -21,6 +21,12 @@ export const dataColumns = [
   { name: "Employee ID", selector: (row) => row.employee?.employee_id, width: "150px", wrap: true },
   { name: "Employee Name", selector: (row) => row.employee?.name, minWidth: "180px", wrap: true },
   { name: "Designation", selector: (row) => row.employee?.designation, minWidth: "200px", wrap: true },
+  {
+    name: "Supervisor",
+    selector: (row) => row?.employee?.supervisor?.name,
+    minWidth: "120px",
+    wrap: true,
+  },
   // {
   //   name: <div>Team Distribution (%) (C)</div>,
   //   selector: (row) => row?.team_distribution_percentage_c,

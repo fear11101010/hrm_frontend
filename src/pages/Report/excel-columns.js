@@ -108,6 +108,10 @@ export const SALARY_FULL_REPORT = (years) => {
       key: "Sub SBU",
       value: (row, index) => Object.values(row)[0]?.employee?.sub_sbu?.name,
     },
+    // {
+    //   name: "Supervisor",
+    //   selector: (row, index) => Object.values(row)[0]?.employee?.supervisor?.name,
+    // },
   ];
   const arr = years.map((year) => [
     {
@@ -317,6 +321,10 @@ export const SBU_ASSESTMENT_REPORT_EXCEL_COLUMN = [
     value: (row) => row?.employee?.sbu?.name,
   },
   {
+    key: "Supervisor",
+    value: (row) => row?.employee?.supervisor?.name,
+  },
+  {
     key: "Objective",
     value: (row) => row?.kpi_objective?.name,
   },
@@ -360,10 +368,10 @@ export const SBU_ASSESTMENT_REPORT_EXCEL_COLUMN = [
     key: "Potential for Improvement",
     value: (row) => row?.potential_for_improvement?.name,
   },
-  {
-    key: "Technical/Implementation/Operational",
-    value: (row) => row?.technical_implementation_operational,
-  },
+  // {
+  //   key: "Technical/Implementation/Operational",
+  //   value: (row) => row?.technical_implementation_operational,
+  // },
   {
     key: "Confirmation/Increment/No Increment",
     value: (row) => row?.confirmation_increment_noincrement?.name,

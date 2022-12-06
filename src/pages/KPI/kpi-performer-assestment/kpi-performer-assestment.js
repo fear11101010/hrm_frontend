@@ -289,7 +289,7 @@ export default function KpiPerformerAssestment() {
         {sbuData.length > 0 && (
           <div className="mt-5">
             <h2 className="text-center">{`Employee Lists - ${selectedSbuName}`} </h2>
-            <Filter
+            {/* <Filter
               show={isFilterOpen}
               onClick={() => {
                 setIsFilterOpen(true);
@@ -328,7 +328,7 @@ export default function KpiPerformerAssestment() {
                 <Form.Group className="mb-3">
                   <Form.Label className="mb-0">Employee</Form.Label>
                   <ReactSelect
-                    options={employeList?.map((d) => ({ label: d.name, value: d.id }))}
+                    options={employeList?.map((d) => ({ label: d.name + " (" + d.employee_id + ")", value: d.id }))}
                     onChange={(e) => {
                       setFilter_employee(e.value);
                     }}
@@ -364,7 +364,7 @@ export default function KpiPerformerAssestment() {
                   </Button>
                 </div>
               </Form>
-            </Filter>
+            </Filter> */}
             <Table columns={dataColumns.concat(extended_columns)} data={sbuData} />
           </div>
         )}

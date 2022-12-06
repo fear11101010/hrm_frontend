@@ -17,7 +17,12 @@ export const COLUMNS = [
   },
   { name: "SBU", selector: (row) => row?.sbu?.name, minWidth: "100px", wrap: true },
   { name: "Sub SBU", selector: (row) => row?.sub_sbu?.name, minWidth: "120px", wrap: true },
-
+  {
+    name: "Supervisor",
+    selector: (row) => row?.supervisor?.name,
+    minWidth: "100px",
+    wrap: true,
+  },
   {
     name: "Edit",
     cell: (row) => (

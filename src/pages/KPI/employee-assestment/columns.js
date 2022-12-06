@@ -27,6 +27,12 @@ export const columns = [
   { name: "Desgination", selector: (row) => row.employee?.designation, minWidth: "120px", wrap: true },
   { name: "SBU", selector: (row) => row.employee?.sbu?.name, minWidth: "120px", wrap: true },
   {
+    name: "Supervisor",
+    selector: (row) => row?.employee?.supervisor?.name,
+    minWidth: "120px",
+    wrap: true,
+  },
+  {
     name: "Date of Joining",
     selector: (row) => row.employee?.date_of_joining,
     cell: (row) => moment(row.employee?.date_of_joining).format(DATE_FORMAT),
