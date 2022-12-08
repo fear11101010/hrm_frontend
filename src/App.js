@@ -75,9 +75,19 @@ import Bill from "./pages/bill-management/Bill/Bill";
 import Conveyance from "./pages/bill-management/Conveyance/Conveyance";
 import BillManagementOutlet from "./outlets/BillManagementOutlet";
 import AddBill from "./pages/bill-management/AddBill/AddBill";
-import {CREATE_TICKET_URL} from "./utils/support/SP_APP_ROUTES";
+import {
+  ALL_TICKETS_URL,
+  CREATE_TICKET_URL,
+  EDIT_TICKET_URL,
+  MY_TICKETS_URL,
+  VIEW_TICKET_URL
+} from "./utils/support/SP_APP_ROUTES";
 import CreateTicket from "./pages/support/CreateTicket/CreateTicket";
 import SupportOutlet from "./outlets/SupportOutlet";
+import MyTickets from "./pages/support/MyTickets/MyTickets";
+import EditTicket from "./pages/support/EditTicket/EditTicket";
+import ViewTicketDetail from "./pages/support/ViewTicket/ViewTicketDetail";
+import AllTickets from "./pages/support/AllTickets/AllTickets";
 
 function App() {
   return (
@@ -142,7 +152,11 @@ function App() {
           <Route path={SALARY_INCREMENT_REPORT} element={<SalaryIncrementReport />} />
         </Route>
         <Route path={"/support"} element={<SupportOutlet />}>
+          <Route path={MY_TICKETS_URL} element={<MyTickets />} />
+          <Route path={ALL_TICKETS_URL} element={<AllTickets />} />
           <Route path={CREATE_TICKET_URL} element={<CreateTicket />} />
+          <Route path={EDIT_TICKET_URL} element={<EditTicket />} />
+          <Route path={VIEW_TICKET_URL} element={<ViewTicketDetail />} />
         </Route>
 
         <Route path={UNAUTHORIZED} element={<Unauth />} />

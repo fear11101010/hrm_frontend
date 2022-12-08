@@ -1,5 +1,6 @@
 // export const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 export const BASE_URL = "http://127.0.0.1:8000/api";
+export const BASE_URL_FOR_MEDIA_FILE = "http://127.0.0.1:8000/media/";
 export const DATE_FORMAT = " DD-MMM-YYYY";
 export const ASSESTMENT_TYPE = [
   { label: "Yearly", value: "Yearly" },
