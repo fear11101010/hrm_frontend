@@ -160,7 +160,7 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
               }}
             />
           </Col>
-          {/* <Col sm="12" md="12" className="mb-3">
+          <Col sm="12" md="12" className="mb-3">
             <Form.Label className="mb-2 text-dark">Remarks </Form.Label>
             <Form.Control
               type="text"
@@ -169,9 +169,10 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
                 setRemarks1(e.target.value);
               }}
             />
-          </Col> */}
-          <Col sm="12" md="12" className="mb-3">
-            {/* REMARKS2 but it is showing as remarks */}
+          </Col>
+
+          {/* REMARKS2 but it is showing as remarks */}
+          {/* <Col sm="12" md="12" className="mb-3">
             <Form.Label className="mb-2 text-dark">Remarks </Form.Label>
             <Form.Control
               type="text"
@@ -180,7 +181,7 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
                 setRemarks2(e.target.value);
               }}
             />
-          </Col>
+          </Col> */}
 
           <Col sm="12" md="12" className="mt-3 d-flex justify-content-between">
             {/* <Button
