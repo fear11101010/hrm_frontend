@@ -439,12 +439,12 @@ export const SBU_ASSESTMENT_REPORT_TABLE_COLUMN = [
     minWidth: "200px",
     sortable: true,
   },
-  {
-    name: "Technical/Implementation/Operational",
-    selector: (row) => row?.technical_implementation_operational,
-    minWidth: "200px",
-    sortable: true,
-  },
+  // {
+  //   name: "Technical/Implementation/Operational",
+  //   selector: (row) => row?.technical_implementation_operational,
+  //   minWidth: "200px",
+  //   sortable: true,
+  // },
   {
     name: "Confirmation/Increment/No Increment",
     selector: (row) => row?.confirmation_increment_noincrement?.name,
