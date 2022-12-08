@@ -54,11 +54,11 @@ export default function FileUpload() {
             setYear("2022");
             setXls(null);
             setXls("");
-            navigate("/file-upload", { state: res.data.message });
+            navigate("/file-upload", { state: { msg: res.data.message, code: 200 } });
             window.location.reload();
           } else {
             error_alert(res.data.message);
-            navigate("/file-upload", { state: res.data.message });
+            navigate("/file-upload", { state: { msg: res.data.message, code: 400 } });
           }
         })
         .catch((err) => {
@@ -78,9 +78,17 @@ export default function FileUpload() {
       <Content>
         <Form className="m-auto w-50" onSubmit={onUpload}>
           {state !== null && (
-            <div className="alert alert-info">
-              <h5 className="mb-0">{state}</h5>
-            </div>
+            <>
+              {state?.code === 200 ? (
+                <div className="alert alert-success">
+                  <h5 className="mb-0">{state?.msg}</h5>
+                </div>
+              ) : (
+                <div className="alert alert-danger">
+                  <h5 className="mb-0">{state?.msg}</h5>
+                </div>
+              )}
+            </>
           )}
           <Form.Group className="mb-3">
             <Form.Label className="mb-0">Select Employee</Form.Label>

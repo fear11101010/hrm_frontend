@@ -55,6 +55,7 @@ import {
   SUPERVISOR_APPRAISAL_REVIEW_PAGE,
   FILE_UPLOAD_PAGE,
   EMPLOYEE_PERFORMANCE_PREV_YEAR_PAGE_URL,
+  LANDING_PAGE,
 } from "./utils/APP_ROUTES";
 import KpiPerformanceIndex from "./pages/KPI/kpi-performane-form/kpi-performance-index";
 import KpiPerformanceFormCreate from "./pages/KPI/kpi-performane-form/kpi-performance-form-create";
@@ -81,12 +82,14 @@ import SupervisorAppraisalReview from "./pages/KPI/supervisor-appraisal-review/L
 import ConfigurationOutlet from "./outlets/ConfigurationOutlet";
 import FileUpload from "./pages/Configuration/file-upload/FileUpload";
 import EmPerformancePrevYear from "./pages/KPI/employee-performance/em-performance-prevYear";
+import Landing from "./pages/Landing/Landing";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index path={LOGIN_PAGE} element={<Login />} />
+        <Route index path={LANDING_PAGE} element={<Landing />} />
+        <Route path={LOGIN_PAGE} element={<Login />} />
         {/************************************************** 
           PROTECTED ROUTES 
           **************************************************/}

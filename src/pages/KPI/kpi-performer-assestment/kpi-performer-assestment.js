@@ -13,7 +13,7 @@ import Table from "../../../components/table/Table";
 import { dataColumns } from "./data-columns";
 import EmployeePerformerDetails from "./details";
 import ProposedAmount from "./proposedAmount";
-import { RiFileDownloadFill } from "react-icons/ri";
+import { RiFileDownloadFill, RiReplyAllFill } from "react-icons/ri";
 import { USER_INFO } from "../../../utils/session/token";
 import { Navigate } from "react-router-dom";
 import { UNAUTHORIZED } from "../../../utils/APP_ROUTES";
@@ -23,6 +23,7 @@ import ReactSelect from "react-select";
 import useDesignation from "../../../hooks/useDesignation";
 import useEmployee from "../../../hooks/useEmployee";
 import { ASSESTMENT_TYPE, YEAR_RANGE } from "../../../utils/CONSTANT";
+import ConfirmDialog from "../../../components/confirm-dialog/ConfirmDialog";
 
 export default function KpiPerformerAssestment() {
   const user = USER_INFO();
@@ -44,6 +45,7 @@ export default function KpiPerformerAssestment() {
   const [detailModal, setDetailModal] = useState(false);
   const [incAmountModal, setIncAmountModal] = useState(false);
   const [summaryModal, setSummaryModal] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
 
   const [employee_name, setEmployee_name] = useState("");
 
@@ -84,7 +86,7 @@ export default function KpiPerformerAssestment() {
       name: "Proposed",
       cell: (row) => (
         <>
-          {row.flag === 0 && (
+          {row.flag !== 1 && (
             <Button
               size="sm"
               variant="info"
@@ -169,6 +171,29 @@ export default function KpiPerformerAssestment() {
       width: "80px",
       center: true,
     },
+    {
+      name: <div>Request for edit</div>,
+      cell: (row) => (
+        <>
+          {row.flag === 1 && (
+            <Button
+              size="sm"
+              variant="dark"
+              title="Download Report"
+              className="btn-rounded-circle"
+              onClick={(e) => {
+                setSelectedRowId(row?.id);
+                setIsConfirm(true);
+              }}
+            >
+              <RiReplyAllFill />
+            </Button>
+          )}
+        </>
+      ),
+      width: "100px",
+      center: true,
+    },
   ];
 
   // Modal off after submit success
@@ -211,6 +236,26 @@ export default function KpiPerformerAssestment() {
       })
       .finally(() => {
         setLoading(false);
+      });
+  };
+
+  const handleRequestForEdit = (e) => {
+    e.preventDefault();
+    API.get(`assessment/${selectedRowId}/admin_request_update/`)
+      .then((res) => {
+        if (res.data.statuscode === 200) {
+          success_alert(res.data.message);
+          selectedSbuData();
+        } else {
+          error_alert(res.data.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+        setIsConfirm(false);
       });
   };
 
@@ -411,6 +456,15 @@ export default function KpiPerformerAssestment() {
           <Summary rowId={selectedRowId} />
         </Modal.Body>
       </Modal>
+
+      {/* Confirm modal for request  */}
+      {isConfirm && (
+        <ConfirmDialog
+          message={"Are you sure you want to request for edit?"}
+          onOkButtonClick={handleRequestForEdit}
+          onCancelButtonClick={(e) => setIsConfirm(false)}
+        />
+      )}
     </Layout>
   ) : (
     <Navigate to={UNAUTHORIZED} />

@@ -193,7 +193,7 @@ export default function EmployeeEdit() {
                   </Col>
                   <Col sm="12" md="6" className="mb-3">
                     <Form.Group>
-                      <Form.Label className="mb-1">Designation</Form.Label>
+                      <Form.Label className="mb-1">Designation </Form.Label>
                       <ReactSelect
                         options={designationList?.map((d) => ({ label: d.designation, value: d.id }))}
                         placeholder={designationList?.map((d) => d.id === designation && d.designation)}

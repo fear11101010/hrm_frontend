@@ -61,7 +61,7 @@ export const CONF_INC_NOINC_GET = "/confirmation_increment_no_increment/";
 export const EMPLOYEE_ASSIGN_POST = "/employee_assign/";
 export const EMPLOYEE_ASSIGN_RETRIVE_AND_PUT = (id) => `/employee_assign/${id}/`;
 export const EMPLOYEE_ASSESTMENT_GET = "/assessment/";
-export const SUPERVISOR_ASSESTMENT_GET = "/assessment/$/supervisor/";
+export const SUPERVISOR_ASSESTMENT_GET = "/assessment/$/supervisor_head/";
 export const EMPLOYEE_PERFORMANCE_GET = "/kpi_performance/";
 export const APPRAISAL_FORM_GET = "/kpi_performance/$/employee_performance/";
 export const EMPLOYEE_PERFORMANCE_EACH_GET = (id) => `/kpi_performance/${id}/`;
@@ -75,7 +75,7 @@ export const KPI_PERFORMANCE_FORM_DATE_VALIDATE = "kpi_performance/$/get_date_ra
 export const KPI_PERFORMANCE_FORM_DRAFT = "/kpi_performance/";
 export const KPI_PERFORMANCE_FORM_SINGLE = (id) => `/kpi_performance/${id}/`;
 export const KPI_PERFORMANCE_FORM_SUBMIT = (id) => `/kpi_performance/${id}/`;
-export const KPI_SUPERVISOR_APPRAISAL_REVIEW_GET = `/kpi_performance/$/supervisor/`;
+export const KPI_SUPERVISOR_APPRAISAL_REVIEW_GET = `/kpi_performance/$/supervisor_head/`;
 
 export const KPI_PERFORMANCE_THREE_YEARS_GET = (id) => `/salary_three_years/${id}/`;
 export const KPI_PERMORMER_ASSESTMENT_BY_SBU_GET = (id) => `/performer_assessment/${id}/search_by_sbu/`;

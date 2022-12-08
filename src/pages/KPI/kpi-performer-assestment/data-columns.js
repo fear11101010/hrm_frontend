@@ -5,7 +5,9 @@ export const dataColumns = [
     cell: (row) => (
       <div>
         <span>
-          {row?.flag === 1 ? (
+          {row?.approve_by_sbu === 1 ? (
+            <h5 className="text-success mb-0"> Approved by Head </h5>
+          ) : row?.flag === 1 ? (
             <h5 className="text-success mb-0"> Complete </h5>
           ) : row?.flag === 2 ? (
             <h5 className="text-primary mb-0"> Supervisor Review </h5>
@@ -20,11 +22,31 @@ export const dataColumns = [
   },
   { name: "Employee ID", selector: (row) => row.employee?.employee_id, width: "150px", wrap: true },
   { name: "Employee Name", selector: (row) => row.employee?.name, minWidth: "180px", wrap: true },
-  { name: "Designation", selector: (row) => row.employee?.designation, minWidth: "200px", wrap: true },
+  { name: "Designation", selector: (row) => row.employee?.designation, minWidth: "180px", wrap: true },
+  {
+    name: "Increment",
+    selector: (row) => row?.employee?.increment,
+    cell: (row) =>
+      row?.confirmation_increment_noincrement === 1 ? (
+        <span>Increment</span>
+      ) : row?.confirmation_increment_noincrement === 2 ? (
+        <span>Confirmation</span>
+      ) : row?.confirmation_increment_noincrement === 3 ? (
+        <span>No Increment</span>
+      ) : row?.confirmation_increment_noincrement === 4 ? (
+        <span>Resigned</span>
+      ) : row?.confirmation_increment_noincrement === 6 ? (
+        <span>Not Sure</span>
+      ) : (
+        <span></span>
+      ),
+    minWidth: "140px",
+    wrap: true,
+  },
   {
     name: "Supervisor",
     selector: (row) => row?.employee?.supervisor?.name,
-    minWidth: "120px",
+    minWidth: "200px",
     wrap: true,
   },
   // {

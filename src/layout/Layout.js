@@ -3,7 +3,7 @@ import { Button, Dropdown, Modal, Nav, Navbar } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import ConfirmDialog from "../components/confirm-dialog/ConfirmDialog";
 import { LOGOUT_API } from "../utils/API_ROUTES";
-import { DASHBOARD_PAGE, LOGIN_PAGE } from "../utils/APP_ROUTES";
+import { DASHBOARD_PAGE, LANDING_PAGE, LOGIN_PAGE } from "../utils/APP_ROUTES";
 import { API } from "../utils/axios/axiosConfig";
 import { REMOVE_TOKEN, USER_INFO } from "../utils/session/token";
 import CustomNavbar from "./navbar/navbar";
@@ -25,7 +25,7 @@ export default function Layout({ children }) {
       .then((res) => {
         if (res.data.statuscode === 200) {
           REMOVE_TOKEN();
-          navigate(LOGIN_PAGE);
+          navigate(LANDING_PAGE);
         }
       })
       .catch((err) => {

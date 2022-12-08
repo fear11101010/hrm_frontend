@@ -1,7 +1,8 @@
 /////////////////////////////////
 // ROUTING
 /////////////////////////////////
-export const LOGIN_PAGE = "/";
+export const LANDING_PAGE = "/";
+export const LOGIN_PAGE = "/login";
 
 export const DASHBOARD_PAGE = "/dashboard";
 

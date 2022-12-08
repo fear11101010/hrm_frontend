@@ -72,6 +72,7 @@ export default function EmAssestmentSingle() {
   const [proposed_designation_id, setProposed_designation_id] = useState("");
   const [remarks, setRemarks] = useState("");
   const [flag, setFlag] = useState("");
+  const [isSupervisor, setIsSupervisor] = useState("");
 
   const [diffByYear, setdiffByYear] = useState("");
   const [diffByMonths, setdiffByMonths] = useState("");
@@ -99,10 +100,12 @@ export default function EmAssestmentSingle() {
           setBest_performer_pm_curr(res.data?.data?.best_performer_pm);
           setConf_inc_noInc(res.data?.data?.confirmation_increment_noincrement);
           setPropose_sbu(res.data?.data?.proposed_by_sbu_director_pm_self);
-          setProposed_designation(res.data?.data?.employee?.designation);
+          // setProposed_designation(res.data?.data?.employee?.designation);
+          setProposed_designation(res.data?.data?.proposed_designation);
           setProposed_designation_id(res.data?.data?.employee?.desig_id);
           setRemarks(res.data?.data?.remarks);
           setFlag(res.data?.data?.flag);
+          setIsSupervisor(res.data?.data?.is_supervisor);
 
           // Employee duration formatiing
           let diff = moment().diff(res.data?.data?.employee.date_of_joining, "months", false) / 12;
@@ -160,6 +163,7 @@ export default function EmAssestmentSingle() {
         proposed_designation_id: proposed_designation_id,
         remarks: remarks,
         final: false,
+        approve_by_sbu: user.group_id.split(",").includes("2") && isSupervisor === "False" ? 1 : 0, //when approved by head
         // detail_save:""
       };
 
@@ -170,6 +174,8 @@ export default function EmAssestmentSingle() {
             success_alert(res.data.message);
             navigate(-1);
             getAssestmentData();
+          } else {
+            error_alert(res.data.message);
           }
         })
         .catch((err) => {
@@ -195,6 +201,7 @@ export default function EmAssestmentSingle() {
   if (flag === 1 && user.group_id.split(",").includes("1")) {
     return <Navigate to={UNAUTHORIZED} />;
   }
+  console.log(user.group_id);
   return (
     <Layout>
       {loading && <Loader />}
@@ -256,6 +263,7 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setKpi_obj_curr(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                   <Col sm="6" md="4" className="mb-4">
@@ -270,6 +278,7 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setKpi_val_curr(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                   {user.group_id.split(",").includes("7") && (
@@ -285,6 +294,7 @@ export default function EmAssestmentSingle() {
                         onChange={(e) => {
                           setHr_rat_curr(e.value);
                         }}
+                        isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                       />
                     </Col>
                   )}
@@ -309,6 +319,7 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setCriticality_curr(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                 </Row>
@@ -337,6 +348,7 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setTop_avg_bot_performer_curr(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                   <Col sm="6" md="4" className="mb-4">
@@ -352,6 +364,7 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setBest_performer_team_curr(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                   <Col sm="6" md="4" className="mb-4">
@@ -367,6 +380,7 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setBest_performer_org_curr(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
 
@@ -383,6 +397,7 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setBest_performer_pm_curr(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
 
@@ -399,6 +414,7 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setBest_innovator_team_curr(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                 </Row>
@@ -428,6 +444,7 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setPot_improve_curr(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                   <Col sm="6" md="4" className="mb-4">
@@ -445,6 +462,7 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setTech_imple_opera_curr_curr(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                   <Col sm="6" md="4" className="mb-4">
@@ -459,6 +477,7 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setConf_inc_noInc(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                   <Col sm="12" md="4" className="mb-4">
@@ -467,14 +486,16 @@ export default function EmAssestmentSingle() {
                     </Form.Group>
                     <ReactSelect
                       options={designationList}
-                      placeholder={
-                        proposed_designation_id !== "" &&
-                        designationList?.map((d) => (d.value === proposed_designation_id ? d.label : null))
-                      }
+                      placeholder={proposed_designation}
+                      // placeholder={
+                      //   proposed_designation_id !== "" &&
+                      //   designationList?.map((d) => (d.value === proposed_designation_id ? d.label : null))
+                      // }
                       onChange={(e) => {
                         setProposed_designation(e.label);
                         setProposed_designation_id(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                   <Col sm="6" md="4" className="mb-4">
@@ -487,6 +508,7 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setPropose_sbu(e.target.value.replace(/[^0-9]/g, ""));
                       }}
+                      disabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                 </Row>
@@ -512,6 +534,7 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setRemarks(e.target.value);
                       }}
+                      disabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                 </Row>
@@ -519,7 +542,7 @@ export default function EmAssestmentSingle() {
             </div>
 
             <button className="btn btn-primary px-4" type="submit">
-              Save
+              {user.group_id.split(",").includes("2") && isSupervisor === "False" ? "Approve" : "Save"}
             </button>
 
             <button className="btn btn-light px-4 ms-2 fw-bold" onClick={() => navigate(-1)}>
@@ -530,7 +553,7 @@ export default function EmAssestmentSingle() {
 
         {isConfirm && (
           <ConfirmDialog
-            message={"Are you sure you want to submi?"}
+            message={"Are you sure you want to submit?"}
             onOkButtonClick={handleSave}
             onCancelButtonClick={(e) => setIsConfirm(false)}
           />

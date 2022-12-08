@@ -10,7 +10,9 @@ export const columns = [
     selector: (row) => row?.flag,
     cell: (row) => (
       <span>
-        {row?.flag === 1 ? (
+        {row?.approve_by_sbu === 1 ? (
+          <h5 className="text-success mb-0"> Approved by Head </h5>
+        ) : row?.flag === 1 ? (
           <h5 className="text-success mb-0"> Complete </h5>
         ) : row?.flag === 2 ? (
           <h5 className="text-primary mb-0"> Supervisor Review </h5>
@@ -23,13 +25,13 @@ export const columns = [
     wrap: true,
   },
   { name: "Employee ID", selector: (row) => row.employee?.employee_id, width: "120px", wrap: true },
-  { name: "Employee Name", selector: (row) => row.employee?.name, minWidth: "120px", wrap: true },
-  { name: "Desgination", selector: (row) => row.employee?.designation, minWidth: "120px", wrap: true },
+  { name: "Employee Name", selector: (row) => row.employee?.name, minWidth: "200px", wrap: true },
+  { name: "Desgination", selector: (row) => row.employee?.designation, minWidth: "200px", wrap: true },
   { name: "SBU", selector: (row) => row.employee?.sbu?.name, minWidth: "120px", wrap: true },
   {
     name: "Supervisor",
     selector: (row) => row?.employee?.supervisor?.name,
-    minWidth: "120px",
+    minWidth: "250px",
     wrap: true,
   },
   {
