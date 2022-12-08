@@ -56,6 +56,8 @@ import {
   FILE_UPLOAD_PAGE,
   EMPLOYEE_PERFORMANCE_PREV_YEAR_PAGE_URL,
   LANDING_PAGE,
+  BILL_LIST,
+  BILL_ADD,
 } from "./utils/APP_ROUTES";
 import KpiPerformanceIndex from "./pages/KPI/kpi-performane-form/kpi-performance-index";
 import KpiPerformanceFormCreate from "./pages/KPI/kpi-performane-form/kpi-performance-form-create";
@@ -83,6 +85,8 @@ import ConfigurationOutlet from "./outlets/ConfigurationOutlet";
 import FileUpload from "./pages/Configuration/file-upload/FileUpload";
 import EmPerformancePrevYear from "./pages/KPI/employee-performance/em-performance-prevYear";
 import Landing from "./pages/Landing/Landing";
+import BillList from "./pages/bill-management/bill/List";
+import BillAdd from "./pages/bill-management/bill/billAdd";
 
 function App() {
   return (
@@ -132,6 +136,11 @@ function App() {
           <Route path={SUPERVISOR_APPRAISAL_REVIEW_PAGE} element={<SupervisorAppraisalReview />} />
         </Route>
 
+        {/* BILL */}
+        <Route path={"/"} element={<RequisitionOutlet />}>
+          <Route path={BILL_LIST} element={<BillList />} />
+          <Route path={BILL_ADD} element={<BillAdd />} />
+        </Route>
         {/* REQUISITION */}
         <Route path={"/"} element={<RequisitionOutlet />}>
           <Route path={REQUISITION_RESOURCE_LIST} element={<RequestRequisitionList />} />

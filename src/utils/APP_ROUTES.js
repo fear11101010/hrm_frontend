@@ -46,6 +46,10 @@ export const EMPLOYEE_PERFORMANCE_CREATE = "/employee-performance-create";
 export const EMPLOYEE_PERFORMANCE_VIEW = (id) => `/employee-performance-view/${id}`;
 export const EMPLOYEE_PERFORMANCE_VIEW_url = `/employee-performance-view/:id`;
 
+//BILL
+export const BILL_LIST = "/bill";
+export const BILL_ADD = "/bill/add";
+
 //REQUISITION FORM
 export const REQUISITION_RESOURCE_LIST = "/requisitionform/resource-request-list";
 export const REQUISITION_RESOURCE_FORM = "/requisitionform/resource-request-form";

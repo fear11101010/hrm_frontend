@@ -86,6 +86,11 @@ export const PERFORMANCE_REVIEW_FILTER = "/performer_assessment/$/search_filter/
 export const GLOBAL_FILTER = "/global_filtering/";
 
 ////////////////////////////////////
+////////////BILL////////////////////
+export const BILL_LIST_GET = `/`;
+////////////////////////////////////
+
+////////////////////////////////////
 ////////////REPORT//////////////////
 ////////////////////////////////////
 export const REPORT_FULL_SUMMERY_API = (id) => `reports/${id}/salary_full_report_search_by_sbu/`;

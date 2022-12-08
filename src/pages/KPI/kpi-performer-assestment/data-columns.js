@@ -1,4 +1,33 @@
 export const dataColumns = [
+  { name: "Employee ID", selector: (row) => row.employee?.employee_id, width: "150px", wrap: true },
+  { name: "Employee Name", selector: (row) => row.employee?.name, minWidth: "180px", wrap: true },
+  { name: "Designation", selector: (row) => row.employee?.designation, minWidth: "180px", wrap: true },
+  {
+    name: "Supervisor",
+    selector: (row) => row?.employee?.supervisor?.name,
+    minWidth: "200px",
+    wrap: true,
+  },
+  {
+    name: "Increment",
+    selector: (row) => row?.confirmation_increment_noincrement,
+    cell: (row) =>
+      row?.confirmation_increment_noincrement === 1 ? (
+        <h5 className="mb-0 text-white bg-primary rounded px-3 py-1">Increment</h5>
+      ) : row?.confirmation_increment_noincrement === 2 ? (
+        <h5 className="mb-0 text-white bg-success rounded px-3 py-1">Confirmation</h5>
+      ) : row?.confirmation_increment_noincrement === 3 ? (
+        <h5 className="mb-0 text-dark bg-light rounded border px-3 py-1">No Increment</h5>
+      ) : row?.confirmation_increment_noincrement === 4 ? (
+        <h5 className="mb-0 text-white bg-danger rounded px-3 py-1">Resigned</h5>
+      ) : row?.confirmation_increment_noincrement === 6 ? (
+        <h5 className="mb-0 text-dark bg-light rounded border px-3 py-1">Not Sure</h5>
+      ) : (
+        <h5 className="mb-0"></h5>
+      ),
+    minWidth: "140px",
+    wrap: true,
+  },
   {
     name: "Status",
     selector: (row) => row?.flag,
@@ -18,35 +47,6 @@ export const dataColumns = [
       </div>
     ),
     width: "100px",
-    wrap: true,
-  },
-  { name: "Employee ID", selector: (row) => row.employee?.employee_id, width: "150px", wrap: true },
-  { name: "Employee Name", selector: (row) => row.employee?.name, minWidth: "180px", wrap: true },
-  { name: "Designation", selector: (row) => row.employee?.designation, minWidth: "180px", wrap: true },
-  {
-    name: "Increment",
-    selector: (row) => row?.employee?.increment,
-    cell: (row) =>
-      row?.confirmation_increment_noincrement === 1 ? (
-        <span>Increment</span>
-      ) : row?.confirmation_increment_noincrement === 2 ? (
-        <span>Confirmation</span>
-      ) : row?.confirmation_increment_noincrement === 3 ? (
-        <span>No Increment</span>
-      ) : row?.confirmation_increment_noincrement === 4 ? (
-        <span>Resigned</span>
-      ) : row?.confirmation_increment_noincrement === 6 ? (
-        <span>Not Sure</span>
-      ) : (
-        <span></span>
-      ),
-    minWidth: "140px",
-    wrap: true,
-  },
-  {
-    name: "Supervisor",
-    selector: (row) => row?.employee?.supervisor?.name,
-    minWidth: "200px",
     wrap: true,
   },
   // {

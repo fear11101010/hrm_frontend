@@ -278,7 +278,7 @@ function Navbar1(props) {
               )}
 
               {/* BILL */}
-              {user.sub_module.includes("Configuration")}
+              {/* {user.sub_module.includes("Configuration")}
               <Nav.Item as={"li"}>
                 <Link
                   onClick={() => openOrCloseMenu(5)}
@@ -295,7 +295,6 @@ function Navbar1(props) {
                   <div id="sidebarUser">
                     <ul className="nav nav-sm flex-column">
                       <li className="nav-item">
-                        {/* {user.module.includes("File Upload")} */}
                         <Link className={"nav-link"} to={BILL_LIST}>
                           Bill
                         </Link>
@@ -303,7 +302,7 @@ function Navbar1(props) {
                     </ul>
                   </div>
                 </Collapse>
-              </Nav.Item>
+              </Nav.Item> */}
 
               {/* Requisition  */}
               {/* {user.sub_module.includes("Report")}
