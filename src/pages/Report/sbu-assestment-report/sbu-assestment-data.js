@@ -13,7 +13,6 @@ import { SBU_ASSESTMENT_REPORT_GET, SUPERVISOR_BY_SBU } from "../../../utils/API
 import { API } from "../../../utils/axios/axiosConfig";
 import { YEAR_RANGE } from "../../../utils/CONSTANT";
 import { USER_INFO } from "../../../utils/session/token";
-import { SBU_ASSESTMENT_REPORT_EXCEL_COLUMN } from "../excel-columns";
 import { SBU_ASSESTMENT_REPORT_TABLE_COLUMN } from "../table-columns";
 
 export default function SbuAssestmentData() {
@@ -29,7 +28,6 @@ export default function SbuAssestmentData() {
     if (year === "") {
       error_alert("Please select year");
     } else {
-      setData([]); //for safe
       setLoading(true);
       const payload = {
         year: year,
@@ -41,7 +39,6 @@ export default function SbuAssestmentData() {
             setData(res?.data?.data);
             if (res.data.data.length === 0) {
               error_alert("No data found");
-              setData([]);
             }
           }
         })
@@ -97,7 +94,7 @@ export default function SbuAssestmentData() {
         {data.length > 0 && (
           <>
             <hr />
-            <div className="text-end">
+            {/* <div className="text-end">
               <ExcelPdfPrint
                 exportPdf={false}
                 print={false}
@@ -105,7 +102,7 @@ export default function SbuAssestmentData() {
                 data={data}
                 columns={SBU_ASSESTMENT_REPORT_EXCEL_COLUMN}
               />
-            </div>
+            </div> */}
             <Table dense columns={SBU_ASSESTMENT_REPORT_TABLE_COLUMN} data={data} />
           </>
         )}
