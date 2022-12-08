@@ -4,6 +4,11 @@ import { EMPLOYEE_ASSESTMENT_SINGLE_PAGE } from "../../../utils/APP_ROUTES";
 import { DATE_FORMAT } from "../../../utils/CONSTANT";
 import { USER_INFO } from "../../../utils/session/token";
 
+// For review-close day
+const today = moment(Date.now()).format("YYYY-MM-DD");
+const currTime = moment(today).valueOf();
+const closeTime = moment("2022-12-08").valueOf();
+console.log(currTime > closeTime);
 export const columns = [
   {
     name: "Status",
@@ -48,15 +53,24 @@ export const columns = [
         {row?.flag === 1 && USER_INFO().group_id.split(",").includes("6") ? (
           <span></span>
         ) : (
-          <Link to={EMPLOYEE_ASSESTMENT_SINGLE_PAGE(row.id)}>
-            <button className="btn btn-sm btn-rounded-circle btn-primary" title="Details">
-              <i className="fe fe-edit"></i>
-            </button>
-          </Link>
+          <>
+            {/* If today is not greater than close_date then button will enable */}
+            {currTime > moment(row?.review_closedate).valueOf() === false ? (
+              <Link to={EMPLOYEE_ASSESTMENT_SINGLE_PAGE(row.id)}>
+                <button className="btn btn-sm btn-rounded-circle btn-primary" title="Details">
+                  <i className="fe fe-edit"></i>
+                </button>
+              </Link>
+            ) : (
+              <>
+                <h5 className="mb-0 text-center text-danger">Expiry Review</h5>
+              </>
+            )}
+          </>
         )}
       </>
     ),
-    width: "80px",
+    width: "120px",
     wrap: true,
     center: true,
   },

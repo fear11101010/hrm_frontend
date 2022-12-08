@@ -147,7 +147,7 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
 
   const arr = years.map((year) => [
     {
-      name: `I Objective ${year}`,
+      name: `KPI Objective ${year}`,
       selector: (row, index) => row?.[year]?.kpi_objective?.name,
     },
 
@@ -171,6 +171,10 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
     {
       name: `% of KPI-Objective ${year}`,
       selector: (row, index) => row?.[year]?.percentage_kpi_objective,
+    },
+    {
+      name: `% of KPI-Value ${year}`,
+      selector: (row, index) => row?.[year]?.percentage_kpi_value,
     },
 
     {
@@ -229,8 +233,8 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
     },
 
     {
-      name: `Increment Amount (HR) ${year} (A)`,
-      selector: (row, index) => row?.[year]?.hr_rating?.name,
+      name: `Increment Amount ${year} (A)`,
+      selector: (row, index) => row?.[year]?.increment_amount_a,
     },
 
     {
@@ -333,7 +337,6 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
       selector: (row, index) => row?.[year]?.remarks_two,
     },
   ]);
-  console.log(info.concat(...arr));
   return info.concat(...arr);
 };
 

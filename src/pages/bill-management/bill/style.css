@@ -1,0 +1,9 @@
+.bill_table thead th {
+    background-color: #fff;
+    color: #222;
+    border: none;
+    font-size: 14px;
+    letter-spacing: 0;
+    text-transform: capitalize;
+    padding: 8 px;
+}

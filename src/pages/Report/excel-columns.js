@@ -115,7 +115,7 @@ export const SALARY_FULL_REPORT = (years) => {
   ];
   const arr = years.map((year) => [
     {
-      key: `I Objective ${year}`,
+      key: `KPI Objective ${year}`,
       value: (row, index) => row?.[year]?.kpi_objective?.name,
     },
 
@@ -138,19 +138,22 @@ export const SALARY_FULL_REPORT = (years) => {
       key: `% of KPI-Objective ${year}`,
       value: (row, index) => row?.[year]?.percentage_kpi_objective,
     },
-
+    {
+      key: `% of KPI-Value ${year}`,
+      value: (row, index) => row?.[year]?.percentage_kpi_value,
+    },
     {
       key: `% of KPI-HR ${year}`,
       value: (row, index) => row?.[year]?.percentage_kpi_hr,
     },
 
     {
-      key: `Weighted Average of KPI % ${year}`,
+      key: `% Weighted Average of KPI  ${year}`,
       value: (row, index) => row?.[year]?.weighted_average_kpi,
     },
 
     {
-      key: `Criticality ${year}`,
+      key: `% Criticality ${year}`,
       value: (row, index) => row?.[year]?.criticality?.name,
     },
 
@@ -195,17 +198,17 @@ export const SALARY_FULL_REPORT = (years) => {
     },
 
     {
-      key: `Increment Amount (HR) ${year} (A)`,
-      value: (row, index) => row?.[year]?.hr_rating?.name,
+      key: `% Increment Amount ${year} (A)`,
+      value: (row, index) => row?.[year]?.increment_amount_a,
     },
 
     {
-      key: `HR New Gross Salary ${year} (A)`,
+      key: `% HR New Gross Salary ${year} (A)`,
       value: (row, index) => row?.[year]?.hr_new_gross_salary_a,
     },
 
     {
-      key: `HR % ${year}`,
+      key: `% HR ${year}`,
       value: (row, index) => row?.[year]?.percentage_hr_a,
     },
 
@@ -220,7 +223,7 @@ export const SALARY_FULL_REPORT = (years) => {
     },
 
     {
-      key: `Team Distribution (%) ${year} (C)`,
+      key: `% Team Distribution ${year} (C)`,
       value: (row, index) => row?.[year]?.team_distribution_percentage_c,
     },
 
@@ -245,42 +248,42 @@ export const SALARY_FULL_REPORT = (years) => {
     },
 
     {
-      key: `CAGR 3 years ${year}`,
+      key: `% CAGR 3 years ${year}`,
       value: (row, index) => row?.[year]?.cagr_three_years,
     },
 
     {
-      key: `Avarage 3 Years ${year}`,
+      key: `% Avarage 3 Years ${year}`,
       value: (row, index) => row?.[year]?.average_three_years,
     },
 
     {
-      key: `Average Actual ${year}`,
+      key: `% Average Actual ${year}`,
       value: (row, index) => row?.[year]?.average_actual,
     },
 
     {
-      key: `Weighted Average of KPI % ${year}`,
+      key: `% Weighted Average of KPI ${year}`,
       value: (row, index) => row?.[year]?.weighted_average_kpi,
     },
 
     {
-      key: `Increment with KPI % ${year}`,
+      key: `% Increment with KPI  ${year}`,
       value: (row, index) => row?.[year]?.increment_with_kpi_percentage,
     },
 
     {
-      key: `New Gross Salary KPI % % ${year}`,
+      key: `% New Gross Salary KPI ${year}`,
       value: (row, index) => row?.[year]?.increment_with_kpi_percentage,
     },
 
     {
-      key: `Increment with KPI % ${year}`,
+      key: `% Increment with KPI ${year}`,
       value: (row, index) => row?.[year]?.increment_with_kpi_percentage,
     },
 
     {
-      key: `New Gross Salary KPI % ${year}`,
+      key: `% New Gross Salary KPI ${year}`,
       value: (row, index) => row?.[year]?.increment_with_kpi_percentage,
     },
 
@@ -299,7 +302,6 @@ export const SALARY_FULL_REPORT = (years) => {
       value: (row, index) => row?.[year]?.remarks_two,
     },
   ]);
-  console.log(info.concat(...arr));
   return info.concat(...arr);
 };
 

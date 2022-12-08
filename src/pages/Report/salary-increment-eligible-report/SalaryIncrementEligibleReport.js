@@ -70,7 +70,13 @@ export default function SalaryIncrementEligibleReport(props) {
                     header={"Increment Eligible Report For " + selectedYear}
                   />
                 </div>
-                <TableReport columns={ELIGIBLE_TABLE_COLUMN(selectedYear)} data={eligibleData} />
+                <TableReport
+                  dense
+                  fixedHeader
+                  fixedHeaderScrollHeight="400px"
+                  columns={ELIGIBLE_TABLE_COLUMN(selectedYear)}
+                  data={eligibleData}
+                />
               </>
             )}
           </Card.Body>

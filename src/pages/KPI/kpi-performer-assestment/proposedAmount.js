@@ -163,6 +163,8 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
           <Col sm="12" md="12" className="mb-3">
             <Form.Label className="mb-2 text-dark">Remarks </Form.Label>
             <Form.Control
+              as={"textarea"}
+              rows={6}
               type="text"
               value={remarks1 === "" ? data.data?.remarks : remarks1}
               onChange={(e) => {
