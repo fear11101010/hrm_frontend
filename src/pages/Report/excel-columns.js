@@ -523,7 +523,7 @@ export const ASSESSMENT_SUMMARY_REPORT = (years, selected_year) => {
 
     {
       key: `KPI-HR ${selected_year - 1}`,
-      value: (row, index) => row?.[selected_year - 1]?.hr_rating?.name,
+      value: (row, index) => row?.[selected_year - 1]?.hr_rating?.grade,
       minWidth: "250px",
     },
   ];
@@ -554,7 +554,7 @@ export const ASSESSMENT_SUMMARY_REPORT = (years, selected_year) => {
     },
     {
       key: `Increment ${selected_year}`,
-      value: (row, index) => row?.[selected_year]?.increment,
+      value: (row, index) => row?.[selected_year]?.proposed_by_sbu_director_pm_self,
       minWidth: "250px",
     },
     {

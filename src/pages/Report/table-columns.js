@@ -572,6 +572,7 @@ export const ASSESSMENT_SUMMARY_REPORT_TABLE_COLUMN = (years, selected_year) => 
       name: `KPI Objective ${year}`,
       selector: (row, index) => row?.[year]?.kpi_objective?.name,
       minWidth: "250px",
+      sortable: true,
     },
 
     {
@@ -579,18 +580,21 @@ export const ASSESSMENT_SUMMARY_REPORT_TABLE_COLUMN = (years, selected_year) => 
       // selector: (row, index) => row?.[year]?.kpi_selector?.name,
       selector: (row, index) => row?.[year]?.kpi_value?.name,
       minWidth: "250px",
+      sortable: true,
     },
 
     {
       name: `KPI-HR ${year}`,
       selector: (row, index) => row?.[year]?.hr_rating?.name,
       minWidth: "250px",
+      sortable: true,
     },
 
     {
       name: `KPI-Overall ${year}`,
       selector: (row, index) => row?.[year]?.kpi_overall,
       minWidth: "250px",
+      sortable: true,
     },
   ]);
 
@@ -599,6 +603,7 @@ export const ASSESSMENT_SUMMARY_REPORT_TABLE_COLUMN = (years, selected_year) => 
       name: `Gross Salary ${year}`,
       selector: (row, index) => row?.[year]?.gross_salary,
       minWidth: "250px",
+      sortable: true,
     },
   ]);
 
@@ -607,18 +612,21 @@ export const ASSESSMENT_SUMMARY_REPORT_TABLE_COLUMN = (years, selected_year) => 
       name: `KPI Objective ${selected_year - 1}`,
       selector: (row, index) => row?.[selected_year - 1]?.kpi_objective?.grade,
       minWidth: "250px",
+      sortable: true,
     },
 
     {
       name: `KPI-Value ${selected_year - 1}`,
       selector: (row, index) => row?.[selected_year - 1]?.kpi_value?.grade,
       minWidth: "250px",
+      sortable: true,
     },
 
     {
       name: `KPI-HR ${selected_year - 1}`,
-      selector: (row, index) => row?.[selected_year - 1]?.hr_rating?.name,
+      selector: (row, index) => row?.[selected_year - 1]?.hr_rating?.grade,
       minWidth: "250px",
+      sortable: true,
     },
   ];
 
@@ -627,34 +635,40 @@ export const ASSESSMENT_SUMMARY_REPORT_TABLE_COLUMN = (years, selected_year) => 
       name: `KPI Objective ${selected_year}`,
       selector: (row, index) => row?.[selected_year]?.kpi_objective?.name,
       minWidth: "250px",
+      sortable: true,
     },
 
     {
       name: `KPI-Value ${selected_year}`,
       selector: (row, index) => row?.[selected_year]?.kpi_value?.name,
       minWidth: "250px",
+      sortable: true,
     },
 
     {
       name: `KPI-HR ${selected_year}`,
       selector: (row, index) => row?.[selected_year]?.hr_rating?.name,
       minWidth: "250px",
+      sortable: true,
     },
 
     {
       name: `KPI-Overall ${selected_year}`,
       selector: (row, index) => row?.[selected_year]?.kpi_overall,
       minWidth: "250px",
+      sortable: true,
     },
     {
       name: `Increment ${selected_year}`,
-      selector: (row, index) => row?.[selected_year]?.increment,
+      selector: (row, index) => row?.[selected_year]?.proposed_by_sbu_director_pm_self,
       minWidth: "250px",
+      sortable: true,
     },
     {
       name: `% Increment ${selected_year}`,
       selector: (row, index) => row?.[selected_year]?.increment_with_kpi_percentage,
       minWidth: "250px",
+      sortable: true,
     },
   ];
 
@@ -663,11 +677,13 @@ export const ASSESSMENT_SUMMARY_REPORT_TABLE_COLUMN = (years, selected_year) => 
       name: `CAGR 3Years`,
       selector: (row, index) => row?.[selected_year]?.increment_with_kpi_percentage,
       minWidth: "250px",
+      sortable: true,
     },
     {
       name: `Gross Salary ${selected_year}`,
       selector: (row, index) => row?.[selected_year]?.gross_salary,
       minWidth: "250px",
+      sortable: true,
     },
   ];
 

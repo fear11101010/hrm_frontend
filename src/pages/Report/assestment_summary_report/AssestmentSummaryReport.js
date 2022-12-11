@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 import ReactSelect from "react-select";
@@ -32,6 +32,7 @@ export default function AssestmentSummaryReport() {
   const [selected_supervisor, setSelected_supervisor] = useState("");
   const [selected_status, setSelected_status] = useState("");
   const [selected_year, setSelected_year] = useState(new Date().getFullYear());
+  const tableRef = useRef(null);
 
   // Custom-Hook
   const employeeList = useEmployee()?.map((d) => ({ label: d.name + " (" + d.employee_id + ")", value: d.id }));
@@ -52,58 +53,63 @@ export default function AssestmentSummaryReport() {
   const lastThreeYear = [selected_year - 2, selected_year - 1, selected_year];
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-    const payload = {
-      // model_name: "assessment_detail",
-      employee_id: selected_employee,
-      sbu_id: selected_sbu,
-      supervisor_id: selected_supervisor,
-      flag: selected_status,
-      year: selected_year,
+    if (selected_year === "") {
+      error_alert("Select Year");
+    } else {
+      setLoading(true);
+      const payload = {
+        // model_name: "assessment_detail",
+        employee_id: selected_employee,
+        sbu_id: selected_sbu,
+        supervisor_id: selected_supervisor,
+        flag: selected_status,
+        year: selected_year,
 
-      //   NO need use in this case
-      // data_range: "",
-      // data_like: "",
-      // data_in: "",
-    };
-    API.post(ASSESTMENT_SUMMARY_REPORT_POST, payload)
-      .then((res) => {
-        if (res.data.statuscode === 200) {
-          if (res.data.count === 0) {
-            error_alert("No data found");
-            setReportData([]);
-            setLastThreeYearData({});
-          } else {
-            if (Array.isArray(res.data.data)) {
-              const em = res.data.data.reduce((c, p) => {
-                const obj = Object.values(p)[0];
-                const len = Object.values(p)[0]?.length;
-                const emm = Object.values(Object.values(p)[0][len - 1])[0].employee;
-                return { ...c, [Object.keys(p)[0]]: emm };
-              }, {});
-              const lty = res.data.data.reduce((c, p) => {
-                const key = Object.keys(p)[0];
-                const values = Object.values(p)[0].reduce((a, c) => ({ ...a, ...c }), {});
-                return { ...c, [key]: values };
-              }, {});
+        //   NO need use in this case
+        // data_range: "",
+        // data_like: "",
+        // data_in: "",
+      };
+      API.post(ASSESTMENT_SUMMARY_REPORT_POST, payload)
+        .then((res) => {
+          if (res.data.statuscode === 200) {
+            if (res.data.count === 0) {
+              error_alert("No data found");
+              setReportData([]);
+              setLastThreeYearData({});
+            } else {
+              if (Array.isArray(res.data.data)) {
+                const em = res.data.data.reduce((c, p) => {
+                  const obj = Object.values(p)[0];
+                  const len = Object.values(p)[0]?.length;
+                  const emm = Object.values(Object.values(p)[0][len - 1])[0].employee;
+                  return { ...c, [Object.keys(p)[0]]: emm };
+                }, {});
+                const lty = res.data.data.reduce((c, p) => {
+                  const key = Object.keys(p)[0];
+                  const values = Object.values(p)[0].reduce((a, c) => ({ ...a, ...c }), {});
+                  return { ...c, [key]: values };
+                }, {});
 
-              setDataCount(res.data.count);
-              setLastThreeYearData({ ...lty });
-              setAllDsId(res.data.data.map((v) => Object.keys(v)[0]));
-              setEmployeeDetail(em);
-              // console.log(lastThreeYearData);
+                setDataCount(res.data.count);
+                setLastThreeYearData({ ...lty });
+                setAllDsId(res.data.data.map((v) => Object.keys(v)[0]));
+                setEmployeeDetail(em);
+                // console.log(lastThreeYearData);
+              }
             }
+          } else {
+            error_alert(res.data.message);
           }
-        } else {
-          error_alert(res.data.message);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setLoading(false);
+          tableRef?.current?.scrollIntoView();
+        });
+    }
   };
 
   const reset = () => {
@@ -165,7 +171,9 @@ export default function AssestmentSummaryReport() {
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label className="mb-0">Select Year</Form.Label>
+            <Form.Label className="mb-0">
+              Select Year <span className="text-danger">*</span>{" "}
+            </Form.Label>
             <DatePicker
               dateFormat="YYYY"
               placeholder={"Select Year"}
@@ -188,34 +196,36 @@ export default function AssestmentSummaryReport() {
               value={selected_status}
             />
           </Form.Group>
-          {/* <Button variant="light" className="me-2 fw-bold" onClick={() => reset()}>
+          <Button variant="light" className="me-2 fw-bold" onClick={() => reset()}>
             Reset
-          </Button> */}
+          </Button>
           <Button type="submit">Search</Button>
         </Form>
 
-        {dataCount > 0 && (
-          <>
-            <hr />
-            <div className="text-end">
-              <ExcelPdfPrint
-                exportPdf={false}
-                print={false}
-                header="Assessment Summary Report"
-                data={Object.values(lastThreeYearData)}
-                columns={ASSESSMENT_SUMMARY_REPORT(lastThreeYear, selected_year)}
-              />
-              <Table
-                dense
-                pagination={false}
-                fixedHeader
-                fixedHeaderScrollHeight="400px"
-                data={Object.values(lastThreeYearData)}
-                columns={ASSESSMENT_SUMMARY_REPORT_TABLE_COLUMN(lastThreeYear, selected_year)}
-              />
-            </div>
-          </>
-        )}
+        <div ref={tableRef}>
+          {dataCount > 0 && (
+            <>
+              <hr />
+              <div className="text-end">
+                <ExcelPdfPrint
+                  exportPdf={false}
+                  print={false}
+                  header="Assessment Summary Report"
+                  data={Object.values(lastThreeYearData)}
+                  columns={ASSESSMENT_SUMMARY_REPORT(lastThreeYear, selected_year)}
+                />
+                <Table
+                  dense
+                  pagination={false}
+                  fixedHeader
+                  fixedHeaderScrollHeight="400px"
+                  data={Object.values(lastThreeYearData)}
+                  columns={ASSESSMENT_SUMMARY_REPORT_TABLE_COLUMN(lastThreeYear, selected_year)}
+                />
+              </div>
+            </>
+          )}
+        </div>
       </Content>
     </Layout>
   ) : (

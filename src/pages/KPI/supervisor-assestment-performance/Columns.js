@@ -8,8 +8,7 @@ import { USER_INFO } from "../../../utils/session/token";
 // For review-close day
 const today = moment(Date.now()).format("YYYY-MM-DD");
 const currTime = moment(today).valueOf();
-const closeTime = moment("2022-12-08").valueOf();
-console.log(currTime > closeTime);
+
 export const columns = [
   {
     name: "Status",
@@ -57,7 +56,7 @@ export const columns = [
           <>
             {/* If today is not greater than close_date then button will enable */}
             {currTime > moment(row?.review_closedate).valueOf() === false ? (
-              <Link to={EMPLOYEE_ASSESTMENT_SINGLE_PAGE(Encrypt(row.id))}>
+              <Link to={EMPLOYEE_ASSESTMENT_SINGLE_PAGE(row.id)}>
                 <button className="btn btn-sm btn-rounded-circle btn-primary" title="Details">
                   <i className="fe fe-edit"></i>
                 </button>

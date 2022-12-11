@@ -84,15 +84,17 @@ export default function SbuAssestmentData() {
               }}
             />
           </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label className="mb-0">Select Supervisor</Form.Label>
-            <ReactSelect
-              options={supervisorList}
-              onChange={(e) => {
-                setSelected_supervisor(e.value);
-              }}
-            />
-          </Form.Group>
+          {user.group_id.split(",").includes("2") && (
+            <Form.Group className="mb-3">
+              <Form.Label className="mb-0">Select Supervisor</Form.Label>
+              <ReactSelect
+                options={supervisorList}
+                onChange={(e) => {
+                  setSelected_supervisor(e.value);
+                }}
+              />
+            </Form.Group>
+          )}
           <Button type="submit">Search</Button>
         </Form>
         {data.length > 0 && (
