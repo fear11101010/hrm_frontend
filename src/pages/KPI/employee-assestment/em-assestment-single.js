@@ -27,10 +27,12 @@ import ConfirmDialog from "../../../components/confirm-dialog/ConfirmDialog";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
 import useDesignation from "../../../hooks/useDesignation";
 import { USER_INFO } from "../../../utils/session/token";
+import { Decrypt } from "../../../utils/Hash";
 
 export default function EmAssestmentSingle() {
   const user = USER_INFO();
   const { id } = useParams();
+
   const navigate = useNavigate();
   // Fetch Hooks
   const kpiValueList = useKpiValue()?.map((d) => ({ label: d.name, value: d.id }));
@@ -101,8 +103,13 @@ export default function EmAssestmentSingle() {
           setConf_inc_noInc(res.data?.data?.confirmation_increment_noincrement);
           setPropose_sbu(res.data?.data?.proposed_by_sbu_director_pm_self);
           // setProposed_designation(res.data?.data?.employee?.designation);
-          setProposed_designation(res.data?.data?.proposed_designation);
-          setProposed_designation_id(res.data?.data?.employee?.desig_id);
+          if (res.data?.data?.proposed_designation === null) {
+            setProposed_designation(res.data?.data?.employee?.designation);
+            setProposed_designation_id(res.data?.data?.employee?.desig_id);
+          } else {
+            setProposed_designation(res.data?.data?.proposed_designation);
+            setProposed_designation_id(res.data?.data?.employee?.desig_id);
+          }
           setRemarks(res.data?.data?.remarks);
           setFlag(res.data?.data?.flag);
           setIsSupervisor(res.data?.data?.is_supervisor);
@@ -126,23 +133,38 @@ export default function EmAssestmentSingle() {
     e.preventDefault();
     if (
       employee_details === "" ||
+      employee_details === null ||
       kpi_obj_curr === "" ||
+      kpi_obj_curr === null ||
       kpi_val_curr === "" ||
-      kpi_overall_curr === "" ||
+      kpi_val_curr === null ||
       hr_rat_curr === "" ||
+      hr_rat_curr === null ||
       criticality_curr === "" ||
+      criticality_curr === null ||
       pot_improve_curr === "" ||
+      pot_improve_curr === null ||
       tech_imple_opera_curr === "" ||
+      tech_imple_opera_curr === null ||
       top_avg_bot_performer_curr === "" ||
+      top_avg_bot_performer_curr === null ||
       best_performer_team_curr === "" ||
+      best_performer_team_curr === null ||
       best_innovator_team_curr === "" ||
+      best_innovator_team_curr === null ||
       best_performer_org_curr === "" ||
+      best_performer_org_curr === null ||
       best_performer_pm_curr === "" ||
+      best_performer_pm_curr === null ||
       conf_inc_noInc === "" ||
+      conf_inc_noInc === null ||
       propose_SBU === "" ||
-      proposed_designation === ""
+      propose_SBU === null ||
+      proposed_designation === "" ||
+      proposed_designation === null
     ) {
       error_alert("please select all feild");
+      setIsConfirm(false);
     } else {
       const payload = {
         employee: id,
@@ -201,7 +223,6 @@ export default function EmAssestmentSingle() {
   if (flag === 1 && user.group_id.split(",").includes("1")) {
     return <Navigate to={UNAUTHORIZED} />;
   }
-  console.log(user.group_id);
   return (
     <Layout>
       {loading && <Loader />}
@@ -253,7 +274,9 @@ export default function EmAssestmentSingle() {
                 <Row>
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary"> Objective {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Objective {new Date().getFullYear()} <span className="text-danger">*</span>{" "}
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={kpiObjectiveList}
@@ -268,7 +291,9 @@ export default function EmAssestmentSingle() {
                   </Col>
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary"> Value {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Value {new Date().getFullYear()} <span className="text-danger">*</span>{" "}
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={kpiValueList}
@@ -284,7 +309,9 @@ export default function EmAssestmentSingle() {
                   {user.group_id.split(",").includes("7") && (
                     <Col sm="6" md="4" className="mb-4">
                       <Form.Group>
-                        <h4 className="text-secondary">HR Rating {new Date().getFullYear()}</h4>
+                        <h4 className="text-secondary">
+                          HR Rating {new Date().getFullYear()} <span className="text-danger">*</span>
+                        </h4>
                       </Form.Group>
                       <ReactSelect
                         options={hrRatingList}
@@ -301,14 +328,18 @@ export default function EmAssestmentSingle() {
 
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary"> KPI {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        KPI {new Date().getFullYear()} <span className="text-danger">*</span>
+                      </h4>
                     </Form.Group>
                     <FormControl value={kpi_overall_curr} disabled className="bg-light" />
                   </Col>
 
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">Criticality {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Criticality {new Date().getFullYear()} <span className="text-danger">*</span>
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={criticalityList}
@@ -336,7 +367,9 @@ export default function EmAssestmentSingle() {
                 <Row>
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">Top/Average/Bottom Performer {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Top/Average/Bottom Performer {new Date().getFullYear()} <span className="text-danger">*</span>
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={topAvgBotPerformerList}
@@ -353,7 +386,9 @@ export default function EmAssestmentSingle() {
                   </Col>
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">Best performer inside team {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Best performer inside team {new Date().getFullYear()} <span className="text-danger">*</span>
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={bestPerformerTeamList}
@@ -369,7 +404,9 @@ export default function EmAssestmentSingle() {
                   </Col>
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">Best performer in the organization {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Best performer in the organization {new Date().getFullYear()} <span className="text-danger">*</span>
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={bestPerformerOrgList}
@@ -386,7 +423,9 @@ export default function EmAssestmentSingle() {
 
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">Best performer among all PM {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Best performer among all PM {new Date().getFullYear()} <span className="text-danger">*</span>
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={bestPerformerPmList}
@@ -403,7 +442,9 @@ export default function EmAssestmentSingle() {
 
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">Best innovator inside team {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Best innovator inside team {new Date().getFullYear()} <span className="text-danger">*</span>
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={bestInnovatorTeamList}
@@ -432,7 +473,7 @@ export default function EmAssestmentSingle() {
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
                       <h4 className="text-secondary">
-                        Potential for Improvement <br /> {new Date().getFullYear()}
+                        Potential for Improvement <br /> {new Date().getFullYear()} <span className="text-danger">*</span>
                       </h4>
                     </Form.Group>
                     <ReactSelect
@@ -449,7 +490,10 @@ export default function EmAssestmentSingle() {
                   </Col>
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">Technical/Implementation/Operational {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Technical/Implementation/Operational {new Date().getFullYear()}{" "}
+                        <span className="text-danger">*</span>
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={technicalImplementationOperationalList}
@@ -467,7 +511,9 @@ export default function EmAssestmentSingle() {
                   </Col>
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">Confirmation/Increment/No Increment {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Confirmation/Increment/No Increment {new Date().getFullYear()} <span className="text-danger">*</span>
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={confIncNoIncList}
@@ -482,7 +528,9 @@ export default function EmAssestmentSingle() {
                   </Col>
                   <Col sm="12" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">Proposed Designation {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Proposed Designation {new Date().getFullYear()} <span className="text-danger">*</span>
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={designationList}
@@ -500,7 +548,9 @@ export default function EmAssestmentSingle() {
                   </Col>
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">Proposed Amount By Supervisor {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Proposed Amount By Supervisor {new Date().getFullYear()} <span className="text-danger">*</span>
+                      </h4>
                     </Form.Group>
                     <FormControl
                       type="text"

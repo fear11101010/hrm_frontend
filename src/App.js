@@ -58,6 +58,7 @@ import {
   LANDING_PAGE,
   BILL_LIST,
   BILL_ADD,
+  ASSESTMENT_SUMMARY_REPORT,
 } from "./utils/APP_ROUTES";
 import KpiPerformanceIndex from "./pages/KPI/kpi-performane-form/kpi-performance-index";
 import KpiPerformanceFormCreate from "./pages/KPI/kpi-performane-form/kpi-performance-form-create";
@@ -87,6 +88,7 @@ import EmPerformancePrevYear from "./pages/KPI/employee-performance/em-performan
 import Landing from "./pages/Landing/Landing";
 import BillList from "./pages/bill-management/bill/List";
 import BillAdd from "./pages/bill-management/bill/billAdd";
+import AssestmentSummaryReport from "./pages/Report/assestment_summary_report/AssestmentSummaryReport";
 
 function App() {
   return (
@@ -156,6 +158,7 @@ function App() {
           <Route path={ASSESSMENT_YEAR_REPORT} element={<AssessmentYearReport />} />
           <Route path={SALARY_INCREMENT_REPORT} element={<SalaryIncrementReport />} />
           <Route path={SBU_ASSESTMENT_REPORT} element={<SbuAssestmentData />} />
+          <Route path={ASSESTMENT_SUMMARY_REPORT} element={<AssestmentSummaryReport />} />
         </Route>
 
         <Route path={UNAUTHORIZED} element={<Unauth />} />

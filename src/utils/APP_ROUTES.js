@@ -62,6 +62,7 @@ export const SALARY_INCREMENT_ELIGIBLE_REPORT_URL = `/report/salary_increment_el
 export const ASSESTMENT_EMPLOYER_REPORT = `/report/assestment_employer_report`;
 export const SALARY_INCREMENT_REPORT = `/report/performance-evaluation-and-salary-increment`;
 export const SBU_ASSESTMENT_REPORT = `/report/sbu-assestment`;
+export const ASSESTMENT_SUMMARY_REPORT = `/report/assestment-summary-report/`;
 
 // Others
 export const UNAUTHORIZED = "/unauthorized";

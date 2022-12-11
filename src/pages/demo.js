@@ -5,11 +5,10 @@ import moment from "moment";
 import PageHeader from "../components/header/PageHeader";
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
+import { Decrypt, Encrypt } from "../utils/Hash";
 
 export default function Demo() {
   const [date, setDate] = useState(new Date());
-
-  console.log(moment(date).format("YYYY-DD-MM"));
 
   return (
     <>

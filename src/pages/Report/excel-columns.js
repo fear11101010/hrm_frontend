@@ -109,8 +109,8 @@ export const SALARY_FULL_REPORT = (years) => {
       value: (row, index) => Object.values(row)[0]?.employee?.sub_sbu?.name,
     },
     // {
-    //   name: "Supervisor",
-    //   selector: (row, index) => Object.values(row)[0]?.employee?.supervisor?.name,
+    //   key: "Supervisor",
+    //   value: (row, index) => Object.values(row)[0]?.employee?.supervisor?.name,
     // },
   ];
   const arr = years.map((year) => [
@@ -370,6 +370,7 @@ export const SBU_ASSESTMENT_REPORT_EXCEL_COLUMN = [
     key: "Potential for Improvement",
     value: (row) => row?.potential_for_improvement?.name,
   },
+  // DATA IS CAUSING ERROR THATS WHY ITS HIDE
   // {
   //   key: "Technical/Implementation/Operational",
   //   value: (row) => row?.technical_implementation_operational,
@@ -391,3 +392,190 @@ export const SBU_ASSESTMENT_REPORT_EXCEL_COLUMN = [
     value: (row) => row?.remarks,
   },
 ];
+
+export const ASSESSMENT_SUMMARY_REPORT = (years, selected_year) => {
+  //excle format is we have to separate the selected year into another group which is curr_year_data,
+
+  //that's why we have to delete te selected_year from the years
+
+  let yearWithOutCurrYear = years.slice(0, -1);
+
+  const info = [
+    {
+      key: `#`,
+      value: (row, index) => index + 1,
+      width: "50px",
+      sortable: true,
+    },
+    {
+      key: "Employee",
+      value: (row, index) => Object.values(row)[0]?.employee?.name,
+      minWidth: "250px",
+      sortable: true,
+      // wrap: true,
+    },
+    {
+      key: "Designation",
+      value: (row, index) => Object.values(row)[0]?.employee?.designation,
+      wrap: true,
+      sortable: true,
+      minWidth: "250px",
+      style: {
+        textAlign: "left",
+      },
+    },
+    {
+      key: "ID No.",
+      value: (row, index) => Object.values(row)[0]?.employee?.employee_id,
+      sortable: true,
+    },
+    {
+      key: "DOJ",
+      value: (row, index) => moment(Object.values(row)[0]?.employee?.date_of_joining).format("DD MMM,YYYY"),
+      sortable: true,
+    },
+    {
+      key: "Confirmation/Increment/No Increment",
+      value: (row, index) =>
+        Object.values(row)[0]?.confirmation_increment_noincrement === 1
+          ? "Increment"
+          : Object.values(row)[0]?.confirmation_increment_noincrement === 2
+          ? "Confirmation"
+          : Object.values(row)[0]?.confirmation_increment_noincrement === 3
+          ? "No Increment"
+          : Object.values(row)[0]?.confirmation_increment_noincrement === 4
+          ? "Resigned"
+          : Object.values(row)[0]?.confirmation_increment_noincrement === 5
+          ? "Not Sure"
+          : "",
+    },
+    {
+      key: "Durations",
+      value: (row, index) => {
+        const diff = moment().diff(Object.values(row)[0]?.employee?.date_of_joining);
+        const duration = moment.duration(diff);
+        return `${duration.years()} years, ${duration.months()} months`;
+      },
+      minWidth: "180px",
+    },
+    {
+      key: "SBU",
+      value: (row, index) => Object.values(row)[0]?.employee?.sbu?.name,
+    },
+    {
+      key: "Sub SBU",
+      value: (row, index) => Object.values(row)[0]?.employee?.sub_sbu?.name,
+    },
+    {
+      key: "Project Mgr.",
+      value: (row, index) => Object.values(row)[0]?.employee?.supervisor?.name,
+      minWidth: "250px",
+    },
+  ];
+
+  const kpi = yearWithOutCurrYear.map((year) => [
+    {
+      key: `KPI Objective ${year}`,
+      value: (row, index) => row?.[year]?.kpi_objective?.name,
+      minWidth: "250px",
+    },
+
+    {
+      key: `KPI-Value ${year}`,
+      // value: (row, index) => row?.[year]?.kpi_selector?.name,
+      value: (row, index) => row?.[year]?.kpi_value?.name,
+      minWidth: "250px",
+    },
+
+    {
+      key: `KPI-HR ${year}`,
+      value: (row, index) => row?.[year]?.hr_rating?.name,
+      minWidth: "250px",
+    },
+
+    {
+      key: `KPI-Overall ${year}`,
+      value: (row, index) => row?.[year]?.kpi_overall,
+      minWidth: "250px",
+    },
+  ]);
+
+  const gross_salary = yearWithOutCurrYear?.map((year, i) => [
+    {
+      key: `Gross Salary ${year}`,
+      value: (row, index) => row?.[year]?.gross_salary,
+      minWidth: "250px",
+    },
+  ]);
+
+  const kpi_values = [
+    {
+      key: `KPI Objective ${selected_year - 1}`,
+      value: (row, index) => row?.[selected_year - 1]?.kpi_objective?.grade,
+      minWidth: "250px",
+    },
+
+    {
+      key: `KPI-Value ${selected_year - 1}`,
+      value: (row, index) => row?.[selected_year - 1]?.kpi_value?.grade,
+      minWidth: "250px",
+    },
+
+    {
+      key: `KPI-HR ${selected_year - 1}`,
+      value: (row, index) => row?.[selected_year - 1]?.hr_rating?.name,
+      minWidth: "250px",
+    },
+  ];
+
+  const curr_year_data = [
+    {
+      key: `KPI Objective ${selected_year}`,
+      value: (row, index) => row?.[selected_year]?.kpi_objective?.name,
+      minWidth: "250px",
+    },
+
+    {
+      key: `KPI-Value ${selected_year}`,
+      value: (row, index) => row?.[selected_year]?.kpi_value?.name,
+      minWidth: "250px",
+    },
+
+    {
+      key: `KPI-HR ${selected_year}`,
+      value: (row, index) => row?.[selected_year]?.hr_rating?.name,
+      minWidth: "250px",
+    },
+
+    {
+      key: `KPI-Overall ${selected_year}`,
+      value: (row, index) => row?.[selected_year]?.kpi_overall,
+      minWidth: "250px",
+    },
+    {
+      key: `Increment ${selected_year}`,
+      value: (row, index) => row?.[selected_year]?.increment,
+      minWidth: "250px",
+    },
+    {
+      key: `% Increment ${selected_year}`,
+      value: (row, index) => row?.[selected_year]?.increment_with_kpi_percentage,
+      minWidth: "250px",
+    },
+  ];
+
+  const restData = [
+    {
+      key: `CAGR 3Years`,
+      value: (row, index) => row?.[selected_year]?.increment_with_kpi_percentage,
+      minWidth: "250px",
+    },
+    {
+      key: `Gross Salary ${selected_year}`,
+      value: (row, index) => row?.[selected_year]?.gross_salary,
+      minWidth: "250px",
+    },
+  ];
+
+  return info.concat(...kpi, ...gross_salary, ...kpi_values, ...curr_year_data, ...restData);
+};

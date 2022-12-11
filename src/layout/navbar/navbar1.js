@@ -34,6 +34,7 @@ import {
   SUPERVISOR_APPRAISAL_REVIEW_PAGE,
   FILE_UPLOAD_PAGE,
   BILL_LIST,
+  ASSESTMENT_SUMMARY_REPORT,
 } from "../../utils/APP_ROUTES";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../utils/axios/axiosConfig";
@@ -396,6 +397,14 @@ function Navbar1(props) {
                           {user.module.includes("Sbu Assestment Report") && (
                             <Link className={"nav-link"} to={SBU_ASSESTMENT_REPORT}>
                               SBU Assessment
+                            </Link>
+                          )}
+                        </li>
+
+                        <li className="nav-item">
+                          {user.module.includes("Assessment Summary Report") && (
+                            <Link className={"nav-link"} to={ASSESTMENT_SUMMARY_REPORT}>
+                              Assessment Summary Report
                             </Link>
                           )}
                         </li>

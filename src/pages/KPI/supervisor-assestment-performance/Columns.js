@@ -2,6 +2,7 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import { EMPLOYEE_ASSESTMENT_SINGLE_PAGE } from "../../../utils/APP_ROUTES";
 import { DATE_FORMAT } from "../../../utils/CONSTANT";
+import { Decrypt, Encrypt } from "../../../utils/Hash";
 import { USER_INFO } from "../../../utils/session/token";
 
 // For review-close day
@@ -56,7 +57,7 @@ export const columns = [
           <>
             {/* If today is not greater than close_date then button will enable */}
             {currTime > moment(row?.review_closedate).valueOf() === false ? (
-              <Link to={EMPLOYEE_ASSESTMENT_SINGLE_PAGE(row.id)}>
+              <Link to={EMPLOYEE_ASSESTMENT_SINGLE_PAGE(Encrypt(row.id))}>
                 <button className="btn btn-sm btn-rounded-circle btn-primary" title="Details">
                   <i className="fe fe-edit"></i>
                 </button>

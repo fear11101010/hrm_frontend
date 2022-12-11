@@ -31,7 +31,6 @@ export default function SalaryIncrementReport() {
       const res = await API.post(SALARY_INCREMENT_REPORT_POST(year.toString()), payload, {
         responseType: "blob",
       });
-      console.log(res);
       if (res.data.statuscode === 400) {
         error_alert(res.data.message);
       } else {
@@ -61,7 +60,7 @@ export default function SalaryIncrementReport() {
   return user.accessibility.includes("SalaryIncrementReport") ? (
     <Layout>
       {loading && <Loader />}
-      <PageHeader title="Salary Increment & Performance Evaluation" />
+      <PageHeader title="Salary Increment &amp; Performance Evaluation" />
       <Content>
         <Form className="w-50 m-auto" onSubmit={handleDownload}>
           <Form.Check
