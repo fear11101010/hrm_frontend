@@ -565,6 +565,12 @@ export const ASSESSMENT_SUMMARY_REPORT_TABLE_COLUMN = (years, selected_year) => 
       minWidth: "250px",
       sortable: true,
     },
+    {
+      name: "SBU Director ",
+      selector: (row, index) => Object.values(row)[0]?.sbu?.director_name?.name,
+      minWidth: "250px",
+      sortable: true,
+    },
   ];
 
   const kpi = yearWithOutCurrYear.map((year) => [
