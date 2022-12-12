@@ -567,7 +567,8 @@ export const ASSESSMENT_SUMMARY_REPORT_TABLE_COLUMN = (years, selected_year) => 
     },
     {
       name: "SBU Director ",
-      selector: (row, index) => Object.values(row)[0]?.sbu?.director_name?.name,
+      // selector: (row, index) => Object.values(row)[0]?.sbu?.director_name?.name,
+      selector: (row, index) => Object.values(row)[0]?.employee?.sbu_director_id?.name,
       minWidth: "250px",
       sortable: true,
     },

@@ -471,6 +471,11 @@ export const ASSESSMENT_SUMMARY_REPORT = (years, selected_year) => {
       value: (row, index) => Object.values(row)[0]?.employee?.supervisor?.name,
       minWidth: "250px",
     },
+    {
+      key: "SBU Director ",
+      // selector: (row, index) => Object.values(row)[0]?.sbu?.director_name?.name,
+      value: (row, index) => Object.values(row)[0]?.employee?.sbu_director_id?.name,
+    },
   ];
 
   const kpi = yearWithOutCurrYear.map((year) => [
