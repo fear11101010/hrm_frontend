@@ -63,6 +63,7 @@ export const EMPLOYEE_ASSIGN_POST = "/employee_assign/";
 export const EMPLOYEE_ASSIGN_RETRIVE_AND_PUT = (id) => `/employee_assign/${id}/`;
 export const EMPLOYEE_ASSESTMENT_GET = "/assessment/";
 export const SUPERVISOR_ASSESTMENT_GET = "/assessment/$/supervisor_head/";
+export const SUPERVISOR_ASSESTMENT_BULK_POST = `/assessment/$/bulk_assessment_approve/`;
 export const EMPLOYEE_PERFORMANCE_GET = "/kpi_performance/";
 export const APPRAISAL_FORM_GET = "/kpi_performance/$/employee_performance/";
 export const EMPLOYEE_PERFORMANCE_EACH_GET = (id) => `/kpi_performance/${id}/`;

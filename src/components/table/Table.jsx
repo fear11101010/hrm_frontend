@@ -11,7 +11,7 @@ import { Dropdown } from "react-bootstrap";
 
 export default function Table({ ...props }) {
   const selectProps = { indeterminate: (isIndeterminate) => isIndeterminate };
-  const sortIcon = <BiSort />;
+  const sortIcon = <BiSort size={0.5} />;
 
   return (
     <div>
@@ -20,7 +20,7 @@ export default function Table({ ...props }) {
           pagination
           selectableRowsComponentProps={selectProps}
           selectableRowsHighlight
-          striped
+          // striped
           // data={data}
           // columns={columns}
           customStyles={tableStyles}

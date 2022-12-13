@@ -34,7 +34,6 @@ export const tableStyles = {
   cells: {
     style: {
       fontSize: "14px",
-      backgroundColor: "#FFFFFF",
       "&:not(:last-of-type)": {
         borderColor: "#e6e6e6",
         borderRightStyle: "solid",

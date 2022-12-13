@@ -508,7 +508,7 @@ export const ASSESSMENT_SUMMARY_REPORT = (years, selected_year) => {
   const gross_salary = yearWithOutCurrYear?.map((year, i) => [
     {
       key: `Gross Salary ${year}`,
-      value: (row, index) => row?.[year]?.gross_salary,
+      value: (row, index) => row?.[year]?.new_gross_salary_b,
       minWidth: "250px",
     },
   ]);
@@ -577,7 +577,7 @@ export const ASSESSMENT_SUMMARY_REPORT = (years, selected_year) => {
     },
     {
       key: `Gross Salary ${selected_year}`,
-      value: (row, index) => row?.[selected_year]?.gross_salary,
+      value: (row, index) => row?.[selected_year]?.new_gross_salary_b,
       minWidth: "250px",
     },
   ];

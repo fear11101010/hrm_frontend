@@ -28,23 +28,26 @@ export const columns = [
     ),
     width: "140px",
     wrap: true,
+    sortable: true,
   },
-  { name: "Employee ID", selector: (row) => row.employee?.employee_id, width: "120px", wrap: true },
-  { name: "Employee Name", selector: (row) => row.employee?.name, minWidth: "200px", wrap: true },
-  { name: "Desgination", selector: (row) => row.employee?.designation, minWidth: "200px", wrap: true },
-  { name: "SBU", selector: (row) => row.employee?.sbu?.name, minWidth: "120px", wrap: true },
+  { name: "Employee ID", selector: (row) => row.employee?.employee_id, width: "150px", wrap: true, sortable: true },
+  { name: "Employee Name", selector: (row) => row.employee?.name, minWidth: "200px", wrap: true, sortable: true },
+  { name: "Desgination", selector: (row) => row.employee?.designation, minWidth: "200px", wrap: true, sortable: true },
+  { name: "SBU", selector: (row) => row.employee?.sbu?.name, minWidth: "180px", wrap: true, sortable: true },
   {
     name: "Supervisor",
     selector: (row) => row?.employee?.supervisor?.name,
     minWidth: "250px",
     wrap: true,
+    sortable: true,
   },
   {
     name: "Date of Joining",
     selector: (row) => row.employee?.date_of_joining,
     cell: (row) => moment(row.employee?.date_of_joining).format(DATE_FORMAT),
-    width: "140px",
+    width: "160px",
     wrap: true,
+    sortable: true,
   },
   {
     name: "Action",
@@ -57,9 +60,12 @@ export const columns = [
             {/* If today is not greater than close_date then button will enable */}
             {currTime > moment(row?.review_closedate).valueOf() === false ? (
               <Link to={EMPLOYEE_ASSESTMENT_SINGLE_PAGE(row.id)}>
-                <button className="btn btn-sm btn-rounded-circle btn-primary" title="Details">
-                  <i className="fe fe-edit"></i>
-                </button>
+                {console.log("/employee-assestment/" + Encrypt(row.id.toString()))}
+                {row?.approve_by_sbu === 0 && (
+                  <button className="btn btn-sm btn-rounded-circle btn-primary" title="Details">
+                    <i className="fe fe-edit"></i>
+                  </button>
+                )}
               </Link>
             ) : (
               <>
