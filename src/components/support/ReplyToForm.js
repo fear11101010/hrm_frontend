@@ -133,7 +133,7 @@ function ReplyToForm({id, show, handleClose}) {
                                     <Card.Body>
                                         <div>
                                             <h4 className="mb-1 d-flex justify-content-between">
-                                                Form: {message.user.name} ({message.user.group})
+                                                <span className="text text-info">Form: {message.user.name} ({message.user.group})</span>
                                                 {i>0&&(
                                                     <small className="header-pretitle" style={{fontSize:'x-small'}}>{moment(message.created_at).format('DD MMM, YYYY')}</small>
                                                 )}
@@ -143,11 +143,14 @@ function ReplyToForm({id, show, handleClose}) {
                                                 <span>{moment(message.created_at).format('DD MMM, YYYY')}</span>
                                             </h6>)}
                                             <div className={`mb-4 ${i>0?'mt-4':''}`}>
-                                                <h6 className="header-pretitle mb-2">Message</h6>
+                                                <h6 className="header-pretitle mb-2 text text-primary">Message</h6>
                                                 <p>{message.query_message}</p>
                                             </div>
-                                            <h6 className="header-pretitle mb-2">Attachments</h6>
+                                            <h6 className="header-pretitle mb-2 text text-success">Attachments</h6>
                                             <ul style={{margin:0,padding:0}}>
+                                                {message?.message_attachment?.length<=0 && (
+                                                    <li className="list-group-item dz-processing">No attachments available</li>
+                                                )}
                                                 {message?.message_attachment?.map((file, i) => (
                                                     <li key={i} className="list-group-item dz-processing">
                                                         <div className="row align-items-center">

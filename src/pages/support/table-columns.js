@@ -140,13 +140,13 @@ export const ALL_TICKET_TABLE_COLUMNS = (viewFunc)=> {
                         variant="light"
                         onSelect={e => viewFunc(e, row?.id)}
                     >
-                        <Dropdown.Toggle as="a" className="dropdown-ellipses" variant="light" id="dropdown-basic">
-                            <i className="fe fe-more-vertical"></i>
+                        <Dropdown.Toggle variant="light" className="fw-bold" size="sm" id="dropdown-basic">
+                            Action
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            <Dropdown.Item eventKey={1}>
+                            {row?.current_status?.id!==4 && (<Dropdown.Item eventKey={1}>
                                 <FaEdit/> Update Status
-                            </Dropdown.Item>
+                            </Dropdown.Item>)}
                             <Dropdown.Item eventKey={2}>
                                 <FaEye/> View Detail
                             </Dropdown.Item>

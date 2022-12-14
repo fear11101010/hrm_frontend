@@ -127,7 +127,7 @@ function TicketForm({url, data, method}) {
         console.log(acceptedFiles)
         setFiles(files => [...files, ...acceptedFiles])
     }, [])
-    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+    const {getRootProps, getInputProps, isDragActive,inputRef} = useDropzone({onDrop})
 
     const removeFile = (e, i) => {
         e.preventDefault();
@@ -288,28 +288,6 @@ function TicketForm({url, data, method}) {
                                 </Form.Group>
                             </Col>
                         </Row>
-                        {/*<Row className="mb-2">
-                            <Col sm={12} md={6} lg={6} xl={6} className="m-auto">
-                                <Form.Group>
-                                    <Form.Label>Forward to</Form.Label>
-                                    <Controller
-                                        name="forward_to"
-                                        control={control}
-                                        render={({
-                                                     field: {onChange, value},
-                                                     fieldState: { error},
-                                                     formState,
-                                                 }) => (
-                                            <Select
-                                                placeholder="--Select a option--"
-                                                options={requestTo}
-                                                value={requestTo?.find(v=>v.value===value)}
-                                                size="md"
-                                                onChange={v => onChange(v.value)}/>
-                                        )}/>
-                                </Form.Group>
-                            </Col>
-                        </Row>*/}
                         <Row className="mb-4">
                             <Col sm={12} md={6} lg={6} xl={6} className="m-auto">
                                 <Form.Group>
@@ -369,15 +347,14 @@ function TicketForm({url, data, method}) {
                                                 </li>
                                             ))}
                                         </ul>
-                                        {
-                                            isDragActive ?
-                                                <p>Drop the files here ...</p> :
-                                                (<div className="dz-default dz-message">
-                                                    <button className="dz-button" type="button">Drop files here to
-                                                        upload <br/>or <br/>click to open file browser
-                                                    </button>
-                                                </div>)
-                                        }
+                                        <div className="dz-default dz-message">
+                                            {isDragActive ? <p>Drop the files here ...</p> : (
+                                                <button className="dz-button" type="button">Drop files here to
+                                                    upload <br/>or <br/>click to open file browser
+
+                                            </button>
+                                            )}
+                                        </div>
                                     </div>
                                 </Form.Group>
                             </Col>
