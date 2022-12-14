@@ -182,6 +182,7 @@ function App() {
           <Route path={SBU_ASSESTMENT_REPORT} element={<SbuAssestmentData />} />
           <Route path={ASSESTMENT_SUMMARY_REPORT} element={<AssestmentSummaryReport />} />
         </Route>
+
         <Route path={"/support"} element={<SupportOutlet />}>
           <Route path={SUPPORT_DASHBOARD_URL} element={<SupportDashboard />} />
           <Route path={MY_TICKETS_URL} element={<MyTickets />} />
