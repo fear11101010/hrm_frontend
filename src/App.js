@@ -173,7 +173,7 @@ function App() {
           <Route path={REQUISITION_RESOURCE_FORM} element={<ResourceRequisitionForm />} />
         </Route>
 
-        {/* BILL MANAGEMENT */}
+        {/* BILL MANAGEMENT fgfggf*/}
         <Route path={"/"} element={<BillManagementOutlet />}>
           <Route path={BILL_LIST_URL} element={<Bill />} />
           <Route path={BILL_ADD_URL} element={<AddBill />} />
