@@ -28,7 +28,14 @@ import {
   USER_LIST_PAGE,
   USER_ROLE_LIST_PAGE,
   REQUISITION_RESOURCE_LIST,
-  SALARY_INCREMENT_REPORT, BILL_LIST_URL, CONVEYANCE_LIST_URL,
+  SALARY_INCREMENT_REPORT,
+  SBU_ASSESTMENT_REPORT,
+  SUPERVISOR_ASSESTMENT_PERFORMANE_PAGE,
+  SUPERVISOR_APPRAISAL_REVIEW_PAGE,
+  FILE_UPLOAD_PAGE,
+  BILL_LIST,
+  ASSESTMENT_SUMMARY_REPORT,
+   BILL_LIST_URL, CONVEYANCE_LIST_URL,
 } from "../../utils/APP_ROUTES";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../utils/axios/axiosConfig";
@@ -155,6 +162,36 @@ function Navbar1(props) {
                 </Nav.Item>
               )}
 
+              {/* Configuration */}
+              {user.sub_module.includes("Configuration") && (
+                <Nav.Item as={"li"}>
+                  <Link
+                    onClick={() => openOrCloseMenu(4)}
+                    to="#"
+                    className={`${menuOpenCloseState[4] ? "collapsed" : ""} nav-link`}
+                    data-bs-toggle="collapse"
+                    role="button"
+                    aria-expanded={menuOpenCloseState[4] ? "true" : "false"}
+                    aria-controls="sidebarUser"
+                  >
+                    <i className="fe fe-settings"></i> Configuration
+                  </Link>
+                  <Collapse in={menuOpenCloseState[4]}>
+                    <div id="sidebarUser">
+                      <ul className="nav nav-sm flex-column">
+                        <li className="nav-item">
+                          {user.module.includes("File Upload") && (
+                            <Link className={"nav-link"} to={FILE_UPLOAD_PAGE}>
+                              File Upload
+                            </Link>
+                          )}
+                        </li>
+                      </ul>
+                    </div>
+                  </Collapse>
+                </Nav.Item>
+              )}
+
               {/* KPI */}
               {user.sub_module.includes("Kpi Management") && (
                 <Nav.Item as={"li"}>
@@ -197,8 +234,16 @@ function Navbar1(props) {
                       </Link>
                     </li> */}
                         <li className="nav-item">
-                          {user.module.includes("Team Assessment Performance") && (
+                          {user.module.includes("Assessment Performance") && (
                             <Link className={"nav-link"} to={EMPLOYEE_ASSESTMENT_PAGE}>
+                              {/* Employee Assestment */}
+                              Assessment Performance
+                            </Link>
+                          )}
+                        </li>
+                        <li className="nav-item">
+                          {user.module.includes("Team Assessment Performance") && (
+                            <Link className={"nav-link"} to={SUPERVISOR_ASSESTMENT_PERFORMANE_PAGE}>
                               {/* Employee Assestment */}
                               Team Assessment Performance
                             </Link>
@@ -209,6 +254,14 @@ function Navbar1(props) {
                             <Link className={"nav-link"} to={EMPLOYEE_PERFORMANCE_PAGE}>
                               {/* Employee Performance */}
                               Team Appraisal Review
+                            </Link>
+                          )}
+                        </li>
+                        <li className="nav-item">
+                          {user.module.includes("Supervisor Appraisal Review") && (
+                            <Link className={"nav-link"} to={SUPERVISOR_APPRAISAL_REVIEW_PAGE}>
+                              {/* Employee Performance */}
+                              Supervisor Appraisal Review
                             </Link>
                           )}
                         </li>
@@ -274,8 +327,35 @@ function Navbar1(props) {
                   </Nav.Item>
               )}
 
+              {/* BILL */}
+              {/* {user.sub_module.includes("Configuration")}
+              <Nav.Item as={"li"}>
+                <Link
+                  onClick={() => openOrCloseMenu(5)}
+                  to="#"
+                  className={`${menuOpenCloseState[5] ? "collapsed" : ""} nav-link`}
+                  data-bs-toggle="collapse"
+                  role="button"
+                  aria-expanded={menuOpenCloseState[5] ? "true" : "false"}
+                  aria-controls="sidebarUser"
+                >
+                  <i className="fe fe-file"></i> Bill Management
+                </Link>
+                <Collapse in={menuOpenCloseState[5]}>
+                  <div id="sidebarUser">
+                    <ul className="nav nav-sm flex-column">
+                      <li className="nav-item">
+                        <Link className={"nav-link"} to={BILL_LIST}>
+                          Bill
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </Collapse>
+              </Nav.Item> */}
+
               {/* Requisition  */}
-              {user.sub_module.includes("Report")}
+              {/* {user.sub_module.includes("Report")}
               <Nav.Item as={"li"}>
                 <Nav.Link
                   onClick={() => openOrCloseMenu(3)}
@@ -300,7 +380,7 @@ function Navbar1(props) {
                     </ul>
                   </div>
                 </Collapse>
-              </Nav.Item>
+              </Nav.Item> */}
 
               {/* Report */}
               {user.sub_module.includes("Report") && (
@@ -341,10 +421,11 @@ function Navbar1(props) {
                           )}
                         </li>
                         <li className="nav-item">
-                          {user.module.includes("Assestment Year Report")}
-                          <Link className={"nav-link"} to={ASSESSMENT_YEAR_REPORT}>
-                            Assessment Year Report
-                          </Link>
+                          {user.module.includes("Assestment Year Report") && (
+                            <Link className={"nav-link"} to={ASSESSMENT_YEAR_REPORT}>
+                              Assessment Year Report
+                            </Link>
+                          )}
                         </li>
 
                         <li className="nav-item">
@@ -358,6 +439,21 @@ function Navbar1(props) {
                           {user.module.includes("Salary Increment Report") && (
                             <Link className={"nav-link"} to={SALARY_INCREMENT_REPORT}>
                               Salary Increment Report
+                            </Link>
+                          )}
+                        </li>
+                        <li className="nav-item">
+                          {user.module.includes("Sbu Assestment Report") && (
+                            <Link className={"nav-link"} to={SBU_ASSESTMENT_REPORT}>
+                              SBU Assessment
+                            </Link>
+                          )}
+                        </li>
+
+                        <li className="nav-item">
+                          {user.module.includes("Assessment Summary Report") && (
+                            <Link className={"nav-link"} to={ASSESTMENT_SUMMARY_REPORT}>
+                              Assessment Summary Report
                             </Link>
                           )}
                         </li>

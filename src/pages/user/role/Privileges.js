@@ -39,8 +39,8 @@ export default function Privileges() {
         // Turning the already privileged data exactly like payload
         let data = res.data.map((d) => ({
           group_id: id,
-          module_id: d.module,
-          sub_module_id: d.module_type,
+          module_id: d.module_type,
+          sub_module_id: d.module,
           module_url_id: d.moduleurl,
         }));
         setPrivilege(data);
@@ -65,6 +65,7 @@ export default function Privileges() {
       sub_module_id: data.module,
       module_url_id: data.id,
     };
+
     setPrivilege((prev) => [...prev, load]);
   };
 
@@ -112,7 +113,7 @@ export default function Privileges() {
   return (
     <Layout>
       {loading && <Loader />}
-      <PageHeader title={`Privileges - ${location.state.role_name}`} onBack />
+      <PageHeader title={`Privileges - ${location?.state?.role_name}`} onBack />
 
       <Content>
         <Tabs id="controlled-tab-example" className="mb-3">

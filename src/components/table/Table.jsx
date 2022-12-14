@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import "react-data-table-component-extensions/dist/index.css";
@@ -11,7 +11,7 @@ import { Dropdown } from "react-bootstrap";
 
 export default function Table({ ...props }) {
   const selectProps = { indeterminate: (isIndeterminate) => isIndeterminate };
-  const sortIcon = <BiSort />;
+  const sortIcon = <BiSort size={0.5} />;
 
   return (
     <div>
@@ -20,7 +20,7 @@ export default function Table({ ...props }) {
           pagination
           selectableRowsComponentProps={selectProps}
           selectableRowsHighlight
-          striped
+          // striped
           // data={data}
           // columns={columns}
           customStyles={tableStyles}

@@ -7,6 +7,7 @@ export const GET_SBU_API = "/sbu/";
 export const GET_EMPLOYEE_BY_SBU_API = (id) => `/retrieve_employee_by_sbu/${id}/`;
 export const SUB_SBU_GET = `/sub_sbu/`;
 
+export const SUPERVISOR_BY_SBU = `/supervisorbyheadsbu/`;
 ////////////////////////////////////
 ////////////Management//////////////
 ////////////////////////////////////
@@ -38,6 +39,12 @@ export const EMPLOYEE_EDIT_POST = (id) => `/employee_update/${id}/`;
 export const DESIGNATION_BAND_GET = `/designation_band/`;
 
 ////////////////////////////////////
+////////////Configuration//////////
+////////////////////////////////////
+
+export const FILE_UPLOAD_POST = (id) => `/kpi_performance/${id}/file_data_upload/`;
+
+////////////////////////////////////
 ////////////KPI//////////////
 ////////////////////////////////////
 export const KPI_VALUE_GET = "/kpi_value/";
@@ -56,7 +63,10 @@ export const CONF_INC_NOINC_GET = "/confirmation_increment_no_increment/";
 export const EMPLOYEE_ASSIGN_POST = "/employee_assign/";
 export const EMPLOYEE_ASSIGN_RETRIVE_AND_PUT = (id) => `/employee_assign/${id}/`;
 export const EMPLOYEE_ASSESTMENT_GET = "/assessment/";
+export const SUPERVISOR_ASSESTMENT_GET = "/assessment/$/supervisor_head/";
+export const SUPERVISOR_ASSESTMENT_BULK_POST = `/assessment/$/bulk_assessment_approve/`;
 export const EMPLOYEE_PERFORMANCE_GET = "/kpi_performance/";
+export const APPRAISAL_FORM_GET = "/kpi_performance/$/employee_performance/";
 export const EMPLOYEE_PERFORMANCE_EACH_GET = (id) => `/kpi_performance/${id}/`;
 export const EMPLOYEE_PERFORMANCE_EACH_PUT = (id) => `/kpi_performance/${id}/`;
 export const EMPLOYEE_ASSESTMENT_SINGLE_GET = (id) => `/assessment/${id}/`;
@@ -68,12 +78,20 @@ export const KPI_PERFORMANCE_FORM_DATE_VALIDATE = "kpi_performance/$/get_date_ra
 export const KPI_PERFORMANCE_FORM_DRAFT = "/kpi_performance/";
 export const KPI_PERFORMANCE_FORM_SINGLE = (id) => `/kpi_performance/${id}/`;
 export const KPI_PERFORMANCE_FORM_SUBMIT = (id) => `/kpi_performance/${id}/`;
+export const KPI_SUPERVISOR_APPRAISAL_REVIEW_GET = `/kpi_performance/$/supervisor_head/`;
+
 export const KPI_PERFORMANCE_THREE_YEARS_GET = (id) => `/salary_three_years/${id}/`;
 export const KPI_PERMORMER_ASSESTMENT_BY_SBU_GET = (id) => `/performer_assessment/${id}/search_by_sbu/`;
 export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET = (id) => `/assessment/${id}/`;
 export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_PUT = (id) => `/performer_assessment/${id}/`;
 
 export const PERFORMANCE_REVIEW_FILTER = "/performer_assessment/$/search_filter/";
+export const GLOBAL_FILTER = "/global_filtering/";
+
+////////////////////////////////////
+////////////BILL////////////////////
+export const BILL_LIST_GET = `/`;
+////////////////////////////////////
 
 ////////////////////////////////////
 ////////////REPORT//////////////////
@@ -84,6 +102,9 @@ export const REPORT_INCREMENT_ELIGIBLE_SALARY_SUMMERY_API = (year) => `reports/$
 export const REPORT_GET_YEARS_DROPDOWN = `reports/$/get_available_years/`;
 export const ASSESTMENT_EMPLOYER_REPORT_POST = `report_individual_assessment/`;
 export const SALARY_INCREMENT_REPORT_POST = (year) => `/reports/${year}/confirmed_increments_by_year/`;
+export const SBU_ASSESTMENT_REPORT_GET = `report_performance_assessed_data/`;
+// export const SBU_ASSESTMENT_REPORT_GET = `report_performance_assessed_data/`;
+export const ASSESTMENT_SUMMARY_REPORT_POST = `reports/$/assessment_summary/`;
 
 // BILL MANAGEMENT
 

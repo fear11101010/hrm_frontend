@@ -16,11 +16,13 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
     formState: { errors },
   } = useForm({
     defaultValues: {
-      ...(data ?? {}),
+      // ...(data ?? {}),
+      data,
     },
   });
   const ratingList = useHrRating();
   const valueList = useKpiValue();
+
   const submitKpiPerformanceForm = (data, event) => {
     if (beforeSubmit) {
       beforeSubmit();
@@ -29,14 +31,14 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
     const type = event.target.attributes["name"].value;
     console.log(type);
     if (type === "draft") {
-      data["draft_save"] = true;
+      data["draft_save"] = false;
     } else {
       data["submit"] = true;
     }
-    (type === "draft" ? API.post(KPI_PERFORMANCE_FORM_DRAFT, data) : API.put(KPI_PERFORMANCE_FORM_SUBMIT(id), data))
+    // (type === "draft" ? API.post(KPI_PERFORMANCE_FORM_DRAFT, data) : API.put(KPI_PERFORMANCE_FORM_SUBMIT(id), data))
+    (type === "draft" ? API.put(KPI_PERFORMANCE_FORM_SUBMIT(id), data) : API.put(KPI_PERFORMANCE_FORM_SUBMIT(id), data))
       .then((res) => {
         if (res.data.statuscode === 200) {
-          console.log(res.data);
           if (afterSubmit) {
             afterSubmit({
               status: "success",
@@ -58,6 +60,12 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
         afterSubmit({ status: "complete" });
       });
   };
+
+  // Set default values
+  useEffect(() => {
+    reset({ ...data });
+  }, [data]);
+
   return (
     <Form onSubmit={(e) => e.preventDefault()}>
       <Card>
@@ -105,8 +113,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
           </Row>
 
           <>
-            <Accordion className="mb-3">
-              <Accordion.Item eventKey="0">
+            <Accordion className="mb-3" alwaysOpen>
+              <Accordion.Item>
                 <Accordion.Header as={"div"}>
                   <div>
                     <h3 className="header-title mb-0">1. PRODUCTION</h3>
@@ -149,7 +157,6 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                           {...register("production_rating", { required: true })}
                           className={errors.production_rating ? "is-invalid" : ""}
                         >
-                          <option value=""></option>
                           <option value="" selected>
                             ---------
                           </option>
@@ -158,7 +165,6 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                             Array.isArray(ratingList) &&
                             ratingList.map((v) => (
                               <>
-                                <option value=""></option>
                                 <option value={v?.id}>{v?.name}</option>
                               </>
                             ))}
@@ -170,8 +176,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
-            <Accordion className="mb-3">
-              <Accordion.Item eventKey="0">
+            <Accordion className="mb-3" alwaysOpen>
+              <Accordion.Item>
                 <Accordion.Header as={"div"}>
                   <div>
                     <h3 className="header-title mb-0">2. SUPPORT</h3>
@@ -216,7 +222,6 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                           {...register("support_rating", { required: true })}
                           className={errors.support_rating ? "is-invalid" : ""}
                         >
-                          <option value=""></option>
                           <option value="" selected>
                             ---------
                           </option>
@@ -225,7 +230,6 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                             Array.isArray(ratingList) &&
                             ratingList.map((v) => (
                               <>
-                                <option value=""></option>
                                 <option value={v?.id}>{v?.name}</option>
                               </>
                             ))}
@@ -237,8 +241,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
-            <Accordion className="mb-3">
-              <Accordion.Item eventKey="0">
+            <Accordion className="mb-3" alwaysOpen>
+              <Accordion.Item>
                 <Accordion.Header as={"div"}>
                   <div>
                     <h3 className="header-title mb-0">3. INNOVATION</h3>
@@ -279,7 +283,6 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                           {...register("innovation_rating", { required: true })}
                           className={errors.innovation_rating ? "is-invalid" : ""}
                         >
-                          <option value=""></option>
                           <option value="" selected>
                             ---------
                           </option>
@@ -288,7 +291,6 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                             Array.isArray(ratingList) &&
                             ratingList.map((v) => (
                               <>
-                                <option value=""></option>
                                 <option value={v?.id}>{v?.name}</option>
                               </>
                             ))}
@@ -300,8 +302,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
-            <Accordion className="mb-3">
-              <Accordion.Item eventKey="0">
+            <Accordion className="mb-3" alwaysOpen>
+              <Accordion.Item>
                 <Accordion.Header as={"div"}>
                   <div>
                     <h3 className="header-title mb-0">4. PEOPLE</h3>
@@ -342,7 +344,6 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                           className={errors.people_rating ? "is-invalid" : ""}
                           {...register("people_rating", { required: true })}
                         >
-                          <option value=""></option>
                           <option value="" selected>
                             ---------
                           </option>
@@ -351,7 +352,6 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                             Array.isArray(ratingList) &&
                             ratingList.map((v) => (
                               <>
-                                <option value=""></option>
                                 <option value={v?.id}>{v?.name}</option>
                               </>
                             ))}
@@ -363,8 +363,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
-            <Accordion className="mb-3">
-              <Accordion.Item eventKey="0">
+            <Accordion className="mb-3" alwaysOpen>
+              <Accordion.Item>
                 <Accordion.Header as={"div"}>
                   <div>
                     <h3 className="header-title mb-0">5. OTHER</h3>
@@ -405,7 +405,6 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                           {...register("other_rating", { required: true })}
                           className={errors.other_rating ? "is-invalid" : ""}
                         >
-                          <option value=""></option>
                           <option value="" selected>
                             ---------
                           </option>
@@ -414,7 +413,6 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                             Array.isArray(ratingList) &&
                             ratingList.map((v) => (
                               <>
-                                <option value=""></option>
                                 <option value={v?.id}>{v?.name}</option>
                               </>
                             ))}
@@ -447,8 +445,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
           </Row>
           <hr className="mb-4" />
           <>
-            <Accordion className="mb-3">
-              <Accordion.Item eventKey="0">
+            <Accordion className="mb-3" alwaysOpen>
+              <Accordion.Item>
                 <Accordion.Header as={"div"}>
                   <div>
                     <h3 className="header-title mb-0">1. COURAGEOUS</h3>
@@ -480,7 +478,6 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                           {...register("courageous_rating", { required: true })}
                           className={errors.courageous_rating ? "is-invalid" : ""}
                         >
-                          <option></option>
                           <option value="" selected>
                             ---------
                           </option>
@@ -489,7 +486,6 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                             Array.isArray(valueList) &&
                             valueList.map((v) => (
                               <>
-                                <option value=""></option>
                                 <option value={v?.id}>{v?.name}</option>
                               </>
                             ))}
@@ -501,8 +497,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
-            <Accordion className="mb-3">
-              <Accordion.Item eventKey="0">
+            <Accordion className="mb-3" alwaysOpen>
+              <Accordion.Item>
                 <Accordion.Header as={"div"}>
                   <div>
                     <h3 className="header-title mb-0">2. TEAMWORK</h3>
@@ -536,7 +532,6 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                           {...register("teamwork_rating", { required: true })}
                           className={errors.teamwork_rating ? "is-invalid" : ""}
                         >
-                          <option></option>
                           <option value="" selected>
                             ---------
                           </option>
@@ -545,7 +540,6 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                             Array.isArray(valueList) &&
                             valueList.map((v) => (
                               <>
-                                <option value=""></option>
                                 <option value={v?.id}>{v?.name}</option>
                               </>
                             ))}
@@ -557,8 +551,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
-            <Accordion className="mb-3">
-              <Accordion.Item eventKey="0">
+            <Accordion className="mb-3" alwaysOpen>
+              <Accordion.Item>
                 <Accordion.Header as={"div"}>
                   <div>
                     <h3 className="header-title mb-0">3. RESPONSIVE</h3>
@@ -593,7 +587,6 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                           {...register("responsive_rating", { required: true })}
                           className={errors.responsive_rating ? "is-invalid" : ""}
                         >
-                          <option></option>
                           <option value="" selected>
                             ---------
                           </option>
@@ -602,7 +595,6 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                             Array.isArray(valueList) &&
                             valueList.map((v) => (
                               <>
-                                <option value=""></option>
                                 <option value={v?.id}>{v?.name}</option>
                               </>
                             ))}
@@ -614,8 +606,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
-            <Accordion className="mb-3">
-              <Accordion.Item eventKey="0">
+            <Accordion className="mb-3" alwaysOpen>
+              <Accordion.Item>
                 <Accordion.Header as={"div"}>
                   <div>
                     <h3 className="header-title mb-0">4. CREATIVE</h3>
@@ -655,16 +647,13 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                               {...register("creative_rating", { required: true })}
                               className={errors.creative_rating ? "is-invalid" : ""}
                             >
-                              <option></option>
                               <option value="" selected>
                                 ---------
                               </option>
-
                               {valueList &&
                                 Array.isArray(valueList) &&
                                 valueList.map((v) => (
                                   <>
-                                    <option value=""></option>
                                     <option value={v?.id}>{v?.name}</option>
                                   </>
                                 ))}
@@ -678,8 +667,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
-            <Accordion className="mb-3">
-              <Accordion.Item eventKey="0">
+            <Accordion className="mb-3" alwaysOpen>
+              <Accordion.Item>
                 <Accordion.Header as={"div"}>
                   <div>
                     <h3 className="header-title mb-0">5. TRUSTWORTHY</h3>
@@ -717,7 +706,6 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                           {...register("trustworthy_rating", { required: true })}
                           className={errors.trustworthy_rating ? "is-invalid" : ""}
                         >
-                          <option></option>
                           <option value="" selected>
                             ---------
                           </option>
@@ -726,7 +714,6 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
                             Array.isArray(valueList) &&
                             valueList.map((v) => (
                               <>
-                                <option value=""></option>
                                 <option value={v?.id}>{v?.name}</option>
                               </>
                             ))}
@@ -743,8 +730,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
       </Card>
       <Card>
         <Card.Body>
-          <Accordion className="mb-3">
-            <Accordion.Item eventKey="0">
+          <Accordion className="mb-3" alwaysOpen>
+            <Accordion.Item>
               <Accordion.Header as={"div"}>
                 <div>
                   <h3 className="header-title mb-0">OTHER SUBSTANTIAL ACHIEVEMENTS</h3>
@@ -766,8 +753,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
-          <Accordion className="mb-3">
-            <Accordion.Item eventKey="0">
+          <Accordion className="mb-3" alwaysOpen>
+            <Accordion.Item>
               <Accordion.Header as={"div"}>
                 <div>
                   <h3 className="header-title mb-0">SIGNIFICANT ISSUES</h3>
@@ -796,8 +783,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
         <Card.Body>
           <h2 className="header-title mb-0">Comments</h2>
           <hr className="mb-4" />
-          <Accordion className="mb-3">
-            <Accordion.Item eventKey="0">
+          <Accordion className="mb-3" alwaysOpen>
+            <Accordion.Item>
               <Accordion.Header as={"div"}>
                 <div>
                   <h3 className="header-title mb-0">INDIVIDUAL'S COMMENTS</h3>
@@ -819,8 +806,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
-          <Accordion className="mb-3">
-            <Accordion.Item eventKey="0">
+          <Accordion className="mb-3" alwaysOpen>
+            <Accordion.Item>
               <Accordion.Header as={"div"}>
                 <div>
                   <h3 className="header-title mb-0">MANAGERS COMMENTS</h3>
@@ -842,8 +829,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
-          <Accordion className="mb-3">
-            <Accordion.Item eventKey="0">
+          <Accordion className="mb-3" alwaysOpen>
+            <Accordion.Item>
               <Accordion.Header as={"div"}>
                 <div>
                   <h3 className="header-title mb-0">SENIOR MANAGER / FUNCTIONAL HEAD'S COMMENTS</h3>
@@ -865,8 +852,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
-          <Accordion className="mb-3">
-            <Accordion.Item eventKey="0">
+          <Accordion className="mb-3" alwaysOpen>
+            <Accordion.Item>
               <Accordion.Header as={"div"}>
                 <div>
                   <h3 className="header-title mb-0">DIRECTOR AND CHIEF OPERATING OFFICER'S COMMENTS</h3>
@@ -892,8 +879,8 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
       </Card>
       <Card>
         <Card.Body>
-          <Accordion className="mb-3">
-            <Accordion.Item eventKey="0">
+          <Accordion className="mb-3" alwaysOpen>
+            <Accordion.Item>
               <Accordion.Header as={"div"}>
                 <div>
                   <h3 className="header-title mb-0">OVERALL PERFORMANCE BASED ON ALL OF THE ABOVE RATING :</h3>
@@ -932,8 +919,6 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
           </div>
         </Card.Body>
       </Card>
-
-      <Row className="mt-4"></Row>
     </Form>
   );
 }

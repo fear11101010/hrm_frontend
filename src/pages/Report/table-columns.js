@@ -60,6 +60,7 @@ export const PIVOT_TABLE_COLUMN = (year) => [
     selector: (row, index) => row["yoy%"],
   },
 ];
+
 export const ELIGIBLE_TABLE_COLUMN = (year) => [
   {
     name: "#",
@@ -93,11 +94,13 @@ export const ELIGIBLE_TABLE_COLUMN = (year) => [
     selector: (row, index) => row[`increment${year}%`],
   },
 ];
+
 export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
   const info = [
     {
       name: `#`,
       selector: (row, index) => index + 1,
+      width: "50px",
     },
     {
       name: "Employee Name",
@@ -143,11 +146,15 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
       sortable:true,
       selector: (row, index) => Object.values(row)[0]?.employee?.sub_sbu?.name,
     },
+    {
+      name: "Supervisor",
+      selector: (row, index) => Object.values(row)[0]?.employee?.supervisor?.name,
+    },
   ];
 
   const arr = years.map((year) => [
     {
-      name: `I Objective ${year}`,
+      name: `KPI Objective ${year}`,
       selector: (row, index) => row?.[year]?.kpi_objective?.name,
     },
 
@@ -171,6 +178,10 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
     {
       name: `% of KPI-Objective ${year}`,
       selector: (row, index) => row?.[year]?.percentage_kpi_objective,
+    },
+    {
+      name: `% of KPI-Value ${year}`,
+      selector: (row, index) => row?.[year]?.percentage_kpi_value,
     },
 
     {
@@ -229,8 +240,8 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
     },
 
     {
-      name: `Increment Amount (HR) ${year} (A)`,
-      selector: (row, index) => row?.[year]?.hr_rating?.name,
+      name: `Increment Amount ${year} (A)`,
+      selector: (row, index) => row?.[year]?.increment_amount_a,
     },
 
     {
@@ -333,6 +344,362 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
       selector: (row, index) => row?.[year]?.remarks_two,
     },
   ]);
-  console.log(info.concat(...arr));
   return info.concat(...arr);
+};
+
+export const SBU_ASSESTMENT_REPORT_TABLE_COLUMN = [
+  {
+    name: "Name",
+    selector: (row) => row?.employee?.name,
+    width: "200px",
+    sortable: true,
+  },
+  {
+    name: "ID",
+    selector: (row) => row?.employee?.employee_id,
+    width: "100px",
+    sortable: true,
+  },
+  {
+    name: "Designation",
+    selector: (row) => row?.employee?.designation,
+    minWidth: "200px",
+    wrap: true,
+    sortable: true,
+  },
+  {
+    name: "SBU",
+    selector: (row) => row?.employee?.sbu?.name,
+    minWidth: "200px",
+    sortable: true,
+  },
+  {
+    name: "Supervisor",
+    selector: (row) => row?.employee?.supervisor?.name,
+    minWidth: "120px",
+    sortable: true,
+  },
+  {
+    name: "Objective",
+    selector: (row) => row?.kpi_objective?.name,
+    minWidth: "200px",
+    wrap: true,
+    sortable: true,
+  },
+  {
+    name: "Value",
+    selector: (row) => row?.kpi_value?.name,
+    minWidth: "200px",
+    sortable: true,
+  },
+  {
+    name: "HR Rating",
+    selector: (row) => row?.hr_rating?.name,
+    minWidth: "200px",
+    sortable: true,
+  },
+  {
+    name: "KPI",
+    selector: (row) => row?.kpi_overall,
+    minWidth: "200px",
+    sortable: true,
+  },
+  {
+    name: "Criticality ",
+    selector: (row) => row?.criticality?.name,
+    minWidth: "200px",
+    sortable: true,
+  },
+  {
+    name: "Top/Average/Bottom Performer",
+    selector: (row) => row?.top_average_bottom_performer?.name,
+    minWidth: "200px",
+    sortable: true,
+  },
+  {
+    name: "Best performer inside team",
+    selector: (row) => row?.best_performer_team?.name,
+    minWidth: "200px",
+    sortable: true,
+  },
+  {
+    name: "Best performer in the organization",
+    selector: (row) => row?.best_performer_org?.name,
+    minWidth: "200px",
+    sortable: true,
+  },
+  {
+    name: "Best performer among all PM",
+    selector: (row) => row?.best_performer_pm?.name,
+    minWidth: "200px",
+    sortable: true,
+  },
+  {
+    name: "Best innovator inside team",
+    selector: (row) => row?.best_innovator_team?.name,
+    minWidth: "200px",
+    sortable: true,
+  },
+  {
+    name: "Potential for Improvement",
+    selector: (row) => row?.potential_for_improvement?.name,
+    minWidth: "200px",
+    sortable: true,
+  },
+  // DATA IS CAUSING ERROR THATS WHY ITS HIDE
+  // {
+  //   name: "Technical/Implementation/Operational",
+  //   selector: (row) => row?.technical_implementation_operational,
+  //   minWidth: "200px",
+  //   sortable: true,
+  // },
+  {
+    name: "Confirmation/Increment/No Increment",
+    selector: (row) => row?.confirmation_increment_noincrement?.name,
+    minWidth: "200px",
+    sortable: true,
+  },
+  {
+    name: "Proposed Designation",
+    selector: (row) => row?.proposed_designation,
+    minWidth: "200px",
+    sortable: true,
+  },
+  {
+    name: "Proposed Amount By Supervisor",
+    selector: (row) => row?.proposed_by_sbu_director_pm_self,
+    minWidth: "200px",
+    sortable: true,
+  },
+  {
+    name: "Remarks ",
+    selector: (row) => row?.remarks,
+    minWidth: "200px",
+    sortable: true,
+  },
+];
+
+export const ASSESSMENT_SUMMARY_REPORT_TABLE_COLUMN = (years, selected_year) => {
+  //excle format is we have to separate the selected year into another group which is curr_year_data,
+  //that's why we have to delete te selected_year from the years
+
+  let yearWithOutCurrYear = years.slice(0, -1);
+
+  const info = [
+    {
+      name: `#`,
+      selector: (row, index) => index + 1,
+      width: "50px",
+      sortable: true,
+    },
+    {
+      name: "Employee",
+      selector: (row, index) => Object.values(row)[0]?.employee?.name,
+      minWidth: "250px",
+      sortable: true,
+      // wrap: true,
+    },
+    {
+      name: "Designation",
+      selector: (row, index) => Object.values(row)[0]?.employee?.designation,
+      wrap: true,
+      sortable: true,
+      minWidth: "250px",
+      style: {
+        textAlign: "left",
+      },
+    },
+    {
+      name: "ID No.",
+      selector: (row, index) => Object.values(row)[0]?.employee?.employee_id,
+      sortable: true,
+    },
+    {
+      name: "DOJ",
+      selector: (row, index) => moment(Object.values(row)[0]?.employee?.date_of_joining).format("DD MMM,YYYY"),
+      sortable: true,
+      minWidth: "140px",
+    },
+    {
+      name: <div className="text-start">Confirmation/Increment/No Increment</div>,
+      selector: (row, index) => Object.values(row)[0]?.confirmation_increment_noincrement,
+      cell: (row) => (
+        <>
+          {Object.values(row)[0]?.confirmation_increment_noincrement === 1 ? (
+            <span>Increment</span>
+          ) : Object.values(row)[0]?.confirmation_increment_noincrement === 2 ? (
+            <span>Confirmation</span>
+          ) : Object.values(row)[0]?.confirmation_increment_noincrement === 3 ? (
+            <span>No Increment</span>
+          ) : Object.values(row)[0]?.confirmation_increment_noincrement === 4 ? (
+            <span>Resigned</span>
+          ) : Object.values(row)[0]?.confirmation_increment_noincrement === 5 ? (
+            <span>Not Sure</span>
+          ) : (
+            <span></span>
+          )}
+        </>
+      ),
+      minWidth: "250px",
+      style: {
+        textAlign: "left",
+      },
+      sortable: true,
+    },
+    {
+      name: "Durations",
+      selector: (row, index) => {
+        const diff = moment().diff(Object.values(row)[0]?.employee?.date_of_joining);
+        const duration = moment.duration(diff);
+        return `${duration.years()} years, ${duration.months()} months`;
+      },
+      minWidth: "180px",
+      sortable: true,
+    },
+    {
+      name: "SBU",
+      selector: (row, index) => Object.values(row)[0]?.employee?.sbu?.name,
+      sortable: true,
+    },
+    {
+      name: "Sub SBU",
+      selector: (row, index) => Object.values(row)[0]?.employee?.sub_sbu?.name,
+      sortable: true,
+    },
+    {
+      name: "Project Mgr.",
+      selector: (row, index) => Object.values(row)[0]?.employee?.supervisor?.name,
+      minWidth: "250px",
+      sortable: true,
+    },
+    {
+      name: "SBU Director ",
+      // selector: (row, index) => Object.values(row)[0]?.sbu?.director_name?.name,
+      selector: (row, index) => Object.values(row)[0]?.employee?.sbu_director_id?.name,
+      minWidth: "250px",
+      sortable: true,
+    },
+  ];
+
+  const kpi = yearWithOutCurrYear.map((year) => [
+    {
+      name: `KPI Objective ${year}`,
+      selector: (row, index) => row?.[year]?.kpi_objective?.name,
+      minWidth: "250px",
+      sortable: true,
+    },
+
+    {
+      name: `KPI-Value ${year}`,
+      // selector: (row, index) => row?.[year]?.kpi_selector?.name,
+      selector: (row, index) => row?.[year]?.kpi_value?.name,
+      minWidth: "250px",
+      sortable: true,
+    },
+
+    {
+      name: `KPI-HR ${year}`,
+      selector: (row, index) => row?.[year]?.hr_rating?.name,
+      minWidth: "250px",
+      sortable: true,
+    },
+
+    {
+      name: `KPI-Overall ${year}`,
+      selector: (row, index) => row?.[year]?.kpi_overall,
+      minWidth: "250px",
+      sortable: true,
+    },
+  ]);
+
+  const gross_salary = yearWithOutCurrYear?.map((year, i) => [
+    {
+      name: `Gross Salary ${year}`,
+      selector: (row, index) => row?.[year]?.new_gross_salary_b,
+      minWidth: "250px",
+      sortable: true,
+    },
+  ]);
+
+  const kpi_values = [
+    {
+      name: `KPI Objective ${selected_year - 1}`,
+      selector: (row, index) => row?.[selected_year - 1]?.kpi_objective?.grade,
+      minWidth: "250px",
+      sortable: true,
+    },
+
+    {
+      name: `KPI-Value ${selected_year - 1}`,
+      selector: (row, index) => row?.[selected_year - 1]?.kpi_value?.grade,
+      minWidth: "250px",
+      sortable: true,
+    },
+
+    {
+      name: `KPI-HR ${selected_year - 1}`,
+      selector: (row, index) => row?.[selected_year - 1]?.hr_rating?.grade,
+      minWidth: "250px",
+      sortable: true,
+    },
+  ];
+
+  const curr_year_data = [
+    {
+      name: `KPI Objective ${selected_year}`,
+      selector: (row, index) => row?.[selected_year]?.kpi_objective?.name,
+      minWidth: "250px",
+      sortable: true,
+    },
+
+    {
+      name: `KPI-Value ${selected_year}`,
+      selector: (row, index) => row?.[selected_year]?.kpi_value?.name,
+      minWidth: "250px",
+      sortable: true,
+    },
+
+    {
+      name: `KPI-HR ${selected_year}`,
+      selector: (row, index) => row?.[selected_year]?.hr_rating?.name,
+      minWidth: "250px",
+      sortable: true,
+    },
+
+    {
+      name: `KPI-Overall ${selected_year}`,
+      selector: (row, index) => row?.[selected_year]?.kpi_overall,
+      minWidth: "250px",
+      sortable: true,
+    },
+    {
+      name: `Increment ${selected_year}`,
+      selector: (row, index) => row?.[selected_year]?.proposed_by_sbu_director_pm_self,
+      minWidth: "250px",
+      sortable: true,
+    },
+    {
+      name: `% Increment ${selected_year}`,
+      selector: (row, index) => row?.[selected_year]?.increment_with_kpi_percentage,
+      minWidth: "250px",
+      sortable: true,
+    },
+  ];
+
+  const restData = [
+    {
+      name: `CAGR 3Years`,
+      selector: (row, index) => row?.[selected_year]?.increment_with_kpi_percentage,
+      minWidth: "250px",
+      sortable: true,
+    },
+    {
+      name: `Gross Salary ${selected_year}`,
+      selector: (row, index) => row?.[selected_year]?.new_gross_salary_b,
+      minWidth: "250px",
+      sortable: true,
+    },
+  ];
+
+  return info.concat(...kpi, ...gross_salary, ...kpi_values, ...curr_year_data, ...restData);
 };

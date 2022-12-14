@@ -16,6 +16,7 @@ import { SALARY_FULL_REPORT } from "../excel-columns";
 import CustomTable from "../../../components/custom-table/CustomTable";
 import { SALARY_FULL_REPORT_TABLE_COLUMN } from "../table-columns";
 import { error_alert } from "../../../components/alert/Alert";
+import Table from "../../../components/table/Table";
 
 export default function AssessmentYearReport(props) {
   const { data, isLoading } = useSbu();
@@ -78,7 +79,7 @@ export default function AssessmentYearReport(props) {
                 <Form.Group>
                   <Form.Label>SBU</Form.Label>
                   <Select
-                    options={sbuList}
+                    options={[{ label: "All", value: "all" }].concat(sbuList)}
                     placeholder="Select SBU"
                     onChange={(e) => {
                       setSelectedSbu(e.value);
@@ -101,12 +102,13 @@ export default function AssessmentYearReport(props) {
                     columns={SALARY_FULL_REPORT(lastThreeYear)}
                   />
                 </div>
-                <CustomTable
+                <Table data={Object.values(lastThreeYearData)} columns={SALARY_FULL_REPORT_TABLE_COLUMN(lastThreeYear)} />
+                {/* <CustomTable
                   responsive
                   data={Object.values(lastThreeYearData)}
                   columns={SALARY_FULL_REPORT_TABLE_COLUMN(lastThreeYear)}
                   size={"sm"}
-                />
+                /> */}
               </>
             )}
           </Card.Body>

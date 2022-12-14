@@ -63,7 +63,7 @@ export default function RoleList() {
               <i className="fe fe-edit"></i>
             </Button>
           )}
-          {user.accessibility.includes("authuserroleEdit") && (
+          {/* {user.accessibility.includes("authuserroleEdit") && (
             <Button
               size="sm"
               variant="danger"
@@ -75,7 +75,7 @@ export default function RoleList() {
             >
               <i className="fe fe-trash-2"></i>
             </Button>
-          )}
+          )} */}
         </>
       ),
       minWwidth: "200px",

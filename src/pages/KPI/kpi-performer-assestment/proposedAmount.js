@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import ReactSelect from "react-select";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
@@ -13,21 +13,50 @@ import { USER_INFO } from "../../../utils/session/token";
 export default function ProposedAmount({ rowId, afterSubmit }) {
   const id = rowId;
   const user = USER_INFO();
-  const { data, isLoading } = useFetch(KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET(id));
-  const designationList = useDesignation();
   const [loading, setLoading] = useState(false);
+
+  const { data, isLoading } = useFetch(KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET(id));
+  const designationList = useDesignation()?.map((d) => ({ label: d.designation, value: d.id }));
 
   //Form State
   const [propsed_by_sbuDirPmSelf, setPropsed_by_sbuDirPmSelf] = useState("");
   const [propsed_designation, setProposed_designation] = useState("");
+  const [propsed_designation_id, setProposed_designation_id] = useState("");
+  const [propsed_designation_new, setProposed_designation_new] = useState("");
+  const [propsed_designation_new_id, setProposed_designation_new_id] = useState("");
   const [remarks1, setRemarks1] = useState("");
   const [remarks2, setRemarks2] = useState("");
   const [normalSubmit, setNormalSubmit] = useState(false);
   const [finalSubmit, setFinalSubmit] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
+  const [designationConfirm, setDesignationConfirm] = useState(false);
 
   // Getting current year
   const currYear = new Date().getFullYear();
+
+  // FETCH ASSESTMENT DATA
+
+  const getAssestmentData = () => {
+    setLoading(true);
+    API.get(KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET(id))
+      .then((res) => {
+        if (res.data.statuscode === 200) {
+          setPropsed_by_sbuDirPmSelf(res.data.data?.proposed_by_sbu_director_pm_self);
+          setProposed_designation(res.data.data?.employee?.designation);
+          setProposed_designation_id(res.data.data?.employee?.desig_id);
+          setProposed_designation_new(res.data.data?.employee?.designation);
+          setProposed_designation_new_id(res.data.data?.employee?.desig_id);
+          setRemarks1(res.data?.data?.remarks);
+          setRemarks2(res.data?.data?.remarks_two);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   // Submit func
   const handleSubmit = (e) => {
@@ -37,7 +66,6 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
         propsed_by_sbuDirPmSelf === "" ? data.data?.proposed_by_sbu_director_pm_self : propsed_by_sbuDirPmSelf,
       remarks: remarks1 === "" ? data.data?.remarks : remarks1,
       remarks_two: remarks2 === "" ? data.data?.remarks_two : remarks2,
-
       kpi_objective: data.data?.kpi_objective,
       kpi_value: data.data?.kpi_value,
       hr_rating: data.data?.hr_rating,
@@ -50,7 +78,8 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
       best_performer_org: data.data?.best_performer_org,
       best_performer_pm: data.data?.best_performer_pm,
       confirmation_increment_noincrement: data.data?.confirmation_increment_noincrement,
-      proposed_designation: propsed_designation === "" ? data.data?.proposed_designation : propsed_designation,
+      proposed_designation: designationConfirm ? propsed_designation_new : propsed_designation,
+      proposed_designation_id: designationConfirm ? propsed_designation_new_id : propsed_designation_id,
       detail_save: "",
       report_save: "",
       final: finalSubmit ? true : false,
@@ -71,6 +100,7 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
       })
       .finally(() => {
         setLoading(false);
+        setIsConfirm(false);
       });
   };
 
@@ -79,76 +109,94 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
     setIsConfirm(true);
   };
 
+  //Lifecycle
+  useEffect(() => {
+    getAssestmentData();
+  }, []);
+
   return (
     <div>
       {isLoading && <Loader />}
       <Form onSubmit={handleConfirm}>
         <Row>
           <Col sm="12" md="12" className="mb-3">
+            <Form.Label className="mb-1 text-dark">Proposed Designation {currYear}</Form.Label>
+            <div className="d-flex justify-content-between">
+              <div className="me-4" style={{ width: "70%" }}>
+                <ReactSelect
+                  options={designationList}
+                  placeholder={
+                    propsed_designation_id !== "" &&
+                    designationList?.map((d) => (d.value === propsed_designation_id ? d.label : null))
+                  }
+                  onChange={(e) => {
+                    // setProposed_designation(e.value);
+                    setProposed_designation_new(e.label);
+                    setProposed_designation_new_id(e.value);
+                  }}
+                />
+              </div>
+              <div style={{ width: "30%" }}>
+                <Form.Check
+                  type={"checkbox"}
+                  label={`Confirm`}
+                  id={`confirm-designation`}
+                  className="fw-bold"
+                  onChange={() => {
+                    setDesignationConfirm(!designationConfirm);
+                  }}
+                />
+              </div>
+            </div>
+          </Col>
+
+          <Col sm="12" md="12" className="mb-3">
             <Form.Label className="mb-2 text-dark">Proposed Amount By Director {currYear} (C) </Form.Label>
             <Form.Control
               type="text"
-              value={propsed_by_sbuDirPmSelf === "" ? data.data?.proposed_by_sbu_director_pm_self : propsed_by_sbuDirPmSelf}
+              value={propsed_by_sbuDirPmSelf === "" ? propsed_by_sbuDirPmSelf : propsed_by_sbuDirPmSelf}
               onChange={(e) => {
                 setPropsed_by_sbuDirPmSelf(e.target.value);
               }}
             />
           </Col>
           <Col sm="12" md="12" className="mb-3">
-            <Form.Label className="mb-1 text-dark">Proposed Designation{currYear}</Form.Label>
-            <div className="d-flex justify-content-between">
-              <div className="me-4" style={{ width: "70%" }}>
-                <ReactSelect
-                  options={designationList?.map((d) => ({ label: d.designation, value: d.id }))}
-                  placeholder={
-                    propsed_designation !== ""
-                      ? designationList?.map((d) => d.id === data.data?.proposed_designation && d.designation)
-                      : "Select Designation"
-                  }
-                  onChange={(e) => {
-                    setProposed_designation(e.value);
-                  }}
-                />
-              </div>
-              <div style={{ width: "30%" }}>
-                <Form.Check type={"checkbox"} label={`Confirm`} id={`confirm-designation`} />
-              </div>
-            </div>
-          </Col>
-          {/* <Col sm="12" md="12" className="mb-3">
             <Form.Label className="mb-2 text-dark">Remarks </Form.Label>
             <Form.Control
+              as={"textarea"}
+              rows={6}
               type="text"
               value={remarks1 === "" ? data.data?.remarks : remarks1}
               onChange={(e) => {
                 setRemarks1(e.target.value);
               }}
             />
-          </Col> */}
-          <Col sm="12" md="12" className="mb-3">
-            {/* REMARKS2 but it is showing as remarks */}
+          </Col>
+
+          {/* REMARKS2 but it is showing as remarks */}
+          {/* <Col sm="12" md="12" className="mb-3">
             <Form.Label className="mb-2 text-dark">Remarks </Form.Label>
             <Form.Control
               type="text"
-              value={remarks2 === "" ? data.data?.remarks_two : remarks2}
+              value={remarks2 === "" ? remarks2 : remarks2}
               onChange={(e) => {
                 setRemarks2(e.target.value);
               }}
             />
-          </Col>
+          </Col> */}
 
-          <Col sm="12" md="12" className="mt-3 text-end">
-            <Button
+          <Col sm="12" md="12" className="mt-3 d-flex justify-content-between">
+            {/* <Button
               type="submit"
-              variant="info"
-              className="ms-0"
+              variant="light"
+              className="fw-bold"
               onClick={() => {
                 setNormalSubmit(true);
                 setFinalSubmit(false);
               }}
             >
-              Save Changes
-            </Button>
+              Draft Save
+            </Button> */}
             {user.group_id.split(",").map(
               (d) =>
                 d === "1" && (
@@ -160,7 +208,7 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
                       setNormalSubmit(false);
                     }}
                   >
-                    Final Submit
+                    Confirm Submit
                   </Button>
                 )
             )}

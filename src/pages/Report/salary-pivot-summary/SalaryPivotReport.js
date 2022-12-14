@@ -14,6 +14,7 @@ import { PIVOT_EXCEL_COLUMN } from "../excel-columns";
 import ExcelPdfPrint from "../../../components/excel-pdf-print/ExcelPdfPrint";
 import CustomTable from "../../../components/custom-table/CustomTable";
 import TableReport from "../../../components/table/TableReport";
+import Table from "../../../components/table/Table";
 
 export default function SalaryPivotReport(props) {
   // const currentYear = moment().year();
@@ -82,15 +83,24 @@ export default function SalaryPivotReport(props) {
                     />
                   </div>
 
+                  <Table
+                    dense
+                    fixedHeader
+                    fixedHeaderScrollHeight="400px"
+                    columns={PIVOT_TABLE_COLUMN(selectedYear)}
+                    data={pivotData}
+                    pagination={false}
+                  />
+
                   {/*<TableReport columns={PIVOT_TABLE_COLUMN(selectedYear)} data={pivotData}/>*/}
-                  <CustomTable
+                  {/* <CustomTable
                     columns={PIVOT_TABLE_COLUMN(selectedYear)}
                     data={pivotData}
                     size={"sm"}
                     onDataSort={(data) => setPivotData(data)}
                     // pagination
                     responsive
-                  />
+                  /> */}
                 </>
               )}
             </Card.Body>

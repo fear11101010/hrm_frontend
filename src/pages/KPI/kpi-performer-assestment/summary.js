@@ -44,7 +44,7 @@ export default function Summary({ rowId }) {
     {
       name: "Percentage of Increment",
       selector: (row) => row?.percentage_of_increment,
-      cell: (row) => <p className="mb-0">{row?.percentage_of_increment}%</p>,
+      cell: (row) => <p className="mb-0">{row?.percentage_of_increment?.toFixed(2)}%</p>,
     },
   ];
 

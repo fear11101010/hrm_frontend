@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../../layout/Layout";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import PageHeader from "../../../components/header/PageHeader";
 import Content from "../../../components/content/Content";
 import { EMPLOYEE_ASSESTMENT_SINGLE_GET, EMPLOYEE_ASSESTMENT_SINGLE_POST } from "../../../utils/API_ROUTES";
@@ -21,14 +21,18 @@ import useBestPerformerOrganization from "../../../hooks/kpi/best_performer_orga
 import useBestPerformerPm from "../../../hooks/kpi/best_performer_pm";
 import useConfIncNoinc from "../../../hooks/kpi/confirmation_increment_no_increment";
 import { API } from "../../../utils/axios/axiosConfig";
-import { EMPLOYEE_ASSESTMENT_PAGE } from "../../../utils/APP_ROUTES";
+import { EMPLOYEE_ASSESTMENT_PAGE, UNAUTHORIZED } from "../../../utils/APP_ROUTES";
 import { DATE_FORMAT } from "../../../utils/CONSTANT";
 import ConfirmDialog from "../../../components/confirm-dialog/ConfirmDialog";
-import { success_alert } from "../../../components/alert/Alert";
+import { error_alert, success_alert } from "../../../components/alert/Alert";
 import useDesignation from "../../../hooks/useDesignation";
+import { USER_INFO } from "../../../utils/session/token";
+import { Decrypt } from "../../../utils/Hash";
 
 export default function EmAssestmentSingle() {
+  const user = USER_INFO();
   const { id } = useParams();
+
   const navigate = useNavigate();
   // Fetch Hooks
   const kpiValueList = useKpiValue()?.map((d) => ({ label: d.name, value: d.id }));
@@ -55,7 +59,7 @@ export default function EmAssestmentSingle() {
   const [kpi_obj_curr, setKpi_obj_curr] = useState("");
   const [kpi_val_curr, setKpi_val_curr] = useState("");
   const [kpi_overall_curr, setKpi_overall_curr] = useState("");
-  const [hr_rat_curr, setHr_rat_curr] = useState("");
+  const [hr_rat_curr, setHr_rat_curr] = useState(""); //default 3
   const [criticality_curr, setCriticality_curr] = useState("");
   const [pot_improve_curr, setPot_improve_curr] = useState("");
   const [tech_imple_opera_curr, setTech_imple_opera_curr_curr] = useState("");
@@ -67,7 +71,10 @@ export default function EmAssestmentSingle() {
   const [conf_inc_noInc, setConf_inc_noInc] = useState("");
   const [propose_SBU, setPropose_sbu] = useState("");
   const [proposed_designation, setProposed_designation] = useState("");
+  const [proposed_designation_id, setProposed_designation_id] = useState("");
   const [remarks, setRemarks] = useState("");
+  const [flag, setFlag] = useState("");
+  const [isSupervisor, setIsSupervisor] = useState("");
 
   const [diffByYear, setdiffByYear] = useState("");
   const [diffByMonths, setdiffByMonths] = useState("");
@@ -95,8 +102,17 @@ export default function EmAssestmentSingle() {
           setBest_performer_pm_curr(res.data?.data?.best_performer_pm);
           setConf_inc_noInc(res.data?.data?.confirmation_increment_noincrement);
           setPropose_sbu(res.data?.data?.proposed_by_sbu_director_pm_self);
-          setProposed_designation(res.data?.data?.proposed_designation);
+          // setProposed_designation(res.data?.data?.employee?.designation);
+          if (res.data?.data?.proposed_designation === null) {
+            setProposed_designation(res.data?.data?.employee?.designation);
+            setProposed_designation_id(res.data?.data?.employee?.desig_id);
+          } else {
+            setProposed_designation(res.data?.data?.proposed_designation);
+            setProposed_designation_id(res.data?.data?.employee?.desig_id);
+          }
           setRemarks(res.data?.data?.remarks);
+          setFlag(res.data?.data?.flag);
+          setIsSupervisor(res.data?.data?.is_supervisor);
 
           // Employee duration formatiing
           let diff = moment().diff(res.data?.data?.employee.date_of_joining, "months", false) / 12;
@@ -115,40 +131,83 @@ export default function EmAssestmentSingle() {
   // Save Func
   const handleSave = (e) => {
     e.preventDefault();
-    const payload = {
-      employee: id,
-      kpi_objective: kpi_obj_curr,
-      kpi_value: kpi_val_curr,
-      hr_rating: hr_rat_curr,
-      criticality: criticality_curr,
-      potential_for_improvement: pot_improve_curr,
-      technical_implementation_operational: tech_imple_opera_curr,
-      top_average_bottom_performer: top_avg_bot_performer_curr,
-      best_performer_team: best_performer_team_curr,
-      best_innovator_team: best_innovator_team_curr,
-      best_performer_org: best_performer_org_curr,
-      best_performer_pm: best_performer_pm_curr,
-      confirmation_increment_noincrement: conf_inc_noInc,
-      proposed_by_sbu_director_pm_self: propose_SBU,
-      proposed_designation: proposed_designation,
-      remarks: remarks,
-      final: false,
-      // detail_save:""
-    };
-    setLoading(true);
-    API.put(EMPLOYEE_ASSESTMENT_SINGLE_POST(id), payload)
-      .then((res) => {
-        if (res.data.statuscode === 200) {
-          success_alert(res.data.message);
-          navigate(EMPLOYEE_ASSESTMENT_PAGE);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    if (
+      employee_details === "" ||
+      employee_details === null ||
+      kpi_obj_curr === "" ||
+      kpi_obj_curr === null ||
+      kpi_val_curr === "" ||
+      kpi_val_curr === null ||
+      hr_rat_curr === "" ||
+      hr_rat_curr === null ||
+      criticality_curr === "" ||
+      criticality_curr === null ||
+      pot_improve_curr === "" ||
+      pot_improve_curr === null ||
+      tech_imple_opera_curr === "" ||
+      tech_imple_opera_curr === null ||
+      top_avg_bot_performer_curr === "" ||
+      top_avg_bot_performer_curr === null ||
+      best_performer_team_curr === "" ||
+      best_performer_team_curr === null ||
+      best_innovator_team_curr === "" ||
+      best_innovator_team_curr === null ||
+      best_performer_org_curr === "" ||
+      best_performer_org_curr === null ||
+      best_performer_pm_curr === "" ||
+      best_performer_pm_curr === null ||
+      conf_inc_noInc === "" ||
+      conf_inc_noInc === null ||
+      propose_SBU === "" ||
+      propose_SBU === null ||
+      proposed_designation === "" ||
+      proposed_designation === null
+    ) {
+      error_alert("please select all feild");
+      setIsConfirm(false);
+    } else {
+      const payload = {
+        employee: id,
+        kpi_objective: kpi_obj_curr,
+        kpi_value: kpi_val_curr,
+        hr_rating: hr_rat_curr,
+        criticality: criticality_curr,
+        potential_for_improvement: pot_improve_curr,
+        technical_implementation_operational: tech_imple_opera_curr,
+        top_average_bottom_performer: top_avg_bot_performer_curr,
+        best_performer_team: best_performer_team_curr,
+        best_innovator_team: best_innovator_team_curr,
+        best_performer_org: best_performer_org_curr,
+        best_performer_pm: best_performer_pm_curr,
+        confirmation_increment_noincrement: conf_inc_noInc,
+        proposed_by_sbu_director_pm_self: propose_SBU,
+        proposed_designation: proposed_designation,
+        proposed_designation_id: proposed_designation_id,
+        remarks: remarks,
+        final: false,
+        approve_by_sbu: user.group_id.split(",").includes("2") && isSupervisor === "False" ? 1 : 0, //when approved by head
+        // detail_save:""
+      };
+
+      setLoading(true);
+      API.put(EMPLOYEE_ASSESTMENT_SINGLE_POST(id), payload)
+        .then((res) => {
+          if (res.data.statuscode === 200) {
+            success_alert(res.data.message);
+            navigate(-1);
+            getAssestmentData();
+          } else {
+            error_alert(res.data.message);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setLoading(false);
+          setIsConfirm(false);
+        });
+    }
   };
 
   //Lifecycle
@@ -161,6 +220,9 @@ export default function EmAssestmentSingle() {
     setIsConfirm(true);
   };
 
+  if (flag === 1 && user.group_id.split(",").includes("1")) {
+    return <Navigate to={UNAUTHORIZED} />;
+  }
   return (
     <Layout>
       {loading && <Loader />}
@@ -212,7 +274,9 @@ export default function EmAssestmentSingle() {
                 <Row>
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary"> Objective {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Objective {new Date().getFullYear()} <span className="text-danger">*</span>{" "}
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={kpiObjectiveList}
@@ -222,11 +286,14 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setKpi_obj_curr(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary"> Value {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Value {new Date().getFullYear()} <span className="text-danger">*</span>{" "}
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={kpiValueList}
@@ -236,32 +303,43 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setKpi_val_curr(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
+                  {user.group_id.split(",").includes("7") && (
+                    <Col sm="6" md="4" className="mb-4">
+                      <Form.Group>
+                        <h4 className="text-secondary">
+                          HR Rating {new Date().getFullYear()} <span className="text-danger">*</span>
+                        </h4>
+                      </Form.Group>
+                      <ReactSelect
+                        options={hrRatingList}
+                        placeholder={
+                          hr_rat_curr !== "" && hrRatingList?.map((d) => (d.value === hr_rat_curr ? d.label : null))
+                        }
+                        onChange={(e) => {
+                          setHr_rat_curr(e.value);
+                        }}
+                        isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
+                      />
+                    </Col>
+                  )}
+
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">HR Rating {new Date().getFullYear()}</h4>
-                    </Form.Group>
-                    <ReactSelect
-                      options={hrRatingList}
-                      placeholder={
-                        hr_rat_curr !== "" && hrRatingList?.map((d) => (d.value === hr_rat_curr ? d.label : null))
-                      }
-                      onChange={(e) => {
-                        setHr_rat_curr(e.value);
-                      }}
-                    />
-                  </Col>
-                  <Col sm="6" md="4" className="mb-4">
-                    <Form.Group>
-                      <h4 className="text-secondary"> KPI {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        KPI {new Date().getFullYear()} <span className="text-danger">*</span>
+                      </h4>
                     </Form.Group>
                     <FormControl value={kpi_overall_curr} disabled className="bg-light" />
                   </Col>
 
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">Criticality {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Criticality {new Date().getFullYear()} <span className="text-danger">*</span>
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={criticalityList}
@@ -272,6 +350,7 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setCriticality_curr(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                 </Row>
@@ -288,7 +367,9 @@ export default function EmAssestmentSingle() {
                 <Row>
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">Top/Average/Bottom Performer {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Top/Average/Bottom Performer {new Date().getFullYear()} <span className="text-danger">*</span>
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={topAvgBotPerformerList}
@@ -300,11 +381,14 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setTop_avg_bot_performer_curr(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">Best performer inside team {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Best performer inside team {new Date().getFullYear()} <span className="text-danger">*</span>
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={bestPerformerTeamList}
@@ -315,11 +399,14 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setBest_performer_team_curr(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">Best performer in the organization {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Best performer in the organization {new Date().getFullYear()} <span className="text-danger">*</span>
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={bestPerformerOrgList}
@@ -330,12 +417,15 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setBest_performer_org_curr(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
 
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">Best performer among all PM {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Best performer among all PM {new Date().getFullYear()} <span className="text-danger">*</span>
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={bestPerformerPmList}
@@ -346,12 +436,15 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setBest_performer_pm_curr(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
 
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">Best innovator inside team {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Best innovator inside team {new Date().getFullYear()} <span className="text-danger">*</span>
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={bestInnovatorTeamList}
@@ -362,6 +455,7 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setBest_innovator_team_curr(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                 </Row>
@@ -379,7 +473,7 @@ export default function EmAssestmentSingle() {
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
                       <h4 className="text-secondary">
-                        Potential for Improvement <br /> {new Date().getFullYear()}
+                        Potential for Improvement <br /> {new Date().getFullYear()} <span className="text-danger">*</span>
                       </h4>
                     </Form.Group>
                     <ReactSelect
@@ -391,11 +485,15 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setPot_improve_curr(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">Technical/Implementation/Operational {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Technical/Implementation/Operational {new Date().getFullYear()}{" "}
+                        <span className="text-danger">*</span>
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={technicalImplementationOperationalList}
@@ -408,11 +506,14 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setTech_imple_opera_curr_curr(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">Confirmation/Increment/No Increment {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Confirmation/Increment/No Increment {new Date().getFullYear()} <span className="text-danger">*</span>
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={confIncNoIncList}
@@ -422,26 +523,34 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setConf_inc_noInc(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                   <Col sm="12" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">Proposed Designation {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Proposed Designation {new Date().getFullYear()} <span className="text-danger">*</span>
+                      </h4>
                     </Form.Group>
                     <ReactSelect
                       options={designationList}
-                      placeholder={
-                        proposed_designation !== "" &&
-                        designationList?.map((d) => (d.value === proposed_designation ? d.label : null))
-                      }
+                      placeholder={proposed_designation}
+                      // placeholder={
+                      //   proposed_designation_id !== "" &&
+                      //   designationList?.map((d) => (d.value === proposed_designation_id ? d.label : null))
+                      // }
                       onChange={(e) => {
-                        setProposed_designation(e.target.value);
+                        setProposed_designation(e.label);
+                        setProposed_designation_id(e.value);
                       }}
+                      isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                   <Col sm="6" md="4" className="mb-4">
                     <Form.Group>
-                      <h4 className="text-secondary">Proposed Amount By Supervisor {new Date().getFullYear()}</h4>
+                      <h4 className="text-secondary">
+                        Proposed Amount By Supervisor {new Date().getFullYear()} <span className="text-danger">*</span>
+                      </h4>
                     </Form.Group>
                     <FormControl
                       type="text"
@@ -449,6 +558,7 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setPropose_sbu(e.target.value.replace(/[^0-9]/g, ""));
                       }}
+                      disabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                 </Row>
@@ -474,6 +584,7 @@ export default function EmAssestmentSingle() {
                       onChange={(e) => {
                         setRemarks(e.target.value);
                       }}
+                      disabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                     />
                   </Col>
                 </Row>
@@ -481,9 +592,10 @@ export default function EmAssestmentSingle() {
             </div>
 
             <button className="btn btn-primary px-4" type="submit">
-              Save
+              {user.group_id.split(",").includes("2") && isSupervisor === "False" ? "Approve" : "Save"}
             </button>
-            <button className="btn btn-light px-4 ms-2" onClick={() => navigate(-1)}>
+
+            <button className="btn btn-light px-4 ms-2 fw-bold" onClick={() => navigate(-1)}>
               Cancel
             </button>
           </Form>
@@ -491,7 +603,7 @@ export default function EmAssestmentSingle() {
 
         {isConfirm && (
           <ConfirmDialog
-            message={"Are you sure you want to submi?"}
+            message={"Are you sure you want to submit?"}
             onOkButtonClick={handleSave}
             onCancelButtonClick={(e) => setIsConfirm(false)}
           />

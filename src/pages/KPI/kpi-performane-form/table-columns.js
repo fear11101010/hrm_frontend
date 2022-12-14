@@ -36,6 +36,11 @@ export const kpiPerformanceFormColumns = [
     selector: (row) => row?.employee?.sbu?.name,
   },
   {
+    name: "Supervisor",
+    selector: (row) => row?.employee?.supervisor?.name,
+    wrap: true,
+  },
+  {
     name: "Action",
     cell: (row) => (
       <div className="d-flex justify-content-center align-items-center w-100">

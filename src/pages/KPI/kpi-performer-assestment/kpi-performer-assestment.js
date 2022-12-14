@@ -7,13 +7,13 @@ import useSbu from "../../../hooks/SBU/useSbu";
 import Layout from "../../../layout/Layout";
 import Select from "react-select";
 import { API } from "../../../utils/axios/axiosConfig";
-import { KPI_PERMORMER_ASSESTMENT_BY_SBU_GET, PERFORMANCE_REVIEW_FILTER } from "../../../utils/API_ROUTES";
+import { GLOBAL_FILTER, KPI_PERMORMER_ASSESTMENT_BY_SBU_GET, PERFORMANCE_REVIEW_FILTER } from "../../../utils/API_ROUTES";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
 import Table from "../../../components/table/Table";
 import { dataColumns } from "./data-columns";
 import EmployeePerformerDetails from "./details";
 import ProposedAmount from "./proposedAmount";
-import { RiFileDownloadFill } from "react-icons/ri";
+import { RiFileDownloadFill, RiReplyAllFill } from "react-icons/ri";
 import { USER_INFO } from "../../../utils/session/token";
 import { Navigate } from "react-router-dom";
 import { UNAUTHORIZED } from "../../../utils/APP_ROUTES";
@@ -23,6 +23,7 @@ import ReactSelect from "react-select";
 import useDesignation from "../../../hooks/useDesignation";
 import useEmployee from "../../../hooks/useEmployee";
 import { ASSESTMENT_TYPE, YEAR_RANGE } from "../../../utils/CONSTANT";
+import ConfirmDialog from "../../../components/confirm-dialog/ConfirmDialog";
 
 export default function KpiPerformerAssestment() {
   const user = USER_INFO();
@@ -44,6 +45,7 @@ export default function KpiPerformerAssestment() {
   const [detailModal, setDetailModal] = useState(false);
   const [incAmountModal, setIncAmountModal] = useState(false);
   const [summaryModal, setSummaryModal] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
 
   const [employee_name, setEmployee_name] = useState("");
 
@@ -84,18 +86,20 @@ export default function KpiPerformerAssestment() {
       name: "Proposed",
       cell: (row) => (
         <>
-          <Button
-            size="sm"
-            variant="info"
-            title="Proposed"
-            className="btn-rounded-circle"
-            onClick={() => {
-              setSelectedRowId(row.id);
-              setIncAmountModal(true);
-            }}
-          >
-            <i className="fe fe-edit-3"></i>
-          </Button>
+          {row.flag !== 1 && (
+            <Button
+              size="sm"
+              variant="info"
+              title="Proposed"
+              className="btn-rounded-circle"
+              onClick={() => {
+                setSelectedRowId(row.id);
+                setIncAmountModal(true);
+              }}
+            >
+              <i className="fe fe-edit-3"></i>
+            </Button>
+          )}
         </>
       ),
       width: "100px",
@@ -167,6 +171,29 @@ export default function KpiPerformerAssestment() {
       width: "80px",
       center: true,
     },
+    {
+      name: <div>Request for edit</div>,
+      cell: (row) => (
+        <>
+          {row.flag === 1 && (
+            <Button
+              size="sm"
+              variant="dark"
+              title="Download Report"
+              className="btn-rounded-circle"
+              onClick={(e) => {
+                setSelectedRowId(row?.id);
+                setIsConfirm(true);
+              }}
+            >
+              <RiReplyAllFill />
+            </Button>
+          )}
+        </>
+      ),
+      width: "100px",
+      center: true,
+    },
   ];
 
   // Modal off after submit success
@@ -212,6 +239,26 @@ export default function KpiPerformerAssestment() {
       });
   };
 
+  const handleRequestForEdit = (e) => {
+    e.preventDefault();
+    API.get(`assessment/${selectedRowId}/admin_request_update/`)
+      .then((res) => {
+        if (res.data.statuscode === 200) {
+          success_alert(res.data.message);
+          selectedSbuData();
+        } else {
+          error_alert(res.data.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+        setIsConfirm(false);
+      });
+  };
+
   ///////////////
   // FILTER
   ///////////////
@@ -222,10 +269,12 @@ export default function KpiPerformerAssestment() {
   const [filter_type, setFilter_type] = useState("");
   const [filter_employee, setFilter_employee] = useState("");
   const [filter_designation, setFilter_designation] = useState("");
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const handleFiltering = (e) => {
     e.preventDefault();
     const payload = {
+      model_name: "assessment_detail",
       year: filter_year,
       type: filter_type,
       sbu_id: selectedSbu,
@@ -233,13 +282,13 @@ export default function KpiPerformerAssestment() {
       designation_id: filter_designation,
     };
     setLoading(true);
-    API.post(PERFORMANCE_REVIEW_FILTER, payload)
+    API.post(GLOBAL_FILTER, payload)
       .then((res) => {
         if (res.data.statuscode === 200) {
           if (res.data.data.length > 0) {
             setSbuData([]);
-            console.log("filter entry");
             setSbuData(res.data.data);
+            setIsFilterOpen(false);
           } else {
             error_alert("No Data Found");
           }
@@ -285,7 +334,15 @@ export default function KpiPerformerAssestment() {
         {sbuData.length > 0 && (
           <div className="mt-5">
             <h2 className="text-center">{`Employee Lists - ${selectedSbuName}`} </h2>
-            {/* <Filter>
+            {/* <Filter
+              show={isFilterOpen}
+              onClick={() => {
+                setIsFilterOpen(true);
+              }}
+              onHide={() => {
+                setIsFilterOpen(false);
+              }}
+            >
               <Form onSubmit={handleFiltering}>
                 <Form.Group className="mb-3">
                   <Form.Label className="mb-0">Year</Form.Label>
@@ -316,7 +373,7 @@ export default function KpiPerformerAssestment() {
                 <Form.Group className="mb-3">
                   <Form.Label className="mb-0">Employee</Form.Label>
                   <ReactSelect
-                    options={employeList?.map((d) => ({ label: d.name, value: d.id }))}
+                    options={employeList?.map((d) => ({ label: d.name + " (" + d.employee_id + ")", value: d.id }))}
                     onChange={(e) => {
                       setFilter_employee(e.value);
                     }}
@@ -343,12 +400,14 @@ export default function KpiPerformerAssestment() {
                     value={filter_designation}
                   />
                 </Form.Group>
-                <Button type="submit" className="mt-2 w-100">
-                  Apply Filter
-                </Button>
-                <Button variant="light" className="mt-2 w-100 fw-bold" onClick={reset_filter}>
-                  Clear Filter
-                </Button>
+                <div className="d-flex justify-content-between">
+                  <Button variant="light" className="mt-2  ms-2 fw-bold" onClick={reset_filter}>
+                    Clear Filter
+                  </Button>
+                  <Button type="submit" className="mt-2 ">
+                    Apply Filter
+                  </Button>
+                </div>
               </Form>
             </Filter> */}
             <Table columns={dataColumns.concat(extended_columns)} data={sbuData} />
@@ -397,6 +456,15 @@ export default function KpiPerformerAssestment() {
           <Summary rowId={selectedRowId} />
         </Modal.Body>
       </Modal>
+
+      {/* Confirm modal for request  */}
+      {isConfirm && (
+        <ConfirmDialog
+          message={"Are you sure you want to request for edit?"}
+          onOkButtonClick={handleRequestForEdit}
+          onCancelButtonClick={(e) => setIsConfirm(false)}
+        />
+      )}
     </Layout>
   ) : (
     <Navigate to={UNAUTHORIZED} />

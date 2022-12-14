@@ -49,7 +49,17 @@ import {
   ASSESSMENT_YEAR_REPORT,
   REQUISITION_RESOURCE_LIST,
   REQUISITION_RESOURCE_FORM,
-  SALARY_INCREMENT_REPORT, BILL_LIST_URL, CONVEYANCE_LIST_URL, BILL_ADD_URL, CONVEYANCE_ADD_URL,
+  SALARY_INCREMENT_REPORT,
+  SBU_ASSESTMENT_REPORT,
+  SUPERVISOR_ASSESTMENT_PERFORMANE_PAGE,
+  SUPERVISOR_APPRAISAL_REVIEW_PAGE,
+  FILE_UPLOAD_PAGE,
+  EMPLOYEE_PERFORMANCE_PREV_YEAR_PAGE_URL,
+  LANDING_PAGE,
+  BILL_LIST,
+  BILL_ADD,
+  ASSESTMENT_SUMMARY_REPORT,
+  BILL_LIST_URL, CONVEYANCE_LIST_URL, BILL_ADD_URL, CONVEYANCE_ADD_URL,
 } from "./utils/APP_ROUTES";
 import KpiPerformanceIndex from "./pages/KPI/kpi-performane-form/kpi-performance-index";
 import KpiPerformanceFormCreate from "./pages/KPI/kpi-performane-form/kpi-performance-form-create";
@@ -70,6 +80,16 @@ import RequisitionOutlet from "./outlets/RequisitionOutlet";
 import ResourceRequisitionForm from "./pages/Requisition_form/resource_requisition/ResourceRequisition";
 import RequestRequisitionList from "./pages/Requisition_form/resource_requisition/request_requisition_list";
 import SalaryIncrementReport from "./pages/Report/salary-increment-report/SalaryIncrementReport";
+import SbuAssestmentData from "./pages/Report/sbu-assestment-report/sbu-assestment-data";
+import SupervisorAssestmentPerformance from "./pages/KPI/supervisor-assestment-performance/list";
+import SupervisorAppraisalReview from "./pages/KPI/supervisor-appraisal-review/List";
+import ConfigurationOutlet from "./outlets/ConfigurationOutlet";
+import FileUpload from "./pages/Configuration/file-upload/FileUpload";
+import EmPerformancePrevYear from "./pages/KPI/employee-performance/em-performance-prevYear";
+import Landing from "./pages/Landing/Landing";
+import BillList from "./pages/bill-management/bill/List";
+import BillAdd from "./pages/bill-management/bill/billAdd";
+import AssestmentSummaryReport from "./pages/Report/assestment_summary_report/AssestmentSummaryReport";
 import ReportOutlet from "./outlets/ReportOutlet";
 import Bill from "./pages/bill-management/Bill/Bill";
 import Conveyance from "./pages/bill-management/Conveyance/Conveyance";
@@ -95,7 +115,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index path={LOGIN_PAGE} element={<Login />} />
+        <Route index path={LANDING_PAGE} element={<Landing />} />
+        <Route path={LOGIN_PAGE} element={<Login />} />
         {/************************************************** 
           PROTECTED ROUTES 
           **************************************************/}
@@ -114,6 +135,11 @@ function App() {
           <Route path={EMPLOYEE_EDIT_PAGE_URL} element={<EmployeeEdit />} />
         </Route>
 
+        {/* Configuration */}
+        <Route path={"/"} element={<ConfigurationOutlet />}>
+          <Route path={FILE_UPLOAD_PAGE} element={<FileUpload />} />
+        </Route>
+
         {/* KPI */}
         <Route path={"/"} element={<KpiOutlet />}>
           <Route path={KPI_EMPLOYEE_ASSIGN_PAGE} element={<KpiEmployeeAssign />} />
@@ -122,14 +148,22 @@ function App() {
           <Route path={KPI_PERMORMER_ASSESTMENT_PAGE} element={<KpiPerformerAssestment />} />
           <Route path={KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE} element={<KpiAllEmployeeAssestment />} />
           <Route path={EMPLOYEE_ASSESTMENT_PAGE} element={<EmployeeAssestment />} />
+          <Route path={SUPERVISOR_ASSESTMENT_PERFORMANE_PAGE} element={<SupervisorAssestmentPerformance />} />
           <Route path={EMPLOYEE_ASSESTMENT_SINGLE_URL} element={<EmAssestmentSingle />} />
           <Route path={EMPLOYEE_PERFORMANCE_PAGE} element={<EmployeePerformance />} />
           <Route path={EMPLOYEE_PERFORMANCE_SINGLE_PAGE_URL} element={<EmPerformanceSingle />} />
+          <Route path={EMPLOYEE_PERFORMANCE_PREV_YEAR_PAGE_URL} element={<EmPerformancePrevYear />} />
           <Route path={EMPLOYEE_PERFORMANCE_INDEX_PAGE} element={<KpiPerformanceIndex />} />
           <Route path={EMPLOYEE_PERFORMANCE_CREATE} element={<KpiPerformanceFormCreate />} />
           <Route path={EMPLOYEE_PERFORMANCE_VIEW_url} element={<KpiPerformanceFormView />} />
+          <Route path={SUPERVISOR_APPRAISAL_REVIEW_PAGE} element={<SupervisorAppraisalReview />} />
         </Route>
 
+        {/* BILL */}
+        <Route path={"/"} element={<RequisitionOutlet />}>
+          <Route path={BILL_LIST} element={<BillList />} />
+          <Route path={BILL_ADD} element={<BillAdd />} />
+        </Route>
         {/* REQUISITION */}
         <Route path={"/"} element={<RequisitionOutlet />}>
           <Route path={REQUISITION_RESOURCE_LIST} element={<RequestRequisitionList />} />
@@ -152,6 +186,8 @@ function App() {
           <Route path={ASSESTMENT_EMPLOYER_REPORT} element={<AssestmentEmployerReport />} />
           <Route path={ASSESSMENT_YEAR_REPORT} element={<AssessmentYearReport />} />
           <Route path={SALARY_INCREMENT_REPORT} element={<SalaryIncrementReport />} />
+          <Route path={SBU_ASSESTMENT_REPORT} element={<SbuAssestmentData />} />
+          <Route path={ASSESTMENT_SUMMARY_REPORT} element={<AssestmentSummaryReport />} />
         </Route>
         <Route path={"/support"} element={<SupportOutlet />}>
           <Route path={SUPPORT_DASHBOARD_URL} element={<SupportDashboard />} />

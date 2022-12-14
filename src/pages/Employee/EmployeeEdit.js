@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Accordion, Button, Col, Form, Row } from "react-bootstrap";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import ReactSelect from "react-select";
-import { error_alert } from "../../components/alert/Alert";
+import { error_alert, success_alert } from "../../components/alert/Alert";
 import ConfirmDialog from "../../components/confirm-dialog/ConfirmDialog";
 import Content from "../../components/content/Content";
 import PageHeader from "../../components/header/PageHeader";
 import Loader from "../../components/loader/Loader";
 import useSbu from "../../hooks/SBU/useSbu";
 import useSubSbu from "../../hooks/SBU/useSubSbu";
+import useDesignation from "../../hooks/useDesignation";
 import useSupervisor from "../../hooks/useSupervisor";
 import Layout from "../../layout/Layout";
-import { EMPLOYEE_EACH_GET } from "../../utils/API_ROUTES";
+import { EMPLOYEE_EACH_GET, EMPLOYEE_EDIT_POST } from "../../utils/API_ROUTES";
 import { EMPLOYEE_LIST_PAGE, UNAUTHORIZED } from "../../utils/APP_ROUTES";
 import { API } from "../../utils/axios/axiosConfig";
 import { USER_INFO } from "../../utils/session/token";
@@ -19,6 +20,7 @@ import { USER_INFO } from "../../utils/session/token";
 export default function EmployeeEdit() {
   const { id } = useParams();
   const user = USER_INFO();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
 
@@ -27,8 +29,10 @@ export default function EmployeeEdit() {
   const [emId, setEmId] = useState("");
   const [sbu, setSbu] = useState("");
   const [subSbu, setSubSbu] = useState("");
+  const [designation, setDesignation] = useState("");
   const [date_of_joining, setDate_of_joining] = useState("");
   const [supervisor, setsupervisor] = useState("");
+  const [level, setLevel] = useState("");
 
   const [total_salary_and_allowance, setTotal_salary_and_allowance] = useState("");
   const [basic_salary, setbasic_salary] = useState("");
@@ -50,6 +54,8 @@ export default function EmployeeEdit() {
   const { data } = useSbu();
   const { subSbudata } = useSubSbu();
   const supervisorList = useSupervisor();
+  const designationList = useDesignation();
+  console.log(designationList);
 
   //Fetch
   useEffect(() => {
@@ -62,7 +68,8 @@ export default function EmployeeEdit() {
           setSbu(res.data?.data?.sbu?.id);
           setSubSbu(res.data?.data?.sub_sbu?.id);
           setDate_of_joining(res.data?.data?.date_of_joining);
-          setsupervisor(res.data?.data?.supervisor);
+          setDesignation(res.data?.data?.desig_id);
+          setsupervisor(res.data?.data?.supervisor?.id);
           setTotal_salary_and_allowance(res.data?.data?.total_salary_and_allowance);
           setbasic_salary(res.data?.data?.basic_salary);
           setgross_salary(res.data?.data?.gross_salary);
@@ -77,6 +84,7 @@ export default function EmployeeEdit() {
           setincrement(res.data?.data?.increment);
           setproject_expense(res.data?.data?.project_expense);
           setproject(res.data?.data?.project);
+          setLevel(res.data?.data?.level);
         } else {
           error_alert(res.data.message);
         }
@@ -97,6 +105,48 @@ export default function EmployeeEdit() {
 
   const handleUpdate = (e) => {
     e.preventDefault();
+    setLoading(true);
+    const payload = {
+      sbu: sbu,
+      name: name,
+      status: "1",
+      employee_id: emId,
+      designation_id: designation,
+      date_of_joining: date_of_joining,
+      total_salary_and_allowance: total_salary_and_allowance,
+      basic_salary: basic_salary,
+      house_rent: house_rent,
+      medical_allowance: medical_allowance,
+      conveyance_allowance: conveyance_allowance,
+      wppf: wppf,
+      special_bonus: special_bonus,
+      mobile_and_other_allowance: mobile_and_other_allowance,
+      project_expense: project_expense,
+      other_benefit: other_benefit,
+      gross_salary: gross_salary,
+      pf_com_contribution: pf_com_contribution,
+      project: project,
+      sub_sbu: subSbu,
+      supervisor: supervisor,
+      level: level,
+      increment: increment,
+    };
+    API.put(EMPLOYEE_EDIT_POST(id), payload)
+      .then((res) => {
+        if (res.data.statuscode === 201) {
+          success_alert(res.data.message);
+          navigate(-1);
+        } else {
+          error_alert(res.data.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+        setIsConfirm(false);
+      });
   };
 
   return user.accessibility.includes("EmployeeEdit") ? (
@@ -137,6 +187,31 @@ export default function EmployeeEdit() {
                         value={emId}
                         onChange={(e) => {
                           setEmId(e.target.value);
+                        }}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col sm="12" md="6" className="mb-3">
+                    <Form.Group>
+                      <Form.Label className="mb-1">Designation </Form.Label>
+                      <ReactSelect
+                        options={designationList?.map((d) => ({ label: d.designation, value: d.id }))}
+                        placeholder={designationList?.map((d) => d.id === designation && d.designation)}
+                        onChange={(e) => {
+                          setDesignation(e.value);
+                        }}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col sm="12" md="6" className="mb-3">
+                    <Form.Group>
+                      <Form.Label className="mb-1"> Level</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter Level"
+                        value={level}
+                        onChange={(e) => {
+                          setLevel(e.target.value);
                         }}
                       />
                     </Form.Group>

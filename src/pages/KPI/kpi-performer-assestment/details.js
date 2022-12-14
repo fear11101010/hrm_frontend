@@ -86,7 +86,7 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
       confirmation_increment_noincrement:
         kpi_inc_no_inc === "" ? data.data?.confirmation_increment_noincrement : kpi_inc_no_inc,
       proposed_designation: propsed_designation === "" ? data.data?.proposed_designation : propsed_designation,
-      proposed_by_sbu_director_pm_sel: data.data?.proposed_by_sbu_director_pm_self,
+      proposed_by_sbu_director_pm_self: data.data?.proposed_by_sbu_director_pm_self,
       remarks: data.data?.remarks,
       remarks_two: data.data?.remarks_two,
       detail_save: "",
@@ -109,6 +109,7 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
       })
       .finally(() => {
         setLoading(false);
+        setIsConfirm(false);
       });
   };
 
@@ -159,7 +160,7 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
           {/* FIXED BAR always open Employee */}
           <Row>
             <Col sm="12" md="3">
-              <Form.Label className="mb-2 text-secondary">Team Distribution (%) {currYear} (C) </Form.Label>
+              <Form.Label className="mb-2 text-secondary">% Team Distribution {currYear} (C) </Form.Label>
               <p>{data.data?.team_distribution_percentage_c?.toLocaleString("en-IN")}</p>
             </Col>
             <Col sm="12" md="5">
@@ -204,7 +205,7 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
                   <p>{data.data?.percentage_kpi_hr}</p>
                 </Col>
                 <Col sm="12" md="3">
-                  <Form.Label className="mb-1 text-secondary">Weighted Average of KPI % {currYear} </Form.Label>
+                  <Form.Label className="mb-1 text-secondary">% Weighted Average of KPI {currYear} </Form.Label>
                   <p>{data.data?.weighted_average_kpi}</p>
                 </Col>
                 <Col sm="12" md="2">
@@ -264,7 +265,7 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
                   </Form.Select>
                 </Col>
                 <Col sm="12" md="4" className="mb-3">
-                  <Form.Label className="mb-1 text-dark"> Criticality {currYear}</Form.Label>
+                  <Form.Label className="mb-1 text-dark"> % Criticality {currYear}</Form.Label>
                   <Form.Select
                     value={kpi_crit === "" ? data.data?.criticality : kpi_crit}
                     onChange={(e) => {
@@ -504,11 +505,11 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
                   <p>{data.data?.hr_new_gross_salary_a?.toLocaleString("en-IN")}</p>
                 </Col>
                 <Col sm="12" md="3">
-                  <Form.Label className="mb-1 text-secondary"> HR % {currYear}</Form.Label>
+                  <Form.Label className="mb-1 text-secondary"> % HR {currYear}</Form.Label>
                   <p>{data.data?.percentage_hr_a}</p>
                 </Col>
                 <Col sm="12" md="3">
-                  <Form.Label className="mb-1 text-secondary">Fixed Increment (%) {currYear} (B) </Form.Label>
+                  <Form.Label className="mb-1 text-secondary">Fixed Increment {currYear} (B) </Form.Label>
                   <p>{data.data?.fixed_increment_b?.toLocaleString("en-IN")}</p>
                 </Col>
                 <Col sm="12" md="3">
@@ -529,15 +530,15 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
                   <p>{data.data?.new_gross_salary_b?.toLocaleString("en-IN")}</p>
                 </Col>
                 <Col sm="12" md="3">
-                  <Form.Label className="mb-1 text-secondary">CAGR 3 years {currYear} </Form.Label>
+                  <Form.Label className="mb-1 text-secondary">% CAGR 3 years {currYear} </Form.Label>
                   <p>{data.data?.cagr_three_years}</p>
                 </Col>
                 <Col sm="12" md="3">
-                  <Form.Label className="mb-1 text-secondary">Avarage 3 Years {currYear} </Form.Label>
+                  <Form.Label className="mb-1 text-secondary">%Avarage 3 Years {currYear} </Form.Label>
                   <p>{data.data?.average_three_years}</p>
                 </Col>
                 <Col sm="12" md="3">
-                  <Form.Label className="mb-1 text-secondary"> Average Actual {currYear}</Form.Label>
+                  <Form.Label className="mb-1 text-secondary">% Average Actual {currYear}</Form.Label>
                   <p>{data.data?.average_actual}</p>
                 </Col>
                 <Col sm="12" md="3">
@@ -545,11 +546,11 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
                   <p>{data.data?.kpi_overall}</p>
                 </Col>
                 <Col sm="12" md="3">
-                  <Form.Label className="mb-1 text-secondary"> Weighted Average of KPI % {currYear}</Form.Label>
+                  <Form.Label className="mb-1 text-secondary"> % Weighted Average of KPI {currYear}</Form.Label>
                   <p>{data.data?.weighted_average_kpi}</p>
                 </Col>
                 <Col sm="12" md="3">
-                  <Form.Label className="mb-1 text-secondary">Increment with KPI % {currYear} </Form.Label>
+                  <Form.Label className="mb-1 text-secondary">%Increment with KPI {currYear} </Form.Label>
                   <p>
                     {data.data?.increment_with_kpi_percentage?.toLocaleString("en-IN", {
                       style: "currency",
@@ -558,7 +559,7 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
                   </p>
                 </Col>
                 <Col sm="12" md="3">
-                  <Form.Label className="mb-1 text-secondary"> New Gross Salary KPI % {currYear}</Form.Label>
+                  <Form.Label className="mb-1 text-secondary"> % New Gross Salary KPI {currYear}</Form.Label>
                   <p>
                     {data.data?.new_gross_salary_kpi_percentage?.toLocaleString("en-IN", {
                       style: "currency",
@@ -576,18 +577,18 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
         </Accordion>
 
         {/* Buttons */}
-        <div className="mt-4 mb-4 text-end">
-          <Button
+        <div className="mt-4 mb-4 d-flex justify-content-between">
+          {/* <Button
             type="submit"
-            variant="info"
-            className="ms-0"
+            variant="white"
+            className="fw-bold"
             onClick={() => {
               setNormalSubmit(true);
               setFinalSubmit(false);
             }}
           >
-            Save Changes
-          </Button>
+            Draft Save
+          </Button> */}
           {user.group_id.split(",").map(
             (d) =>
               d === "1" && (
@@ -599,7 +600,7 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
                     setNormalSubmit(false);
                   }}
                 >
-                  Final Submit
+                  Confirm Submit
                 </Button>
               )
           )}

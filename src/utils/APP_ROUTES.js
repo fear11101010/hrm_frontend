@@ -1,7 +1,8 @@
 /////////////////////////////////
 // ROUTING
 /////////////////////////////////
-export const LOGIN_PAGE = "/";
+export const LANDING_PAGE = "/";
+export const LOGIN_PAGE = "/login";
 
 export const DASHBOARD_PAGE = "/dashboard";
 
@@ -18,6 +19,9 @@ export const EMPLOYEE_LIST_PAGE = "/employee";
 export const EMPLOYEE_EDIT_PAGE_URL = `/employee/edit/:id`;
 export const EMPLOYEE_EDIT_PAGE = (id) => `/employee/edit/${id}`;
 
+// Configuration
+export const FILE_UPLOAD_PAGE = "/file-upload";
+
 // KPI
 export const KPI_EMPLOYEE_ASSIGN_PAGE = "/kpi-assign";
 export const KPI_PERMORMANCE_FORM_PAGE = (id) => `/kpi-performance-form/${id}`;
@@ -26,17 +30,25 @@ export const KPI_ASSESTMENT_PAGE = "/kpi-assestment-page";
 export const KPI_PERMORMER_ASSESTMENT_PAGE = "/kpi-performance-assestment";
 export const KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE = "/kpi-all-employee-assestment";
 export const EMPLOYEE_ASSESTMENT_PAGE = "/employee-assestment";
+export const SUPERVISOR_ASSESTMENT_PERFORMANE_PAGE = "/supervisor-assestment";
 export const EMPLOYEE_ASSESTMENT_SINGLE_URL = "/employee-assestment/:id";
 export const EMPLOYEE_ASSESTMENT_SINGLE_PAGE = (id) => `/employee-assestment/${id}`;
 export const EMPLOYEE_PERFORMANCE_PAGE = "/employee-performance";
 
 export const EMPLOYEE_PERFORMANCE_SINGLE_PAGE_URL = "/employee-performance/:id";
 export const EMPLOYEE_PERFORMANCE_SINGLE_PAGE = (id) => `/employee-performance/${id}`;
+export const EMPLOYEE_PERFORMANCE_PREV_YEAR_PAGE_URL = "/employee-performance-previous-year/:id";
+export const EMPLOYEE_PERFORMANCE_PREV_YEAR_PAGE = (id) => `/employee-performance-previous-year/${id}`;
+export const SUPERVISOR_APPRAISAL_REVIEW_PAGE = "/supervisor-appraisal-review";
 
 export const EMPLOYEE_PERFORMANCE_INDEX_PAGE = "/employee-performance-index";
 export const EMPLOYEE_PERFORMANCE_CREATE = "/employee-performance-create";
 export const EMPLOYEE_PERFORMANCE_VIEW = (id) => `/employee-performance-view/${id}`;
 export const EMPLOYEE_PERFORMANCE_VIEW_url = `/employee-performance-view/:id`;
+
+//BILL
+export const BILL_LIST = "/bill";
+export const BILL_ADD = "/bill/add";
 
 //REQUISITION FORM
 export const REQUISITION_RESOURCE_LIST = "/requisitionform/resource-request-list";
@@ -49,6 +61,8 @@ export const SALARY_PIVOT_SUMMARY_REPORT_URL = `/report/salary_pivot_summary`;
 export const SALARY_INCREMENT_ELIGIBLE_REPORT_URL = `/report/salary_increment_eligible`;
 export const ASSESTMENT_EMPLOYER_REPORT = `/report/assestment_employer_report`;
 export const SALARY_INCREMENT_REPORT = `/report/performance-evaluation-and-salary-increment`;
+export const SBU_ASSESTMENT_REPORT = `/report/sbu-assestment`;
+export const ASSESTMENT_SUMMARY_REPORT = `/report/assestment-summary-report/`;
 
 //Bill Management
 export const BILL_LIST_URL = '/bill_management/bill_list';

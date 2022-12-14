@@ -6,6 +6,7 @@ import PageHeader from "../../components/header/PageHeader";
 import Loader from "../../components/loader/Loader";
 import Table from "../../components/table/Table";
 import useFetch from "../../hooks/useFetch";
+import useSupervisor from "../../hooks/useSupervisor";
 import Layout from "../../layout/Layout";
 import { EMPLOYEE_LIST_GET } from "../../utils/API_ROUTES";
 import { UNAUTHORIZED } from "../../utils/APP_ROUTES";
@@ -19,6 +20,7 @@ export default function EmployeeList() {
   const [selectedId, setSelectedId] = useState("");
   const [detailsModal, setDetailsModal] = useState(false);
   const { data, isLoading } = useFetch(EMPLOYEE_LIST_GET);
+
   const EXT_COLUMNS = [
     {
       name: "Details",

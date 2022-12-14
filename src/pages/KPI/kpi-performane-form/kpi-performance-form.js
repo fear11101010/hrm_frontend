@@ -19,6 +19,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import KpiPerformanceFormComponent from "../../../components/kpi-performmance-form/KpiPerformanceFormComponent";
 import useFetchKpiFormData from "../../../hooks/kpi/useFetchKpiFormData";
+import { success_alert } from "../../../components/alert/Alert";
 
 export default function KpiPerformanceForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -38,6 +39,7 @@ export default function KpiPerformanceForm() {
   const afterSubmit = (e) => {
     switch (e.status) {
       case "success":
+        success_alert("KPI Performance Form Created Successfull");
         navigate(EMPLOYEE_PERFORMANCE_INDEX_PAGE);
         break;
       case "error":

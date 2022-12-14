@@ -1,23 +1,24 @@
 import React, { useState } from "react";
-import { Button, Dropdown, Form, Offcanvas } from "react-bootstrap";
+import { Button, Dropdown, Form, Modal, Offcanvas } from "react-bootstrap";
 
-export default function Filter({ children, onSubmit }) {
+export default function Filter({ children, onClick, show, onHide }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
       <div className="text-end">
-        <Button
-          variant="light"
-          className="fw-bold"
-          onClick={() => {
-            setIsOpen(true);
-          }}
-        >
+        <Button variant="light" className="fw-bold" onClick={onClick}>
           <i className="fe fe-sliders"></i> Filter
         </Button>
       </div>
-      <Offcanvas
+      <Modal show={show} onHide={onHide} centered>
+        <Modal.Header closeButton>
+          <h2 className="mb-0">Filters</h2>
+        </Modal.Header>
+        <Modal.Body>{children}</Modal.Body>
+      </Modal>
+
+      {/* <Offcanvas
         show={isOpen}
         onHide={() => {
           setIsOpen(false);
@@ -31,7 +32,7 @@ export default function Filter({ children, onSubmit }) {
           </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body className="h-100">{children}</Offcanvas.Body>
-      </Offcanvas>
+      </Offcanvas> */}
 
       {/* <Dropdown className="text-end" align="end" autoClose={autoClose}>
         <Dropdown.Toggle size="sm" variant="light" id="dropdown-basic" className="fw-bold">

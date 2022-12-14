@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@700;800;900&display=swap');
+
+.landing {
+    height: 100vh;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content h1 {
+    font-family: 'Mulish', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: 0px;
+}
