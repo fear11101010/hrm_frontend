@@ -1,37 +1,69 @@
 import {
-    FETCH_TICKET_BY_ID_API,
+    APPROVE_REQUEST_API,
+    FETCH_TICKET_BY_ID_API, REQUEST_MESSAGE_REPLY_API,
     REQUEST_MESSAGE_SEND_API,
     REQUEST_STATUS_UPDATE_API
 } from "../../utils/support/SP_API_ROUTES";
 import {Controller, useForm} from "react-hook-form";
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {Button, Card, Col, Form, Modal, Row, Spinner} from "react-bootstrap";
 import Select from "../select/Select";
-import {FaTrash, FaWindowClose} from "react-icons/fa";
+import {FaCheck, FaDownload, FaForward, FaReply, FaTrash, FaWindowClose} from "react-icons/fa";
 import {API} from "../../utils/axios/axiosConfig";
 import {error_alert, success_alert} from "../alert/Alert";
 import useRequestTo from "../../hooks/support/useRequestTo";
 import {useDropzone} from "react-dropzone";
 import useFetch from "../../hooks/useFetch";
 import {USER_INFO} from "../../utils/session/token";
+import {loadFileInfo} from "../../utils/helper";
+import moment from "moment";
 
-function ForwardToForm({id, show, handleClose}) {
+function ReplyToForm({id, show, handleClose}) {
     // console.log(USER_INFO())
     const userInfo = USER_INFO();
     const {data} = useFetch(FETCH_TICKET_BY_ID_API(id));
+    const [ticketDetail,setTicketDetail] = useState([]);
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [isApproving, setIsApproving] = useState(false)
+    const [showReplyMessageBox, setShowReplyMessageBox] = useState(false)
+    const [showForwardMessageBox, setShowForwardMessageBox] = useState(false)
     const [files, setFiles] = useState([])
-    const forwardToList = useRequestTo()?.map(status => ({label: status?.name, value: status?.auth_user}));
+    const forwardToList = useRequestTo()?.map(status => ({label: status.name, value: status.id}));
     const {register, reset, handleSubmit, formState: {errors}, control} = useForm({
         defaultValues: {
             request_detail:id,
-            sender_group:userInfo?.group_id?.split(',').map(g=>parseInt(g)).find(v=>v===1 || v === 7),
-            receiver_group:''
+            request_group_message:id,
+            query_message:''
         }
     });
-    const onDrop = useCallback(acceptedFiles => {
-        console.log(acceptedFiles)
-        setFiles(files => [...files, ...acceptedFiles])
+    useEffect(()=>{
+        async function loadFile() {
+            const td = data?.data;
+            for(let i=0; i<td?.message_details?.messages?.length;i++){
+                for(let j=0; j<td.message_details?.messages[i]?.message_attachment?.length;j++){
+                    const f = td.message_details?.messages[i].message_attachment[j];
+                    const file = await loadFileInfo(f);
+                    td.message_details.messages[i].message_attachment[j] = {...file}
+                }
+
+            }
+            console.log(td);
+            setTicketDetail(td)
+        }
+        if(data){
+            console.log(userInfo)
+            loadFile();
+            reset({
+                request_group_message:data.data?.message_details?.message_group?.id,
+                request_detail:id
+            })
+            console.log(ticketDetail)
+
+        }
+    },[data])
+    const onDrop = useCallback(selectedFiles => {
+        console.log(selectedFiles)
+        setFiles(files => [...files, ...selectedFiles])
     }, [])
     const removeFile = (e, i) => {
         e.preventDefault();
@@ -47,24 +79,19 @@ function ForwardToForm({id, show, handleClose}) {
     function submitRequest(data, event) {
         setIsSubmitting(true);
         console.log(data)
-        const formData = Object.entries(data).reduce((fd, [key, val]) => {
-            fd.append(key, val);
+        const formData = Object.entries(data).reduce((fd, [key, value]) => {
+            fd.append(key, value);
             return fd;
         }, new FormData())
-        formData.append('msg',JSON.stringify({query_message:data?.comments}))
-        files.forEach((v, i) => {
-            formData.append(`msg_attachments`, v);
-            console.log(v)
+        files.forEach((attachment, i) => {
+            formData.append(`msg_attachments`, attachment);
         });
-        console.log(...formData)
-        console.log(formData.get('msg'))
-        console.log(formData.getAll('msg'))
-        API.post(REQUEST_MESSAGE_SEND_API, formData, {
+        API.post(REQUEST_MESSAGE_REPLY_API, formData, {
             headers: {
                 'content-type': 'multipart/form-data'
             }
         }).then(res => {
-            success_alert("Request status updated successfully")
+            success_alert("Message send successfully");
             handleClose('')
         }).catch(err => {
             error_alert(err?.data?.msg ?? 'An error occur while updating status. Please try again later')
@@ -72,8 +99,23 @@ function ForwardToForm({id, show, handleClose}) {
             setIsSubmitting(false)
         })
     }
+    function approveRequest(e){
+        e.stopPropagation();
+        e.preventDefault();
+        setIsApproving(true)
+        API.get(APPROVE_REQUEST_API(id)).then(res=>{
+            success_alert("Request has been approved.")
+            handleClose(false)
+        }).catch(err=>{
+            error_alert("An error occur while approving request. Please try again later.")
+            handleClose(false)
+        }).finally(()=>{
+            setIsApproving(false)
+        })
+    }
 
     return (
+        <>
             <>
                 <Modal
                     show={show}
@@ -82,48 +124,77 @@ function ForwardToForm({id, show, handleClose}) {
                     keyboard={false}
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title>{data?.data?.ticket_no}</Modal.Title>
+                        <Modal.Title>{ticketDetail?.ticket_no}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <div className="w-100 m-auto">
-                            <Form onSubmit={handleSubmit(submitRequest)}>
+                            <Card>
+                                {ticketDetail?.message_details?.messages?.map((message,i)=>(
+                                    <Card.Body>
+                                        <div>
+                                            <h4 className="mb-1 d-flex justify-content-between">
+                                                Form: {message.user.name} ({message.user.group})
+                                                {i>0&&(
+                                                    <small className="header-pretitle" style={{fontSize:'x-small'}}>{moment(message.created_at).format('DD MMM, YYYY')}</small>
+                                                )}
+                                            </h4>
+                                            {i===0 && (<h6 className="header-pretitle mb-4 d-flex justify-content-between">
+                                                to: {ticketDetail?.message_details?.message_group.receiver}
+                                                <span>{moment(message.created_at).format('DD MMM, YYYY')}</span>
+                                            </h6>)}
+                                            <div className={`mb-4 ${i>0?'mt-4':''}`}>
+                                                <h6 className="header-pretitle mb-2">Message</h6>
+                                                <p>{message.query_message}</p>
+                                            </div>
+                                            <h6 className="header-pretitle mb-2">Attachments</h6>
+                                            <ul style={{margin:0,padding:0}}>
+                                                {message?.message_attachment?.map((file, i) => (
+                                                    <li key={i} className="list-group-item dz-processing">
+                                                        <div className="row align-items-center">
+                                                            <div className="col-auto">{i + 1}.</div>
+                                                            <div className="col ms-n3">
+                                                                <h5 className="mb-1" data-dz-name="">{file.fileName}</h5>
+                                                                <small className="text-muted"
+                                                                       data-dz-size=""><strong>{file.size}</strong></small>
+                                                            </div>
+                                                            <div className="col-auto">
+                                                                <a className="btn btn-light btn-sm" href={file.href} download={file.fileName}>
+                                                                    <FaDownload/>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                            {(i===0 && !ticketDetail?.approve_status) && (
+                                                <div className="d-flex justify-content-end mt-4 mb-4">
+                                                    <Button variant="primary" disabled={isApproving || isSubmitting} size="sm" onClick={e=>setShowReplyMessageBox(true)}>
+                                                        <FaReply/> Reply
+                                                    </Button>
+                                                    {
+                                                        userInfo?.group_id?.split(',').map(g=>parseInt(g)).indexOf(ticketDetail?.message_details?.message_group?.receiver_group_id)>=0 &&(
+                                                            <Button variant="primary" disabled={isApproving || isSubmitting} size="sm" style={{marginLeft:'10px'}} onClick={approveRequest}>
+                                                                {isApproving?<Spinner size="sm" animation="border"/>:<FaCheck/>} Approve Request
+                                                            </Button>
+                                                        )
+                                                    }
+
+                                                </div>
+                                            )}
+                                        </div>
+                                    </Card.Body>
+
+                                ))}
+                            </Card>
+                            {showReplyMessageBox && <Form onSubmit={handleSubmit(submitRequest)}>
                                 <Card>
                                     <Card.Body>
                                         <Row className="mb-2">
                                             <Col sm={12} md={12} lg={12} xl={12} className="m-auto">
                                                 <Form.Group>
-                                                    <Form.Label>Forward To</Form.Label>
-                                                    <Controller
-                                                        name="receiver_group"
-                                                        control={control}
-                                                        rules={{required: true}}
-                                                        render={({
-                                                                     field: {onChange, value},
-                                                                     fieldState: {error},
-                                                                     formState,
-                                                                 }) => (
-                                                            <>
-                                                                <Select
-                                                                    placeholder="--Select a option--"
-                                                                    options={forwardToList}
-                                                                    value={forwardToList?.find(v => v.value === value)}
-                                                                    size="md"
-                                                                    className={error ? 'is-invalid' : ''}
-                                                                    onChange={v => onChange(v.value)}/>
-
-                                                                {error && (
-                                                                    <div className="invalid-feedback">Select a option</div>)}
-                                                            </>
-                                                        )}/>
-                                                </Form.Group>
-                                            </Col>
-                                        </Row>
-                                        <Row className="mb-2">
-                                            <Col sm={12} md={12} lg={12} xl={12} className="m-auto">
-                                                <Form.Group>
-                                                    <Form.Label>Comments</Form.Label>
-                                                    <Form.Control as="textarea" rows={5} {...register('comments')}
-                                                                  placeholder="Please enter comments"/>
+                                                    <Form.Label>Messages</Form.Label>
+                                                    <Form.Control as="textarea" rows={5} {...register('query_message')}
+                                                                  placeholder="Please enter message"/>
                                                     {/*{errors?.heading && (<div className="invalid-feedback">Enter request heading</div>)}*/}
                                                 </Form.Group>
                                             </Col>
@@ -143,7 +214,7 @@ function ForwardToForm({id, show, handleClose}) {
                                                             </div>
                                                         </div>
                                                         <ul className="dz-preview dz-preview-multiple list-group list-group-lg list-group-flush">
-                                                            {files.map((file, i) => (
+                                                            {files?.map((file, i) => (
                                                                 <li className="list-group-item dz-processing">
                                                                     <div className="row align-items-center">
                                                                         <div className="col-auto"></div>
@@ -183,24 +254,26 @@ function ForwardToForm({id, show, handleClose}) {
                                                     <Button type="submit" name="submit" disabled={isSubmitting}
                                                             variant="primary"
                                                             style={{marginRight: "10px", lineHeight: 1}}>
-                                                        {isSubmitting && <Spinner size="sm" animation="border"/>} Submit
+                                                        {isSubmitting && <Spinner size="sm" animation="border"/>} Send
                                                     </Button>
                                                     <Button disabled={isSubmitting} variant="secondary"
                                                             onClick={handleClose} style={{lineHeight: 1}}>
-                                                        <FaWindowClose/> Close
+                                                        <FaWindowClose/> Cancel
                                                     </Button>
                                                 </div>
                                             </Col>
                                         </Row>
                                     </Card.Body>
                                 </Card>
-                            </Form>
+                            </Form>}
                         </div>
                     </Modal.Body>
                 </Modal>
 
             </>
+
+        </>
     )
 }
 
-export default ForwardToForm
+export default ReplyToForm

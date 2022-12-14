@@ -12,6 +12,7 @@ import moment from "moment";
 import {API, API_MEDIA} from "../../../utils/axios/axiosConfig";
 import {BASE_URL_FOR_MEDIA_FILE} from "../../../utils/CONSTANT";
 import {FaDownload} from "react-icons/fa";
+import {loadFileInfo} from "../../../utils/helper";
 
 function ViewTicketDetail({id,show,handleClose}) {
     const {data} = useFetch(FETCH_TICKET_BY_ID_API(id))
@@ -35,21 +36,6 @@ function ViewTicketDetail({id,show,handleClose}) {
     const sanitizeHtml = (data) => ({
         __html: DOMPurify.sanitize(data)
     })
-    const loadFileInfo = async (filePath) => {
-        try {
-            const res = await API_MEDIA.get(filePath);
-            const file = res?.data;
-            const filePaths = filePath.split('/');
-            return {
-                size: `${Math.ceil(file?.size / 1024)}KB`,
-                type: file?.type,
-                href: URL.createObjectURL(file),
-                fileName:filePaths[filePaths.length-1]
-            }
-        } catch (e) {
-            return {}
-        }
-    }
 
     return (
         <>

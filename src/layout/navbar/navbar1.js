@@ -38,6 +38,12 @@ import { REMOVE_TOKEN, USER_INFO } from "../../utils/session/token";
 import ConfirmDialog from "../../components/confirm-dialog/ConfirmDialog";
 import { AiOutlineAudit } from "react-icons/ai";
 import {FaMoneyBill} from "react-icons/fa";
+import {
+  ALL_TICKETS_URL,
+  MY_TICKETS_URL,
+  OTHER_TICKETS_URL,
+  SUPPORT_DASHBOARD_URL
+} from "../../utils/support/SP_APP_ROUTES";
 function Navbar1(props) {
   const user = USER_INFO();
   const navigate = useNavigate();
@@ -359,6 +365,63 @@ function Navbar1(props) {
                     </div>
                   </Collapse>
                 </Nav.Item>
+              )}
+
+              {/* Support */}
+              {user.sub_module.includes("Support") && (
+                  <Nav.Item as={"li"}>
+                    <Nav.Link
+                        onClick={() => openOrCloseMenu(5)}
+                        href="#"
+                        className={menuOpenCloseState[5] ? "collapsed" : ""}
+                        data-bs-toggle="collapse"
+                        role="button"
+                        aria-expanded={menuOpenCloseState[5] ? "true" : "false"}
+                        aria-controls="sidebarReport"
+                    >
+                      <i className="fe fe-file-text"></i> Support
+                    </Nav.Link>
+                    <Collapse in={menuOpenCloseState[5]}>
+                      <div id="sidebarDashboards">
+                        <ul className="nav nav-sm flex-column">
+                          {user.module.includes("Support Dashboard") && (
+                          <li className="nav-item">
+                                <Link className={"nav-link"} to={SUPPORT_DASHBOARD_URL}>
+                                  Dashboard
+                                </Link>
+                          </li>
+                          )}
+                          {user.module.includes("My Tickets") && (
+                          <li className="nav-item">
+
+                                <Link className={"nav-link"} to={MY_TICKETS_URL}>
+                                  My Tickets
+                                </Link>
+
+                          </li>
+                          )}
+                          {user.module.includes("All Request") && (
+                              <li className="nav-item">
+
+                                <Link className={"nav-link"} to={ALL_TICKETS_URL}>
+                                  All Tickets
+                                </Link>
+
+                              </li>
+                          )}
+                          {user.module.includes("Other Request") && (
+                              <li className="nav-item">
+
+                                <Link className={"nav-link"} to={OTHER_TICKETS_URL}>
+                                  Request For Approval
+                                </Link>
+
+                              </li>
+                          )}
+                        </ul>
+                      </div>
+                    </Collapse>
+                  </Nav.Item>
               )}
             </Nav>
           </Navbar.Collapse>

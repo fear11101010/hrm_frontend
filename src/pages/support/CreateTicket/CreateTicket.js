@@ -83,7 +83,7 @@ function CreateTicket(props) {
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})*/
     return (
         <Layout>
-            <PageHeader title={"Create request"}/>
+            <PageHeader title={"Create request"} onBack/>
             <Container fluid>
                 {/*<Form onSubmit={handleSubmit(submitRequest)}>
                     <Card>

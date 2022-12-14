@@ -15,30 +15,55 @@ import {useNavigate} from "react-router-dom";
 import Loader from "../loader/Loader";
 import {error_alert, success_alert} from "../alert/Alert";
 import {FaTrash} from "react-icons/fa";
+import {loadFileInfo} from "../../utils/helper";
 
 function TicketForm({url, data, method}) {
     // console.log(data);
     const [requestDetail, setRequestDetail] = useState(RichTextEditor.createEmptyValue());
+    const [uploadedFile, setUploadedFile] = useState([]);
+    const [attachments, setAttachments] = useState([]);
+    const [deletedFile, setDeletedFile] = useState([]);
     const {register, handleSubmit, reset, formState: {errors}, control} = useForm({
-        defaultValues: {}
+        defaultValues: {
+            occurring_date: moment().format('YYYY-MM-DD')
+        }
     })
     useEffect(() => {
+        async function loadFile(files) {
+            console.log('files: ', files)
+            const ff = [];
+            for (let f of files) {
+                const file = await loadFileInfo(f.attachment_name);
+                console.log('file');
+                ff.push({id: f.id, ...file})
+            }
+            console.log('fffffff: ', ff)
+            setUploadedFile(ff)
+        }
+
         if (data) {
-            const tDetail =  data
+            const tDetail = data
             if (typeof tDetail?.priority === 'object') tDetail['priority'] = tDetail?.priority?.id;
             if (typeof tDetail?.request_type === 'object') tDetail['request_type'] = tDetail?.request_type?.id;
             if (typeof tDetail?.issue_type === 'object') tDetail['issue_type'] = tDetail?.issue_type?.id;
+            // setAttachments(tDetail?.attachment)
             console.log(tDetail);
             if (tDetail?.detail) {
+
                 setRequestDetail(editorValue => editorValue.setContentFromString(tDetail?.detail, 'html'))
             }
+            console.log('load file', tDetail?.attachment)
+            loadFile(tDetail?.attachment)
             reset(tDetail);
         }
     }, [data])
     const issueType = useIssueType()?.map(v => ({label: v.name, value: v.id}));
     const requestType = useRequestType()?.map(v => ({label: v.name, value: v.id}));
     // const requestTo = useRequestTo()?.map(v=>({label:v.name,value:v.id}));
-    const priority = usePriority()?.map(v => ({label: v.name, value: v.id}));
+    const priority = usePriority()?.map(v => ({
+        label: v.name.substring(0, 1).toUpperCase() + v.name.substring(1, v.name.length),
+        value: v.id
+    }));
     const [files, setFiles] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate();
@@ -64,15 +89,24 @@ function TicketForm({url, data, method}) {
 
     const submitRequest = (data, event) => {
         // data['attachment_name'] = files;
+        delete data['created_by'];
+        delete data['message_details'];
+        delete data['is_forward'];
+        delete data['current_status'];
+        delete data['updated_by'];
+        delete data['attachment']
+        delete data['created_at']
+        delete data['updated_at']
         const formData = Object.entries(data).reduce((fd, [key, val]) => {
             fd.append(key, val);
             return fd;
         }, new FormData())
         console.log(files);
         files.forEach((v, i) => {
-            formData.append(`attachment_name[${i}]`, v);
+            formData.append(`attachment_name`, v);
             console.log(v)
         });
+        if(deletedFile.length>0) formData.append(`deleted_attachments`, JSON.stringify(deletedFile));
         setIsLoading(true);
         API[method](url, formData, {
             headers: {
@@ -95,12 +129,24 @@ function TicketForm({url, data, method}) {
     }, [])
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
-    const removeFile = (e,i) => {
-       e.preventDefault();
-       e.stopPropagation();
+    const removeFile = (e, i) => {
+        e.preventDefault();
+        e.stopPropagation();
         setFiles(files => {
             const f = [...files];
-            f.splice(i,1)
+            f.splice(i, 1)
+            return f;
+        })
+    }
+    const removeUploadedFile = (e, i) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const f = uploadedFile[i];
+        setDeletedFile(df => [...df, f.id])
+        setUploadedFile(files => {
+            const f = [...files];
+            f.splice(i, 1)
+            console.log(f)
             return f;
         })
     }
@@ -110,7 +156,7 @@ function TicketForm({url, data, method}) {
             <Form onSubmit={handleSubmit(submitRequest)}>
                 <Card>
                     <Card.Body>
-                        <Row className="mb-2">
+                        <Row className="mb-4">
                             <Col sm={12} md={6} lg={6} xl={6} className="m-auto">
                                 <Form.Group>
                                     <Form.Label>Issue Type</Form.Label>
@@ -138,7 +184,7 @@ function TicketForm({url, data, method}) {
                                 </Form.Group>
                             </Col>
                         </Row>
-                        <Row className="mb-2">
+                        <Row className="mb-4">
                             <Col sm={12} md={6} lg={6} xl={6} className="m-auto">
                                 <Form.Group>
                                     <Form.Label>Request Type</Form.Label>
@@ -160,7 +206,7 @@ function TicketForm({url, data, method}) {
                                 </Form.Group>
                             </Col>
                         </Row>
-                        <Row className="mb-2">
+                        <Row className="mb-4">
                             <Col sm={12} md={6} lg={6} xl={6} className="m-auto">
                                 <Form.Group>
                                     <Form.Label>Request Heading</Form.Label>
@@ -170,7 +216,7 @@ function TicketForm({url, data, method}) {
                                 </Form.Group>
                             </Col>
                         </Row>
-                        <Row className="mb-2">
+                        <Row className="mb-4">
                             <Col sm={12} md={6} lg={6} xl={6} className="m-auto">
                                 <Form.Group style={{height: '220px'}}>
                                     <Form.Label>Request Heading</Form.Label>
@@ -195,7 +241,7 @@ function TicketForm({url, data, method}) {
                                 </Form.Group>
                             </Col>
                         </Row>
-                        <Row className="mb-2  mt-4">
+                        <Row className="mb-4  mt-5">
                             <Col sm={12} md={6} lg={6} xl={6} className="m-auto">
                                 <Form.Group>
                                     <Form.Label>Date</Form.Label>
@@ -209,7 +255,7 @@ function TicketForm({url, data, method}) {
                                                  }) => (
                                             <Datetime
                                                 timeFormat={false}
-                                                value={value ? moment(value) : ''}
+                                                value={value ? moment(value) : moment().format('YYYY-MM-DD')}
                                                 dateFormat="YYYY-MM-DD"
                                                 onChange={(e) => {
                                                     console.log(moment(e._d).format('YYYY-MM-DD'))
@@ -220,7 +266,7 @@ function TicketForm({url, data, method}) {
                                 </Form.Group>
                             </Col>
                         </Row>
-                        <Row className="mb-2">
+                        <Row className="mb-4">
                             <Col sm={12} md={6} lg={6} xl={6} className="m-auto">
                                 <Form.Group>
                                     <Form.Label>Priority</Form.Label>
@@ -264,7 +310,7 @@ function TicketForm({url, data, method}) {
                                 </Form.Group>
                             </Col>
                         </Row>*/}
-                        <Row className="mb-2">
+                        <Row className="mb-4">
                             <Col sm={12} md={6} lg={6} xl={6} className="m-auto">
                                 <Form.Group>
                                     <Form.Label>Mail CC</Form.Label>
@@ -273,7 +319,7 @@ function TicketForm({url, data, method}) {
                                 </Form.Group>
                             </Col>
                         </Row>
-                        <Row className="mb-2">
+                        <Row className="mb-4">
                             <Col sm={12} md={6} lg={6} xl={6} className="m-auto">
                                 <Form.Group>
                                     <Form.Label>Upload Attachment</Form.Label>
@@ -286,17 +332,36 @@ function TicketForm({url, data, method}) {
                                             </div>
                                         </div>
                                         <ul className="dz-preview dz-preview-multiple list-group list-group-lg list-group-flush">
-                                            {files.map((file,i) => (
+                                            {files.map((file, i) => (
                                                 <li className="list-group-item dz-processing">
                                                     <div className="row align-items-center">
                                                         <div className="col-auto"></div>
                                                         <div className="col ms-n3">
                                                             <h4 className="mb-1" data-dz-name="">{file.name}</h4>
                                                             <small className="text-muted"
-                                                                   data-dz-size=""><strong>{Math.ceil(file.size / 1024)}</strong> KB</small>
+                                                                   data-dz-size=""><strong>{Math.ceil(file.size / 1024)}</strong>KB</small>
                                                         </div>
                                                         <div className="col-auto">
-                                                            <button className="btn btn-light btn-sm" onClick={e=>removeFile(e,i)}>
+                                                            <button className="btn btn-light btn-sm"
+                                                                    onClick={e => removeFile(e, i)}>
+                                                                <FaTrash/>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            ))}
+                                            {uploadedFile.map((file, i) => (
+                                                <li className="list-group-item dz-processing">
+                                                    <div className="row align-items-center">
+                                                        <div className="col-auto"></div>
+                                                        <div className="col ms-n3">
+                                                            <h4 className="mb-1" data-dz-name="">{file.fileName}</h4>
+                                                            <small className="text-muted"
+                                                                   data-dz-size=""><strong>{file.size}</strong></small>
+                                                        </div>
+                                                        <div className="col-auto">
+                                                            <button className="btn btn-light btn-sm"
+                                                                    onClick={e => removeUploadedFile(e, i)}>
                                                                 <FaTrash/>
                                                             </button>
                                                         </div>
@@ -309,7 +374,7 @@ function TicketForm({url, data, method}) {
                                                 <p>Drop the files here ...</p> :
                                                 (<div className="dz-default dz-message">
                                                     <button className="dz-button" type="button">Drop files here to
-                                                        upload
+                                                        upload <br/>or <br/>click to open file browser
                                                     </button>
                                                 </div>)
                                         }

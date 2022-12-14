@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 import {Button, Card, Modal} from "react-bootstrap";
 import Table from "../../../components/table/Table";
 import CustomTable from "../../../components/custom-table/CustomTable";
-import {ALL_TICKET_TABLE_COLUMNS, MY_TICKET_TABLE_COLUMNS} from "../table-columns";
+import {ALL_TICKET_TABLE_COLUMNS, MY_TICKET_TABLE_COLUMNS, OTHER_TICKET_TABLE_COLUMNS} from "../table-columns";
 import useFetch from "../../../hooks/useFetch";
 import {TICKET_LIST_CREATE_API} from "../../../utils/support/SP_API_ROUTES";
 import Loader from "../../../components/loader/Loader";
@@ -19,13 +19,12 @@ import UpdateStatus from "../../../components/support/UpdateStatus";
 import ForwardToForm from "../../../components/support/ForwardToForm";
 import ReplyToForm from "../../../components/support/ReplyToForm";
 
-function AllTickets(props) {
+function OtherTickets(props) {
     const [refreshData,setRefreshData] = useState(false);
     const {data,isLoading} = useFetch(TICKET_LIST_CREATE_API,refreshData);
     const [show,setShow] = useState(false);
     const [showStatusUpdateDialog,setShowStatusUpdateDialog] = useState(false);
     const [forwardToDialog,setForwardToDialog] = useState(false);
-    const [replyToDialog,setReplyToDialog] = useState(false);
     const [ticketId,setTicketId] = useState('');
 
     function handleClose(e) {
@@ -39,25 +38,15 @@ function AllTickets(props) {
         setForwardToDialog(false)
         setRefreshData(!refreshData);
     }
-    function handleReplyToDialog(e) {
-        setReplyToDialog(false)
-        setRefreshData(!refreshData);
-    }
     function handleShow(e,id) {
         console.log(typeof e);
         setTicketId(id)
         switch (e){
             case '1':
-                setShowStatusUpdateDialog(true)
-                break;
-            case '2':
                 setShow(true);
                 break;
-            case '3':
+            case '2':
                 setForwardToDialog(true);
-                break;
-            case '4':
-                setReplyToDialog(true);
                 break;
         }
     }
@@ -69,7 +58,7 @@ function AllTickets(props) {
                 <Container fluid>
                     <Card>
                         <Card.Body>
-                            <CustomTable data={data.data} columns={ALL_TICKET_TABLE_COLUMNS(handleShow)} size={"sm"} responsive/>
+                            <CustomTable data={data.data} columns={OTHER_TICKET_TABLE_COLUMNS(handleShow)} size={"sm"} responsive/>
                         </Card.Body>
                     </Card>
                 </Container>
@@ -77,9 +66,8 @@ function AllTickets(props) {
             </Layout>
             {isLoading && <Loader/>}
             {show && <ViewTicketDetail id={ticketId} show={show} handleClose={handleClose}/>}
-            {showStatusUpdateDialog && <UpdateStatus id={ticketId} show={showStatusUpdateDialog} handleClose={handleStatusUpdateDialogClose}/>}
-            {forwardToDialog && <ForwardToForm id={ticketId} show={forwardToDialog} handleClose={handleForwardToDialogClose}/>}
-            {replyToDialog && <ReplyToForm id={ticketId} show={replyToDialog} handleClose={handleReplyToDialog}/>}</>
+            {/*{showStatusUpdateDialog && <UpdateStatus id={ticketId} show={showStatusUpdateDialog} handleClose={handleStatusUpdateDialogClose}/>}*/}
+            {forwardToDialog && <ReplyToForm id={ticketId} show={forwardToDialog} handleClose={handleForwardToDialogClose}/>}</>
     )
 }
-export default AllTickets;
+export default OtherTickets;
