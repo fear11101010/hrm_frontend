@@ -4,9 +4,11 @@ import { ComposedChart, Line, Area, Bar, XAxis, YAxis, CartesianGrid, Tooltip, L
 
 export default function BarChart() {
   const currYear = new Date().getFullYear();
+  let real_data = data[0]?.kpi_data[0]?.kpi_value_data;
+  console.log(real_data);
   return (
     <div>
-      <Card className="shadow-sm border">
+      <Card className="shadow-sm border" style={{ fontSize: "13px" }}>
         <Card.Header className="mb-0 d-flex justify-content-between ">
           <h4 className="mb-0">KPI Value</h4>
           <Form>
@@ -18,18 +20,14 @@ export default function BarChart() {
           </Form>
         </Card.Header>
         <Card.Body>
-          <ResponsiveContainer width="100%" height={220}>
-            <ComposedChart width={"100%"} data={data} layout="horizontal">
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip
-                contentStyle={{
-                  borderRadius: "4px",
-                  border: "1px solid #666",
-                }}
-              />
-              <Bar dataKey="value" label={{ fill: "white" }} fill="#2C7BE5" barSize={30} />
-              <Line type="monotone" dataKey="value" stroke="#e74c3c" strokeWidth={2} />
+          <ResponsiveContainer width="100%" height="100%">
+            <ComposedChart layout="vertical" width={500} height={400} data={real_data}>
+              <CartesianGrid stroke="#f5f5f5" />
+              <XAxis />
+              <YAxis dataKey="kpi_value_name" type="category" scale="band" />
+              <Tooltip /> <Legend />
+              <Bar dataKey="value" barSize={20} fill="#413ea0" />
+              <Line dataKey="value" stroke="#ff7300" />
             </ComposedChart>
           </ResponsiveContainer>
         </Card.Body>
@@ -40,27 +38,28 @@ export default function BarChart() {
 
 const data = [
   {
+    id: 1,
     name: "Role Model",
-    value: 67,
-    // pv: 800,
-    amt: 1400,
+    value: 3,
   },
   {
+    id: 2,
     name: "Very Good",
-    value: 50,
-    // pv: 800,
-    amt: 1400,
+    value: 1,
   },
   {
+    id: 3,
     name: "Good",
-    value: 34,
-    // pv: 800,
-    amt: 1400,
+    value: 0,
   },
   {
-    name: "Improvement",
-    value: 48,
-    // pv: 800,
-    amt: 1400,
+    id: 4,
+    name: "Improvement Required",
+    value: 0,
+  },
+  {
+    id: 5,
+    name: "Unacceptable",
+    value: 0,
   },
 ];
