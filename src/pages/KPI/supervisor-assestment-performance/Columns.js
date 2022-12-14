@@ -60,7 +60,7 @@ export const columns = [
             {/* If today is not greater than close_date then button will enable */}
             {currTime > moment(row?.review_closedate).valueOf() === false ? (
               <Link to={EMPLOYEE_ASSESTMENT_SINGLE_PAGE(row.id)}>
-                {console.log("/employee-assestment/" + Encrypt(row.id.toString()))}
+                {/* {console.log("/employee-assestment/" + Encrypt(row.id.toString()))} */}
                 {row?.approve_by_sbu === 0 && (
                   <button className="btn btn-sm btn-rounded-circle btn-primary" title="Details">
                     <i className="fe fe-edit"></i>
