@@ -64,5 +64,12 @@ export const SALARY_INCREMENT_REPORT = `/report/performance-evaluation-and-salar
 export const SBU_ASSESTMENT_REPORT = `/report/sbu-assestment`;
 export const ASSESTMENT_SUMMARY_REPORT = `/report/assestment-summary-report/`;
 
+//Bill Management
+export const BILL_LIST_URL = '/bill_management/bill_list';
+export const BILL_ADD_URL = '/bill_management/add_bill';
+export const CONVEYANCE_LIST_URL = '/bill_management/conveyance_list';
+export const CONVEYANCE_ADD_URL = '/bill_management/add_conveyance';
+
+
 // Others
 export const UNAUTHORIZED = "/unauthorized";

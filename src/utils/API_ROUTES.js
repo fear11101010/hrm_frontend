@@ -33,6 +33,7 @@ export const PRIVILEGES_POST = `/privilege`;
 
 // Employee
 export const EMPLOYEE_LIST_GET = "/employee/";
+export const PROJECT_LIST_GET = "/project/";
 export const EMPLOYEE_EACH_GET = (id) => `/employee/${id}/`;
 export const EMPLOYEE_EDIT_POST = (id) => `/employee_update/${id}/`;
 export const DESIGNATION_BAND_GET = `/designation_band/`;
@@ -104,3 +105,8 @@ export const SALARY_INCREMENT_REPORT_POST = (year) => `/reports/${year}/confirme
 export const SBU_ASSESTMENT_REPORT_GET = `report_performance_assessed_data/`;
 // export const SBU_ASSESTMENT_REPORT_GET = `report_performance_assessed_data/`;
 export const ASSESTMENT_SUMMARY_REPORT_POST = `reports/$/assessment_summary/`;
+
+// BILL MANAGEMENT
+
+export const BILL_LIST_API = '/bill_list_file_upload/';
+export const CONVEYANCE_LIST_API = '/bill_list_file_upload/';

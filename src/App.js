@@ -59,6 +59,7 @@ import {
   BILL_LIST,
   BILL_ADD,
   ASSESTMENT_SUMMARY_REPORT,
+  BILL_LIST_URL, CONVEYANCE_LIST_URL, BILL_ADD_URL, CONVEYANCE_ADD_URL,
 } from "./utils/APP_ROUTES";
 import KpiPerformanceIndex from "./pages/KPI/kpi-performane-form/kpi-performance-index";
 import KpiPerformanceFormCreate from "./pages/KPI/kpi-performane-form/kpi-performance-form-create";
@@ -86,9 +87,32 @@ import ConfigurationOutlet from "./outlets/ConfigurationOutlet";
 import FileUpload from "./pages/Configuration/file-upload/FileUpload";
 import EmPerformancePrevYear from "./pages/KPI/employee-performance/em-performance-prevYear";
 import Landing from "./pages/Landing/Landing";
-import BillList from "./pages/bill-management/bill/List";
-import BillAdd from "./pages/bill-management/bill/billAdd";
+
+
 import AssestmentSummaryReport from "./pages/Report/assestment_summary_report/AssestmentSummaryReport";
+import ReportOutlet from "./outlets/ReportOutlet";
+
+import Conveyance from "./pages/bill-management/Conveyance/Conveyance";
+import BillManagementOutlet from "./outlets/BillManagementOutlet";
+import AddBill from "./pages/bill-management/AddBill/AddBill";
+import {
+  ALL_TICKETS_URL,
+  CREATE_TICKET_URL,
+  EDIT_TICKET_URL,
+  MY_TICKETS_URL, OTHER_TICKETS_URL, SUPPORT_DASHBOARD_URL,
+  VIEW_TICKET_URL
+} from "./utils/support/SP_APP_ROUTES";
+import CreateTicket from "./pages/support/CreateTicket/CreateTicket";
+import SupportOutlet from "./outlets/SupportOutlet";
+import MyTickets from "./pages/support/MyTickets/MyTickets";
+import EditTicket from "./pages/support/EditTicket/EditTicket";
+import ViewTicketDetail from "./pages/support/ViewTicket/ViewTicketDetail";
+import AllTickets from "./pages/support/AllTickets/AllTickets";
+import OtherTickets from "./pages/support/OtherTickets/OtherTickets";
+import SupportDashboard from "./pages/support/Dashboard/SupportDashboard";
+import BillList from "./pages/bill-management/Bill/List";
+import BillAdd from "./pages/bill-management/Bill/billAdd";
+import Bill from "./pages/bill-management/Bill/Bill";
 
 function App() {
   return (
@@ -149,8 +173,16 @@ function App() {
           <Route path={REQUISITION_RESOURCE_FORM} element={<ResourceRequisitionForm />} />
         </Route>
 
+        {/* BILL MANAGEMENT */}
+        <Route path={"/"} element={<BillManagementOutlet />}>
+          <Route path={BILL_LIST_URL} element={<Bill />} />
+          <Route path={BILL_ADD_URL} element={<AddBill />} />
+          <Route path={CONVEYANCE_LIST_URL} element={<Conveyance />} />
+          <Route path={CONVEYANCE_ADD_URL} element={<Conveyance />} />
+        </Route>
+
         {/* REPORT */}
-        <Route path={"/report"} element={<KpiOutlet />}>
+        <Route path={"/report"} element={<ReportOutlet />}>
           <Route path={SALARY_FULL_REPORT_URL} element={<SalaryFullReport />} />
           <Route path={SALARY_PIVOT_SUMMARY_REPORT_URL} element={<SalaryPivotReport />} />
           <Route path={SALARY_INCREMENT_ELIGIBLE_REPORT_URL} element={<SalaryIncrementEligibleReport />} />
@@ -159,6 +191,15 @@ function App() {
           <Route path={SALARY_INCREMENT_REPORT} element={<SalaryIncrementReport />} />
           <Route path={SBU_ASSESTMENT_REPORT} element={<SbuAssestmentData />} />
           <Route path={ASSESTMENT_SUMMARY_REPORT} element={<AssestmentSummaryReport />} />
+        </Route>
+        <Route path={"/support"} element={<SupportOutlet />}>
+          <Route path={SUPPORT_DASHBOARD_URL} element={<SupportDashboard />} />
+          <Route path={MY_TICKETS_URL} element={<MyTickets />} />
+          <Route path={ALL_TICKETS_URL} element={<AllTickets />} />
+          <Route path={OTHER_TICKETS_URL} element={<OtherTickets />} />
+          <Route path={CREATE_TICKET_URL} element={<CreateTicket />} />
+          <Route path={EDIT_TICKET_URL} element={<EditTicket />} />
+          <Route path={VIEW_TICKET_URL} element={<ViewTicketDetail />} />
         </Route>
 
         <Route path={UNAUTHORIZED} element={<Unauth />} />

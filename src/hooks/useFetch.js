@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { API } from "../utils/axios/axiosConfig";
 
-function useFetch(url) {
+function useFetch(url,refresh=false) {
   const [isLoading, setIsLoading] = useState(null);
   const [data, setData] = useState([]);
   const [err, setErr] = useState("");
@@ -25,7 +25,7 @@ function useFetch(url) {
     return () => {
       source.cancel();
     };
-  }, [url]);
+  }, [url,refresh]);
 
   return { data, isLoading, err };
 }

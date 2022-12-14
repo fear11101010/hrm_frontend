@@ -1,4 +1,5 @@
 import moment from "moment";
+import {getDurations} from "../../utils/helper";
 
 export const PIVOT_TABLE_COLUMN = (year) => [
   {
@@ -103,40 +104,46 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
     },
     {
       name: "Employee Name",
-
+      sortable:true,
       selector: (row, index) => Object.values(row)[0]?.employee?.name,
     },
     {
       name: "Designation",
-
+      sortable:true,
       selector: (row, index) => Object.values(row)[0]?.employee?.designation,
     },
     {
       name: "ID No",
-
-      selector: (row, index) => Object.values(row)[0]?.employee?.employees_id,
+      sortable:true,
+      selector: (row, index) => Object.values(row)[0]?.employee?.employee_id,
     },
     {
       name: "DOJ",
-
-      selector: (row, index) => moment(Object.values(row)[0]?.employee?.date_of_joining).format("DD MMM,YYYY"),
+      sortable:true,
+      selector: (row, index) => moment(Object.values(row)[0]?.employee?.date_of_joining).toDate(),
+      cell: (row, index) => (<span className="item-title">
+        {moment(Object.values(row)[0]?.employee?.date_of_joining).format("DD MMM,YYYY")}
+      </span>),
     },
     {
       name: "Durations",
+      sortable:true,
       selector: (row, index) => {
-        const diff = moment().diff(Object.values(row)[0]?.employee?.date_of_joining);
-        const duration = moment.duration(diff);
-        return `${duration.years()} years, ${duration.months()} months`;
+        const durations = getDurations(Object.values(row)[0]?.employee?.date_of_joining);
+        return durations.years()+durations.months()/12;
       },
+      cell: (row, index) => (<span className="item-title">
+        {`${getDurations(Object.values(row)[0]?.employee?.date_of_joining).years()} years, ${getDurations(Object.values(row)[0]?.employee?.date_of_joining).months()} months`}
+      </span>),
     },
     {
       name: "SBU",
-
+      sortable:true,
       selector: (row, index) => Object.values(row)[0]?.employee?.sbu?.name,
     },
     {
       name: "Sub SBU",
-
+      sortable:true,
       selector: (row, index) => Object.values(row)[0]?.employee?.sub_sbu?.name,
     },
     {
