@@ -87,11 +87,11 @@ import ConfigurationOutlet from "./outlets/ConfigurationOutlet";
 import FileUpload from "./pages/Configuration/file-upload/FileUpload";
 import EmPerformancePrevYear from "./pages/KPI/employee-performance/em-performance-prevYear";
 import Landing from "./pages/Landing/Landing";
-import BillList from "./pages/bill-management/bill/List";
-import BillAdd from "./pages/bill-management/bill/billAdd";
+
+
 import AssestmentSummaryReport from "./pages/Report/assestment_summary_report/AssestmentSummaryReport";
 import ReportOutlet from "./outlets/ReportOutlet";
-import Bill from "./pages/bill-management/Bill/Bill";
+
 import Conveyance from "./pages/bill-management/Conveyance/Conveyance";
 import BillManagementOutlet from "./outlets/BillManagementOutlet";
 import AddBill from "./pages/bill-management/AddBill/AddBill";
@@ -110,6 +110,9 @@ import ViewTicketDetail from "./pages/support/ViewTicket/ViewTicketDetail";
 import AllTickets from "./pages/support/AllTickets/AllTickets";
 import OtherTickets from "./pages/support/OtherTickets/OtherTickets";
 import SupportDashboard from "./pages/support/Dashboard/SupportDashboard";
+import BillList from "./pages/bill-management/Bill/List";
+import BillAdd from "./pages/bill-management/Bill/billAdd";
+import Bill from "./pages/bill-management/Bill/Bill";
 
 function App() {
   return (
