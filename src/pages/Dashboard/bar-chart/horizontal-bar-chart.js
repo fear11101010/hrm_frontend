@@ -28,18 +28,18 @@ export default function HorizontalBarGraph({ title, data }) {
           </Form.Select>
         </Form> */}
       </Card.Header>
-      <Card.Body style={{ fontSize: "13px" }}>
+      <Card.Body className="px-0" style={{ fontSize: "13px" }}>
         <ResponsiveContainer width="100%" height={300}>
           <ComposedChart width={"100%"} data={data}>
-            <XAxis dataKey={"sbu_name"} />
-            <YAxis dataKey={"sbu_pct"} />
+            <XAxis dataKey={"name"} />
+            <YAxis dataKey={"value"} />
             <Tooltip
               contentStyle={{
                 borderRadius: "4px",
                 border: "1px solid #666",
               }}
             />
-            <Bar dataKey="sbu_pct" fill="#2C7BE5" barSize={10} />
+            <Bar dataKey="value" fill="#2C7BE5" barSize={10} />
           </ComposedChart>
         </ResponsiveContainer>
       </Card.Body>
