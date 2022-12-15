@@ -1,6 +1,6 @@
 // export const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-const server_ip = "http://192.168.7.148:9000";
+const server_ip = "http://192.168.7.148:9998";
 // const server_ip = "http://182.163.112.207:5001";
 // const server_ip = "http://192.168.7.148:5001";
 

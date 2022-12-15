@@ -100,7 +100,7 @@ export default function SupervisorAssestmentPerformance() {
                 }
               }}
             >
-              Review
+              Approve
             </Button>
           </div>
         )}

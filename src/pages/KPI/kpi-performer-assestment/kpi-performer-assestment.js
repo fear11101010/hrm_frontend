@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Button, Form, Modal, ModalTitle } from "react-bootstrap";
 import Content from "../../../components/content/Content";
 import PageHeader from "../../../components/header/PageHeader";
@@ -7,7 +7,12 @@ import useSbu from "../../../hooks/SBU/useSbu";
 import Layout from "../../../layout/Layout";
 import Select from "react-select";
 import { API } from "../../../utils/axios/axiosConfig";
-import { GLOBAL_FILTER, KPI_PERMORMER_ASSESTMENT_BY_SBU_GET, PERFORMANCE_REVIEW_FILTER } from "../../../utils/API_ROUTES";
+import {
+  GLOBAL_FILTER,
+  KPI_PERMORMER_ASSESTMENT_BULK_SUBMIT,
+  KPI_PERMORMER_ASSESTMENT_BY_SBU_GET,
+  PERFORMANCE_REVIEW_FILTER,
+} from "../../../utils/API_ROUTES";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
 import Table from "../../../components/table/Table";
 import { dataColumns } from "./data-columns";
@@ -46,10 +51,19 @@ export default function KpiPerformerAssestment() {
   const [incAmountModal, setIncAmountModal] = useState(false);
   const [summaryModal, setSummaryModal] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
-
+  const [isBulkConfirm, setIsBulkConfirm] = useState(false);
   const [employee_name, setEmployee_name] = useState("");
-
   const currYear = new Date().getFullYear();
+
+  // table select
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [toggleCleared, setToggleCleared] = useState(false);
+
+  // Change while selecting checkbox
+  const handleRowSelected = useCallback((data) => {
+    let getSelectedId = data?.selectedRows?.map((d) => d?.id);
+    setSelectedRows(getSelectedId);
+  }, []);
 
   //Get Data by Selecting SBU
   const selectedSbuData = () => {
@@ -259,6 +273,32 @@ export default function KpiPerformerAssestment() {
       });
   };
 
+  // Bulk Submit
+  const bulkSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    API.post(KPI_PERMORMER_ASSESTMENT_BULK_SUBMIT, { final_id: selectedRows })
+      .then((res) => {
+        if (res.data.statuscode === 200) {
+          success_alert(res.data.message);
+          setSelectedRows([]);
+          setToggleCleared(!toggleCleared);
+          selectedSbuData();
+        } else {
+          error_alert(res.data.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+        setToggleCleared(!toggleCleared);
+        setSelectedRows([]);
+        setIsBulkConfirm(false);
+      });
+  };
+
   ///////////////
   // FILTER
   ///////////////
@@ -309,6 +349,9 @@ export default function KpiPerformerAssestment() {
     setFilter_employee("");
     setFilter_designation("");
   };
+
+  // Disabled row when status is approved by head
+  const rowDisabledCriteria = (row) => row?.flag === 1;
 
   return user.accessibility.includes("PerformanceReview") ? (
     <Layout>
@@ -410,7 +453,25 @@ export default function KpiPerformerAssestment() {
                 </div>
               </Form>
             </Filter> */}
-            <Table columns={dataColumns.concat(extended_columns)} data={sbuData} />
+            <Table
+              columns={dataColumns.concat(extended_columns)}
+              data={sbuData}
+              selectableRows
+              onSelectedRowsChange={handleRowSelected}
+              selectableRowDisabled={rowDisabledCriteria}
+              clearSelectedRows={toggleCleared}
+            />
+            <div className="text-end">
+              {selectedRows.length > 0 && (
+                <Button
+                  onClick={() => {
+                    setIsBulkConfirm(true);
+                  }}
+                >
+                  Approve
+                </Button>
+              )}
+            </div>
           </div>
         )}
       </Content>
@@ -463,6 +524,13 @@ export default function KpiPerformerAssestment() {
           message={"Are you sure you want to request for edit?"}
           onOkButtonClick={handleRequestForEdit}
           onCancelButtonClick={(e) => setIsConfirm(false)}
+        />
+      )}
+      {isBulkConfirm && (
+        <ConfirmDialog
+          message={"Are you sure you want to bulk approve?"}
+          onOkButtonClick={bulkSubmit}
+          onCancelButtonClick={(e) => setIsBulkConfirm(false)}
         />
       )}
     </Layout>

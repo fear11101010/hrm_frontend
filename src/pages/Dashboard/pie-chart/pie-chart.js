@@ -46,4 +46,4 @@ export default function PieChartCustom({ title, data }) {
   );
 }
 
-const COLORS = ["#E14D2A", "#FD841F", "#3E6D9C", "#001253", "#10A19D"];
+const COLORS = ["#1657AF", "#2192FF", "#3E6D9C", "#001253", "#10A19D"];
