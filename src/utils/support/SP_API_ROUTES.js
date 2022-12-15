@@ -1,3 +1,5 @@
+export const SUPPORT_DASHBOARD_API = '/support_dashboard/'
+export const SUPPORT_DASHBOARD_LIST_STATUS_API =id=> `/support_dashboard/${id}/`
 export const REQUEST_TYPE_API = '/request_type/'
 export const ISSUE_TYPE_API = '/issue_type/'
 export const REQUEST_STATUS_API = '/request_status/'

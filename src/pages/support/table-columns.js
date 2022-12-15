@@ -52,15 +52,16 @@ export const MY_TICKET_TABLE_COLUMNS = (func)=> [
         sortable:true
     },
     {
-        name:'Comment',
-        selector:(row,index)=>row?.comment,
-        sortable:true
+        name: 'Comment',
+        selector: (row, index) => row?.request_resolved_detail?.comments?row?.request_resolved_detail?.comments:'',
+        sortable: true
     },
     {
-        name:'Resolving Date',
-        selector:(row,index)=>row?.resolving_date?moment(row?.resolving_date).toDate():'',
-        cell:(row,index)=>(<span>{row?.resolving_date?moment(row?.resolving_date).format('DD MMM, YYYY'):''}</span>),
-        sortable:true
+        name: 'Resolving Date',
+        selector: (row, index) => row?.request_resolved_detail?.created_at?moment(row?.request_resolved_detail?.created_at).toDate():'',
+        cell: (row, index) => (
+            <span>{row?.request_resolved_detail?.created_at?moment(row?.request_resolved_detail?.created_at).format('DD MMM, YYYY') : ''}</span>),
+        sortable: true
     },
     {
         name:'Action',
@@ -71,6 +72,58 @@ export const MY_TICKET_TABLE_COLUMNS = (func)=> [
                         <FaEdit/>&nbsp;Edit
                     </Link>
                 )}
+                <Button onClick={e=>func(row?.id)} className="btn btn-primary btn-sm d-flex justify-content-center align-items-center">
+                    <FaEye/>&nbsp;View
+                </Button>
+            </div>
+        ),
+        sortable:true
+    },
+]
+export const STATUS_WISE_TICKET_TABLE_COLUMNS = (func)=> [
+    {
+        name:'SL. No',
+        selector:(_,index)=>index+1,
+        sortable:true
+    },
+    {
+        name:'Ticket No',
+        selector:(row,index)=>row?.ticket_no,
+        sortable:true
+    },
+    {
+        name:'Title',
+        selector:(row,index)=>row?.heading,
+        sortable:true
+    },
+    {
+        name:'Rising Date',
+        selector:(row,index)=>row?.occurring_date?moment(row?.occurring_date).toDate():'',
+        cell:(row,index)=>(<span>{row?.occurring_date?moment(row?.occurring_date).format('DD MMM, YYYY'):''}</span>),
+        sortable:true
+    },
+    {
+        name:'Status',
+        selector:(row,index)=>row?.current_status?.name,
+        cell:(row,index)=>(<span className={`badge ${getStatus(row?.current_status?.id)}`}>{row?.current_status?.name}</span>),
+        sortable:true
+    },
+    {
+        name: 'Comment',
+        selector: (row, index) => row?.request_resolved_detail?.comments?row?.request_resolved_detail?.comments:'',
+        sortable: true
+    },
+    {
+        name: 'Resolving Date',
+        selector: (row, index) => row?.request_resolved_detail?.created_at?moment(row?.request_resolved_detail?.created_at).toDate():'',
+        cell: (row, index) => (
+            <span>{row?.request_resolved_detail?.created_at?moment(row?.request_resolved_detail?.created_at).format('DD MMM, YYYY') : ''}</span>),
+        sortable: true
+    },
+    {
+        name:'Action',
+        cell:(row,index)=>(
+            <div className="d-flex justify-content-center align-items-center">
                 <Button onClick={e=>func(row?.id)} className="btn btn-primary btn-sm d-flex justify-content-center align-items-center">
                     <FaEye/>&nbsp;View
                 </Button>
@@ -117,14 +170,14 @@ export const ALL_TICKET_TABLE_COLUMNS = (viewFunc)=> {
         },
         {
             name: 'Comment',
-            selector: (row, index) => row?.comment,
+            selector: (row, index) => row?.request_resolved_detail?.comments?row?.request_resolved_detail?.comments:'',
             sortable: true
         },
         {
             name: 'Resolving Date',
-            selector: (row, index) => row?.resolving_date ? moment(row?.resolving_date).toDate() : '',
+            selector: (row, index) => row?.request_resolved_detail?.created_at?moment(row?.request_resolved_detail?.created_at).toDate():'',
             cell: (row, index) => (
-                <span>{row?.resolving_date ? moment(row?.resolving_date).format('DD MMM, YYYY') : ''}</span>),
+                <span>{row?.request_resolved_detail?.created_at?moment(row?.request_resolved_detail?.created_at).format('DD MMM, YYYY') : ''}</span>),
             sortable: true
         },
         {
@@ -144,21 +197,21 @@ export const ALL_TICKET_TABLE_COLUMNS = (viewFunc)=> {
                             Action
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            {row?.current_status?.id!==4 && (<Dropdown.Item eventKey={1}>
+                            {((!row?.is_forward || row?.approve_status) && ([1,2].indexOf(row?.request_type?.id)>=0||[1,2].indexOf(row?.request_type?.id)<0)) && (<Dropdown.Item eventKey={1}>
                                 <FaEdit/> Update Status
                             </Dropdown.Item>)}
                             <Dropdown.Item eventKey={2}>
                                 <FaEye/> View Detail
                             </Dropdown.Item>
                             {
-                               ((row?.request_type?.id===1 || row?.request_type?.id===2) && row?.current_status?.id===2 && !row?.is_forward) && (
+                               ((row?.request_type?.id===1 || row?.request_type?.id===2) && row?.current_status?.id!==1 && !row?.is_forward) && (
                                     <Dropdown.Item eventKey={3}>
                                         <FaForward/> Forward To
                                     </Dropdown.Item>
                                 )
                             }
                             {
-                                ((row?.request_type?.id===1 || row?.request_type?.id===2) && row?.current_status?.id!==1 && row?.is_forward) && (
+                                ((row?.request_type?.id===1 || row?.request_type?.id===2) && row?.is_forward) && (
                                     <Dropdown.Item eventKey={4}>
                                         <FaFile/> Inspection Report
                                     </Dropdown.Item>
@@ -209,14 +262,14 @@ export const OTHER_TICKET_TABLE_COLUMNS = (viewFunc)=> {
         },
         {
             name: 'Comment',
-            selector: (row, index) => row?.comment,
+            selector: (row, index) => row?.request_resolved_detail?.comments?row?.request_resolved_detail?.comments:'',
             sortable: true
         },
         {
             name: 'Resolving Date',
-            selector: (row, index) => row?.resolving_date ? moment(row?.resolving_date).toDate() : '',
+            selector: (row, index) => row?.request_resolved_detail?.created_at?moment(row?.request_resolved_detail?.created_at).toDate():'',
             cell: (row, index) => (
-                <span>{row?.resolving_date ? moment(row?.resolving_date).format('DD MMM, YYYY') : ''}</span>),
+                <span>{row?.request_resolved_detail?.created_at?moment(row?.request_resolved_detail?.created_at).format('DD MMM, YYYY') : ''}</span>),
             sortable: true
         },
         {
@@ -232,8 +285,8 @@ export const OTHER_TICKET_TABLE_COLUMNS = (viewFunc)=> {
                         variant="light"
                         onSelect={e => viewFunc(e, row?.id)}
                     >
-                        <Dropdown.Toggle as="a" className="dropdown-ellipses" variant="light" id="dropdown-basic">
-                            <i className="fe fe-more-vertical"></i>
+                        <Dropdown.Toggle variant="light" className="fw-bold" size="sm" id="dropdown-basic">
+                            Action
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                             <Dropdown.Item eventKey={1}>

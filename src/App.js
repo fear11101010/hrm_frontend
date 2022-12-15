@@ -95,7 +95,7 @@ import {
   CREATE_TICKET_URL,
   EDIT_TICKET_URL,
   MY_TICKETS_URL,
-  OTHER_TICKETS_URL,
+  OTHER_TICKETS_URL, SUPPORT_DASHBOARD_STATUS_WISE_URL,
   SUPPORT_DASHBOARD_URL,
   VIEW_TICKET_URL,
 } from "./utils/support/SP_APP_ROUTES";
@@ -107,6 +107,7 @@ import ViewTicketDetail from "./pages/support/ViewTicket/ViewTicketDetail";
 import AllTickets from "./pages/support/AllTickets/AllTickets";
 import OtherTickets from "./pages/support/OtherTickets/OtherTickets";
 import SupportDashboard from "./pages/support/Dashboard/SupportDashboard";
+import TicketStatusList from "./pages/support/TicketStatusList/TicketStatusList";
 
 // import BillList from "./pages/bill-management/bill/List";
 // import BillAdd from "./pages/bill-management/bill/billAdd";
@@ -185,6 +186,7 @@ function App() {
 
           <Route path={"/support"} element={<SupportOutlet />}>
             <Route path={SUPPORT_DASHBOARD_URL} element={<SupportDashboard />} />
+            <Route path={SUPPORT_DASHBOARD_STATUS_WISE_URL} element={<TicketStatusList />} />
             <Route path={MY_TICKETS_URL} element={<MyTickets />} />
             <Route path={ALL_TICKETS_URL} element={<AllTickets />} />
             <Route path={OTHER_TICKETS_URL} element={<OtherTickets />} />
