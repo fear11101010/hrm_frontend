@@ -8,12 +8,15 @@ function Pagination({data, rowPerPage, onPageChange}) {
         e.preventDefault();
         setCurrentPage(page);
         if (onPageChange) {
-            onPageChange(page);
+            onPageChange(page,data?.slice((page - 1) * rowPerPage,page * rowPerPage));
         }
     }
     useEffect(() => {
         setCurrentPage(1);
-    }, [data])
+        if (onPageChange) {
+            onPageChange(1,data?.slice(0,rowPerPage));
+        }
+    }, [data,rowPerPage])
     return (
         <>
             <ul className="list-pagination-prev pagination pagination-tabs card-pagination">
@@ -32,12 +35,6 @@ function Pagination({data, rowPerPage, onPageChange}) {
                         </li>
                     ))
                 }
-                {/*<li>
-                    <a href="#" className="page">2</a>
-                </li>
-                <li>
-                    <a href="#" className="page">3</a>
-                </li>*/}
             </ul>
             <ul className="list-pagination-next pagination pagination-tabs card-pagination">
                 <li className="page-item">

@@ -69,7 +69,7 @@ function AllTickets(props) {
                 <Container fluid>
                     <Card>
                         <Card.Body>
-                            <CustomTable data={data.data} columns={ALL_TICKET_TABLE_COLUMNS(handleShow)} size={"sm"} responsive/>
+                            <CustomTable data={data.data} pagination={{show:true,perPageList:[5,10,20,30,50,100]}} columns={ALL_TICKET_TABLE_COLUMNS(handleShow)} size={"sm"} responsive/>
                         </Card.Body>
                     </Card>
                 </Container>

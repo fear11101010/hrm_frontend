@@ -7,23 +7,27 @@ import Pagination from "./pagination";
 import Select from "../select/Select";
 import TableHeader from "./TableHeader";
 
-function CustomTable({columns, data, size, responsive, onDataSort, pagination}) {
-    const selectProps = {indeterminate: (isIndeterminate) => isIndeterminate};
+function CustomTable({columns, data, size, responsive, onDataSort, pagination:{show,perPageList}}) {
     const [dummy, setDummy] = useState(1);
+    const [showPerPage, setShowPerPage] = useState(show&&perPageList[0]);
+    const paginationOption = perPageList.map(p=>({value:p,label:`${p} per page`}))
     const [tableRows, setTableRows] = useState([]);
     const [pageNumber, setPageNumber] = useState(1);
     useEffect(() => {
         console.log(data);
-        setTableRows(pagination ? data?.slice(0, 5) : data);
-        setPageNumber(1);
+        // setTableRows(show ? data?.slice(0, showPerPage) : data);
+        if(!(show)){
+            setTableRows(data);
+        }
+        // setPageNumber(1);
     }, [data]);
 
-    const onPageChange = (page) => {
-        setTableRows(data?.slice((page - 1) * 5, page * 5));
+    const onPageChange = (page,rows) => {
+        setTableRows(rows);
         setPageNumber(page);
     };
     const afterDataSort = (d) => {
-        setTableRows(pagination ? data?.slice((pageNumber - 1) * 5, pageNumber * 5) : data);
+        setTableRows(show ? data?.slice((pageNumber - 1) * showPerPage, pageNumber * showPerPage) : data);
         setDummy(t => -t);
     }
     return (
@@ -42,11 +46,14 @@ function CustomTable({columns, data, size, responsive, onDataSort, pagination}) 
                         </Form>
                     </div>
                     <div className="col-auto me-n3">
-                        <Form>{pagination && <Select/>}</Form>
+                        <Form>{show && <Select options={paginationOption}
+                                               onChange={e=>setShowPerPage(e.value)}
+                                               value={paginationOption.find(v=>v.value===showPerPage)}/>}
+                        </Form>
                     </div>
                 </div>
             </div>
-            <div className={responsive ? "table-responsive" : ""}>
+            <div id="custom-table-container" className={responsive ? "table-responsive" : ""}>
 
                 <table className={`table card-table table-nowrap table-${size}`}>
                     <TableHeader columns={columns} data={data} afterDataSort={afterDataSort}/>
@@ -58,10 +65,10 @@ function CustomTable({columns, data, size, responsive, onDataSort, pagination}) 
                                     {columns.map((column) => (
                                         <td>
                                             {column.cell ? (
-                                                column.cell(v, (pageNumber - 1) * 5 + i)
+                                                column.cell(v, (pageNumber - 1) * showPerPage + i)
                                             ) : (
                                                 <span
-                                                    className="item-title">{column.selector(v, (pageNumber - 1) * 5 + i)}</span>
+                                                    className="item-title">{column.selector(v, (pageNumber - 1) * showPerPage + i)}</span>
                                             )}
                                         </td>
                                     ))}
@@ -77,7 +84,7 @@ function CustomTable({columns, data, size, responsive, onDataSort, pagination}) 
                 </table>
             </div>
             <div className="card-footer d-flex justify-content-between">
-                {pagination && <Pagination data={data} rowPerPage={5} onPageChange={onPageChange}/>}
+                {show && <Pagination data={data} rowPerPage={showPerPage} onPageChange={onPageChange}/>}
             </div>
         </div>
     );

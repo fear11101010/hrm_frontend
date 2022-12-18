@@ -42,7 +42,7 @@ function MyTickets(props) {
                                 </Link>
                             </div>
                         )}
-                        <CustomTable data={data.data} columns={MY_TICKET_TABLE_COLUMNS(handleShow)} size={"sm"}
+                        <CustomTable data={data.data} pagination={{show:true,perPageList:[5,10,20,30,50,100]}} columns={MY_TICKET_TABLE_COLUMNS(handleShow)} size={"sm"}
                                      responsive/>
                     </Card.Body>
                 </Card>

@@ -14,6 +14,7 @@ import useRequestTo from "../../hooks/support/useRequestTo";
 import {useDropzone} from "react-dropzone";
 import useFetch from "../../hooks/useFetch";
 import {USER_INFO} from "../../utils/session/token";
+import FileDropZone from "../FileDropZone";
 
 function ForwardToForm({id, show, handleClose}) {
     // console.log(USER_INFO())
@@ -29,10 +30,10 @@ function ForwardToForm({id, show, handleClose}) {
             receiver_group:''
         }
     });
-    const onDrop = useCallback(acceptedFiles => {
+    const onDropFile = acceptedFiles => {
         console.log(acceptedFiles)
         setFiles(files => [...files, ...acceptedFiles])
-    }, [])
+    }
     const removeFile = (e, i) => {
         e.preventDefault();
         e.stopPropagation();
@@ -42,7 +43,6 @@ function ForwardToForm({id, show, handleClose}) {
             return f;
         })
     }
-    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
     function submitRequest(data, event) {
         setIsSubmitting(true);
@@ -132,48 +132,27 @@ function ForwardToForm({id, show, handleClose}) {
                                             <Col sm={12} md={12} lg={12} xl={12} className="m-auto">
                                                 <Form.Group>
                                                     <Form.Label>Upload Attachment</Form.Label>
-                                                    <div {...getRootProps({className: 'dropzone dropzone-multiple dz-clickable'})}>
-                                                        <div className="fallback">
-                                                            <div  {...getInputProps({className: "custom-file"})}>
-                                                                <input className='form-control'
-                                                                       id='customFileUploadMultiple' multiple/>
-                                                                <label className="form-label"
-                                                                       htmlFor="customFileUploadMultiple">Choose
-                                                                    file</label>
-                                                            </div>
-                                                        </div>
-                                                        <ul className="dz-preview dz-preview-multiple list-group list-group-lg list-group-flush">
-                                                            {files.map((file, i) => (
-                                                                <li className="list-group-item dz-processing">
-                                                                    <div className="row align-items-center">
-                                                                        <div className="col-auto"></div>
-                                                                        <div className="col ms-n3">
-                                                                            <h4 className="mb-1"
-                                                                                data-dz-name="">{file.name}</h4>
-                                                                            <small className="text-muted"
-                                                                                   data-dz-size=""><strong>{Math.ceil(file.size / 1024)}</strong> KB</small>
-                                                                        </div>
-                                                                        <div className="col-auto">
-                                                                            <button className="btn btn-light btn-sm"
-                                                                                    onClick={e => removeFile(e, i)}>
-                                                                                <FaTrash/>
-                                                                            </button>
-                                                                        </div>
+                                                    <FileDropZone multiple onFileSelect={onDropFile}/>
+                                                    <ul className="dz-preview dz-preview-multiple list-group list-group-lg list-group-flush">
+                                                        {files.map((file, i) => (
+                                                            <li key={`pre-${i}`} className="list-group-item dz-processing">
+                                                                <div className="row align-items-center">
+                                                                    <div className="col-auto"></div>
+                                                                    <div className="col ms-n3">
+                                                                        <h4 className="mb-1" data-dz-name="">{file.name}</h4>
+                                                                        <small className="text-muted"
+                                                                               data-dz-size=""><strong>{Math.ceil(file.size / 1024)}</strong>KB</small>
                                                                     </div>
-                                                                </li>
-                                                            ))}
-                                                        </ul>
-                                                        {
-                                                            isDragActive ?
-                                                                <p>Drop the files here ...</p> :
-                                                                (<div className="dz-default dz-message">
-                                                                    <button className="dz-button" type="button">Drop
-                                                                        files here to
-                                                                        upload
-                                                                    </button>
-                                                                </div>)
-                                                        }
-                                                    </div>
+                                                                    <div className="col-auto">
+                                                                        <button className="btn btn-light btn-sm"
+                                                                                onClick={e => removeFile(e, i)}>
+                                                                            <FaTrash/>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
                                                 </Form.Group>
                                             </Col>
                                         </Row>

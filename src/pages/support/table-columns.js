@@ -197,7 +197,7 @@ export const ALL_TICKET_TABLE_COLUMNS = (viewFunc)=> {
                             Action
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            {((!row?.is_forward || row?.approve_status) && ([1,2].indexOf(row?.request_type?.id)>=0||[1,2].indexOf(row?.request_type?.id)<0)) && (<Dropdown.Item eventKey={1}>
+                            {((!row?.is_forward || row?.approve_status) && (([1,2].indexOf(row?.request_type?.id)>=0&&[2,8,4].indexOf(row?.current_status?.id)<0)||([1,2].indexOf(row?.request_type?.id)<0 && row?.current_status?.id!==4))) && (<Dropdown.Item eventKey={1}>
                                 <FaEdit/> Update Status
                             </Dropdown.Item>)}
                             <Dropdown.Item eventKey={2}>
