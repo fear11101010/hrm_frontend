@@ -49,7 +49,7 @@ export default function Dashboard() {
       {loading && <Loader />}
       <PageHeader subTitle={"Overview"} title={"Dashboard"} />
 
-      {user.accessibility.includes("dashboard") && (
+      {user?.group_id?.split(",").includes("1") || user?.group_id?.split(",").includes("7") ? (
         <div className="px-5">
           <Row>
             <Col sm="12" md="4">
@@ -68,6 +68,8 @@ export default function Dashboard() {
             </Col>
           </Row>
         </div>
+      ) : (
+        <></>
       )}
     </Layout>
   );

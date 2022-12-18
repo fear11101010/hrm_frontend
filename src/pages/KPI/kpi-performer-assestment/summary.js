@@ -26,7 +26,7 @@ export default function Summary({ rowId }) {
     {
       name: "Gross Salary",
       selector: (row) => row?.gross_salary,
-      cell: (row) => row?.gross_salary?.toLocaleString("en-IN"),
+      cell: (row) => row?.new_gross_salary_b?.toLocaleString("en-IN"),
       right: true,
     },
     {

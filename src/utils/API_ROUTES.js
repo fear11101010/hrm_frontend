@@ -84,6 +84,7 @@ export const KPI_PERFORMANCE_THREE_YEARS_GET = (id) => `/salary_three_years/${id
 export const KPI_PERMORMER_ASSESTMENT_BY_SBU_GET = (id) => `/performer_assessment/${id}/search_by_sbu/`;
 export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET = (id) => `/assessment/${id}/`;
 export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_PUT = (id) => `/performer_assessment/${id}/`;
+export const KPI_PERMORMER_ASSESTMENT_BULK_SUBMIT = `performer_assessment/$/bulk_assessment_final_submit/`;
 
 export const PERFORMANCE_REVIEW_FILTER = "/performer_assessment/$/search_filter/";
 export const GLOBAL_FILTER = "/global_filtering/";
@@ -108,5 +109,5 @@ export const ASSESTMENT_SUMMARY_REPORT_POST = `reports/$/assessment_summary/`;
 
 // BILL MANAGEMENT
 
-export const BILL_LIST_API = '/bill_list_file_upload/';
-export const CONVEYANCE_LIST_API = '/bill_list_file_upload/';
+export const BILL_LIST_API = "/bill_list_file_upload/";
+export const CONVEYANCE_LIST_API = "/bill_list_file_upload/";
