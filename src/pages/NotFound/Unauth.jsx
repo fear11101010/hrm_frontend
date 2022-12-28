@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { LOGIN_PAGE } from "../../utils/APP_ROUTES";
+import { LOGIN_PAGE } from "../../utils/routes/app_routes/APP_ROUTES";
 
 export default function Unauth() {
   return (

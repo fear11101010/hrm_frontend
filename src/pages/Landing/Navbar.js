@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { LANDING_PAGE, LOGIN_PAGE } from "../../utils/APP_ROUTES";
+import { LANDING_PAGE, LOGIN_PAGE } from "../../utils/routes/app_routes/APP_ROUTES";
 
 export default function NavbarPublic() {
   return (

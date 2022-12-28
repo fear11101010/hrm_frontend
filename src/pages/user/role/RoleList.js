@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Layout from "../../../layout/Layout";
 import PageHeader from "../../../components/header/PageHeader";
 import Content from "../../../components/content/Content";
-import { UNAUTHORIZED, USER_ROLE_LIST_PAGE, USER_ROLE_PRIVILEGE_PAGE } from "../../../utils/APP_ROUTES";
+import { UNAUTHORIZED, USER_ROLE_LIST_PAGE, USER_ROLE_PRIVILEGE_PAGE } from "../../../utils/routes/app_routes/APP_ROUTES";
 import Table from "../../../components/table/Table";
 import { COLUMN } from "./COLUMNS";
 import Loader from "../../../components/loader/Loader";
@@ -15,7 +15,7 @@ import {
   ROLE_EACH_GET,
   ROLE_EACH_UPDATE,
   ROLE_LIST_GET,
-} from "../../../utils/API_ROUTES";
+} from "../../../utils/routes/api_routes/API_ROUTES";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
 import { USER_INFO } from "../../../utils/session/token";
 

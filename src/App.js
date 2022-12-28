@@ -1,18 +1,18 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import DashboardOutlet from "./outlets/DashboardOulet";
-import KpiOutlet from "./outlets/KpiOutlet";
+import DashboardOutlet from "./outlets/hrm/DashboardOulet";
+import KpiOutlet from "./outlets/hrm/KpiOutlet";
 import UserOutlet from "./outlets/UserOutlet";
-import Dashboard from "./pages/Dashboard/Dashboard";
-import EmAssestmentSingle from "./pages/KPI/employee-assestment/em-assestment-single";
-import EmployeeAssestment from "./pages/KPI/employee-assestment/employee-assestment";
-import EmPerformanceSingle from "./pages/KPI/employee-performance/em-performance-single";
-import EmployeePerformance from "./pages/KPI/employee-performance/employee-performance";
-import KpiAllEmployeeAssestment from "./pages/KPI/kpi-all-employee-assestment/kpi-all-employee-assestment";
-import KpiAssestment from "./pages/KPI/kpi-assestment/kpi-assestment";
-import KpiEmployeeAssign from "./pages/KPI/Kpi-employee-Assign/kpi-employee-assign";
-import KpiPerformanceForm from "./pages/KPI/kpi-performane-form/kpi-performance-form";
-import KpiPerformerAssestment from "./pages/KPI/kpi-performer-assestment/kpi-performer-assestment";
+import Dashboard from "./pages/hrm/Dashboard/Dashboard";
+import EmAssestmentSingle from "./pages/hrm/KPI/employee-assestment/em-assestment-single";
+import EmployeeAssestment from "./pages/hrm/KPI/employee-assestment/employee-assestment";
+import EmPerformanceSingle from "./pages/hrm/KPI/employee-performance/em-performance-single";
+import EmployeePerformance from "./pages/hrm/KPI/employee-performance/employee-performance";
+import KpiAllEmployeeAssestment from "./pages/hrm/KPI/kpi-all-employee-assestment/kpi-all-employee-assestment";
+import KpiAssestment from "./pages/hrm/KPI/kpi-assestment/kpi-assestment";
+import KpiEmployeeAssign from "./pages/hrm/KPI/Kpi-employee-Assign/kpi-employee-assign";
+import KpiPerformanceForm from "./pages/hrm/KPI/kpi-performane-form/kpi-performance-form";
+import KpiPerformerAssestment from "./pages/hrm/KPI/kpi-performer-assestment/kpi-performer-assestment";
 import Login from "./pages/Login/Login";
 import NotFound from "./pages/NotFound/NotFound";
 import Unauth from "./pages/NotFound/Unauth";
@@ -59,36 +59,36 @@ import {
   BILL_LIST,
   BILL_ADD,
   ASSESTMENT_SUMMARY_REPORT,
-} from "./utils/APP_ROUTES";
-import KpiPerformanceIndex from "./pages/KPI/kpi-performane-form/kpi-performance-index";
-import KpiPerformanceFormCreate from "./pages/KPI/kpi-performane-form/kpi-performance-form-create";
-import KpiPerformanceFormView from "./pages/KPI/kpi-performane-form/kpi-performance-form-view";
-import SalaryFullReport from "./pages/Report/salary-full-report/SalaryFullReport";
-import SalaryPivotReport from "./pages/Report/salary-pivot-summary/SalaryPivotReport";
-import SalaryIncrementEligibleReport from "./pages/Report/salary-increment-eligible-report/SalaryIncrementEligibleReport";
+} from "./utils/routes/app_routes/APP_ROUTES";
+import KpiPerformanceIndex from "./pages/hrm/KPI/kpi-performane-form/kpi-performance-index";
+import KpiPerformanceFormCreate from "./pages/hrm/KPI/kpi-performane-form/kpi-performance-form-create";
+import KpiPerformanceFormView from "./pages/hrm/KPI/kpi-performane-form/kpi-performance-form-view";
+import SalaryFullReport from "./pages/hrm/Report/salary-full-report/SalaryFullReport";
+import SalaryPivotReport from "./pages/hrm/Report/salary-pivot-summary/SalaryPivotReport";
+import SalaryIncrementEligibleReport from "./pages/hrm/Report/salary-increment-eligible-report/SalaryIncrementEligibleReport";
 
 import RoleList from "./pages/user/role/RoleList";
 import Privileges from "./pages/user/role/Privileges";
-import EmployeeList from "./pages/Employee/EmployeeList";
-import EmployeeEdit from "./pages/Employee/EmployeeEdit";
-import AssestmentEmployerReport from "./pages/Report/assestment-employer-report/assestment-employer-report";
+import EmployeeList from "./pages/hrm/Employee/EmployeeList";
+import EmployeeEdit from "./pages/hrm/Employee/EmployeeEdit";
+import AssestmentEmployerReport from "./pages/hrm/Report/assestment-employer-report/assestment-employer-report";
 import Demo from "./pages/demo";
 
-import AssessmentYearReport from "./pages/Report/assessment_year_report/AssessmentYearReport";
-import RequisitionOutlet from "./outlets/RequisitionOutlet";
-import ResourceRequisitionForm from "./pages/Requisition_form/resource_requisition/ResourceRequisition";
-import RequestRequisitionList from "./pages/Requisition_form/resource_requisition/request_requisition_list";
-import SalaryIncrementReport from "./pages/Report/salary-increment-report/SalaryIncrementReport";
-import SbuAssestmentData from "./pages/Report/sbu-assestment-report/sbu-assestment-data";
-import SupervisorAssestmentPerformance from "./pages/KPI/supervisor-assestment-performance/list";
-import SupervisorAppraisalReview from "./pages/KPI/supervisor-appraisal-review/List";
-import ConfigurationOutlet from "./outlets/ConfigurationOutlet";
-import FileUpload from "./pages/Configuration/file-upload/FileUpload";
-import EmPerformancePrevYear from "./pages/KPI/employee-performance/em-performance-prevYear";
+import AssessmentYearReport from "./pages/hrm/Report/assessment_year_report/AssessmentYearReport";
+import RequisitionOutlet from "./outlets/hrm/RequisitionOutlet";
+import ResourceRequisitionForm from "./pages/hrm/Requisition_form/resource_requisition/ResourceRequisition";
+import RequestRequisitionList from "./pages/hrm/Requisition_form/resource_requisition/request_requisition_list";
+import SalaryIncrementReport from "./pages/hrm/Report/salary-increment-report/SalaryIncrementReport";
+import SbuAssestmentData from "./pages/hrm/Report/sbu-assestment-report/sbu-assestment-data";
+import SupervisorAssestmentPerformance from "./pages/hrm/KPI/supervisor-assestment-performance/list";
+import SupervisorAppraisalReview from "./pages/hrm/KPI/supervisor-appraisal-review/List";
+import ConfigurationOutlet from "./outlets/hrm/ConfigurationOutlet";
+import FileUpload from "./pages/hrm/Configuration/file-upload/FileUpload";
+import EmPerformancePrevYear from "./pages/hrm/KPI/employee-performance/em-performance-prevYear";
 import Landing from "./pages/Landing/Landing";
 
-import AssestmentSummaryReport from "./pages/Report/assestment_summary_report/AssestmentSummaryReport";
-import ReportOutlet from "./outlets/ReportOutlet";
+import AssestmentSummaryReport from "./pages/hrm/Report/assestment_summary_report/AssestmentSummaryReport";
+import ReportOutlet from "./outlets/hrm/ReportOutlet";
 
 import {
   ALL_TICKETS_URL,
@@ -98,9 +98,9 @@ import {
   OTHER_TICKETS_URL, SUPPORT_DASHBOARD_STATUS_WISE_URL,
   SUPPORT_DASHBOARD_URL,
   VIEW_TICKET_URL,
-} from "./utils/support/SP_APP_ROUTES";
+} from "./utils/routes/app_routes/SP_APP_ROUTES";
 import CreateTicket from "./pages/support/CreateTicket/CreateTicket";
-import SupportOutlet from "./outlets/SupportOutlet";
+import SupportOutlet from "./outlets/support/SupportOutlet";
 import MyTickets from "./pages/support/MyTickets/MyTickets";
 import EditTicket from "./pages/support/EditTicket/EditTicket";
 import ViewTicketDetail from "./pages/support/ViewTicket/ViewTicketDetail";
@@ -137,12 +137,12 @@ function App() {
           </Route>
 
           {/* Configuration */}
-          <Route path={"/"} element={<ConfigurationOutlet />}>
+          <Route path={"/hrm/"} element={<ConfigurationOutlet />}>
             <Route path={FILE_UPLOAD_PAGE} element={<FileUpload />} />
           </Route>
 
           {/* KPI */}
-          <Route path={"/"} element={<KpiOutlet />}>
+          <Route path={"/hrm/"} element={<KpiOutlet />}>
             <Route path={KPI_EMPLOYEE_ASSIGN_PAGE} element={<KpiEmployeeAssign />} />
             <Route path={KPI_PERMORMANCE_FORM_URL} element={<KpiPerformanceForm />} />
             <Route path={KPI_ASSESTMENT_PAGE} element={<KpiAssestment />} />
@@ -167,13 +167,13 @@ function App() {
           {/*</Route>*/}
 
           {/* REQUISITION */}
-          <Route path={"/"} element={<RequisitionOutlet />}>
+          <Route path={"/hrm/"} element={<RequisitionOutlet />}>
             <Route path={REQUISITION_RESOURCE_LIST} element={<RequestRequisitionList />} />
             <Route path={REQUISITION_RESOURCE_FORM} element={<ResourceRequisitionForm />} />
           </Route>
 
           {/* REPORT */}
-          <Route path={"/report"} element={<ReportOutlet />}>
+          <Route path={"/hrm/report"} element={<ReportOutlet />}>
             <Route path={SALARY_FULL_REPORT_URL} element={<SalaryFullReport />} />
             <Route path={SALARY_PIVOT_SUMMARY_REPORT_URL} element={<SalaryPivotReport />} />
             <Route path={SALARY_INCREMENT_ELIGIBLE_REPORT_URL} element={<SalaryIncrementEligibleReport />} />

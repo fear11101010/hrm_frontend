@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SUB_SBU_GET } from "../../utils/API_ROUTES";
+import { SUB_SBU_GET } from "../../utils/routes/api_routes/API_ROUTES";
 import { API } from "../../utils/axios/axiosConfig";
 
 export default function useSubSbu() {

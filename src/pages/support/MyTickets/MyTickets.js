@@ -5,12 +5,12 @@ import {Card} from "react-bootstrap";
 import CustomTable from "../../../components/custom-table/CustomTable";
 import {MY_TICKET_TABLE_COLUMNS} from "../table-columns";
 import useFetch from "../../../hooks/useFetch";
-import {TICKET_LIST_CREATE_API} from "../../../utils/support/SP_API_ROUTES";
+import {TICKET_LIST_CREATE_API} from "../../../utils/routes/api_routes/SP_API_ROUTES";
 import Loader from "../../../components/loader/Loader";
 import {Link} from "react-router-dom";
 import {FaPlus} from "react-icons/fa";
 import React, {useState} from "react";
-import {CREATE_TICKET_URL} from "../../../utils/support/SP_APP_ROUTES";
+import {CREATE_TICKET_URL} from "../../../utils/routes/app_routes/SP_APP_ROUTES";
 import ViewTicketDetail from "../ViewTicket/ViewTicketDetail";
 import {USER_INFO} from "../../../utils/session/token";
 

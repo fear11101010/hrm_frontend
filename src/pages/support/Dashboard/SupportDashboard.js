@@ -3,11 +3,11 @@ import PageHeader from "../../../components/header/PageHeader";
 import Layout from "../../../layout/Layout";
 import {Card, Col, Row} from "react-bootstrap";
 import {Link} from "react-router-dom";
-import {MY_TICKETS_URL, SUPPORT_DASHBOARD_STATUS_WISE_URL_FUNC} from "../../../utils/support/SP_APP_ROUTES";
+import {MY_TICKETS_URL, SUPPORT_DASHBOARD_STATUS_WISE_URL_FUNC} from "../../../utils/routes/app_routes/SP_APP_ROUTES";
 import {FaArrowRight} from "react-icons/fa";
 import Container from "react-bootstrap/Container";
 import useFetch from "../../../hooks/useFetch";
-import {SUPPORT_DASHBOARD_API} from "../../../utils/support/SP_API_ROUTES";
+import {SUPPORT_DASHBOARD_API} from "../../../utils/routes/api_routes/SP_API_ROUTES";
 import {
     Bar,
     Cell,

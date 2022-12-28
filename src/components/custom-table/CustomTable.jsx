@@ -27,7 +27,7 @@ function CustomTable({columns, data, size, responsive, onDataSort, pagination:{s
         setPageNumber(page);
     };
     const afterDataSort = (d) => {
-        setTableRows(show ? data?.slice((pageNumber - 1) * showPerPage, pageNumber * showPerPage) : data);
+        setTableRows(show ? d?.slice((pageNumber - 1) * showPerPage, pageNumber * showPerPage) : d);
         setDummy(t => -t);
     }
     return (

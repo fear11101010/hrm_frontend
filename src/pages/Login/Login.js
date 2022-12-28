@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { LOGIN_API } from "../../utils/API_ROUTES";
-import { DASHBOARD_PAGE, LANDING_PAGE, LOGIN_PAGE } from "../../utils/APP_ROUTES";
+import { LOGIN_API } from "../../utils/routes/api_routes/API_ROUTES";
+import { DASHBOARD_PAGE, LANDING_PAGE, LOGIN_PAGE } from "../../utils/routes/app_routes/APP_ROUTES";
 import { HTTP_LOGIN } from "../../utils/axios/axiosConfig";
 import SET_TOKEN, { GET_TOKEN } from "../../utils/session/token";
 import { useNavigate } from "react-router-dom";
@@ -26,7 +26,7 @@ export default function Login() {
         if (res.data.statuscode === 200) {
           SET_TOKEN(res.data.token);
           setLoading(false);
-          navigate(DASHBOARD_PAGE);
+          navigate(LANDING_PAGE);
           setErrMsg("");
         } else {
           setErrMsg(res.data.message);

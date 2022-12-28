@@ -37,10 +37,10 @@ import {
   ASSESTMENT_SUMMARY_REPORT,
   BILL_LIST_URL,
   CONVEYANCE_LIST_URL,
-} from "../../utils/APP_ROUTES";
+} from "../../utils/routes/app_routes/APP_ROUTES";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../utils/axios/axiosConfig";
-import { LOGOUT_API } from "../../utils/API_ROUTES";
+import { LOGOUT_API } from "../../utils/routes/api_routes/API_ROUTES";
 import Loader from "../../components/loader/Loader";
 import { REMOVE_TOKEN, USER_INFO } from "../../utils/session/token";
 import ConfirmDialog from "../../components/confirm-dialog/ConfirmDialog";
@@ -51,7 +51,7 @@ import {
   MY_TICKETS_URL,
   OTHER_TICKETS_URL,
   SUPPORT_DASHBOARD_URL,
-} from "../../utils/support/SP_APP_ROUTES";
+} from "../../utils/routes/app_routes/SP_APP_ROUTES";
 function Navbar1(props) {
   const user = USER_INFO();
   const navigate = useNavigate();
@@ -93,7 +93,7 @@ function Navbar1(props) {
 
   return (
     <>
-      <Navbar expand="md" fixed="top" variant="light" className="navbar-vertical pb-0 border">
+      <Navbar expand="md" fixed="top" variant="light" className="navbar-vertical pb-0 border fixed-start">
         {loading && <Loader />}
         <Container fluid>
           <Navbar.Toggle aria-controls="sidebarCollapse" />
@@ -103,14 +103,14 @@ function Navbar1(props) {
             </Link>
           </Navbar.Brand>
           <Navbar.Collapse id="sidebarCollapse">
-            <Form className="mt-4 mb-3 d-md-none">
+            {/*<Form className="mt-4 mb-3 d-md-none">
               <InputGroup className="input-group-rounded input-group-merge input-group-reverse">
                 <FormControl type="search" placeholder="Search" />
                 <InputGroup.Text>
                   <span className="fe fe-search"></span>
                 </InputGroup.Text>
               </InputGroup>
-            </Form>
+            </Form>*/}
             <Nav as="ul">
               {/* Dashboard */}
               <Nav.Item as={"li"}>

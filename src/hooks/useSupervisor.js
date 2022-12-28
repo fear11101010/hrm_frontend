@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { GET_SUPERVISOR } from "../utils/API_ROUTES";
+import { GET_SUPERVISOR } from "../utils/routes/api_routes/API_ROUTES";
 import { API } from "../utils/axios/axiosConfig";
 
 export default function useSupervisor() {

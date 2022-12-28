@@ -16,10 +16,10 @@ import moment from "moment";
 import usePriority from "../../../hooks/support/usePriority";
 import {useDropzone} from "react-dropzone";
 import {API} from "../../../utils/axios/axiosConfig";
-import {TICKET_LIST_CREATE_API} from "../../../utils/support/SP_API_ROUTES";
+import {TICKET_LIST_CREATE_API} from "../../../utils/routes/api_routes/SP_API_ROUTES";
 import Loader from "../../../components/loader/Loader";
 import {useNavigate} from 'react-router-dom'
-import {MY_TICKETS_URL} from "../../../utils/support/SP_APP_ROUTES";
+import {MY_TICKETS_URL} from "../../../utils/routes/app_routes/SP_APP_ROUTES";
 import TicketForm from "../../../components/support/TicketForm";
 
 function CreateTicket(props) {

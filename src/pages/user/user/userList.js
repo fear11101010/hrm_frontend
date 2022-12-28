@@ -6,8 +6,8 @@ import Table from "../../../components/table/Table";
 import Loader from "../../../components/loader/Loader";
 import useFetch from "../../../hooks/useFetch";
 import Layout from "../../../layout/Layout";
-import { USER_GET } from "../../../utils/API_ROUTES";
-import { UNAUTHORIZED, USER_ADD_PAGE } from "../../../utils/APP_ROUTES";
+import { USER_GET } from "../../../utils/routes/api_routes/API_ROUTES";
+import { UNAUTHORIZED, USER_ADD_PAGE } from "../../../utils/routes/app_routes/APP_ROUTES";
 import { COLUMNS } from "./COLUMNS";
 import { USER_INFO } from "../../../utils/session/token";
 

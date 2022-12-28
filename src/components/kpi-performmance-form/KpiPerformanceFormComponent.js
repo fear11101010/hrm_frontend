@@ -1,9 +1,9 @@
 import { Accordion, Button, Card, Col, Form, Row } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { API } from "../../utils/axios/axiosConfig";
-import { KPI_PERFORMANCE_FORM_DRAFT, KPI_PERFORMANCE_FORM_SUBMIT } from "../../utils/API_ROUTES";
+import { KPI_PERFORMANCE_FORM_DRAFT, KPI_PERFORMANCE_FORM_SUBMIT } from "../../utils/routes/api_routes/API_ROUTES";
 import { toast } from "react-toastify";
-import { EMPLOYEE_PERFORMANCE_INDEX_PAGE } from "../../utils/APP_ROUTES";
+import { EMPLOYEE_PERFORMANCE_INDEX_PAGE } from "../../utils/routes/app_routes/APP_ROUTES";
 import { useForm } from "react-hook-form";
 import useHrRating from "../../hooks/kpi/hr_rating";
 import useKpiValue from "../../hooks/kpi/kpi_value";

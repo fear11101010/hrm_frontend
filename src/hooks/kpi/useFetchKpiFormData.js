@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {API} from "../../utils/axios/axiosConfig";
-import {KPI_PERFORMANCE_FORM_SINGLE} from "../../utils/API_ROUTES";
+import {KPI_PERFORMANCE_FORM_SINGLE} from "../../utils/routes/api_routes/API_ROUTES";
 import {toast} from "react-toastify";
 
 function useFetchKpiFormData(id) {

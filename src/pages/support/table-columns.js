@@ -1,6 +1,6 @@
 import moment from "moment";
 import {Link} from "react-router-dom";
-import {EDIT_TICKET_URL_FUNC, VIEW_TICKET_URL_FUNC} from "../../utils/support/SP_APP_ROUTES";
+import {EDIT_TICKET_URL_FUNC, VIEW_TICKET_URL_FUNC} from "../../utils/routes/app_routes/SP_APP_ROUTES";
 import {FaEdit, FaEye, FaFile, FaForward} from "react-icons/fa";
 import {Button, ButtonGroup, DropdownButton,Dropdown} from "react-bootstrap";
 import {USER_INFO} from "../../utils/session/token";

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FUNCTIONNAME_GET, MODULE_NAME_GET, MODULE_URL_GET } from "../../../utils/API_ROUTES";
+import { FUNCTIONNAME_GET, MODULE_NAME_GET, MODULE_URL_GET } from "../../../utils/routes/api_routes/API_ROUTES";
 import { API } from "../../../utils/axios/axiosConfig";
 
 // FUNCTIONNAME_GET

@@ -7,10 +7,10 @@ import PageHeader from "../../../components/header/PageHeader";
 import Loader from "../../../components/loader/Loader";
 import useRole from "../../../hooks/user/useRole";
 import Layout from "../../../layout/Layout";
-import { UNAUTHORIZED, USER_LIST_PAGE } from "../../../utils/APP_ROUTES";
+import { UNAUTHORIZED, USER_LIST_PAGE } from "../../../utils/routes/app_routes/APP_ROUTES";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { API } from "../../../utils/axios/axiosConfig";
-import { USER_CREATE_POST } from "../../../utils/API_ROUTES";
+import { USER_CREATE_POST } from "../../../utils/routes/api_routes/API_ROUTES";
 import { success_alert, error_alert } from "../../../components/alert/Alert";
 import { USER_INFO } from "../../../utils/session/token";
 

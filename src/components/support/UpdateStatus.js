@@ -1,6 +1,6 @@
 import useTicketStatus from "../../hooks/support/useTicketStatus";
 import useFetch from "../../hooks/useFetch";
-import {FETCH_TICKET_BY_ID_API, REQUEST_STATUS_UPDATE_API} from "../../utils/support/SP_API_ROUTES";
+import {FETCH_TICKET_BY_ID_API, REQUEST_STATUS_UPDATE_API} from "../../utils/routes/api_routes/SP_API_ROUTES";
 import {Controller, set, useForm} from "react-hook-form";
 import {useEffect, useState} from "react";
 import {Button, Card, Col, Form, Modal, Row, Spinner} from "react-bootstrap";

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { GET_SBU_API, ROLE_LIST_GET } from "../../utils/API_ROUTES";
+import { GET_SBU_API, ROLE_LIST_GET } from "../../utils/routes/api_routes/API_ROUTES";
 import { API } from "../../utils/axios/axiosConfig";
 
 export default function useRole() {

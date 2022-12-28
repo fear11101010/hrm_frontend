@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { DESIGNATION_BAND_GET } from "../utils/API_ROUTES";
+import { DESIGNATION_BAND_GET } from "../utils/routes/api_routes/API_ROUTES";
 import { API } from "../utils/axios/axiosConfig";
 
 export default function useDesignation() {

@@ -9,7 +9,7 @@ import {
   USER_LIST_PAGE,
   USER_ROLE_LIST_PAGE,
   USER_ROLE_PRIVILEGE_PAGE_URL,
-} from "../utils/APP_ROUTES";
+} from "../utils/routes/app_routes/APP_ROUTES";
 
 import PrivateRoute from "../utils/routes/PrivateRoute";
 import { GET_TOKEN } from "../utils/session/token";

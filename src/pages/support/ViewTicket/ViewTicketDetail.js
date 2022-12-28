@@ -1,6 +1,6 @@
 import {useParams} from "react-router-dom";
 import useFetch from "../../../hooks/useFetch";
-import {FETCH_TICKET_BY_ID_API} from "../../../utils/support/SP_API_ROUTES";
+import {FETCH_TICKET_BY_ID_API} from "../../../utils/routes/api_routes/SP_API_ROUTES";
 import React, {useEffect, useState} from "react";
 import Layout from "../../../layout/Layout";
 import PageHeader from "../../../components/header/PageHeader";
