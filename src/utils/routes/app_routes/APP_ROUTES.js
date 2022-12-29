@@ -54,6 +54,11 @@ export const BILL_ADD = "/bill/add";
 export const REQUISITION_RESOURCE_LIST = "/hrm/requisitionform/resource-request-list";
 export const REQUISITION_RESOURCE_FORM = "/hrm/requisitionform/resource-request-form";
 
+export const REQUISITION_FORM = "/hrm/requisitionfrom/request-form";
+export const REQUISITION_LIST = "/hrm/requisitionfrom/request-list";
+export const REQUISITION_LIST_PAGE = (id) => `/hrm/requisitionfrom/request-details/${id}`;
+export const REQUISITION_LIST_URL = `/hrm/requisitionfrom/request-details/:id`;
+
 // Reports
 export const SALARY_FULL_REPORT_URL = `/hrm/report/salary_full_report`;
 export const ASSESSMENT_YEAR_REPORT = `/hrm/report/assessment_year_report`;

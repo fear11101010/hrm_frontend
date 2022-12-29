@@ -36,7 +36,7 @@ import {
   BILL_LIST,
   ASSESTMENT_SUMMARY_REPORT,
   BILL_LIST_URL,
-  CONVEYANCE_LIST_URL,
+  CONVEYANCE_LIST_URL, REQUISITION_FORM, REQUISITION_LIST,
 } from "../../utils/routes/app_routes/APP_ROUTES";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../utils/axios/axiosConfig";
@@ -514,6 +514,42 @@ function Navbar1(props) {
                     </div>
                   </Collapse>
                 </Nav.Item>
+              )}
+              {user.sub_module.includes("Requisition From") && (
+                  <Nav.Item as={"li"}>
+                    <Nav.Link
+                        onClick={() => openOrCloseMenu(8)}
+                        href="#"
+                        className={menuOpenCloseState[8] ? "collapsed" : ""}
+                        data-bs-toggle="collapse"
+                        role="button"
+                        aria-expanded={menuOpenCloseState[8] ? "true" : "false"}
+                        aria-controls="sidebarReport"
+                    >
+                      <i className="fe fe-file-text"></i> Requisition From
+                    </Nav.Link>
+                    <Collapse in={menuOpenCloseState[8]}>
+                      <div id="sidebarDashboards">
+                        <ul className="nav nav-sm flex-column">
+
+                          <li className="nav-item">
+                            {user.module.includes("Requisition From Entry") && (
+                                <Link className={"nav-link"} to={REQUISITION_FORM}>
+                                  Resource Requisition
+                                </Link>
+                            )}
+                          </li>
+                          <li className="nav-item">
+                            {user.module.includes("Requisition From List") && (
+                                <Link className={"nav-link"} to={REQUISITION_LIST}>
+                                  Resource Requisition List
+                                </Link>
+                            )}
+                          </li>
+                        </ul>
+                      </div>
+                    </Collapse>
+                  </Nav.Item>
               )}
             </Nav>
           </Navbar.Collapse>
