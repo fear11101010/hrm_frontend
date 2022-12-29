@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Button, Card, Col, Dropdown, Modal, Nav, Navbar, Row} from "react-bootstrap";
+import { Button, Card, Col, Dropdown, Modal, Nav, Navbar, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import ConfirmDialog from "../../components/confirm-dialog/ConfirmDialog";
 import { LOGOUT_API } from "../../utils/routes/api_routes/API_ROUTES";
@@ -7,12 +7,12 @@ import { DASHBOARD_PAGE, LANDING_PAGE, LOGIN_PAGE } from "../../utils/routes/app
 import { API } from "../../utils/axios/axiosConfig";
 import { REMOVE_TOKEN, USER_INFO } from "../../utils/session/token";
 import { useIdleTimer } from "react-idle-timer";
-// import "./layout.css";
+import "./innerLanding.css";
 import CustomNavbar from "../../layout/navbar/navbar";
 import Container from "react-bootstrap/Container";
-import {FaUser} from "react-icons/fa";
-import {IoTicketOutline} from "react-icons/io5";
-import {MdOutlineLunchDining} from "react-icons/md";
+import { FaUser } from "react-icons/fa";
+import { IoTicketOutline } from "react-icons/io5";
+import { MdOutlineLunchDining } from "react-icons/md";
 
 export default function InnerLanding({ children }) {
   const user = USER_INFO();
@@ -65,10 +65,10 @@ export default function InnerLanding({ children }) {
                 <Dropdown.Item>{user.username}</Dropdown.Item>
                 <Dropdown.Divider />
                 <Dropdown.Item
-                    onClick={(e) => {
-                      handleConfirm(e);
-                    }}
-                    className="text-danger"
+                  onClick={(e) => {
+                    handleConfirm(e);
+                  }}
+                  className="text-danger"
                 >
                   <h5 className="mb-0 fw-bold">
                     <i className="fe fe-log-out me-1"></i> LOGOUT
@@ -79,15 +79,15 @@ export default function InnerLanding({ children }) {
           </Nav>
         </Navbar>
 
-        <div className="pt-3 d-flex align-items-center" style={{height:'calc(100vh - 63.5px)'}}>
+        <div className="pt-3 d-flex align-items-center" style={{ height: "calc(100vh - 63.5px)" }}>
           <Container fluid>
             <Row className="justify-content-center">
               <Col sm={12} md={3} lg={3}>
                 <Link to={DASHBOARD_PAGE}>
-                  <Card>
+                  <Card className="shadow border module_card">
                     <Card.Body>
                       <div className="d-flex justify-content-center align-items-center p-3 flex-column">
-                        <FaUser size={32}/>
+                        <FaUser size={32} />
                         <h3 className="mt-2">HRM Appraisal</h3>
                       </div>
                     </Card.Body>
@@ -95,20 +95,20 @@ export default function InnerLanding({ children }) {
                 </Link>
               </Col>
               <Col sm={12} md={3} lg={3}>
-                <Card>
+                <Card className="shadow border module_card">
                   <Card.Body>
                     <div className="d-flex justify-content-center align-items-center p-3 flex-column">
-                      <IoTicketOutline size={32}/>
+                      <IoTicketOutline size={32} />
                       <h3 className="mt-2">Ticketing System</h3>
                     </div>
                   </Card.Body>
                 </Card>
               </Col>
               <Col sm={12} md={3} lg={3}>
-                <Card>
+                <Card className="shadow border module_card">
                   <Card.Body>
                     <div className="d-flex justify-content-center align-items-center p-3 flex-column">
-                      <MdOutlineLunchDining size={32}/>
+                      <MdOutlineLunchDining size={32} />
                       <h3 className="mt-2">Lunch Management</h3>
                     </div>
                   </Card.Body>

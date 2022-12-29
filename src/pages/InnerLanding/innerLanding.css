@@ -1,0 +1,10 @@
+.module_card {
+    transition: 300ms;
+    color: #12263f
+}
+
+.module_card:hover {
+    color: #1657af;
+    transition: 300ms;
+    transform: translateY(-2px);
+}

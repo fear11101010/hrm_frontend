@@ -70,8 +70,7 @@ export default function FileUpload() {
     }
   };
 
-  console.log(state, code);
-  return user.accessibility.includes("FileUpload") ? (
+  return user.accessibility.includes("kpi_performance.file_data_upload") ? (
     <Layout>
       {loading && <Loader />}
       <PageHeader title="File Upload" />

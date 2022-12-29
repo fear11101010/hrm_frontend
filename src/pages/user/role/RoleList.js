@@ -50,7 +50,7 @@ export default function RoleList() {
       name: "Actions",
       cell: (row) => (
         <>
-          {user.accessibility.includes("authuserroleEdit") && (
+          {user.accessibility.includes("role.PUT") && (
             <Button
               size="sm"
               variant="primary"
@@ -85,7 +85,7 @@ export default function RoleList() {
       name: "Privileges",
       cell: (row) => (
         <>
-          {user.accessibility.includes("authuserrole") && (
+          {user.accessibility.includes("role.GET") && (
             <Link
               to={USER_ROLE_PRIVILEGE_PAGE(row.id)}
               state={{
@@ -184,7 +184,7 @@ export default function RoleList() {
       setLoading(true);
       API(ROLE_EACH_GET(selected_id))
         .then((res) => {
-          setRoleName(res.data.name);
+          setRoleName(res?.data?.name);
           setLoading(false);
         })
         .catch((err) => {
@@ -200,13 +200,13 @@ export default function RoleList() {
       <PageHeader title={"Role "} />
       <Content>
         <div className="text-end">
-          {user.accessibility.includes("authuserroleAdd") && (
+          {user.accessibility.includes("role.POST") && (
             <Button varirant="primary" onClick={() => setAddModal(true)}>
               Add Role
             </Button>
           )}
         </div>
-        <Table data={data} columns={COLUMN.concat(EXT_COL)} />
+        {user.accessibility.includes("role.GET") && <Table data={data} columns={COLUMN.concat(EXT_COL)} />}
       </Content>
 
       {/* ADD MODAL */}

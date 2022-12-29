@@ -5,7 +5,9 @@ import {
   KPI_PERMORMANCE_FORM_PAGE,
 } from "../../../../utils/routes/app_routes/APP_ROUTES";
 import React from "react";
+import { USER_INFO } from "../../../../utils/session/token";
 
+const user = USER_INFO();
 export const kpiPerformanceFormColumns = [
   {
     name: "#",
@@ -44,12 +46,14 @@ export const kpiPerformanceFormColumns = [
     name: "Action",
     cell: (row) => (
       <div className="d-flex justify-content-center align-items-center w-100">
-        <Link
-          className={`btn btn-rounded-circle btn-sm btn-primary ${row.flag ? "disabled" : ""}`}
-          to={KPI_PERMORMANCE_FORM_PAGE(row.id)}
-        >
-          <i className="fe fe-file-text"></i>
-        </Link>
+        {user.accessibility.includes("kpi_performance.retrieve") && (
+          <Link
+            className={`btn btn-rounded-circle btn-sm btn-primary ${row.flag ? "disabled" : ""}`}
+            to={KPI_PERMORMANCE_FORM_PAGE(row.id)}
+          >
+            <i className="fe fe-file-text"></i>
+          </Link>
+        )}
       </div>
     ),
     width: "80px",

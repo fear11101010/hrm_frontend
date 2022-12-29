@@ -27,9 +27,7 @@ function KpiPerformanceFormComponent({ data, updateData, beforeSubmit, afterSubm
     if (beforeSubmit) {
       beforeSubmit();
     }
-    console.log(data);
     const type = event.target.attributes["name"].value;
-    console.log(type);
     if (type === "draft") {
       data["draft_save"] = false;
     } else {

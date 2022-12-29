@@ -7,22 +7,64 @@ import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
 import { Decrypt, Encrypt } from "../utils/Hash";
 import FileUpload from "./hrm/Configuration/file-upload/FileUpload";
+var CryptoJS = require("crypto-js");
 
 export default function Demo() {
   const [date, setDate] = useState(new Date());
 
+  let txt = "safa bin salam";
+  // var key = CryptoJS.lib.WordArray.random(32).toString(CryptoJS.enc.Hex);
+  // const iv = CryptoJS.lib.WordArray.random(32);
+
+  var JsonFormatter = {
+    stringify: function (cipherParams) {
+      // create json object with ciphertext
+      var jsonObj = { ct: cipherParams.ciphertext.toString(CryptoJS.enc.Base64) };
+      // optionally add iv or salt
+      if (cipherParams.iv) {
+        jsonObj.iv = cipherParams.iv.toString();
+      }
+      if (cipherParams.salt) {
+        jsonObj.s = cipherParams.salt.toString();
+      }
+      // stringify json object
+      return JSON.stringify(jsonObj);
+    },
+    parse: function (jsonStr) {
+      // parse json string
+      var jsonObj = JSON.parse(jsonStr);
+      // extract ciphertext from json object, and create cipher params object
+      var cipherParams = CryptoJS.lib.CipherParams.create({
+        ciphertext: CryptoJS.enc.Base64.parse(jsonObj.ct),
+      });
+      // optionally extract iv or salt
+      if (jsonObj.iv) {
+        cipherParams.iv = CryptoJS.enc.Hex.parse(jsonObj.iv);
+      }
+      if (jsonObj.s) {
+        cipherParams.salt = CryptoJS.enc.Hex.parse(jsonObj.s);
+      }
+      return cipherParams;
+    },
+  };
+  let encoded = CryptoJS.AES.encrypt(txt, "hrmaapp123456789", {
+    mode: CryptoJS.mode.CFB,
+    format: JsonFormatter,
+  });
+  let decoded = CryptoJS.AES.decrypt(encoded, "hrmaapp123456789", {
+    mode: CryptoJS.mode.CFB,
+  });
+  // encoded.iv.clamp();
+  console.log("key", encoded.key.toString(CryptoJS.enc.Base64));
+  console.log("iv", encoded.iv.toString(CryptoJS.enc.Base64));
+  console.log("ct", encoded.ciphertext.toString(CryptoJS.enc.Base64));
+  console.log("ct", encoded);
+  console.log("dec", decoded.toString(CryptoJS.enc.Utf8));
   return (
     <>
       <Layout>
         <PageHeader />
-        <Content>
-          <Datetime
-            timeFormat={false}
-            onChange={(e) => {
-              setDate(e._d);
-            }}
-          />
-        </Content>
+        <Content></Content>
       </Layout>
     </>
   );

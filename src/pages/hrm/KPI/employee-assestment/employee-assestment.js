@@ -18,7 +18,7 @@ export default function EmployeeAssestment() {
   // const { data, isLoading, err } = useFetch(EMPLOYEE_ASSESTMENT_GET);
   const { data, isLoading, err } = useFetch(EMPLOYEE_ASSESTMENT_GET);
 
-  return user.accessibility.includes("TeamAssessmentPerformance") ? (
+  return user.accessibility.includes("assessment.list") ? (
     <Layout>
       {isLoading && <Loader />}
       <PageHeader title={"Assessment Performance"} />

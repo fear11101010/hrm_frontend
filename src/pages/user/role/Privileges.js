@@ -127,6 +127,8 @@ export default function Privileges() {
                     <th>Add</th>
                     <th>Edit</th>
                     <th>Delelte</th>
+                    {d?.id === 2 && <th> List Privileges </th>}
+                    {d?.id === 2 && <th> Add Privileges </th>}
                   </tr>
                 </thead>
                 <tbody>

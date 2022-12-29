@@ -3,6 +3,9 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { EMPLOYEE_EDIT_PAGE } from "../../../utils/routes/app_routes/APP_ROUTES";
 import { DATE_FORMAT } from "../../../utils/CONSTANT";
+import { USER_INFO } from "../../../utils/session/token";
+
+const user = USER_INFO();
 
 export const COLUMNS = [
   { name: "Name", selector: (row) => row?.name, minWidth: "120px", wrap: true },
@@ -27,11 +30,13 @@ export const COLUMNS = [
     name: "Edit",
     cell: (row) => (
       <>
-        <Link to={EMPLOYEE_EDIT_PAGE(row.id)}>
-          <Button size="sm" className="btn-rounded-circle" title={`Edit`}>
-            <i className="fe fe-edit"></i>
-          </Button>
-        </Link>
+        {user.accessibility.includes("employee_update.PUT") && (
+          <Link to={EMPLOYEE_EDIT_PAGE(row.id)}>
+            <Button size="sm" className="btn-rounded-circle" title={`Edit`}>
+              <i className="fe fe-edit"></i>
+            </Button>
+          </Link>
+        )}
       </>
     ),
     width: "80px",
