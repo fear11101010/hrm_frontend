@@ -353,7 +353,8 @@ export default function KpiPerformerAssestment() {
   // Disabled row when status is approved by head
   const rowDisabledCriteria = (row) => row?.flag === 1;
 
-  return user.accessibility.includes("PerformanceReview") ? (
+  //PerformanceReview
+  return user.accessibility.includes("performer_assessment.search_by_sbu") ? (
     <Layout>
       {isLoading || (loading && <Loader />)}
       <PageHeader title="Performance Review" />

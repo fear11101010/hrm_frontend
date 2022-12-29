@@ -17,8 +17,12 @@ import CustomTable from "../../../../components/custom-table/CustomTable";
 import { SALARY_FULL_REPORT_TABLE_COLUMN } from "../table-columns";
 import { error_alert } from "../../../../components/alert/Alert";
 import Table from "../../../../components/table/Table";
+import { Navigate } from "react-router-dom";
+import { USER_INFO } from "../../../../utils/session/token";
+import { UNAUTHORIZED } from "../../../../utils/routes/app_routes/APP_ROUTES";
 
 export default function AssessmentYearReport(props) {
+  const user = USER_INFO();
   const { data, isLoading } = useSbu();
   const [loading, setLoading] = useState(false);
   const [selectedSbu, setSelectedSbu] = useState("");
@@ -68,7 +72,7 @@ export default function AssessmentYearReport(props) {
       setLoading(false);
     }
   };
-  return (
+  return user.accessibility.includes("AssestmentYearReport") ? (
     <Layout>
       <PageHeader title={"Assessment Year Report"} />
       <Container fluid>
@@ -116,5 +120,7 @@ export default function AssessmentYearReport(props) {
       </Container>
       {(isLoading || loading) && <Loader />}
     </Layout>
+  ) : (
+    <Navigate to={UNAUTHORIZED} />
   );
 }

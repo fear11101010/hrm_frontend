@@ -3,7 +3,10 @@ import Layout from "../../../../layout/Layout";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import PageHeader from "../../../../components/header/PageHeader";
 import Content from "../../../../components/content/Content";
-import { EMPLOYEE_ASSESTMENT_SINGLE_GET, EMPLOYEE_ASSESTMENT_SINGLE_POST } from "../../../../utils/routes/api_routes/API_ROUTES";
+import {
+  EMPLOYEE_ASSESTMENT_SINGLE_GET,
+  EMPLOYEE_ASSESTMENT_SINGLE_POST,
+} from "../../../../utils/routes/api_routes/API_ROUTES";
 import { Col, Form, FormControl, Row } from "react-bootstrap";
 import moment from "moment";
 import Loader from "../../../../components/loader/Loader";
@@ -223,7 +226,7 @@ export default function EmAssestmentSingle() {
   if (flag === 1 && user.group_id.split(",").includes("1")) {
     return <Navigate to={UNAUTHORIZED} />;
   }
-  return (
+  return user.accessibility.includes("assessment.list") || user.accessibility.includes("assessment.supervisor_head") ? (
     <Layout>
       {loading && <Loader />}
       <PageHeader title="Assessment Details" onBack />
@@ -610,5 +613,7 @@ export default function EmAssestmentSingle() {
         )}
       </Content>
     </Layout>
+  ) : (
+    <Navigate to={UNAUTHORIZED} />
   );
 }

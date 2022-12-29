@@ -1,9 +1,5 @@
 import { Link } from "react-router-dom";
-import {
-  EMPLOYEE_ASSESTMENT_SINGLE_PAGE,
-  EMPLOYEE_PERFORMANCE_VIEW,
-  KPI_PERMORMANCE_FORM_PAGE,
-} from "../../../../utils/routes/app_routes/APP_ROUTES";
+import { EMPLOYEE_PERFORMANCE_VIEW, KPI_PERMORMANCE_FORM_PAGE } from "../../../../utils/routes/app_routes/APP_ROUTES";
 import React from "react";
 import { USER_INFO } from "../../../../utils/session/token";
 

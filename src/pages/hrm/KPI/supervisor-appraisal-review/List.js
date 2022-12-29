@@ -20,7 +20,7 @@ export default function SupervisorAppraisalReview() {
   if (data?.data?.length < 1) {
     error_alert("No data found");
   }
-  return user.accessibility.includes("SupervisorAppraisalReview") ? (
+  return user.accessibility.includes("kpi_performance.supervisor_head") ? (
     <Layout>
       {isLoading && <Loader />}
       <PageHeader title={"Supervisor Appraisal Review"} />

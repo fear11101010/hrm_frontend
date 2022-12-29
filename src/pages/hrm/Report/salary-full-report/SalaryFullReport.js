@@ -6,15 +6,18 @@ import PageHeader from "../../../../components/header/PageHeader";
 import Container from "react-bootstrap/Container";
 import Select from "react-select";
 import Loader from "../../../../components/loader/Loader";
-import { SALARY_PIVOT_SUMMARY_REPORT_URL } from "../../../../utils/routes/app_routes/APP_ROUTES";
+import { SALARY_PIVOT_SUMMARY_REPORT_URL, UNAUTHORIZED } from "../../../../utils/routes/app_routes/APP_ROUTES";
 import useFetch from "../../../../hooks/useFetch";
 import { REPORT_FULL_SUMMERY_API } from "../../../../utils/routes/api_routes/API_ROUTES";
 import { API } from "../../../../utils/axios/axiosConfig";
 import moment from "moment";
 import ExcelPdfPrint from "../../../../components/excel-pdf-print/ExcelPdfPrint";
 import { SALARY_FULL_REPORT } from "../excel-columns";
+import { USER_INFO } from "../../../../utils/session/token";
+import { Navigate } from "react-router-dom";
 
 export default function SalaryFullReport(props) {
+  const user = USER_INFO();
   const { data, isLoading } = useSbu();
   const [loading, setLoading] = useState(false);
   const [selectedSbu, setSelectedSbu] = useState("");
@@ -58,7 +61,7 @@ export default function SalaryFullReport(props) {
       setLoading(false);
     }
   };
-  return (
+  return user.accessibility.includes("SalaryFullReport") ? (
     <Layout>
       <PageHeader title={"Salary Full Report"} />
       <Container fluid>
@@ -463,5 +466,7 @@ export default function SalaryFullReport(props) {
       </Container>
       {(isLoading || loading) && <Loader />}
     </Layout>
+  ) : (
+    <Navigate to={UNAUTHORIZED} />
   );
 }

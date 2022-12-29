@@ -15,8 +15,11 @@ import ExcelPdfPrint from "../../../../components/excel-pdf-print/ExcelPdfPrint"
 import CustomTable from "../../../../components/custom-table/CustomTable";
 import TableReport from "../../../../components/table/TableReport";
 import Table from "../../../../components/table/Table";
-
+import { USER_INFO } from "../../../../utils/session/token";
+import { Navigate } from "react-router-dom";
+import { UNAUTHORIZED } from "../../../../utils/routes/app_routes/APP_ROUTES";
 export default function SalaryPivotReport(props) {
+  const user = USER_INFO();
   // const currentYear = moment().year();
   // const yearList = [currentYear - 2, currentYear - 1, currentYear].map(v => ({label: v, value: v}));
   const { data, err } = useFetch(REPORT_GET_YEARS_DROPDOWN);
@@ -49,7 +52,7 @@ export default function SalaryPivotReport(props) {
     setPivotData(data);
   };
 
-  return (
+  return user.accessibility.includes("SalaryPivotSummary") ? (
     <>
       <Layout>
         <PageHeader title={"Salary Pivot Report"} />
@@ -109,5 +112,7 @@ export default function SalaryPivotReport(props) {
         {isLoading && <Loader />}
       </Layout>
     </>
+  ) : (
+    <Navigate to={UNAUTHORIZED} />
   );
 }

@@ -15,6 +15,8 @@ import { YEAR_RANGE } from "../../../../utils/CONSTANT";
 import { USER_INFO } from "../../../../utils/session/token";
 import { SBU_ASSESTMENT_REPORT_EXCEL_COLUMN } from "../excel-columns";
 import { SBU_ASSESTMENT_REPORT_TABLE_COLUMN } from "../table-columns";
+import { Navigate } from "react-router-dom";
+import { UNAUTHORIZED } from "../../../../utils/routes/app_routes/APP_ROUTES";
 
 export default function SbuAssestmentData() {
   const user = USER_INFO();
@@ -69,7 +71,7 @@ export default function SbuAssestmentData() {
       });
   }, []);
 
-  return (
+  return user.accessibility.includes("SbuAssestmentReport") ? (
     <Layout>
       {loading && <Loader />}
       <PageHeader title={"SBU Assestment Report"} />
@@ -114,6 +116,8 @@ export default function SbuAssestmentData() {
         )}
       </Content>
     </Layout>
+  ) : (
+    <Navigate to={UNAUTHORIZED} />
   );
 }
 
