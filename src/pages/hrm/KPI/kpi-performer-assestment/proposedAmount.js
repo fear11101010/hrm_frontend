@@ -6,7 +6,10 @@ import ConfirmDialog from "../../../../components/confirm-dialog/ConfirmDialog";
 import Loader from "../../../../components/loader/Loader";
 import useDesignation from "../../../../hooks/useDesignation";
 import useFetch from "../../../../hooks/useFetch";
-import { KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET, KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_PUT } from "../../../../utils/routes/api_routes/API_ROUTES";
+import {
+  KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET,
+  KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_PUT,
+} from "../../../../utils/routes/api_routes/API_ROUTES";
 import { API } from "../../../../utils/axios/axiosConfig";
 import { USER_INFO } from "../../../../utils/session/token";
 
@@ -199,7 +202,8 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
             </Button> */}
             {user.group_id.split(",").map(
               (d) =>
-                d === "1" && (
+                d === "1" &&
+                user.accessibility.includes("performer_assessment.update") && (
                   <Button
                     type="submit"
                     className="ms-2"
