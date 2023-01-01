@@ -9,6 +9,8 @@ import { USER_INFO } from "../../../utils/session/token";
 import BarChart from "./bar-chart/bar-chart";
 import HorizontalBarGraph from "./bar-chart/horizontal-bar-chart";
 import PieChartCustom from "./pie-chart/pie-chart";
+import Form from "react-bootstrap/Form";
+import { YEAR_RANGE } from "../../../utils/CONSTANT";
 
 export default function Dashboard() {
   const user = USER_INFO();
@@ -19,10 +21,11 @@ export default function Dashboard() {
   const [kpi_hr_data, setKpi_hr_data] = useState([]);
   const [sbu_inc_data, setSbu_inc_data] = useState([]);
   const currYear = new Date().getFullYear();
+  const [selected_year, setSelected_year] = useState("");
 
   const getInitialData = () => {
     setLoading(true);
-    API.get(`dashboard_info/${currYear}/`)
+    API.get(selected_year === "" ? `dashboard_info/${currYear}/` : `dashboard_info/${selected_year}/`)
       .then((res) => {
         if (res.data.statuscode === 200) {
           setData(res?.data);
@@ -42,7 +45,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     getInitialData();
-  }, []);
+  }, [selected_year]);
 
   return (
     <Layout>
@@ -51,6 +54,17 @@ export default function Dashboard() {
 
       {user?.group_id?.split(",").includes("1") || user?.group_id?.split(",").includes("7") ? (
         <div className="px-5">
+          <Row>
+            <Col sm="12" md="12" className="mb-3 d-flex justify-content-end">
+              <Form>
+                <Form.Select aria-label="Year select dropdown" onChange={(e) => setSelected_year(e.target.value)}>
+                  {YEAR_RANGE?.map((d) => (
+                    <option value={d?.value}>{d?.label}</option>
+                  ))}
+                </Form.Select>
+              </Form>
+            </Col>
+          </Row>
           <Row>
             <Col sm="12" md="4">
               <PieChartCustom data={kpi_value_data} title={"KPI Value" + " " + currYear} />

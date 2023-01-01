@@ -66,14 +66,12 @@ import KpiPerformanceFormView from "./pages/hrm/KPI/kpi-performane-form/kpi-perf
 import SalaryFullReport from "./pages/hrm/Report/salary-full-report/SalaryFullReport";
 import SalaryPivotReport from "./pages/hrm/Report/salary-pivot-summary/SalaryPivotReport";
 import SalaryIncrementEligibleReport from "./pages/hrm/Report/salary-increment-eligible-report/SalaryIncrementEligibleReport";
-
 import RoleList from "./pages/user/role/RoleList";
 import Privileges from "./pages/user/role/Privileges";
 import EmployeeList from "./pages/hrm/Employee/EmployeeList";
 import EmployeeEdit from "./pages/hrm/Employee/EmployeeEdit";
 import AssestmentEmployerReport from "./pages/hrm/Report/assestment-employer-report/assestment-employer-report";
 import Demo from "./pages/demo";
-
 import AssessmentYearReport from "./pages/hrm/Report/assessment_year_report/AssessmentYearReport";
 import RequisitionOutlet from "./outlets/hrm/RequisitionOutlet";
 import ResourceRequisitionForm from "./pages/hrm/Requisition_form/resource_requisition/ResourceRequisition";
@@ -86,7 +84,6 @@ import ConfigurationOutlet from "./outlets/hrm/ConfigurationOutlet";
 import FileUpload from "./pages/hrm/Configuration/file-upload/FileUpload";
 import EmPerformancePrevYear from "./pages/hrm/KPI/employee-performance/em-performance-prevYear";
 import Landing from "./pages/Landing/Landing";
-
 import AssestmentSummaryReport from "./pages/hrm/Report/assestment_summary_report/AssestmentSummaryReport";
 import ReportOutlet from "./outlets/hrm/ReportOutlet";
 
