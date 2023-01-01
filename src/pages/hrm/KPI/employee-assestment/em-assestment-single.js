@@ -30,7 +30,7 @@ import ConfirmDialog from "../../../../components/confirm-dialog/ConfirmDialog";
 import { error_alert, success_alert } from "../../../../components/alert/Alert";
 import useDesignation from "../../../../hooks/useDesignation";
 import { USER_INFO } from "../../../../utils/session/token";
-import { Decrypt } from "../../../../utils/Hash";
+import { Decrypt, _Decode, _Encrypt } from "../../../../utils/Hash";
 
 export default function EmAssestmentSingle() {
   const user = USER_INFO();
@@ -104,7 +104,7 @@ export default function EmAssestmentSingle() {
           setBest_performer_org_curr(res.data?.data?.best_performer_org);
           setBest_performer_pm_curr(res.data?.data?.best_performer_pm);
           setConf_inc_noInc(res.data?.data?.confirmation_increment_noincrement);
-          setPropose_sbu(res.data?.data?.proposed_by_sbu_director_pm_self);
+          setPropose_sbu(_Decode(res.data?.data?.proposed_by_sbu_director_pm_self));
           // setProposed_designation(res.data?.data?.employee?.designation);
           if (res.data?.data?.proposed_designation === null) {
             setProposed_designation(res.data?.data?.employee?.designation);
@@ -183,7 +183,7 @@ export default function EmAssestmentSingle() {
         best_performer_org: best_performer_org_curr,
         best_performer_pm: best_performer_pm_curr,
         confirmation_increment_noincrement: conf_inc_noInc,
-        proposed_by_sbu_director_pm_self: propose_SBU,
+        proposed_by_sbu_director_pm_self: _Encrypt(propose_SBU),
         proposed_designation: proposed_designation,
         proposed_designation_id: proposed_designation_id,
         remarks: remarks,

@@ -1,3 +1,5 @@
+import { _Decode } from "../../../../utils/Hash";
+
 export const dataColumns = [
   { name: "Employee ID", selector: (row) => row.employee?.employee_id, width: "150px", wrap: true },
   { name: "Employee Name", selector: (row) => row.employee?.name, minWidth: "180px", wrap: true },
@@ -64,7 +66,7 @@ export const dataColumns = [
   {
     name: <div className="text-end">Proposed Amount by Supervisor</div>,
     selector: (row) => row?.proposed_by_sbu_director_pm_self,
-    cell: (row) => row?.proposed_by_sbu_director_pm_self?.toLocaleString("en-IN"),
+    cell: (row) => _Decode(row?.proposed_by_sbu_director_pm_self?.toLocaleString("en-IN")),
     minWidth: "180px",
     wrap: false,
     right: true,
