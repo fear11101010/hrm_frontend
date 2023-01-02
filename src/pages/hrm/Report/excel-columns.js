@@ -512,7 +512,7 @@ export const ASSESSMENT_SUMMARY_REPORT = (years, selected_year) => {
   const gross_salary = yearWithOutCurrYear?.map((year, i) => [
     {
       key: `Gross Salary ${year}`,
-      value: (row, index) => row?.[year]?.new_gross_salary_b,
+      value: (row, index) => _Decode(row?.[year]?.new_gross_salary_b),
       minWidth: "250px",
     },
   ]);
@@ -563,12 +563,12 @@ export const ASSESSMENT_SUMMARY_REPORT = (years, selected_year) => {
     },
     {
       key: `Increment ${selected_year}`,
-      value: (row, index) => row?.[selected_year]?.proposed_by_sbu_director_pm_self,
+      value: (row, index) => _Decode(row?.[selected_year]?.proposed_by_sbu_director_pm_self),
       minWidth: "250px",
     },
     {
       key: `% Increment ${selected_year}`,
-      value: (row, index) => row?.[selected_year]?.increment_with_kpi_percentage,
+      value: (row, index) => _Decode(row?.[selected_year]?.increment_with_kpi_percentage),
       minWidth: "250px",
     },
   ];
@@ -576,12 +576,12 @@ export const ASSESSMENT_SUMMARY_REPORT = (years, selected_year) => {
   const restData = [
     {
       key: `CAGR 3Years`,
-      value: (row, index) => row?.[selected_year]?.increment_with_kpi_percentage,
+      value: (row, index) => _Decode(row?.[selected_year]?.increment_with_kpi_percentage),
       minWidth: "250px",
     },
     {
       key: `Gross Salary ${selected_year}`,
-      value: (row, index) => row?.[selected_year]?.new_gross_salary_b,
+      value: (row, index) => _Decode(row?.[selected_year]?.new_gross_salary_b),
       minWidth: "250px",
     },
   ];

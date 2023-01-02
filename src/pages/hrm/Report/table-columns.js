@@ -620,7 +620,7 @@ export const ASSESSMENT_SUMMARY_REPORT_TABLE_COLUMN = (years, selected_year) => 
   const gross_salary = yearWithOutCurrYear?.map((year, i) => [
     {
       name: `Gross Salary ${year}`,
-      selector: (row, index) => row?.[year]?.new_gross_salary_b,
+      selector: (row, index) => _Decode(row?.[year]?.new_gross_salary_b),
       minWidth: "250px",
       sortable: true,
     },
@@ -679,13 +679,13 @@ export const ASSESSMENT_SUMMARY_REPORT_TABLE_COLUMN = (years, selected_year) => 
     },
     {
       name: `Increment ${selected_year}`,
-      selector: (row, index) => row?.[selected_year]?.proposed_by_sbu_director_pm_self,
+      selector: (row, index) => _Decode(row?.[selected_year]?.proposed_by_sbu_director_pm_self),
       minWidth: "250px",
       sortable: true,
     },
     {
       name: `% Increment ${selected_year}`,
-      selector: (row, index) => row?.[selected_year]?.increment_with_kpi_percentage,
+      selector: (row, index) => _Decode(row?.[selected_year]?.increment_with_kpi_percentage),
       minWidth: "250px",
       sortable: true,
     },
@@ -694,13 +694,13 @@ export const ASSESSMENT_SUMMARY_REPORT_TABLE_COLUMN = (years, selected_year) => 
   const restData = [
     {
       name: `CAGR 3Years`,
-      selector: (row, index) => row?.[selected_year]?.increment_with_kpi_percentage,
+      selector: (row, index) => _Decode(row?.[selected_year]?.increment_with_kpi_percentage),
       minWidth: "250px",
       sortable: true,
     },
     {
       name: `Gross Salary ${selected_year}`,
-      selector: (row, index) => row?.[selected_year]?.new_gross_salary_b,
+      selector: (row, index) => _Decode(row?.[selected_year]?.new_gross_salary_b),
       minWidth: "250px",
       sortable: true,
     },
