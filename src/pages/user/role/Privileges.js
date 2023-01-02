@@ -125,6 +125,10 @@ export default function Privileges() {
                     <th>Module Name</th>
                     {d?.id === 4 ? (
                       <>
+                        <th>List</th>
+                        <th>Create</th>
+                        <th>Retrive/Update</th>
+                        <th>Retrive/Update</th>
                         {/* <th>Option-1</th>
                         <th>Option-2</th>
                         <th>Option-3</th> */}
@@ -151,7 +155,6 @@ export default function Privileges() {
                           moduleUrl.module === subModule.id ? (
                             <td key={moduleUrl.id}>
                               <div class="form-check form-switch">
-                                {d?.id === 4 && moduleUrl?.url.split(".")[1]}
                                 <input
                                   class="form-check-input"
                                   type="checkbox"
