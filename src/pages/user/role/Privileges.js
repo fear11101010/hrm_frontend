@@ -123,10 +123,27 @@ export default function Privileges() {
                 <thead>
                   <tr>
                     <th>Module Name</th>
-                    <th>List</th>
-                    <th>Add</th>
-                    <th>Edit</th>
-                    <th>Delelte</th>
+                    {d?.id === 4 ? (
+                      <>
+                        <th>List</th>
+                        <th>Create</th>
+                        <th>Retrive/Update</th>
+                        <th>Retrive/Update</th>
+                        {/* <th>Option-1</th>
+                        <th>Option-2</th>
+                        <th>Option-3</th> */}
+                      </>
+                    ) : (
+                      <>
+                        <th>List</th>
+                        <th>Add</th>
+                        <th>Edit</th>
+                        <th>Delelte</th>
+                      </>
+                    )}
+
+                    {d?.id === 2 && <th> List Privileges </th>}
+                    {d?.id === 2 && <th> Add Privileges </th>}
                   </tr>
                 </thead>
                 <tbody>

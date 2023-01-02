@@ -6,12 +6,13 @@ import Content from "../../../../components/content/Content";
 import PageHeader from "../../../../components/header/PageHeader";
 import Loader from "../../../../components/loader/Loader";
 import Table from "../../../../components/table/Table";
-import useFetch from "../../../../hooks/useFetch";
 import Layout from "../../../../layout/Layout";
 import { SUPERVISOR_ASSESTMENT_BULK_POST, SUPERVISOR_ASSESTMENT_GET } from "../../../../utils/routes/api_routes/API_ROUTES";
 import { API } from "../../../../utils/axios/axiosConfig";
 import { USER_INFO } from "../../../../utils/session/token";
 import { columns } from "./Columns";
+import { UNAUTHORIZED } from "../../../../utils/routes/app_routes/APP_ROUTES";
+import { Navigate } from "react-router-dom";
 
 export default function SupervisorAssestmentPerformance() {
   const user = USER_INFO();
@@ -76,7 +77,7 @@ export default function SupervisorAssestmentPerformance() {
 
   // Disabled row when status is approved by head
   const rowDisabledCriteria = (row) => row.approve_by_sbu === 1;
-  return (
+  return user.accessibility.includes("assessment.supervisor_head") ? (
     <Layout>
       {loading && <Loader />}
       <PageHeader title={"Team Assestment Performance"} />
@@ -116,5 +117,7 @@ export default function SupervisorAssestmentPerformance() {
         )}
       </Content>
     </Layout>
+  ) : (
+    <Navigate to={UNAUTHORIZED} />
   );
 }

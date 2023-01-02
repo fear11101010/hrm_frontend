@@ -6,9 +6,13 @@ import ConfirmDialog from "../../../../components/confirm-dialog/ConfirmDialog";
 import Loader from "../../../../components/loader/Loader";
 import useDesignation from "../../../../hooks/useDesignation";
 import useFetch from "../../../../hooks/useFetch";
-import { KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET, KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_PUT } from "../../../../utils/routes/api_routes/API_ROUTES";
+import {
+  KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET,
+  KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_PUT,
+} from "../../../../utils/routes/api_routes/API_ROUTES";
 import { API } from "../../../../utils/axios/axiosConfig";
 import { USER_INFO } from "../../../../utils/session/token";
+import { _Decode, _Encrypt } from "../../../../utils/Hash";
 
 export default function ProposedAmount({ rowId, afterSubmit }) {
   const id = rowId;
@@ -41,7 +45,7 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
     API.get(KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET(id))
       .then((res) => {
         if (res.data.statuscode === 200) {
-          setPropsed_by_sbuDirPmSelf(res.data.data?.proposed_by_sbu_director_pm_self);
+          setPropsed_by_sbuDirPmSelf(_Decode(res.data.data?.proposed_by_sbu_director_pm_self));
           setProposed_designation(res.data.data?.employee?.designation);
           setProposed_designation_id(res.data.data?.employee?.desig_id);
           setProposed_designation_new(res.data.data?.employee?.designation);
@@ -63,7 +67,9 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
     e.preventDefault();
     const payload = {
       proposed_by_sbu_director_pm_self:
-        propsed_by_sbuDirPmSelf === "" ? data.data?.proposed_by_sbu_director_pm_self : propsed_by_sbuDirPmSelf,
+        propsed_by_sbuDirPmSelf === ""
+          ? _Encrypt(data.data?.proposed_by_sbu_director_pm_self)
+          : _Encrypt(propsed_by_sbuDirPmSelf),
       remarks: remarks1 === "" ? data.data?.remarks : remarks1,
       remarks_two: remarks2 === "" ? data.data?.remarks_two : remarks2,
       kpi_objective: data.data?.kpi_objective,
@@ -199,7 +205,8 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
             </Button> */}
             {user.group_id.split(",").map(
               (d) =>
-                d === "1" && (
+                d === "1" &&
+                user.accessibility.includes("performer_assessment.update") && (
                   <Button
                     type="submit"
                     className="ms-2"

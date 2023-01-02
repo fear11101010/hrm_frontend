@@ -149,7 +149,7 @@ export default function EmployeeEdit() {
       });
   };
 
-  return user.accessibility.includes("EmployeeEdit") ? (
+  return user.accessibility.includes("employee.GET") ? (
     <Layout>
       {loading && <Loader />}
       <PageHeader title={"Update Employee"} onBack />
@@ -484,7 +484,7 @@ export default function EmployeeEdit() {
                 Cancel
               </Button>
             </Link>
-            <Button type="submit">Update</Button>
+            {user.accessibility.includes("employee_update.PUT") && <Button type="submit">Update</Button>}
           </div>
         </Form>
       </Content>

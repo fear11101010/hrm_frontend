@@ -15,7 +15,7 @@ export default function EmployeePerformance() {
   const user = USER_INFO();
   const { data, isLoading, err } = useFetch(EMPLOYEE_PERFORMANCE_GET);
 
-  return user.accessibility.includes("TeamAppraisalReview") ? (
+  return user.accessibility.includes("kpi_performance.list") ? (
     <Layout>
       {isLoading && <Loader />}
       <PageHeader title="Team Appraisal Review" />

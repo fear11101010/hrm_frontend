@@ -14,14 +14,16 @@ import {
   LOGIN_API,
 } from "../../../../utils/routes/api_routes/API_ROUTES";
 import Loader from "../../../../components/loader/Loader";
-import { EMPLOYEE_PERFORMANCE_INDEX_PAGE } from "../../../../utils/routes/app_routes/APP_ROUTES";
+import { EMPLOYEE_PERFORMANCE_INDEX_PAGE, UNAUTHORIZED } from "../../../../utils/routes/app_routes/APP_ROUTES";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import KpiPerformanceFormComponent from "../../../../components/kpi-performmance-form/KpiPerformanceFormComponent";
 import useFetchKpiFormData from "../../../../hooks/kpi/useFetchKpiFormData";
 import { success_alert } from "../../../../components/alert/Alert";
+import { USER_INFO } from "../../../../utils/session/token";
 
 export default function KpiPerformanceForm() {
+  const user = USER_INFO();
   const [isLoading, setIsLoading] = useState(false);
   // const [data, setData] = useState({});
   const { id } = useParams();
@@ -55,7 +57,9 @@ export default function KpiPerformanceForm() {
       <div>
         <PageHeader subTitle={""} title={"KPI Performance Form"} onBack />
         <Container fluid>
-          <KpiPerformanceFormComponent data={data} afterSubmit={afterSubmit} beforeSubmit={beforeSubmit} id={id} />
+          {user.accessibility.includes("kpi_performance.retrieve") && (
+            <KpiPerformanceFormComponent data={data} afterSubmit={afterSubmit} beforeSubmit={beforeSubmit} id={id} />
+          )}
         </Container>
         {(isLoading || loading) && <Loader />}
       </div>

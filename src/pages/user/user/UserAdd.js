@@ -83,7 +83,7 @@ export default function UserAdd() {
       });
   };
 
-  return user.accessibility.includes("authuserAdd") ? (
+  return user.accessibility.includes("user-register.create") ? (
     <Layout>
       {loading && <Loader />}
       <PageHeader title="User Add" onBack />

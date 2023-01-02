@@ -6,15 +6,19 @@ import PageHeader from "../../../../components/header/PageHeader";
 import Container from "react-bootstrap/Container";
 import Select from "react-select";
 import Loader from "../../../../components/loader/Loader";
-import { SALARY_PIVOT_SUMMARY_REPORT_URL } from "../../../../utils/routes/app_routes/APP_ROUTES";
+import { SALARY_PIVOT_SUMMARY_REPORT_URL, UNAUTHORIZED } from "../../../../utils/routes/app_routes/APP_ROUTES";
 import useFetch from "../../../../hooks/useFetch";
 import { REPORT_FULL_SUMMERY_API } from "../../../../utils/routes/api_routes/API_ROUTES";
 import { API } from "../../../../utils/axios/axiosConfig";
 import moment from "moment";
 import ExcelPdfPrint from "../../../../components/excel-pdf-print/ExcelPdfPrint";
 import { SALARY_FULL_REPORT } from "../excel-columns";
+import { USER_INFO } from "../../../../utils/session/token";
+import { Navigate } from "react-router-dom";
+import { _Decode } from "../../../../utils/Hash";
 
 export default function SalaryFullReport(props) {
+  const user = USER_INFO();
   const { data, isLoading } = useSbu();
   const [loading, setLoading] = useState(false);
   const [selectedSbu, setSelectedSbu] = useState("");
@@ -58,7 +62,7 @@ export default function SalaryFullReport(props) {
       setLoading(false);
     }
   };
-  return (
+  return user.accessibility.includes("SalaryFullReport") ? (
     <Layout>
       <PageHeader title={"Salary Full Report"} />
       <Container fluid>
@@ -147,7 +151,7 @@ export default function SalaryFullReport(props) {
                                 {/*{JSON.stringify(lastThreeYearData[id]?.[year])}*/}
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">KPI Objective {year}</h6>
-                                  <p>{lastThreeYearData[id]?.[year]?.kpi_objective?.name}</p>
+                                  <p>{_Decode(lastThreeYearData[id]?.[year]?.kpi_objective?.name)}</p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">KPI-Value {year}</h6>
@@ -163,15 +167,15 @@ export default function SalaryFullReport(props) {
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">% of KPI-Objective {year}</h6>
-                                  <p>{lastThreeYearData[id]?.[year]?.percentage_kpi_objective}</p>
+                                  <p>{_Decode(lastThreeYearData[id]?.[year]?.percentage_kpi_objective)}</p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">% of KPI-HR {year}</h6>
-                                  <p>{lastThreeYearData[id]?.[year]?.percentage_kpi_hr}</p>
+                                  <p>{_Decode(lastThreeYearData[id]?.[year]?.percentage_kpi_hr)}</p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">Weighted Average of KPI % {year}</h6>
-                                  <p>{lastThreeYearData[id]?.[year]?.weighted_average_kpi}</p>
+                                  <p>{_Decode(lastThreeYearData[id]?.[year]?.weighted_average_kpi)}</p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">Criticality {year}</h6>
@@ -216,31 +220,24 @@ export default function SalaryFullReport(props) {
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">HR New Gross Salary {year} (A)</h6>
                                   <p>
-                                    {lastThreeYearData[id]?.[year]?.hr_new_gross_salary_a?.toLocaleString("en-IN", {
-                                      style: "currency",
-                                      currency: "BDT",
-                                    })}
+                                    {_Decode(lastThreeYearData[id]?.[year]?.hr_new_gross_salary_a?.toLocaleString("en-IN"))}
                                   </p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">HR % {year}</h6>
-                                  <p>{lastThreeYearData[id]?.[year]?.percentage_hr_a}</p>
+                                  <p>{_Decode(lastThreeYearData[id]?.[year]?.percentage_hr_a)}</p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">Fixed Increment (%) {year} (B)</h6>
-                                  <p>
-                                    {lastThreeYearData[id]?.[year]?.fixed_increment_b?.toLocaleString("en-IN", {
-                                      style: "currency",
-                                      currency: "BDT",
-                                    })}
-                                  </p>
+                                  <p>{_Decode(lastThreeYearData[id]?.[year]?.fixed_increment_b?.toLocaleString("en-IN"))}</p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">Fixed Increment New Gross Salary B {year} (B)</h6>
                                   <p>
-                                    {lastThreeYearData[id]?.[year]?.fixed_increment_new_gross_salary_b?.toLocaleString(
-                                      "en-IN",
-                                      { style: "currency", currency: "BDT" }
+                                    {_Decode(
+                                      lastThreeYearData[id]?.[year]?.fixed_increment_new_gross_salary_b?.toLocaleString(
+                                        "en-IN"
+                                      )
                                     )}
                                   </p>
                                 </Col>
@@ -249,18 +246,18 @@ export default function SalaryFullReport(props) {
                                     Team Distribution (%) <br /> {year} (C)
                                   </h6>
                                   <p>
-                                    {lastThreeYearData[id]?.[year]?.team_distribution_percentage_c?.toLocaleString("en-IN", {
-                                      style: "currency",
-                                      currency: "BDT",
-                                    })}
+                                    {_Decode(
+                                      lastThreeYearData[id]?.[year]?.team_distribution_percentage_c?.toLocaleString("en-IN")
+                                    )}
                                   </p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">Difference = New salary A- New salary B {year}</h6>
                                   <p>
-                                    {lastThreeYearData[id]?.[year]?.difference_new_salary_a_new_salary_b?.toLocaleString(
-                                      "en-IN",
-                                      { style: "currency", currency: "BDT" }
+                                    {_Decode(
+                                      lastThreeYearData[id]?.[year]?.difference_new_salary_a_new_salary_b?.toLocaleString(
+                                        "en-IN"
+                                      )
                                     )}
                                   </p>
                                 </Col>
@@ -269,36 +266,39 @@ export default function SalaryFullReport(props) {
                                     Proposed Amount Director <br /> {year}
                                   </h6>
                                   <p>
-                                    {lastThreeYearData[id]?.[year]?.proposed_by_sbu_director_pm_self?.toLocaleString(
-                                      "en-IN",
-                                      { style: "currency", currency: "BDT" }
+                                    {_Decode(
+                                      lastThreeYearData[id]?.[year]?.proposed_by_sbu_director_pm_self?.toLocaleString(
+                                        "en-IN"
+                                      )
                                     )}
                                   </p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">% of Increment {year}</h6>
-                                  <p>{lastThreeYearData[id]?.[year]?.percentage_of_increment}</p>
+                                  <p>{_Decode(lastThreeYearData[id]?.[year]?.percentage_of_increment)}</p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">New Gross Salary B {year}</h6>
                                   <p>
-                                    {lastThreeYearData[id]?.[year]?.new_gross_salary_b?.toLocaleString("en-IN", {
-                                      style: "currency",
-                                      currency: "BDT",
-                                    })}
+                                    {_Decode(
+                                      lastThreeYearData[id]?.[year]?.new_gross_salary_b?.toLocaleString("en-IN", {
+                                        style: "currency",
+                                        currency: "BDT",
+                                      })
+                                    )}
                                   </p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">CAGR 3 years {year}</h6>
-                                  <p>{lastThreeYearData[id]?.[year]?.cagr_three_years}</p>
+                                  <p>{_Decode(lastThreeYearData[id]?.[year]?.cagr_three_years)}</p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">Avarage 3 Years {year}</h6>
-                                  <p>{lastThreeYearData[id]?.[year]?.average_three_years}</p>
+                                  <p>{_Decode(lastThreeYearData[id]?.[year]?.average_three_years)}</p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">Average Actual {year}</h6>
-                                  <p>{lastThreeYearData[id]?.[year]?.average_actual}</p>
+                                  <p>{_Decode(lastThreeYearData[id]?.[year]?.average_actual)}</p>
                                 </Col>
                                 {/* <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">Weighted Average of KPI % {year}</h6>
@@ -307,10 +307,12 @@ export default function SalaryFullReport(props) {
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">Increment with KPI % {year}</h6>
                                   <p>
-                                    {lastThreeYearData[id]?.[year]?.increment_with_kpi_percentage?.toLocaleString("en-IN", {
-                                      style: "currency",
-                                      currency: "BDT",
-                                    })}
+                                    {_Decode(
+                                      lastThreeYearData[id]?.[year]?.increment_with_kpi_percentage?.toLocaleString("en-IN", {
+                                        style: "currency",
+                                        currency: "BDT",
+                                      })
+                                    )}
                                   </p>
                                 </Col>
                                 {/* <Col sm={6} md={4} lg={4} xl={3}>
@@ -320,26 +322,28 @@ export default function SalaryFullReport(props) {
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">New Gross Salary KPI % {year}</h6>
                                   <p>
-                                    {lastThreeYearData[id]?.[year]?.new_gross_salary_kpi_percentage?.toLocaleString(
-                                      "en-IN",
-                                      {
-                                        style: "currency",
-                                        currency: "BDT",
-                                      }
+                                    {_Decode(
+                                      lastThreeYearData[id]?.[year]?.new_gross_salary_kpi_percentage?.toLocaleString(
+                                        "en-IN",
+                                        {
+                                          style: "currency",
+                                          currency: "BDT",
+                                        }
+                                      )
                                     )}
                                   </p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">Gap Manual vs Formula {year}</h6>
-                                  <p>{lastThreeYearData[id]?.[year]?.gap_manual_formula}</p>
+                                  <p>{_Decode(lastThreeYearData[id]?.[year]?.gap_manual_formula)}</p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">Remarks {year}</h6>
-                                  <p>{lastThreeYearData[id]?.[year]?.remark}</p>
+                                  <p>{_Decode(lastThreeYearData[id]?.[year]?.remark)}</p>
                                 </Col>
                                 <Col sm={6} md={4} lg={4} xl={3}>
                                   <h6 className="header-pretitle">Remarks 2 {year}</h6>
-                                  <p>{lastThreeYearData[id]?.[year]?.remarks_two}</p>
+                                  <p>{_Decode(lastThreeYearData[id]?.[year]?.remarks_two)}</p>
                                 </Col>
                               </Row>
                             </Accordion.Body>
@@ -463,5 +467,7 @@ export default function SalaryFullReport(props) {
       </Container>
       {(isLoading || loading) && <Loader />}
     </Layout>
+  ) : (
+    <Navigate to={UNAUTHORIZED} />
   );
 }

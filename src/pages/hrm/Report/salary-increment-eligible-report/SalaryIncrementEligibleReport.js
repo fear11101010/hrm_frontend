@@ -5,7 +5,10 @@ import PageHeader from "../../../../components/header/PageHeader";
 import Container from "react-bootstrap/Container";
 import Select from "react-select";
 import Loader from "../../../../components/loader/Loader";
-import { REPORT_GET_YEARS_DROPDOWN, REPORT_INCREMENT_ELIGIBLE_SALARY_SUMMERY_API } from "../../../../utils/routes/api_routes/API_ROUTES";
+import {
+  REPORT_GET_YEARS_DROPDOWN,
+  REPORT_INCREMENT_ELIGIBLE_SALARY_SUMMERY_API,
+} from "../../../../utils/routes/api_routes/API_ROUTES";
 import { API } from "../../../../utils/axios/axiosConfig";
 import { error_alert } from "../../../../components/alert/Alert";
 import { ELIGIBLE_TABLE_COLUMN } from "../table-columns";
@@ -14,8 +17,12 @@ import useFetch from "../../../../hooks/useFetch";
 import ExcelPdfPrint from "../../../../components/excel-pdf-print/ExcelPdfPrint";
 import { ELIGIBLE_EXCEL_COLUMN } from "../excel-columns";
 import TableReport from "../../../../components/table/TableReport";
+import { Navigate } from "react-router-dom";
+import { USER_INFO } from "../../../../utils/session/token";
+import { UNAUTHORIZED } from "../../../../utils/routes/app_routes/APP_ROUTES";
 
 export default function SalaryIncrementEligibleReport(props) {
+  const user = USER_INFO();
   const { data, isLoading, err } = useFetch(REPORT_GET_YEARS_DROPDOWN);
   const yearList = data?.data?.map((v) => ({ label: v.year, value: v.year }));
   const [selectedYear, setSelectedYear] = useState("");
@@ -38,7 +45,7 @@ export default function SalaryIncrementEligibleReport(props) {
       setLoading(false);
     }
   };
-  return (
+  return user.accessibility.includes("IncrementEligible") ? (
     <Layout>
       <PageHeader title={"Increment Eligible Report"} />
       <Container fluid>
@@ -84,5 +91,7 @@ export default function SalaryIncrementEligibleReport(props) {
       </Container>
       {loading && <Loader />}
     </Layout>
+  ) : (
+    <Navigate to={UNAUTHORIZED} />
   );
 }

@@ -70,7 +70,7 @@ function KpiPerformanceIndex(props) {
     navigate(EMPLOYEE_PERFORMANCE_CREATE);
   };
 
-  return user.accessibility.includes("AppraisalForm") ? (
+  return user.accessibility.includes("kpi_performance.employee_performance") ? (
     <Layout>
       <PageHeader subTitle={""} title={"Appraisal Form"} />
       <Container fluid>

@@ -3,7 +3,10 @@ import Layout from "../../../../layout/Layout";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import PageHeader from "../../../../components/header/PageHeader";
 import Content from "../../../../components/content/Content";
-import { EMPLOYEE_ASSESTMENT_SINGLE_GET, EMPLOYEE_ASSESTMENT_SINGLE_POST } from "../../../../utils/routes/api_routes/API_ROUTES";
+import {
+  EMPLOYEE_ASSESTMENT_SINGLE_GET,
+  EMPLOYEE_ASSESTMENT_SINGLE_POST,
+} from "../../../../utils/routes/api_routes/API_ROUTES";
 import { Col, Form, FormControl, Row } from "react-bootstrap";
 import moment from "moment";
 import Loader from "../../../../components/loader/Loader";
@@ -27,7 +30,7 @@ import ConfirmDialog from "../../../../components/confirm-dialog/ConfirmDialog";
 import { error_alert, success_alert } from "../../../../components/alert/Alert";
 import useDesignation from "../../../../hooks/useDesignation";
 import { USER_INFO } from "../../../../utils/session/token";
-import { Decrypt } from "../../../../utils/Hash";
+import { Decrypt, _Decode, _Encrypt } from "../../../../utils/Hash";
 
 export default function EmAssestmentSingle() {
   const user = USER_INFO();
@@ -101,7 +104,7 @@ export default function EmAssestmentSingle() {
           setBest_performer_org_curr(res.data?.data?.best_performer_org);
           setBest_performer_pm_curr(res.data?.data?.best_performer_pm);
           setConf_inc_noInc(res.data?.data?.confirmation_increment_noincrement);
-          setPropose_sbu(res.data?.data?.proposed_by_sbu_director_pm_self);
+          setPropose_sbu(_Decode(res.data?.data?.proposed_by_sbu_director_pm_self));
           // setProposed_designation(res.data?.data?.employee?.designation);
           if (res.data?.data?.proposed_designation === null) {
             setProposed_designation(res.data?.data?.employee?.designation);
@@ -180,7 +183,7 @@ export default function EmAssestmentSingle() {
         best_performer_org: best_performer_org_curr,
         best_performer_pm: best_performer_pm_curr,
         confirmation_increment_noincrement: conf_inc_noInc,
-        proposed_by_sbu_director_pm_self: propose_SBU,
+        proposed_by_sbu_director_pm_self: _Encrypt(propose_SBU),
         proposed_designation: proposed_designation,
         proposed_designation_id: proposed_designation_id,
         remarks: remarks,
@@ -223,7 +226,7 @@ export default function EmAssestmentSingle() {
   if (flag === 1 && user.group_id.split(",").includes("1")) {
     return <Navigate to={UNAUTHORIZED} />;
   }
-  return (
+  return user.accessibility.includes("assessment.list") || user.accessibility.includes("assessment.supervisor_head") ? (
     <Layout>
       {loading && <Loader />}
       <PageHeader title="Assessment Details" onBack />
@@ -590,10 +593,11 @@ export default function EmAssestmentSingle() {
                 </Row>
               </div>
             </div>
-
-            <button className="btn btn-primary px-4" type="submit">
-              Save
-            </button>
+            {user.accessibility.includes("assessment.update") && (
+              <button className="btn btn-primary px-4" type="submit">
+                Save
+              </button>
+            )}
 
             <button className="btn btn-light px-4 ms-2 fw-bold" onClick={() => navigate(-1)}>
               Cancel
@@ -610,5 +614,7 @@ export default function EmAssestmentSingle() {
         )}
       </Content>
     </Layout>
+  ) : (
+    <Navigate to={UNAUTHORIZED} />
   );
 }

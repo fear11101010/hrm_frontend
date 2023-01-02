@@ -5,7 +5,11 @@ import Content from "../../../../components/content/Content";
 import useSbu from "../../../../hooks/SBU/useSbu";
 import Select from "react-select";
 import { API } from "../../../../utils/axios/axiosConfig";
-import { EMPLOYEE_ASSIGN_POST, EMPLOYEE_ASSIGN_RETRIVE_AND_PUT, GET_EMPLOYEE_BY_SBU_API } from "../../../../utils/routes/api_routes/API_ROUTES";
+import {
+  EMPLOYEE_ASSIGN_POST,
+  EMPLOYEE_ASSIGN_RETRIVE_AND_PUT,
+  GET_EMPLOYEE_BY_SBU_API,
+} from "../../../../utils/routes/api_routes/API_ROUTES";
 import { Form } from "react-bootstrap";
 import useSupervisor from "../../../../hooks/useSupervisor";
 import Loader from "../../../../components/loader/Loader";
@@ -80,6 +84,7 @@ export default function KpiEmployeeAssign() {
         })
         .finally(() => {
           setLoading(false);
+          setIsConfirm(false);
         });
     }
   };
@@ -140,7 +145,7 @@ export default function KpiEmployeeAssign() {
     }
   };
 
-  return user.accessibility.includes("CircularteToEmployees") ? (
+  return user.accessibility.includes("employee_assign.create") ? (
     <Layout>
       {loading && <Loader />}
       <PageHeader title="Circularte To Employees" />

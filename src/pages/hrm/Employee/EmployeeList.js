@@ -26,17 +26,19 @@ export default function EmployeeList() {
       name: "Details",
       cell: (row) => (
         <>
-          <Button
-            size="sm"
-            className="btn-rounded-circle"
-            title={`Details`}
-            onClick={() => {
-              setDetailsModal(true);
-              setSelectedId(row.id);
-            }}
-          >
-            <i className="fe fe-file-text"></i>
-          </Button>
+          {user.accessibility.includes("employee.GET") && (
+            <Button
+              size="sm"
+              className="btn-rounded-circle"
+              title={`Details`}
+              onClick={() => {
+                setDetailsModal(true);
+                setSelectedId(row.id);
+              }}
+            >
+              <i className="fe fe-file-text"></i>
+            </Button>
+          )}
         </>
       ),
       width: "80px",
@@ -45,10 +47,13 @@ export default function EmployeeList() {
     },
   ];
 
-  return user.accessibility.includes("EmployeeList") ? (
+  return user.module.includes("Employee") ? (
     <Layout>
+      {isLoading && <Loader />}
       <PageHeader title={"Employee List"} />
-      <Content>{isLoading ? <Loader /> : <Table data={data.data} columns={COLUMNS.concat(EXT_COLUMNS)} />}</Content>
+      <Content>
+        {user.accessibility.includes("employee.GET") && <Table data={data.data} columns={COLUMNS.concat(EXT_COLUMNS)} />}
+      </Content>
 
       {/* Details Modal */}
       <Modal
