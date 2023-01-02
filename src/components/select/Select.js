@@ -106,7 +106,7 @@ function Select(props) {
           <ul>
             {options?.map((option,i) => (
               <li key={`${option.value}_${option.label}_${i}`}>
-                <a href="#" onClick={(e) => onHandleChange(e, option)}>
+                <a href="#" style={{whiteSpace:'nowrap'}} onClick={(e) => onHandleChange(e, option)}>
                   {option.label}
                 </a>
               </li>
