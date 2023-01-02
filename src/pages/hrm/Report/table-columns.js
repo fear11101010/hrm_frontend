@@ -1,5 +1,6 @@
 import moment from "moment";
-import {getDurations} from "../../../utils/helper";
+import { _Decode } from "../../../utils/Hash";
+import { getDurations } from "../../../utils/helper";
 
 export const PIVOT_TABLE_COLUMN = (year) => [
   {
@@ -104,46 +105,50 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
     },
     {
       name: "Employee Name",
-      sortable:true,
+      sortable: true,
       selector: (row, index) => Object.values(row)[0]?.employee?.name,
     },
     {
       name: "Designation",
-      sortable:true,
+      sortable: true,
       selector: (row, index) => Object.values(row)[0]?.employee?.designation,
     },
     {
       name: "ID No",
-      sortable:true,
+      sortable: true,
       selector: (row, index) => Object.values(row)[0]?.employee?.employee_id,
     },
     {
       name: "DOJ",
-      sortable:true,
+      sortable: true,
       selector: (row, index) => moment(Object.values(row)[0]?.employee?.date_of_joining).toDate(),
-      cell: (row, index) => (<span className="item-title">
-        {moment(Object.values(row)[0]?.employee?.date_of_joining).format("DD MMM,YYYY")}
-      </span>),
+      cell: (row, index) => (
+        <span className="item-title">{moment(Object.values(row)[0]?.employee?.date_of_joining).format("DD MMM,YYYY")}</span>
+      ),
     },
     {
       name: "Durations",
-      sortable:true,
+      sortable: true,
       selector: (row, index) => {
         const durations = getDurations(Object.values(row)[0]?.employee?.date_of_joining);
-        return durations.years()+durations.months()/12;
+        return durations.years() + durations.months() / 12;
       },
-      cell: (row, index) => (<span className="item-title">
-        {`${getDurations(Object.values(row)[0]?.employee?.date_of_joining).years()} years, ${getDurations(Object.values(row)[0]?.employee?.date_of_joining).months()} months`}
-      </span>),
+      cell: (row, index) => (
+        <span className="item-title">
+          {`${getDurations(Object.values(row)[0]?.employee?.date_of_joining).years()} years, ${getDurations(
+            Object.values(row)[0]?.employee?.date_of_joining
+          ).months()} months`}
+        </span>
+      ),
     },
     {
       name: "SBU",
-      sortable:true,
+      sortable: true,
       selector: (row, index) => Object.values(row)[0]?.employee?.sbu?.name,
     },
     {
       name: "Sub SBU",
-      sortable:true,
+      sortable: true,
       selector: (row, index) => Object.values(row)[0]?.employee?.sub_sbu?.name,
     },
     {
@@ -177,21 +182,21 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
 
     {
       name: `% of KPI-Objective ${year}`,
-      selector: (row, index) => row?.[year]?.percentage_kpi_objective,
+      selector: (row, index) => _Decode(row?.[year]?.percentage_kpi_objective),
     },
     {
       name: `% of KPI-Value ${year}`,
-      selector: (row, index) => row?.[year]?.percentage_kpi_value,
+      selector: (row, index) => _Decode(row?.[year]?.percentage_kpi_value),
     },
 
     {
       name: `% of KPI-HR ${year}`,
-      selector: (row, index) => row?.[year]?.percentage_kpi_hr,
+      selector: (row, index) => _Decode(row?.[year]?.percentage_kpi_hr),
     },
 
     {
       name: `Weighted Average of KPI % ${year}`,
-      selector: (row, index) => row?.[year]?.weighted_average_kpi,
+      selector: (row, index) => _Decode(row?.[year]?.weighted_average_kpi),
     },
 
     {
@@ -241,97 +246,97 @@ export const SALARY_FULL_REPORT_TABLE_COLUMN = (years) => {
 
     {
       name: `Increment Amount ${year} (A)`,
-      selector: (row, index) => row?.[year]?.increment_amount_a,
+      selector: (row, index) => _Decode(row?.[year]?.increment_amount_a),
     },
 
     {
       name: `HR New Gross Salary ${year} (A)`,
-      selector: (row, index) => row?.[year]?.hr_new_gross_salary_a?.toLocaleString("en-IN"),
+      selector: (row, index) => _Decode(row?.[year]?.hr_new_gross_salary_a?.toLocaleString("en-IN")),
     },
 
     {
       name: `HR % ${year}`,
-      selector: (row, index) => row?.[year]?.percentage_hr_a,
+      selector: (row, index) => _Decode(row?.[year]?.percentage_hr_a),
     },
 
     {
       name: `Fixed Increment (%) ${year} (B)`,
-      selector: (row, index) => row?.[year]?.fixed_increment_b?.toLocaleString("en-IN"),
+      selector: (row, index) => _Decode(row?.[year]?.fixed_increment_b?.toLocaleString("en-IN")),
     },
 
     {
       name: `Fixed Increment New Gross Salary B ${year} (B)`,
-      selector: (row, index) => row?.[year]?.fixed_increment_new_gross_salary_b?.toLocaleString("en-IN"),
+      selector: (row, index) => _Decode(row?.[year]?.fixed_increment_new_gross_salary_b?.toLocaleString("en-IN")),
     },
 
     {
       name: `Team Distribution (%) ${year} (C)`,
-      selector: (row, index) => row?.[year]?.team_distribution_percentage_c?.toLocaleString("en-IN"),
+      selector: (row, index) => _Decode(row?.[year]?.team_distribution_percentage_c?.toLocaleString("en-IN")),
     },
 
     {
       name: `Difference = New salary A- New salary B ${year}`,
-      selector: (row, index) => row?.[year]?.difference_new_salary_a_new_salary_b?.toLocaleString("en-IN"),
+      selector: (row, index) => _Decode(row?.[year]?.difference_new_salary_a_new_salary_b?.toLocaleString("en-IN")),
     },
 
     {
       name: `Proposed By SBU Director/PM/Self ${year}`,
-      selector: (row, index) => row?.[year]?.proposed_by_sbu_director_pm_self?.toLocaleString("en-IN"),
+      selector: (row, index) => _Decode(row?.[year]?.proposed_by_sbu_director_pm_self?.toLocaleString("en-IN")),
     },
 
     {
       name: `% of Increment ${year}`,
-      selector: (row, index) => row?.[year]?.percentage_of_increment,
+      selector: (row, index) => _Decode(row?.[year]?.percentage_of_increment),
     },
 
     {
       name: `New Gross Salary B ${year}`,
-      selector: (row, index) => row?.[year]?.new_gross_salary_b?.toLocaleString("en-IN"),
+      selector: (row, index) => _Decode(row?.[year]?.new_gross_salary_b?.toLocaleString("en-IN")),
     },
 
     {
       name: `CAGR 3 years ${year}`,
-      selector: (row, index) => row?.[year]?.cagr_three_years,
+      selector: (row, index) => _Decode(row?.[year]?.cagr_three_years),
     },
 
     {
       name: `Avarage 3 Years ${year}`,
-      selector: (row, index) => row?.[year]?.average_three_years,
+      selector: (row, index) => _Decode(row?.[year]?.average_three_years),
     },
 
     {
       name: `Average Actual ${year}`,
-      selector: (row, index) => row?.[year]?.average_actual,
+      selector: (row, index) => _Decode(row?.[year]?.average_actual),
     },
 
     {
       name: `Weighted Average of KPI % ${year}`,
-      selector: (row, index) => row?.[year]?.weighted_average_kpi,
+      selector: (row, index) => _Decode(row?.[year]?.weighted_average_kpi),
     },
 
     {
       name: `Increment with KPI % ${year}`,
-      selector: (row, index) => row?.[year]?.increment_with_kpi_percentage?.toLocaleString("en-IN"),
+      selector: (row, index) => _Decode(row?.[year]?.increment_with_kpi_percentage?.toLocaleString("en-IN")),
     },
 
     {
       name: `New Gross Salary KPI % % ${year}`,
-      selector: (row, index) => row?.[year]?.increment_with_kpi_percentage,
+      selector: (row, index) => _Decode(row?.[year]?.increment_with_kpi_percentage),
     },
 
     {
       name: `Increment with KPI % ${year}`,
-      selector: (row, index) => row?.[year]?.increment_with_kpi_percentage,
+      selector: (row, index) => _Decode(row?.[year]?.increment_with_kpi_percentage),
     },
 
     {
       name: `New Gross Salary KPI % ${year}`,
-      selector: (row, index) => row?.[year]?.increment_with_kpi_percentage?.toLocaleString("en-IN"),
+      selector: (row, index) => _Decode(row?.[year]?.increment_with_kpi_percentage?.toLocaleString("en-IN")),
     },
 
     {
       name: `Gap Manual vs Formula ${year}`,
-      selector: (row, index) => row?.[year]?.gap_manual_formula,
+      selector: (row, index) => _Decode(row?.[year]?.gap_manual_formula),
     },
 
     {
@@ -467,7 +472,7 @@ export const SBU_ASSESTMENT_REPORT_TABLE_COLUMN = [
   },
   {
     name: "Proposed Amount By Supervisor",
-    selector: (row) => row?.proposed_by_sbu_director_pm_self,
+    selector: (row) => _Decode(row?.proposed_by_sbu_director_pm_self),
     minWidth: "200px",
     sortable: true,
   },

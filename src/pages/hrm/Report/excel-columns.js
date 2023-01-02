@@ -1,4 +1,5 @@
 import moment from "moment";
+import { _Decode } from "../../../utils/Hash";
 
 export const PIVOT_EXCEL_COLUMN = (year) => [
   {
@@ -121,6 +122,8 @@ export const SALARY_FULL_REPORT = (years) => {
 
     {
       key: `KPI-Value ${year}`,
+
+      // value: (row, index) => row?.[year]?.kpi_selector?.name,
       value: (row, index) => row?.[year]?.kpi_value?.name,
     },
 
@@ -136,24 +139,25 @@ export const SALARY_FULL_REPORT = (years) => {
 
     {
       key: `% of KPI-Objective ${year}`,
-      value: (row, index) => row?.[year]?.percentage_kpi_objective,
+      value: (row, index) => _Decode(row?.[year]?.percentage_kpi_objective),
     },
     {
       key: `% of KPI-Value ${year}`,
-      value: (row, index) => row?.[year]?.percentage_kpi_value,
+      value: (row, index) => _Decode(row?.[year]?.percentage_kpi_value),
     },
+
     {
       key: `% of KPI-HR ${year}`,
-      value: (row, index) => row?.[year]?.percentage_kpi_hr,
+      value: (row, index) => _Decode(row?.[year]?.percentage_kpi_hr),
     },
 
     {
-      key: `% Weighted Average of KPI  ${year}`,
-      value: (row, index) => row?.[year]?.weighted_average_kpi,
+      key: `Weighted Average of KPI % ${year}`,
+      value: (row, index) => _Decode(row?.[year]?.weighted_average_kpi),
     },
 
     {
-      key: `% Criticality ${year}`,
+      key: `Criticality ${year}`,
       value: (row, index) => row?.[year]?.criticality?.name,
     },
 
@@ -198,98 +202,98 @@ export const SALARY_FULL_REPORT = (years) => {
     },
 
     {
-      key: `% Increment Amount ${year} (A)`,
-      value: (row, index) => row?.[year]?.increment_amount_a,
+      key: `Increment Amount ${year} (A)`,
+      value: (row, index) => _Decode(row?.[year]?.increment_amount_a),
     },
 
     {
-      key: `% HR New Gross Salary ${year} (A)`,
-      value: (row, index) => row?.[year]?.hr_new_gross_salary_a,
+      key: `HR New Gross Salary ${year} (A)`,
+      value: (row, index) => _Decode(row?.[year]?.hr_new_gross_salary_a?.toLocaleString("en-IN")),
     },
 
     {
-      key: `% HR ${year}`,
-      value: (row, index) => row?.[year]?.percentage_hr_a,
+      key: `HR % ${year}`,
+      value: (row, index) => _Decode(row?.[year]?.percentage_hr_a),
     },
 
     {
       key: `Fixed Increment (%) ${year} (B)`,
-      value: (row, index) => row?.[year]?.fixed_increment_b,
+      value: (row, index) => _Decode(row?.[year]?.fixed_increment_b?.toLocaleString("en-IN")),
     },
 
     {
       key: `Fixed Increment New Gross Salary B ${year} (B)`,
-      value: (row, index) => row?.[year]?.fixed_increment_new_gross_salary_b,
+      value: (row, index) => _Decode(row?.[year]?.fixed_increment_new_gross_salary_b?.toLocaleString("en-IN")),
     },
 
     {
-      key: `% Team Distribution ${year} (C)`,
-      value: (row, index) => row?.[year]?.team_distribution_percentage_c,
+      key: `Team Distribution (%) ${year} (C)`,
+      value: (row, index) => _Decode(row?.[year]?.team_distribution_percentage_c?.toLocaleString("en-IN")),
     },
 
     {
       key: `Difference = New salary A- New salary B ${year}`,
-      value: (row, index) => row?.[year]?.difference_new_salary_a_new_salary_b,
+      value: (row, index) => _Decode(row?.[year]?.difference_new_salary_a_new_salary_b?.toLocaleString("en-IN")),
     },
 
     {
       key: `Proposed By SBU Director/PM/Self ${year}`,
-      value: (row, index) => row?.[year]?.proposed_by_sbu_director_pm_self,
+      value: (row, index) => _Decode(row?.[year]?.proposed_by_sbu_director_pm_self?.toLocaleString("en-IN")),
     },
 
     {
       key: `% of Increment ${year}`,
-      value: (row, index) => row?.[year]?.percentage_of_increment,
+      value: (row, index) => _Decode(row?.[year]?.percentage_of_increment),
     },
 
     {
       key: `New Gross Salary B ${year}`,
-      value: (row, index) => row?.[year]?.new_gross_salary_b,
+      value: (row, index) => _Decode(row?.[year]?.new_gross_salary_b?.toLocaleString("en-IN")),
     },
 
     {
-      key: `% CAGR 3 years ${year}`,
-      value: (row, index) => row?.[year]?.cagr_three_years,
+      key: `CAGR 3 years ${year}`,
+      value: (row, index) => _Decode(row?.[year]?.cagr_three_years),
     },
 
     {
-      key: `% Avarage 3 Years ${year}`,
-      value: (row, index) => row?.[year]?.average_three_years,
+      key: `Avarage 3 Years ${year}`,
+      value: (row, index) => _Decode(row?.[year]?.average_three_years),
     },
 
     {
-      key: `% Average Actual ${year}`,
-      value: (row, index) => row?.[year]?.average_actual,
+      key: `Average Actual ${year}`,
+      value: (row, index) => _Decode(row?.[year]?.average_actual),
     },
 
     {
-      key: `% Weighted Average of KPI ${year}`,
-      value: (row, index) => row?.[year]?.weighted_average_kpi,
+      key: `Weighted Average of KPI % ${year}`,
+      value: (row, index) => _Decode(row?.[year]?.weighted_average_kpi),
     },
 
     {
-      key: `% Increment with KPI  ${year}`,
-      value: (row, index) => row?.[year]?.increment_with_kpi_percentage,
+      key: `Increment with KPI % ${year}`,
+      value: (row, index) => _Decode(row?.[year]?.increment_with_kpi_percentage?.toLocaleString("en-IN")),
     },
 
     {
-      key: `% New Gross Salary KPI ${year}`,
-      value: (row, index) => row?.[year]?.increment_with_kpi_percentage,
+      key: `New Gross Salary KPI % % ${year}`,
+      value: (row, index) => _Decode(row?.[year]?.increment_with_kpi_percentage),
     },
 
     {
-      key: `% Increment with KPI ${year}`,
-      value: (row, index) => row?.[year]?.increment_with_kpi_percentage,
+      key: `Increment with KPI % ${year}`,
+      value: (row, index) => _Decode(row?.[year]?.increment_with_kpi_percentage),
     },
 
     {
-      key: `% New Gross Salary KPI ${year}`,
-      value: (row, index) => row?.[year]?.increment_with_kpi_percentage,
+      key: `New Gross Salary KPI % ${year}`,
+      value: (row, index) => _Decode(row?.[year]?.increment_with_kpi_percentage?.toLocaleString("en-IN")),
     },
 
     {
       key: `Gap Manual vs Formula ${year}`,
-      value: (row, index) => row?.[year]?.gap_manual_formula,
+      value: (row, index) => _Decode(row?.[year]?.gap_manual_formula),
     },
 
     {
@@ -385,7 +389,7 @@ export const SBU_ASSESTMENT_REPORT_EXCEL_COLUMN = [
   },
   {
     key: "Proposed Amount By Supervisor",
-    value: (row) => row?.proposed_by_sbu_director_pm_self,
+    value: (row) => _Decode(row?.proposed_by_sbu_director_pm_self),
   },
   {
     key: "Remarks ",
@@ -473,7 +477,7 @@ export const ASSESSMENT_SUMMARY_REPORT = (years, selected_year) => {
     },
     {
       key: "SBU Director ",
-      // selector: (row, index) => Object.values(row)[0]?.sbu?.director_name?.name,
+      // value: (row, index) => Object.values(row)[0]?.sbu?.director_name?.name,
       value: (row, index) => Object.values(row)[0]?.employee?.sbu_director_id?.name,
     },
   ];
