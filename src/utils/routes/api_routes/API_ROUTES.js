@@ -117,3 +117,5 @@ export const RESOURCE_REQUISITION_FORM = "/resource_requisition/"
 export const RESOURCE_REQUISITION_DETAILS = "resource_requisition_details/"
 export const REQUISITION_APPROVE_POST = "/resource_requisition_approve/";
 export const SBUDIRNAME_LIST_GET = "/sbu_director_name/";
+export const RESOURCE_REQUISITION_EDIT = "/resource_requisition_edit/"
+

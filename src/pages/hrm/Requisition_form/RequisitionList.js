@@ -2,8 +2,8 @@
 import PageHeader from "../../../components/header/PageHeader";
 import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
-import { Navigate } from "react-router-dom";
-import {  UNAUTHORIZED } from "../../../utils/routes/app_routes/APP_ROUTES";
+import { Link, Navigate } from "react-router-dom";
+import {  REQUISITION_LIST_PAGE_EDIT, UNAUTHORIZED } from "../../../utils/routes/app_routes/APP_ROUTES";
 import { API } from "../../../utils/axios/axiosConfig";
 import {
   REQUISITION_APPROVE_POST,
@@ -17,6 +17,7 @@ import { USER_INFO } from "../../../utils/session/token";
 import Layout from "../../../layout/Layout";
 import { Button,Modal,Form } from "react-bootstrap";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
+import {BsBoxArrowUpRight} from 'react-icons/bs';
 
 function RequisitionList(props) {
   const user = USER_INFO();
@@ -25,18 +26,17 @@ function RequisitionList(props) {
   const [showApproveModal,setshowApproveModal] = useState(false);
   const [selected_row,setSelected_row] = useState('');
   const [comment,setcomment] = useState('');
+  const fetchData = async () => {
+    try {
+      setShowLoading(true);
+      const response = await API.get(RESOURCE_REQUISITION_FORM);
+      setData(response.data);
+    } catch (err) {
+    } finally {
+      setShowLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setShowLoading(true);
-        const response = await API.get(RESOURCE_REQUISITION_FORM);
-        setData(response.data);
-      } catch (err) {
-      } finally {
-        setShowLoading(false);
-      }
-    };
-
     fetchData();
   }, []);
   const EXT_COL = [
@@ -52,12 +52,28 @@ function RequisitionList(props) {
               setshowApproveModal(true);
               setSelected_row(row.id)
             }}
+            disabled={row.hr && row.project_head && row.sbu_dir && row.unit_head ? true : false}
           >
-            <i className="fe fe-edit"></i>
+            <BsBoxArrowUpRight />
           </Button>
         </div>
       ),
-      width: "100px",
+      width: "80px",
+      wrap: true,
+    },
+    {
+      name: "Edit",
+      cell: (row) => (
+        <div className="d-flex justify-content-center align-items-center w-100">
+        <Link
+          className={`btn btn-rounded-circle btn-sm btn-primary ${row.hr ? "disabled" : ""}`}
+          to={REQUISITION_LIST_PAGE_EDIT(row.id)}
+        >
+          <i className="fe fe-edit"></i>
+        </Link>
+      </div>
+      ),
+      width: "80px",
       wrap: true,
     },
   ]
@@ -72,11 +88,13 @@ function RequisitionList(props) {
       success_alert("Comment Saved successfully");
       setShowLoading(false);
       setshowApproveModal(false);
+      fetchData();
     }).catch(err => {
       console.log(err);
       error_alert(err?.data?.message ?? 'An error occur while updating status. Please try again later')
     })
     setcomment('');
+    fetchData();
     
   }
 

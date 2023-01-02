@@ -58,6 +58,8 @@ export const REQUISITION_FORM = "/hrm/requisitionfrom/request-form";
 export const REQUISITION_LIST = "/hrm/requisitionfrom/request-list";
 export const REQUISITION_LIST_PAGE = (id) => `/hrm/requisitionfrom/request-details/${id}`;
 export const REQUISITION_LIST_URL = `/hrm/requisitionfrom/request-details/:id`;
+export const REQUISITION_LIST_PAGE_EDIT = (id) => `/hrm/requisitionfrom/request-edit/${id}`;
+export const REQUISITION_LIST_EDIT_URL = `/hrm/requisitionfrom/request-edit/:id`;
 
 // Reports
 export const SALARY_FULL_REPORT_URL = `/hrm/report/salary_full_report`;
