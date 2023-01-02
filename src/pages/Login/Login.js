@@ -3,11 +3,12 @@ import { Link, Navigate } from "react-router-dom";
 import { LOGIN_API } from "../../utils/routes/api_routes/API_ROUTES";
 import { DASHBOARD_PAGE, LANDING_PAGE, LOGIN_PAGE } from "../../utils/routes/app_routes/APP_ROUTES";
 import { HTTP_LOGIN } from "../../utils/axios/axiosConfig";
-import SET_TOKEN, { GET_TOKEN } from "../../utils/session/token";
+import SET_TOKEN, {GET_MODULE, GET_TOKEN} from "../../utils/session/token";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
 import { Button, Col, Container, Nav, Navbar, Row } from "react-bootstrap";
 import NavbarPublic from "../Landing/Navbar";
+import {SUPPORT_DASHBOARD_URL} from "../../utils/routes/app_routes/SP_APP_ROUTES";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export default function Login() {
   const [pass, setPass] = useState("");
 
   const [errMsg, setErrMsg] = useState("");
-
+  const module = GET_MODULE();
   const handleLogin = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -48,7 +49,7 @@ export default function Login() {
   );
 
   return GET_TOKEN() ? (
-    <Navigate to={DASHBOARD_PAGE} />
+    <Navigate to={(!module || module==='hrm')?DASHBOARD_PAGE:SUPPORT_DASHBOARD_URL} />
   ) : (
     <>
       <Navbar bg="transparent">

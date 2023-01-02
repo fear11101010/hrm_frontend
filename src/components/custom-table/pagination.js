@@ -1,22 +1,23 @@
 import React, {useEffect, useState} from "react";
 
-function Pagination({data, rowPerPage, onPageChange}) {
-    const totalNumberOfPage = Math.ceil(data?.length / rowPerPage);
+function Pagination({data, rowPerPage, onPageChange, total}) {
+    // debugger
+    const totalNumberOfPage = Math.ceil(total / rowPerPage);
     const [currentPage, setCurrentPage] = useState(1);
-    const pages = [...Array.from({length: totalNumberOfPage}, (_, i) => i + 1)];
+    const pages = [...Array.from({length: totalNumberOfPage||1}, (_, i) => i + 1)];
     const onPageSelect = (e, page) => {
         e.preventDefault();
         setCurrentPage(page);
         if (onPageChange) {
-            onPageChange(page,data?.slice((page - 1) * rowPerPage,page * rowPerPage));
+            onPageChange(page);
         }
     }
     useEffect(() => {
         setCurrentPage(1);
         if (onPageChange) {
-            onPageChange(1,data?.slice(0,rowPerPage));
+            onPageChange(1);
         }
-    }, [data,rowPerPage])
+    }, [rowPerPage])
     return (
         <>
             <ul className="list-pagination-prev pagination pagination-tabs card-pagination">

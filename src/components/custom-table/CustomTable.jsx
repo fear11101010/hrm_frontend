@@ -7,28 +7,35 @@ import Pagination from "./pagination";
 import Select from "../select/Select";
 import TableHeader from "./TableHeader";
 
-function CustomTable({columns, data, size, responsive, onDataSort, pagination:{show,perPageList}}) {
+function CustomTable({columns, data,total, size, responsive, onDataSort, pagination:{show,perPageList,onPageOrLimitChange}}) {
     const [dummy, setDummy] = useState(1);
-    const [showPerPage, setShowPerPage] = useState(show&&perPageList[0]);
+
     const paginationOption = perPageList.map(p=>({value:p,label:`${p} per page`}))
+    const [showPerPage, setShowPerPage] = useState(paginationOption[0]);
     const [tableRows, setTableRows] = useState([]);
     const [pageNumber, setPageNumber] = useState(1);
     useEffect(() => {
+        // debugger
         console.log(data);
-        // setTableRows(show ? data?.slice(0, showPerPage) : data);
-        if(!(show)){
-            setTableRows(data);
-        }
-        // setPageNumber(1);
+        setTableRows(data);
     }, [data]);
 
-    const onPageChange = (page,rows) => {
-        setTableRows(rows);
+    const onPageChange = (page) => {
         setPageNumber(page);
+        if(onPageOrLimitChange){
+            onPageOrLimitChange(showPerPage.value,(page-1)*showPerPage.value)
+        }
     };
     const afterDataSort = (d) => {
-        setTableRows(show ? d?.slice((pageNumber - 1) * showPerPage, pageNumber * showPerPage) : d);
+        setTableRows(d);
         setDummy(t => -t);
+    }
+    const onPageLimitChange = (l)=>{
+        debugger
+        setShowPerPage(l)
+        if(onPageOrLimitChange){
+            onPageOrLimitChange(l.value,pageNumber-1)
+        }
     }
     return (
         <div className="card">
@@ -47,8 +54,8 @@ function CustomTable({columns, data, size, responsive, onDataSort, pagination:{s
                     </div>
                     <div className="col-auto me-n3">
                         <Form>{show && <Select options={paginationOption}
-                                               onChange={e=>setShowPerPage(e.value)}
-                                               value={paginationOption.find(v=>v.value===showPerPage)}/>}
+                                               onChange={onPageLimitChange}
+                                               value={showPerPage}/>}
                         </Form>
                     </div>
                 </div>
@@ -65,10 +72,10 @@ function CustomTable({columns, data, size, responsive, onDataSort, pagination:{s
                                     {columns.map((column) => (
                                         <td>
                                             {column.cell ? (
-                                                column.cell(v, (pageNumber - 1) * showPerPage + i)
+                                                column.cell(v, (pageNumber - 1) * showPerPage.value + i)
                                             ) : (
                                                 <span
-                                                    className="item-title">{column.selector(v, (pageNumber - 1) * showPerPage + i)}</span>
+                                                    className="item-title">{column.selector(v, (pageNumber - 1) * showPerPage.value + i)}</span>
                                             )}
                                         </td>
                                     ))}
@@ -84,7 +91,7 @@ function CustomTable({columns, data, size, responsive, onDataSort, pagination:{s
                 </table>
             </div>
             <div className="card-footer d-flex justify-content-between">
-                {show && <Pagination data={data} rowPerPage={showPerPage} onPageChange={onPageChange}/>}
+                {show && <Pagination data={data} total={total} rowPerPage={showPerPage.value} onPageChange={onPageChange}/>}
             </div>
         </div>
     );

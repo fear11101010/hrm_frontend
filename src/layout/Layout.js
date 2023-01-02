@@ -3,9 +3,15 @@ import {Button, Dropdown, Modal, Nav, Navbar} from "react-bootstrap";
 import {useLocation, useNavigate} from "react-router-dom";
 import ConfirmDialog from "../components/confirm-dialog/ConfirmDialog";
 import {LOGOUT_API} from "../utils/routes/api_routes/API_ROUTES";
-import {DASHBOARD_PAGE, LANDING_PAGE} from "../utils/routes/app_routes/APP_ROUTES";
+import {
+    DASHBOARD_PAGE,
+    LANDING_PAGE,
+    LOGIN_PAGE,
+    UNAUTHORIZED,
+    USER_ROLE_LIST_PAGE
+} from "../utils/routes/app_routes/APP_ROUTES";
 import {API} from "../utils/axios/axiosConfig";
-import {GET_MODULE, REMOVE_TOKEN, SET_MODULE, USER_INFO} from "../utils/session/token";
+import {GET_MODULE, REMOVE_MODULE, REMOVE_TOKEN, SET_MODULE, USER_INFO} from "../utils/session/token";
 import Navbar1 from "./navbar/navbar1";
 import {useIdleTimer} from "react-idle-timer";
 import "./layout.css";
@@ -19,6 +25,7 @@ export default function Layout({children}) {
         {label: 'HRM', value: 'hrm'},
         {label: 'Support System', value: 'support_system'},
     ]
+    const excludePath = [USER_ROLE_LIST_PAGE,UNAUTHORIZED,USER_ROLE_LIST_PAGE,LOGIN_PAGE]
     const location = useLocation();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
@@ -34,6 +41,7 @@ export default function Layout({children}) {
             .then((res) => {
                 if (res.data.statuscode === 200) {
                     REMOVE_TOKEN();
+                    REMOVE_MODULE();
                     navigate(LANDING_PAGE);
                 }
             })
@@ -65,12 +73,13 @@ export default function Layout({children}) {
     const getNavBar = () => {
         const path = location.pathname;
         console.log(path)
+        const cPath = excludePath.find(p=>path.includes(p));
         switch (GET_MODULE()) {
             case 'hrm':
-                if(!path?.includes('hrm')) navigate(DASHBOARD_PAGE)
+                if(!path?.includes('hrm') && !cPath) navigate(DASHBOARD_PAGE)
                 return <Navbar1/>;
             case 'support_system':
-                if(!path?.includes('support')) navigate(SUPPORT_DASHBOARD_URL)
+                if(!path?.includes('support') && !cPath) navigate(SUPPORT_DASHBOARD_URL)
                 return <NavbarSupport/>;
             default:
                 return <Navbar1/>;

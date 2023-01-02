@@ -6,7 +6,7 @@ import Table from "../../../components/table/Table";
 import CustomTable from "../../../components/custom-table/CustomTable";
 import {ALL_TICKET_TABLE_COLUMNS, MY_TICKET_TABLE_COLUMNS} from "../table-columns";
 import useFetch from "../../../hooks/useFetch";
-import {TICKET_LIST_CREATE_API} from "../../../utils/routes/api_routes/SP_API_ROUTES";
+import {TICKET_LIST_CREATE_API, TICKET_LIST_HR_ADMIN_API} from "../../../utils/routes/api_routes/SP_API_ROUTES";
 import Loader from "../../../components/loader/Loader";
 import {Link} from "react-router-dom";
 import {BILL_ADD_URL} from "../../../utils/routes/app_routes/APP_ROUTES";
@@ -21,7 +21,9 @@ import ReplyToForm from "../../../components/support/ReplyToForm";
 
 function AllTickets(props) {
     const [refreshData,setRefreshData] = useState(false);
-    const {data,isLoading} = useFetch(TICKET_LIST_CREATE_API,refreshData);
+    const [limit, setLimit] = useState(10);
+    const [page, setPage] = useState(0);
+    const {data,isLoading} = useFetch(TICKET_LIST_HR_ADMIN_API(page,limit),refreshData);
     const [show,setShow] = useState(false);
     const [showStatusUpdateDialog,setShowStatusUpdateDialog] = useState(false);
     const [forwardToDialog,setForwardToDialog] = useState(false);
@@ -42,6 +44,11 @@ function AllTickets(props) {
     function handleReplyToDialog(e) {
         setReplyToDialog(false)
         setRefreshData(!refreshData);
+    }
+
+    const onPageOrLimitChange = (limit,page) => {
+        setPage(page);
+        setLimit(limit);
     }
     function handleShow(e,id) {
         console.log(typeof e);
@@ -69,7 +76,7 @@ function AllTickets(props) {
                 <Container fluid>
                     <Card>
                         <Card.Body>
-                            <CustomTable data={data.data} pagination={{show:true,perPageList:[5,10,20,30,50,100]}} columns={ALL_TICKET_TABLE_COLUMNS(handleShow)} size={"sm"} responsive/>
+                            <CustomTable data={data.data} total={data.count} pagination={{show:true,perPageList:[10,20,30,50,100],onPageOrLimitChange}} columns={ALL_TICKET_TABLE_COLUMNS(handleShow)} size={"sm"} responsive/>
                         </Card.Body>
                     </Card>
                 </Container>

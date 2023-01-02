@@ -98,7 +98,7 @@ function RequisitionList(props) {
     
   }
 
-  return user.accessibility.includes("AppraisalForm") ? (
+  return user.accessibility.includes("RequisitionFromEntryList") ? (
     <Layout>
       <PageHeader subTitle={""} title={"Requisition List"} />
       {showLoading && <Loader />}
