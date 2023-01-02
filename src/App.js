@@ -40,7 +40,7 @@ import {
     KPI_PERMORMANCE_FORM_URL,
     KPI_PERMORMER_ASSESTMENT_PAGE,
     LANDING_PAGE,
-    LOGIN_PAGE, REQUISITION_FORM, REQUISITION_LIST, REQUISITION_LIST_URL,
+    LOGIN_PAGE, REQUISITION_FORM, REQUISITION_LIST, REQUISITION_LIST_URL,REQUISITION_LIST_EDIT_URL,
     REQUISITION_RESOURCE_FORM,
     REQUISITION_RESOURCE_LIST,
     SALARY_FULL_REPORT_URL,
@@ -109,6 +109,7 @@ import TicketStatusList from "./pages/support/TicketStatusList/TicketStatusList"
 import RequisitionForm from "./pages/hrm/Requisition_form/RequisitionForm";
 import RequisitionList from "./pages/hrm/Requisition_form/RequisitionList";
 import RequisitionDetails from "./pages/hrm/Requisition_form/RequisitionDetails";
+import RequisitionEdit from "./pages/hrm/Requisition_form/RequisitionEdit";
 
 // import BillList from "./pages/bill-management/bill/List";
 // import BillAdd from "./pages/bill-management/bill/billAdd";
@@ -174,6 +175,7 @@ function App() {
                     <Route path={REQUISITION_FORM} element={<RequisitionForm/>}/>
                     <Route path={REQUISITION_LIST} element={<RequisitionList/>}/>
                     <Route path={REQUISITION_LIST_URL} element={<RequisitionDetails/>}/>
+                    <Route path={REQUISITION_LIST_EDIT_URL} element={<RequisitionEdit />} />
                 </Route>
 
                 {/* REPORT */}
