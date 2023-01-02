@@ -5,7 +5,7 @@ import ConfirmDialog from "../../components/confirm-dialog/ConfirmDialog";
 import {LOGOUT_API} from "../../utils/routes/api_routes/API_ROUTES";
 import {DASHBOARD_PAGE, LANDING_PAGE} from "../../utils/routes/app_routes/APP_ROUTES";
 import {API} from "../../utils/axios/axiosConfig";
-import {REMOVE_TOKEN, USER_INFO} from "../../utils/session/token";
+import {REMOVE_TOKEN, SET_MODULE, USER_INFO} from "../../utils/session/token";
 import {useIdleTimer} from "react-idle-timer";
 // import "./layout.css";
 import Container from "react-bootstrap/Container";
@@ -52,6 +52,21 @@ export default function InnerLanding({children}) {
 
     const idleTimer = useIdleTimer({onIdle, timeout: 1000 * 60 * 10});
 
+    const changeModule = (e,type) => {
+        e.preventDefault();
+        switch (type){
+            case 'HRM':
+                SET_MODULE('hrm')
+                navigate(DASHBOARD_PAGE);
+                break;
+            case 'SUPPORT':
+                SET_MODULE('support_system')
+                navigate(SUPPORT_DASHBOARD_URL);
+                break;
+        }
+
+    }
+
     return (
         <>
             <main className="main-content">
@@ -83,8 +98,8 @@ export default function InnerLanding({children}) {
                     <Container fluid>
                         <Row className="justify-content-center">
                             <Col sm={12} md={3} lg={3}>
-                                <Link to={DASHBOARD_PAGE}>
-                                    <Card>
+                                <Button className="module-button border-0" variant="light" onClick={e=>changeModule(e,'HRM')}>
+                                    <Card className="mb-0">
                                         <Card.Body>
                                             <div
                                                 className="d-flex justify-content-center align-items-center p-3 flex-column">
@@ -93,11 +108,11 @@ export default function InnerLanding({children}) {
                                             </div>
                                         </Card.Body>
                                     </Card>
-                                </Link>
+                                </Button>
                             </Col>
                             <Col sm={12} md={3} lg={3}>
-                                <Link to={SUPPORT_DASHBOARD_URL}>
-                                    <Card>
+                                <Button className="module-button border-0" variant="light"  onClick={e=>changeModule(e,'SUPPORT')}>
+                                    <Card className="mb-0">
                                         <Card.Body>
                                             <div
                                                 className="d-flex justify-content-center align-items-center p-3 flex-column">
@@ -106,10 +121,10 @@ export default function InnerLanding({children}) {
                                             </div>
                                         </Card.Body>
                                     </Card>
-                                </Link>
+                                </Button>
                             </Col>
                             <Col sm={12} md={3} lg={3}>
-                                <Card>
+                                <Card className="mb-0">
                                     <Card.Body>
                                         <div
                                             className="d-flex justify-content-center align-items-center p-3 flex-column">

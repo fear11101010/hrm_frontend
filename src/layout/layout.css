@@ -1,7 +1,14 @@
 .top_nav {
-    position: "fixed";
-    width: "82%";
-    z-Index: "999"
+    position: fixed;
+    width: 82%;
+    z-Index: 999
+}
+
+.module-button{
+    padding: 0;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    width: 100%;
 }
 
 @media (max-width:480px) {

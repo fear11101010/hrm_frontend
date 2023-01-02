@@ -45,14 +45,14 @@ import Loader from "../../components/loader/Loader";
 import { REMOVE_TOKEN, USER_INFO } from "../../utils/session/token";
 import ConfirmDialog from "../../components/confirm-dialog/ConfirmDialog";
 import { AiOutlineAudit } from "react-icons/ai";
-import { FaMoneyBill } from "react-icons/fa";
+import {FaMoneyBill, FaTicketAlt} from "react-icons/fa";
 import {
   ALL_TICKETS_URL,
   MY_TICKETS_URL,
   OTHER_TICKETS_URL,
   SUPPORT_DASHBOARD_URL,
 } from "../../utils/routes/app_routes/SP_APP_ROUTES";
-function Navbar1(props) {
+function NavbarSupport(props) {
   const user = USER_INFO();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -98,29 +98,36 @@ function Navbar1(props) {
         <Container fluid>
           <Navbar.Toggle aria-controls="sidebarCollapse" />
           <Navbar.Brand>
-            <Link to={DASHBOARD_PAGE}>
+            <Link to={SUPPORT_DASHBOARD_URL}>
               <img src="/img/logo.svg" className="navbar-brand-img mx-auto" alt="..." />
             </Link>
           </Navbar.Brand>
           <Navbar.Collapse id="sidebarCollapse">
-            {/*<Form className="mt-4 mb-3 d-md-none">
-              <InputGroup className="input-group-rounded input-group-merge input-group-reverse">
-                <FormControl type="search" placeholder="Search" />
-                <InputGroup.Text>
-                  <span className="fe fe-search"></span>
-                </InputGroup.Text>
-              </InputGroup>
-            </Form>*/}
             <Nav as="ul">
               {/* Dashboard */}
-              <Nav.Item as={"li"}>
-                <Link to={DASHBOARD_PAGE} className="nav-link">
+              {user.module.includes("Support Dashboard") && (<Nav.Item as={"li"}>
+                <Link to={SUPPORT_DASHBOARD_URL} className="nav-link">
                   <i className="fe fe-grid"></i> Dashboards
                 </Link>
-              </Nav.Item>
+              </Nav.Item>)}
+              {user.module.includes("My Tickets") && (<Nav.Item as={"li"}>
+                <Link to={MY_TICKETS_URL} className="nav-link">
+                  My Request
+                </Link>
+              </Nav.Item>)}
+              {user.module.includes("All Request") && (<Nav.Item as={"li"}>
+                <Link className={"nav-link"} to={ALL_TICKETS_URL}>
+                  All Tickets
+                </Link>
+              </Nav.Item>)}
+              {user.module.includes("Other Request") && (<Nav.Item as={"li"}>
+                <Link className={"nav-link"} to={OTHER_TICKETS_URL}>
+                  Request For Approval
+                </Link>
+              </Nav.Item>)}
 
-              {/* MANAGEMENT */}
-              {user.sub_module.includes("User Management") && (
+              {/* MANAGEMENT
+              {user.sub_module.includes("Support") && (
                 <Nav.Item as={"li"}>
                   <Link
                     onClick={() => openOrCloseMenu(0)}
@@ -163,7 +170,7 @@ function Navbar1(props) {
                 </Nav.Item>
               )}
 
-              {/* Configuration */}
+               Configuration
               {user.sub_module.includes("Configuration") && (
                 <Nav.Item as={"li"}>
                   <Link
@@ -193,7 +200,7 @@ function Navbar1(props) {
                 </Nav.Item>
               )}
 
-              {/* KPI */}
+               KPI
               {user.sub_module.includes("Kpi Management") && (
                 <Nav.Item as={"li"}>
                   <Nav.Link
@@ -205,7 +212,7 @@ function Navbar1(props) {
                     aria-expanded={menuOpenCloseState[2] ? "true" : "false"}
                     aria-controls="sidebarKpi"
                   >
-                    {/* <i className="fe fe-home"></i> */}
+                     <i className="fe fe-home"></i>
                     <AiOutlineAudit className="me-3" />
                     KPI
                   </Nav.Link>
@@ -216,7 +223,7 @@ function Navbar1(props) {
                         <li className="nav-item">
                           {user.module.includes("Circularte To Employees") && (
                             <Link className={"nav-link"} to={KPI_EMPLOYEE_ASSIGN_PAGE}>
-                              {/* Employee Assign */}
+                               Employee Assign
                               Circularte To Employees
                             </Link>
                           )}
@@ -224,20 +231,20 @@ function Navbar1(props) {
                         <li className="nav-item">
                           {user.module.includes("Appraisal Form") && (
                             <Link className={"nav-link"} to={EMPLOYEE_PERFORMANCE_INDEX_PAGE}>
-                              {/* KPI Performance Form */}
+                               KPI Performance Form
                               Appraisal Form
                             </Link>
                           )}
                         </li>
-                        {/* <li className="nav-item">
+                         <li className="nav-item">
                       <Link className={"nav-link"} to={KPI_ASSESTMENT_PAGE}>
                         KPI Assestment
                       </Link>
-                    </li> */}
+                    </li>
                         <li className="nav-item">
                           {user.module.includes("Assessment Performance") && (
                             <Link className={"nav-link"} to={EMPLOYEE_ASSESTMENT_PAGE}>
-                              {/* Employee Assestment */}
+                               Employee Assestment
                               Assessment Performance
                             </Link>
                           )}
@@ -245,7 +252,7 @@ function Navbar1(props) {
                         <li className="nav-item">
                           {user.module.includes("Team Assessment Performance") && (
                             <Link className={"nav-link"} to={SUPERVISOR_ASSESTMENT_PERFORMANE_PAGE}>
-                              {/* Employee Assestment */}
+                               Employee Assestment
                               Team Assessment Performance
                             </Link>
                           )}
@@ -253,7 +260,7 @@ function Navbar1(props) {
                         <li className="nav-item">
                           {user.module.includes("Team Appraisal Review") && (
                             <Link className={"nav-link"} to={EMPLOYEE_PERFORMANCE_PAGE}>
-                              {/* Employee Performance */}
+                               Employee Performance
                               Team Appraisal Review
                             </Link>
                           )}
@@ -261,7 +268,7 @@ function Navbar1(props) {
                         <li className="nav-item">
                           {user.module.includes("Supervisor Appraisal Review") && (
                             <Link className={"nav-link"} to={SUPERVISOR_APPRAISAL_REVIEW_PAGE}>
-                              {/* Employee Performance */}
+                               Employee Performance
                               Supervisor Appraisal Review
                             </Link>
                           )}
@@ -273,21 +280,21 @@ function Navbar1(props) {
                             </Link>
                           )}
 
-                          {/* KPI Performer Assestment */}
+                           KPI Performer Assestment
                         </li>
-                        {/* <li className="nav-item">
+                         <li className="nav-item">
                       <Link className={"nav-link"} to={KPI_ALL_EMPLOYEE_ASSESTMENT_PAGE}>
                         //  KPI All Employee Assestment
                         Employee wise appraisal
                       </Link>
-                    </li> */}
+                    </li>
                       </ul>
                     </div>
                   </Collapse>
                 </Nav.Item>
               )}
 
-              {/* BILL MANAGEMENT */}
+               BILL MANAGEMENT
               {user.sub_module.includes("Bill Management") && (
                 <Nav.Item as={"li"}>
                   <Nav.Link
@@ -299,7 +306,7 @@ function Navbar1(props) {
                     aria-expanded={menuOpenCloseState[3] ? "true" : "false"}
                     aria-controls="sidebarKpi"
                   >
-                    {/* <i className="fe fe-home"></i> */}
+                     <i className="fe fe-home"></i>
                     <FaMoneyBill className="me-3" />
                     Bill Management
                   </Nav.Link>
@@ -310,7 +317,7 @@ function Navbar1(props) {
                         <li className="nav-item">
                           {user.module.includes("Circularte To Employees") && (
                             <Link className={"nav-link"} to={BILL_LIST_URL}>
-                              {/* Employee Assign */}
+                               Employee Assign
                               Bill
                             </Link>
                           )}
@@ -318,7 +325,7 @@ function Navbar1(props) {
                         <li className="nav-item">
                           {user.module.includes("Appraisal Form") && (
                             <Link className={"nav-link"} to={CONVEYANCE_LIST_URL}>
-                              {/* KPI Performance Form */}
+                               KPI Performance Form
                               Conveyance
                             </Link>
                           )}
@@ -329,62 +336,7 @@ function Navbar1(props) {
                 </Nav.Item>
               )}
 
-              {/* BILL */}
-              {/* {user.sub_module.includes("Configuration")}
-              <Nav.Item as={"li"}>
-                <Link
-                  onClick={() => openOrCloseMenu(4)}
-                  to="#"
-                  className={`${menuOpenCloseState[4] ? "collapsed" : ""} nav-link`}
-                  data-bs-toggle="collapse"
-                  role="button"
-                  aria-expanded={menuOpenCloseState[4] ? "true" : "false"}
-                  aria-controls="sidebarUser"
-                >
-                  <i className="fe fe-file"></i> Bill Management
-                </Link>
-                <Collapse in={menuOpenCloseState[4]}>
-                  <div id="sidebarUser">
-                    <ul className="nav nav-sm flex-column">
-                      <li className="nav-item">
-                        <Link className={"nav-link"} to={BILL_LIST}>
-                          Bill
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
-                </Collapse>
-              </Nav.Item> */}
-
-              {/* Requisition  */}
-              {/* {user.sub_module.includes("Report")}
-              <Nav.Item as={"li"}>
-                <Nav.Link
-                  onClick={() => openOrCloseMenu(5)}
-                  href="#"
-                  className={menuOpenCloseState[5] ? "collapsed" : ""}
-                  data-bs-toggle="collapse"
-                  role="button"
-                  aria-expanded={menuOpenCloseState[5] ? "true" : "false"}
-                  aria-controls="sidebarRequisition"
-                >
-                  <i className="fe fe-clipboard"></i> Requisition Form
-                </Nav.Link>
-                <Collapse in={menuOpenCloseState[5]}>
-                  <div id="sidebarDashboards">
-                    <ul className="nav nav-sm flex-column">
-                      <li className="nav-item">
-                        {user.module.includes("Salary Full Report")}
-                        <Link className={"nav-link"} to={REQUISITION_RESOURCE_LIST}>
-                          Resource Requisition
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
-                </Collapse>
-              </Nav.Item> */}
-
-              {/* Report */}
+               Report
               {user.sub_module.includes("Report") && (
                 <Nav.Item as={"li"}>
                   <Nav.Link
@@ -465,8 +417,8 @@ function Navbar1(props) {
                 </Nav.Item>
               )}
 
-              {/* Support */}
-              {/*{user.sub_module.includes("Support") && (
+               Support
+              {user.sub_module.includes("Support") && (
                 <Nav.Item as={"li"}>
                   <Nav.Link
                     onClick={() => openOrCloseMenu(7)}
@@ -514,7 +466,7 @@ function Navbar1(props) {
                     </div>
                   </Collapse>
                 </Nav.Item>
-              )}*/}
+              )}
               {user.sub_module.includes("Requisition From") && (
                   <Nav.Item as={"li"}>
                     <Nav.Link
@@ -550,7 +502,7 @@ function Navbar1(props) {
                       </div>
                     </Collapse>
                   </Nav.Item>
-              )}
+              )}*/}
             </Nav>
           </Navbar.Collapse>
 
@@ -558,7 +510,7 @@ function Navbar1(props) {
           <Nav as="ul" className="d-md-none">
             <Nav.Item as={"li"}>
               <Link
-                to={DASHBOARD_PAGE}
+                to={SUPPORT_DASHBOARD_URL}
                 onClick={(e) => {
                   handleConfirm(e);
                 }}
@@ -585,4 +537,4 @@ function Navbar1(props) {
     </>
   );
 }
-export default Navbar1;
+export default NavbarSupport;
