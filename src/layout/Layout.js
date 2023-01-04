@@ -70,6 +70,7 @@ export default function Layout({children}) {
     setSelectedModule(m);
     SET_MODULE(m?.value);
   };
+
   const getNavBar = () => {
     const path = location.pathname;
     const cPath = excludePath.find((p) => path.includes(p));

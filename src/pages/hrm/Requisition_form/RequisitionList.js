@@ -51,18 +51,20 @@ function RequisitionList(props) {
       name: "Approval",
       cell: (row) => (
         <div className="d-flex justify-content-center align-items-center w-100">
-          <Button
-            size="sm"
-            variant="primary"
-            className="btn-rounded-circle"
-            onClick={() => {
-              setshowApproveModal(true);
-              setSelected_row(row.id);
-            }}
-            disabled={row.hr && row.project_head && row.sbu_dir && row.unit_head ? true : false}
-          >
-            <BsBoxArrowUpRight />
-          </Button>
+          {row?.project_head?.id === user?.user_id && (
+            <Button
+              size="sm"
+              variant="primary"
+              className="btn-rounded-circle"
+              onClick={() => {
+                setshowApproveModal(true);
+                setSelected_row(row.id);
+              }}
+              disabled={row.hr && row.project_head && row.sbu_dir && row.unit_head ? true : false}
+            >
+              <BsBoxArrowUpRight />
+            </Button>
+          )}
         </div>
       ),
       width: "80px",
@@ -129,13 +131,13 @@ function RequisitionList(props) {
                 required
               />
             </Form.Group>
-            <Form.Group className="mb-3">
+            {/* <Form.Group className="mb-3">
               <Form.Label>Forward To</Form.Label>
               <ReactSelect
                 options={roleList?.data?.map((d) => ({ label: d.name, value: d.id }))}
                 onChange={(e) => setSelectedId(e.value)}
               />
-            </Form.Group>
+            </Form.Group> */}
             <Button type="submit" variant="primary">
               Submit
             </Button>

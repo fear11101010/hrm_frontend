@@ -1,12 +1,12 @@
 import jwt_decode from "jwt-decode";
-import {_Decode} from "../Hash";
+import { _Decode } from "../Hash";
 
 export default function SET_TOKEN(token) {
   localStorage.setItem("token", token);
 }
 export const SET_MODULE = (module) => {
   localStorage.setItem("current_module", module);
-}
+};
 
 export const GET_TOKEN = () => {
   return localStorage.getItem("token") || null;
@@ -23,9 +23,10 @@ export const REMOVE_MODULE = () => {
 };
 
 export const USER_INFO = () => {
-  const token = _Decode(GET_TOKEN());
+  const token = GET_TOKEN();
   if (token) {
-    var decoded = jwt_decode(token);
+    var decrypted_token = _Decode(token);
+    var decoded = jwt_decode(decrypted_token);
     return decoded;
   }
 };
