@@ -9,7 +9,7 @@ function Pagination({data, rowPerPage, onPageChange, total}) {
         e.preventDefault();
         setCurrentPage(page);
         if (onPageChange) {
-            onPageChange(page);
+            onPageChange(page,total && onPageChange(page,data?.slice((page - 1) * rowPerPage,page * rowPerPage)));
         }
     }
     useEffect(() => {

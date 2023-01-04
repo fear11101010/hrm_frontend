@@ -7,13 +7,13 @@ export const LOGIN_PAGE = "/login";
 export const DASHBOARD_PAGE = "/hrm/dashboard";
 
 // USER
-export const USER_LIST_PAGE = "/user";
-export const USER_ADD_PAGE = "/user/add";
-export const USER_EDIT_PAGE_URL = "/user/edit/:id";
-export const USER_EDIT_PAGE = (id) => `/user/edit/$id}`;
-export const USER_ROLE_LIST_PAGE = "/role";
-export const USER_ROLE_PRIVILEGE_PAGE_URL = "/role/:id";
-export const USER_ROLE_PRIVILEGE_PAGE = (id) => `/role/${id}`;
+export const USER_LIST_PAGE = "/hrm/user";
+export const USER_ADD_PAGE = "/hrm/user/add";
+export const USER_EDIT_PAGE_URL = "/hrm/user/edit/:id";
+export const USER_EDIT_PAGE = (id) => `/hrm/user/edit/${id}`;
+export const USER_ROLE_LIST_PAGE = "/hrm/role";
+export const USER_ROLE_PRIVILEGE_PAGE_URL = "/hrm/role/:id";
+export const USER_ROLE_PRIVILEGE_PAGE = (id) => `/hrm/role/${id}`;
 
 export const EMPLOYEE_LIST_PAGE = "/hrm/employee";
 export const EMPLOYEE_EDIT_PAGE_URL = `/hrm/employee/edit/:id`;

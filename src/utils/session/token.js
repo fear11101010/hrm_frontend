@@ -1,4 +1,5 @@
 import jwt_decode from "jwt-decode";
+import {_Decode} from "../Hash";
 
 export default function SET_TOKEN(token) {
   localStorage.setItem("token", token);
@@ -22,7 +23,7 @@ export const REMOVE_MODULE = () => {
 };
 
 export const USER_INFO = () => {
-  const token = GET_TOKEN();
+  const token = _Decode(GET_TOKEN());
   if (token) {
     var decoded = jwt_decode(token);
     return decoded;

@@ -7,7 +7,7 @@ import {
     DASHBOARD_PAGE,
     LANDING_PAGE,
     LOGIN_PAGE,
-    UNAUTHORIZED,
+    UNAUTHORIZED, USER_LIST_PAGE,
     USER_ROLE_LIST_PAGE
 } from "../utils/routes/app_routes/APP_ROUTES";
 import {API} from "../utils/axios/axiosConfig";
@@ -25,7 +25,7 @@ export default function Layout({children}) {
         {label: 'HRM', value: 'hrm'},
         {label: 'Support System', value: 'support_system'},
     ]
-    const excludePath = [USER_ROLE_LIST_PAGE,UNAUTHORIZED,USER_ROLE_LIST_PAGE,LOGIN_PAGE]
+    const excludePath = [LOGIN_PAGE]
     const location = useLocation();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);

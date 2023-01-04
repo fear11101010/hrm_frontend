@@ -20,14 +20,17 @@ function CustomTable({columns, data,total, size, responsive, onDataSort, paginat
         setTableRows(data);
     }, [data]);
 
-    const onPageChange = (page) => {
+    const onPageChange = (page,data) => {
         setPageNumber(page);
+        if(data){
+            setTableRows(data);
+        }
         if(onPageOrLimitChange){
             onPageOrLimitChange(showPerPage.value,(page-1)*showPerPage.value)
         }
     };
     const afterDataSort = (d) => {
-        setTableRows(d);
+        setTableRows((show && !total) ? d?.slice((pageNumber - 1) * showPerPage.value, pageNumber * showPerPage.value) : d);
         setDummy(t => -t);
     }
     const onPageLimitChange = (l)=>{
