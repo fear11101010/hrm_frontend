@@ -72,12 +72,14 @@ export const SBU_ASSESTMENT_REPORT = `/hrm/report/sbu-assestment`;
 export const ASSESTMENT_SUMMARY_REPORT = `/hrm/report/assestment-summary-report/`;
 
 //Bill Management
-export const BILL_LIST_URL = '/bill_management/bill_list';
-export const BILL_ADD_URL = '/bill_management/add_bill';
-export const CONVEYANCE_LIST_URL = '/bill_management/conveyance_list';
-export const CONVEYANCE_ADD_URL = '/bill_management/add_conveyance';
+export const BILL_LIST_URL = "/bill_management/bill_list";
+export const BILL_ADD_URL = "/bill_management/add_bill";
+export const CONVEYANCE_LIST_URL = "/bill_management/conveyance_list";
+export const CONVEYANCE_ADD_URL = "/bill_management/add_conveyance";
 
+// Meal Management
+export const LUNCH_ORDER_PAGE = "/lunch/order";
 
 // Others
 export const UNAUTHORIZED = "/unauthorized";
-export const INNER_LANDING = "/"
+export const INNER_LANDING = "/";
