@@ -1,8 +1,9 @@
 import moment from "moment";
 import {USER_INFO} from "../../../utils/session/token";
 import {Button} from "react-bootstrap";
+import {FaEdit, FaTrash} from "react-icons/fa";
 const user = USER_INFO();
-export const SUBSIDY_TABLE_COLUMNS=[
+export const SUBSIDY_TABLE_COLUMNS=(editFunc,deleteFunc)=>[
     {
         name:'Serial No.',
         selector:(row,i)=>i+1
@@ -20,8 +21,11 @@ export const SUBSIDY_TABLE_COLUMNS=[
         name:'Action',
         cell:(row,i)=>(
             <div>
-                {(user.accessibility.includes("subsidy.update") || true) && <Button size="sm" variant="primary">
-
+                {(user.accessibility.includes("subsidy.update") || true) && <Button size="sm" variant="primary" onClick={e=>editFunc(e,i)}>
+                    <FaEdit/> Edit
+                </Button>}
+                {(user.accessibility.includes("subsidy.destroy") || true) && <Button size="sm" variant="primary" onClick={e=>deleteFunc(e,i)}>
+                    <FaTrash/> Delete
                 </Button>}
             </div>
         ),
