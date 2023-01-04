@@ -1,13 +1,13 @@
-
 import PageHeader from "../../../components/header/PageHeader";
 import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import { Link, Navigate } from "react-router-dom";
-import {  REQUISITION_LIST_PAGE_EDIT, UNAUTHORIZED } from "../../../utils/routes/app_routes/APP_ROUTES";
+import { REQUISITION_LIST_PAGE_EDIT, UNAUTHORIZED } from "../../../utils/routes/app_routes/APP_ROUTES";
 import { API } from "../../../utils/axios/axiosConfig";
 import {
   REQUISITION_APPROVE_POST,
   RESOURCE_REQUISITION_FORM,
+  ROLE_LIST_GET,
 } from "../../../utils/routes/api_routes/API_ROUTES";
 import Table from "../../../components/table/Table";
 import { kpiPerformanceFormColumns } from "./table-columns";
@@ -15,17 +15,23 @@ import Loader from "../../../components/loader/Loader";
 import { Card } from "react-bootstrap";
 import { USER_INFO } from "../../../utils/session/token";
 import Layout from "../../../layout/Layout";
-import { Button,Modal,Form } from "react-bootstrap";
+import { Button, Modal, Form } from "react-bootstrap";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
-import {BsBoxArrowUpRight} from 'react-icons/bs';
+import { BsBoxArrowUpRight } from "react-icons/bs";
+import useFetch from "../../../hooks/useFetch";
+import ReactSelect from "react-select";
+import useSbuDirName from "../../../hooks/useSbuDirName";
 
 function RequisitionList(props) {
   const user = USER_INFO();
   const [data, setData] = useState([]);
+  const [selectedId, setSelectedId] = useState("");
+  const roleList = useFetch(ROLE_LIST_GET);
+  const director_name_list = useSbuDirName();
   const [showLoading, setShowLoading] = useState(true);
-  const [showApproveModal,setshowApproveModal] = useState(false);
-  const [selected_row,setSelected_row] = useState('');
-  const [comment,setcomment] = useState('');
+  const [showApproveModal, setshowApproveModal] = useState(false);
+  const [selected_row, setSelected_row] = useState("");
+  const [comment, setcomment] = useState("");
   const fetchData = async () => {
     try {
       setShowLoading(true);
@@ -39,6 +45,7 @@ function RequisitionList(props) {
   useEffect(() => {
     fetchData();
   }, []);
+
   const EXT_COL = [
     {
       name: "Approval",
@@ -50,7 +57,7 @@ function RequisitionList(props) {
             className="btn-rounded-circle"
             onClick={() => {
               setshowApproveModal(true);
-              setSelected_row(row.id)
+              setSelected_row(row.id);
             }}
             disabled={row.hr && row.project_head && row.sbu_dir && row.unit_head ? true : false}
           >
@@ -65,38 +72,40 @@ function RequisitionList(props) {
       name: "Edit",
       cell: (row) => (
         <div className="d-flex justify-content-center align-items-center w-100">
-        <Link
-          className={`btn btn-rounded-circle btn-sm btn-primary ${row.hr ? "disabled" : ""}`}
-          to={REQUISITION_LIST_PAGE_EDIT(row.id)}
-        >
-          <i className="fe fe-edit"></i>
-        </Link>
-      </div>
+          <Link
+            className={`btn btn-rounded-circle btn-sm btn-primary ${row.hr ? "disabled" : ""}`}
+            to={REQUISITION_LIST_PAGE_EDIT(row.id)}
+          >
+            <i className="fe fe-edit"></i>
+          </Link>
+        </div>
       ),
       width: "80px",
       wrap: true,
     },
-  ]
+  ];
+
   const submitComment = (e) => {
     e.preventDefault();
     setShowLoading(true);
     const submit_data = {
-      row_id : selected_row,
-      comment : comment
-    }
-    API.post(REQUISITION_APPROVE_POST,submit_data).then(res => {
-      success_alert("Comment Saved successfully");
-      setShowLoading(false);
-      setshowApproveModal(false);
-      fetchData();
-    }).catch(err => {
-      console.log(err);
-      error_alert(err?.data?.message ?? 'An error occur while updating status. Please try again later')
-    })
-    setcomment('');
+      row_id: selected_row,
+      comment: comment,
+    };
+    API.post(REQUISITION_APPROVE_POST, submit_data)
+      .then((res) => {
+        success_alert("Comment Saved successfully");
+        setShowLoading(false);
+        setshowApproveModal(false);
+        fetchData();
+      })
+      .catch((err) => {
+        console.log(err);
+        error_alert(err?.data?.message ?? "An error occur while updating status. Please try again later");
+      });
+    setcomment("");
     fetchData();
-    
-  }
+  };
 
   return user.accessibility.includes("RequisitionFromEntryList") ? (
     <Layout>
@@ -104,7 +113,7 @@ function RequisitionList(props) {
       {showLoading && <Loader />}
       <Modal show={showApproveModal} onHide={() => setshowApproveModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Approval</Modal.Title>
+          <Modal.Title className="mb-0">Approval</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={submitComment}>
@@ -118,6 +127,13 @@ function RequisitionList(props) {
                   setcomment(e.target.value);
                 }}
                 required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Forward To</Form.Label>
+              <ReactSelect
+                options={roleList?.data?.map((d) => ({ label: d.name, value: d.id }))}
+                onChange={(e) => setSelectedId(e.value)}
               />
             </Form.Group>
             <Button type="submit" variant="primary">
@@ -140,4 +156,3 @@ function RequisitionList(props) {
 }
 
 export default RequisitionList;
-
