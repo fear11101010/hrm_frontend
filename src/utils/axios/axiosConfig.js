@@ -1,9 +1,11 @@
 import axios from "axios";
-import {BASE_URL, BASE_URL_FOR_MEDIA_FILE} from "../CONSTANT";
+import { BASE_URL, BASE_URL_FOR_MEDIA_FILE } from "../CONSTANT";
+import { _Decode } from "../Hash";
 import { GET_TOKEN } from "../session/token";
 
 let base_url = BASE_URL;
 let base_url_media = BASE_URL_FOR_MEDIA_FILE;
+let decrypted_token = _Decode(GET_TOKEN());
 
 // @Description   : Only for login as its doesnt require ant token or authentication credentials
 // @Accessibility : PUBLIC
@@ -25,7 +27,7 @@ export const API = axios.create({
 export const API_MEDIA = axios.create({
   baseURL: base_url_media,
   // timeout: 6000,
-  responseType:'blob',
+  responseType: "blob",
 });
 
 ////////////////////////////////////////
@@ -36,6 +38,7 @@ export const API_MEDIA = axios.create({
 API.interceptors.request.use(
   (config) => {
     config.headers["Authorization"] = "Bearer " + GET_TOKEN();
+    // config.headers["Authorization"] = "Bearer " + decrypted_token;
     return config;
   },
   (error) => {

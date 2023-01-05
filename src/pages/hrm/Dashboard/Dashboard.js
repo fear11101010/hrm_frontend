@@ -21,7 +21,7 @@ export default function Dashboard() {
   const [kpi_hr_data, setKpi_hr_data] = useState([]);
   const [sbu_inc_data, setSbu_inc_data] = useState([]);
   const currYear = new Date().getFullYear();
-  const [selected_year, setSelected_year] = useState("");
+  const [selected_year, setSelected_year] = useState(currYear);
 
   const getInitialData = () => {
     setLoading(true);
@@ -67,18 +67,18 @@ export default function Dashboard() {
           </Row>
           <Row>
             <Col sm="12" md="4">
-              <PieChartCustom data={kpi_value_data} title={"KPI Value" + " " + currYear} />
+              <PieChartCustom data={kpi_value_data} title={"KPI Value" + " " + selected_year} />
             </Col>
             <Col sm="12" md="4">
-              <PieChartCustom data={kpi_obj_data} title={"KPI Objective " + " " + currYear} />
+              <PieChartCustom data={kpi_obj_data} title={"KPI Objective " + " " + selected_year} />
             </Col>
             <Col sm="12" md="4">
-              <PieChartCustom data={kpi_hr_data} title={"KPI HR" + " " + currYear} />
+              <PieChartCustom data={kpi_hr_data} title={"KPI HR" + " " + selected_year} />
             </Col>
           </Row>
           <Row>
             <Col sm="12" md="12">
-              <HorizontalBarGraph title={"SBU Increment" + " " + currYear} data={sbu_inc_data} />
+              <HorizontalBarGraph title={"SBU Increment" + " " + selected_year} data={sbu_inc_data} />
             </Col>
           </Row>
         </div>

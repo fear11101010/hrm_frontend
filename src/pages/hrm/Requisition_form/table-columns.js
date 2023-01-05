@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import {
-  REQUISITION_LIST_PAGE,
-} from "../../../utils/routes/app_routes/APP_ROUTES";
+import { REQUISITION_LIST_PAGE } from "../../../utils/routes/app_routes/APP_ROUTES";
 import React from "react";
+import moment from "moment";
+import { DATE_FORMAT } from "../../../utils/CONSTANT";
 
 export const kpiPerformanceFormColumns = [
   {
@@ -13,7 +13,8 @@ export const kpiPerformanceFormColumns = [
   {
     name: "Date",
     selector: (row) => row.created_date,
-    width: "100px",
+    cell: (row) => moment(row?.created_date).format(DATE_FORMAT),
+    width: "130px",
   },
   {
     name: "ID",
@@ -25,20 +26,24 @@ export const kpiPerformanceFormColumns = [
     name: "Name",
     selector: (row) => row.created_by.first_name,
     wrap: true,
+    width: "180px",
   },
   {
     name: "SBU",
     selector: (row) => row?.sbu?.name,
+    width: "180px",
   },
   {
     name: "Project",
     selector: (row) => row?.project?.name,
     wrap: true,
+    width: "180px",
   },
   {
     name: "Project Head",
     selector: (row) => row?.project_head?.name,
     wrap: true,
+    width: "180px",
   },
   {
     name: "Action",
