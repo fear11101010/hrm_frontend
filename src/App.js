@@ -113,9 +113,10 @@ import RequisitionForm from "./pages/hrm/Requisition_form/RequisitionForm";
 import RequisitionList from "./pages/hrm/Requisition_form/RequisitionList";
 import RequisitionDetails from "./pages/hrm/Requisition_form/RequisitionDetails";
 import RequisitionEdit from "./pages/hrm/Requisition_form/RequisitionEdit";
-import { LUNCH_ORDER_PAGE } from "./utils/routes/app_routes/LUNCH_ROUTES";
+import { LUNCH_DASHBOARD_PAGE, LUNCH_ORDER_PAGE } from "./utils/routes/app_routes/LUNCH_ROUTES";
 import LunchOutlet from "./outlets/lunchManagementOutlet/LunchOutlet";
 import LunchOrder from "./pages/LunchBillManagement/lunch/lunch_order/LunchOrder";
+import LunchManagementDashboard from "./pages/LunchBillManagement/dashboard/Dashboard";
 
 // import BillList from "./pages/bill-management/bill/List";
 // import BillAdd from "./pages/bill-management/bill/billAdd";
@@ -208,7 +209,8 @@ function App() {
         </Route>
 
         {/* Lunch Bill management */}
-        <Route path={"/lunch"} element={<LunchOutlet />}>
+        <Route path={"/"} element={<LunchOutlet />}>
+          <Route path={LUNCH_DASHBOARD_PAGE} element={<LunchManagementDashboard />} />
           <Route path={LUNCH_ORDER_PAGE} element={<LunchOrder />} />
         </Route>
 

@@ -4,35 +4,38 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ConfirmDialog from "../components/confirm-dialog/ConfirmDialog";
 import { LOGOUT_API } from "../utils/routes/api_routes/API_ROUTES";
 import {
-    DASHBOARD_PAGE,
-    LANDING_PAGE,
-    LOGIN_PAGE,
-    UNAUTHORIZED, USER_LIST_PAGE,
-    USER_ROLE_LIST_PAGE
+  DASHBOARD_PAGE,
+  LANDING_PAGE,
+  LOGIN_PAGE,
+  UNAUTHORIZED,
+  USER_LIST_PAGE,
+  USER_ROLE_LIST_PAGE,
 } from "../utils/routes/app_routes/APP_ROUTES";
-import {API} from "../utils/axios/axiosConfig";
-import {GET_MODULE, REMOVE_MODULE, REMOVE_TOKEN, SET_MODULE, USER_INFO} from "../utils/session/token";
+import { API } from "../utils/axios/axiosConfig";
+import { GET_MODULE, REMOVE_MODULE, REMOVE_TOKEN, SET_MODULE, USER_INFO } from "../utils/session/token";
 import Navbar1 from "./navbar/navbar1";
-import {useIdleTimer} from "react-idle-timer";
+import { useIdleTimer } from "react-idle-timer";
 import "./layout.css";
 import Select from "../components/select/Select";
 import NavbarSupport from "./navbar/navbar-support";
-import {SUPPORT_DASHBOARD_URL} from "../utils/routes/app_routes/SP_APP_ROUTES";
+import { SUPPORT_DASHBOARD_URL } from "../utils/routes/app_routes/SP_APP_ROUTES";
+import { LUNCH_DASHBOARD_PAGE } from "../utils/routes/app_routes/LUNCH_ROUTES";
+import NavbarLunchManagement from "./navbar/navbar-lunch-management";
 
-export default function Layout({children}) {
-    const user = USER_INFO();
-    const modules = [
-        {label: 'HRM', value: 'hrm'},
-        {label: 'Support System', value: 'support_system'},
-    ]
-    const excludePath = [LOGIN_PAGE]
-    const location = useLocation();
-    const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
-    const [isConfirm, setIsConfirm] = useState(false);
-    const [idleModal, setIdleModal] = useState(false);
-    const [selectedModule, setSelectedModule] = useState(modules.find(v => v?.value === GET_MODULE()));
-
+export default function Layout({ children }) {
+  const user = USER_INFO();
+  const modules = [
+    { label: "HRM", value: "hrm" },
+    { label: "Support System", value: "support_system" },
+    { label: "Lunch Management", value: "lunch_management" },
+  ];
+  const excludePath = [LOGIN_PAGE];
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
+  const [idleModal, setIdleModal] = useState(false);
+  const [selectedModule, setSelectedModule] = useState(modules.find((v) => v?.value === GET_MODULE()));
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -81,6 +84,9 @@ export default function Layout({children}) {
       case "support_system":
         if (!path?.includes("support") && !cPath) navigate(SUPPORT_DASHBOARD_URL);
         return <NavbarSupport />;
+      case "lunch_management":
+        if (!path?.includes("lunch") && !cPath) navigate(LUNCH_DASHBOARD_PAGE);
+        return <NavbarLunchManagement />;
       default:
         return <Navbar1 />;
     }
