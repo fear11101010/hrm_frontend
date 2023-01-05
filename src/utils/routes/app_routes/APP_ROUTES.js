@@ -77,9 +77,6 @@ export const BILL_ADD_URL = "/bill_management/add_bill";
 export const CONVEYANCE_LIST_URL = "/bill_management/conveyance_list";
 export const CONVEYANCE_ADD_URL = "/bill_management/add_conveyance";
 
-// Meal Management
-export const LUNCH_ORDER_PAGE = "/lunch/order";
-
 // Others
 export const UNAUTHORIZED = "/unauthorized";
 export const INNER_LANDING = "/";

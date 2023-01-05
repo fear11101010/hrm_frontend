@@ -59,7 +59,6 @@ import {
   USER_LIST_PAGE,
   USER_ROLE_LIST_PAGE,
   USER_ROLE_PRIVILEGE_PAGE_URL,
-  LUNCH_ORDER_PAGE,
 } from "./utils/routes/app_routes/APP_ROUTES";
 import KpiPerformanceIndex from "./pages/hrm/KPI/kpi-performane-form/kpi-performance-index";
 import KpiPerformanceFormCreate from "./pages/hrm/KPI/kpi-performane-form/kpi-performance-form-create";
@@ -114,6 +113,7 @@ import RequisitionForm from "./pages/hrm/Requisition_form/RequisitionForm";
 import RequisitionList from "./pages/hrm/Requisition_form/RequisitionList";
 import RequisitionDetails from "./pages/hrm/Requisition_form/RequisitionDetails";
 import RequisitionEdit from "./pages/hrm/Requisition_form/RequisitionEdit";
+import { LUNCH_ORDER_PAGE } from "./utils/routes/app_routes/LUNCH_ROUTES";
 import LunchOutlet from "./outlets/lunchManagementOutlet/LunchOutlet";
 import LunchOrder from "./pages/LunchBillManagement/lunch/lunch_order/LunchOrder";
 
