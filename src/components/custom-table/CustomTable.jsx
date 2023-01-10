@@ -100,10 +100,10 @@ function CustomTable({columns, data,total, size, responsive, onDataSort, paginat
 }
 
 CustomTable.propsType = {
-    columns: PropTypes.array,
-    data: PropTypes.array,
-    size: PropTypes.oneOf(["sm"]),
-    responsive: PropTypes.bool,
-    onDataSort: PropTypes.func,
+  columns: PropTypes.array,
+  data: PropTypes.array,
+  size: PropTypes.oneOf(["sm"]),
+  responsive: PropTypes.bool,
+  onDataSort: PropTypes.func,
 };
 export default CustomTable;
