@@ -50,7 +50,7 @@ export default function Dashboard() {
   return (
     <Layout>
       {loading && <Loader />}
-      <PageHeader subTitle={"Overview"} title={"Dashboard"} />
+      {/* <PageHeader subTitle={"Overview"} title={"Dashboard"} /> */}
 
       {user?.group_id?.split(",").includes("1") || user?.group_id?.split(",").includes("7") ? (
         <div className="px-5">
