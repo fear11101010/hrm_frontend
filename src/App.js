@@ -113,11 +113,18 @@ import RequisitionForm from "./pages/hrm/Requisition_form/RequisitionForm";
 import RequisitionList from "./pages/hrm/Requisition_form/RequisitionList";
 import RequisitionDetails from "./pages/hrm/Requisition_form/RequisitionDetails";
 import RequisitionEdit from "./pages/hrm/Requisition_form/RequisitionEdit";
-import {LUNCH_ORDER_PAGE, SUBSIDY_LIST_PAGE, LUNCH_DASHBOARD_PAGE} from "./utils/routes/app_routes/LUNCH_ROUTES";
+import {
+  LUNCH_ORDER_PAGE,
+  SUBSIDY_LIST_PAGE,
+  LUNCH_DASHBOARD_PAGE,
+  SUBSIDY_COST_CREATE_PAGE
+} from "./utils/routes/app_routes/LUNCH_ROUTES";
 import LunchOutlet from "./outlets/lunchManagementOutlet/LunchOutlet";
 import LunchOrder from "./pages/LunchBillManagement/lunch/lunch_order/LunchOrder";
-import SubSidyTypeList from "./pages/LunchBillManagement/Admin/Settings/SubSidy/Index/SubSidyTypeList";
+import SubSidyTypeList from "./pages/LunchBillManagement/Admin/Settings/SubSidy/SubSidyList/SubSidyTypeList";
 import LunchManagementDashboard from "./pages/LunchBillManagement/dashboard/Dashboard";
+import CreateSubSidyLunchCost
+  from "./pages/LunchBillManagement/Admin/Settings/SubSidy/SubSidyLunchCost/Create/CreateSubSidyLunchCost";
 
 // import BillList from "./pages/bill-management/bill/List";
 // import BillAdd from "./pages/bill-management/bill/billAdd";
@@ -210,10 +217,11 @@ function App() {
         </Route>
 
         {/* Lunch Bill management */}
-        <Route path={"/"} element={<LunchOutlet />}>
+        <Route path={"/lunch-management"} element={<LunchOutlet />}>
           <Route path={LUNCH_DASHBOARD_PAGE} element={<LunchManagementDashboard />} />
           <Route path={LUNCH_ORDER_PAGE} element={<LunchOrder />} />
           <Route path={SUBSIDY_LIST_PAGE} element={<SubSidyTypeList />} />
+          <Route path={SUBSIDY_COST_CREATE_PAGE} element={<CreateSubSidyLunchCost />} />
         </Route>
 
         <Route path={UNAUTHORIZED} element={<Unauth />} />

@@ -45,8 +45,8 @@ function TableHeader({columns, afterDataSort, data}) {
     return (
         <thead>
             <tr>
-                {columns.map((column) => (
-                    <th>{getHeaderCell(column)}</th>
+                {columns.map((column,i) => (
+                    <th key={i}>{getHeaderCell(column)}</th>
                 ))}
             </tr>
         </thead>

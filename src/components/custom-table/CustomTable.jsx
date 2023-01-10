@@ -9,9 +9,8 @@ import TableHeader from "./TableHeader";
 
 function CustomTable({columns, data,total, size, responsive, onDataSort, pagination:{show,perPageList,onPageOrLimitChange}}) {
     const [dummy, setDummy] = useState(1);
-
-    const paginationOption = perPageList.map(p=>({value:p,label:`${p} per page`}))
-    const [showPerPage, setShowPerPage] = useState(paginationOption[0]);
+    const paginationOption = perPageList?.map(p=>({value:p,label:`${p} per page`}))
+    const [showPerPage, setShowPerPage] = useState(paginationOption?paginationOption[0]:null);
     const [tableRows, setTableRows] = useState([]);
     const [pageNumber, setPageNumber] = useState(1);
     useEffect(() => {
@@ -26,11 +25,11 @@ function CustomTable({columns, data,total, size, responsive, onDataSort, paginat
             setTableRows(data);
         }
         if(onPageOrLimitChange){
-            onPageOrLimitChange(showPerPage.value,(page-1)*showPerPage.value)
+            onPageOrLimitChange((showPerPage?.value||0),(page-1)*(showPerPage?.value||0))
         }
     };
     const afterDataSort = (d) => {
-        setTableRows((show && !total) ? d?.slice((pageNumber - 1) * showPerPage.value, pageNumber * showPerPage.value) : d);
+        setTableRows((show && !total) ? d?.slice((pageNumber - 1) * (showPerPage?.value||0), pageNumber * (showPerPage?.value||0)) : d);
         setDummy(t => -t);
     }
     const onPageLimitChange = (l)=>{
@@ -71,14 +70,14 @@ function CustomTable({columns, data,total, size, responsive, onDataSort, paginat
                         <tbody>
                         {tableRows.map((v, i) => {
                             return (
-                                <tr>
+                                <tr key={i}>
                                     {columns.map((column) => (
                                         <td>
                                             {column.cell ? (
-                                                column.cell(v, (pageNumber - 1) * showPerPage.value + i)
+                                                column.cell(v, (pageNumber - 1) * (showPerPage?.value||0) + i)
                                             ) : (
                                                 <span
-                                                    className="item-title">{column.selector(v, (pageNumber - 1) * showPerPage.value + i)}</span>
+                                                    className="item-title">{column.selector(v, (pageNumber - 1) * (showPerPage?.value||0) + i)}</span>
                                             )}
                                         </td>
                                     ))}
@@ -94,7 +93,7 @@ function CustomTable({columns, data,total, size, responsive, onDataSort, paginat
                 </table>
             </div>
             <div className="card-footer d-flex justify-content-between">
-                {show && <Pagination data={data} total={total} rowPerPage={showPerPage.value} onPageChange={onPageChange}/>}
+                {show && <Pagination data={data} total={total} rowPerPage={(showPerPage?.value||0)} onPageChange={onPageChange}/>}
             </div>
         </div>
     );

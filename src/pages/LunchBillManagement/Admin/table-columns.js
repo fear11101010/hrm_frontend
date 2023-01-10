@@ -20,8 +20,8 @@ export const SUBSIDY_TABLE_COLUMNS=(editFunc,deleteFunc)=>[
     {
         name:'Action',
         cell:(row,i)=>(
-            <div>
-                {(user.accessibility.includes("subsidy.update") || true) && <Button size="sm" variant="primary" onClick={e=>editFunc(e,i)}>
+            <div className="d-flex">
+                {(user.accessibility.includes("subsidy.update") || true) && <Button className="me-3" size="sm" variant="primary" onClick={e=>editFunc(e,i)}>
                     <FaEdit/> Edit
                 </Button>}
                 {(user.accessibility.includes("subsidy.destroy") || true) && <Button size="sm" variant="primary" onClick={e=>deleteFunc(e,i)}>
