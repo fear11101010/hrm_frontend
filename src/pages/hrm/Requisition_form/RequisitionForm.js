@@ -207,7 +207,7 @@ export default function RequisitionForm() {
       {loading && <Loader />}
       <PageHeader title="Resource Requisition" onBack />
       {/* <div className="container-fluid"> */}
-      <div className="">
+      <div className="px-5">
         {/* <div className="card">
                     <div className="card-body">
                         <section className="section">
@@ -226,7 +226,7 @@ export default function RequisitionForm() {
         <div className="card">
           <div className="card-body">
             <section className="section">
-              <div className="stepwizard">
+              <div className="stepwizard mb-3">
                 <div className="stepwizard-row setup-panel">
                   <div className="stepwizard-step col-xs-3">
                     <a
@@ -236,8 +236,9 @@ export default function RequisitionForm() {
                     >
                       1
                     </a>
+
                     <p>
-                      <small>Approval</small>
+                      <h5 className="mb-0">Approval</h5>
                     </p>
                   </div>
                   <div className="stepwizard-step col-xs-3">
@@ -249,7 +250,7 @@ export default function RequisitionForm() {
                       2
                     </a>
                     <p>
-                      <small>Reason for Recruitment</small>
+                      <h5>Reason for Recruitment</h5>
                     </p>
                   </div>
                   <div className="stepwizard-step col-xs-3">
@@ -261,7 +262,7 @@ export default function RequisitionForm() {
                       3
                     </a>
                     <p>
-                      <small>Reason for Recruitment</small>
+                      <h5>Reason for Recruitment</h5>
                     </p>
                   </div>
                   <div className="stepwizard-step col-xs-3">
@@ -273,7 +274,7 @@ export default function RequisitionForm() {
                       4
                     </a>
                     <p>
-                      <small>Skills and Experience</small>
+                      <h5>Skills and Experience</h5>
                     </p>
                   </div>
                   <div className="stepwizard-step col-xs-3">
@@ -285,7 +286,7 @@ export default function RequisitionForm() {
                       5
                     </a>
                     <p>
-                      <small>Current Skill Matrix </small>
+                      <h5>Current Skill Matrix </h5>
                     </p>
                   </div>
                 </div>

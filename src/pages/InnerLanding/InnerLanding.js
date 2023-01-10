@@ -107,7 +107,7 @@ export default function InnerLanding({ children }) {
                     <Card.Body>
                       <div className="d-flex justify-content-center align-items-center p-3 flex-column">
                         <FaUser size={32} />
-                        <h3 className="mt-2">HRM Appraisal</h3>
+                        <h3 className="mt-2">KPI</h3>
                       </div>
                     </Card.Body>
                   </Card>
