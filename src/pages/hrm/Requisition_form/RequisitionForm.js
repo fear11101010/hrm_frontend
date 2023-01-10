@@ -128,6 +128,7 @@ export default function RequisitionForm() {
     { label: "Internal Fund" },
     { label: "External Fund (If external then mention fund source)" },
   ];
+
   const [rowsData, setRowsData] = useState([]);
   const [rowsData1, setRowsData1] = useState([]);
 
@@ -404,7 +405,7 @@ export default function RequisitionForm() {
                     <div className="form-group">
                       <label>Type for Recruitment: </label>
                       <Select
-                        options={type_of_reason?.map((d) => ({ label: d.label }))}
+                        options={type_of_reason}
                         onChange={(e) => {
                           settype_of_recruitId_p(e.label);
                         }}

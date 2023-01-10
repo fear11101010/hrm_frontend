@@ -54,6 +54,7 @@ import {
   OTHER_TICKETS_URL,
   SUPPORT_DASHBOARD_URL,
 } from "../../utils/routes/app_routes/SP_APP_ROUTES";
+import { LUNCH_ORDER_PAGE } from "../../utils/routes/app_routes/LUNCH_ROUTES";
 export default function NavbarLunchManagement() {
   const user = USER_INFO();
   const navigate = useNavigate();
@@ -113,25 +114,31 @@ export default function NavbarLunchManagement() {
                   </Link>
                 </Nav.Item>
               )}
-              {user.module.includes("My Tickets") && (
+              {user.sub_module.includes("Requisition From") && (
                 <Nav.Item as={"li"}>
-                  <Link to={MY_TICKETS_URL} className="nav-link">
-                    My Request
-                  </Link>
-                </Nav.Item>
-              )}
-              {user.module.includes("All Request") && (
-                <Nav.Item as={"li"}>
-                  <Link className={"nav-link"} to={ALL_TICKETS_URL}>
-                    All Tickets
-                  </Link>
-                </Nav.Item>
-              )}
-              {user.module.includes("Other Request") && (
-                <Nav.Item as={"li"}>
-                  <Link className={"nav-link"} to={OTHER_TICKETS_URL}>
-                    Request For Approval
-                  </Link>
+                  <Nav.Link
+                    onClick={() => openOrCloseMenu(3)}
+                    href="#"
+                    className={menuOpenCloseState[3] ? "collapsed" : ""}
+                    data-bs-toggle="collapse"
+                    role="button"
+                    aria-expanded={menuOpenCloseState[3] ? "true" : "false"}
+                    aria-controls="sidebarReport"
+                  >
+                    <i className="fe fe-file-text"></i> Lunch
+                  </Nav.Link>
+                  <Collapse in={menuOpenCloseState[3]}>
+                    <div id="sidebarDashboards">
+                      <ul className="nav nav-sm flex-column">
+                        <li className="nav-item">
+                          {/* {user.module.includes("Requisition From Entry") && ()} */}
+                          <Link className={"nav-link"} to={LUNCH_ORDER_PAGE}>
+                            Order Lunch
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  </Collapse>
                 </Nav.Item>
               )}
             </Nav>

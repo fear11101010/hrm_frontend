@@ -1,34 +1,34 @@
 import { Form } from "react-bootstrap";
 import "./select.css";
 import styles from "./style.module.css";
-import {useEffect, useRef, useState} from "react";
-import ReactDOM from 'react-dom'
+import { useEffect, useRef, useState } from "react";
+import ReactDOM from "react-dom";
 
 function Select(props) {
-  const { options, onChange, placeholder,size,type,value } = props;
-  const [selectedOption, setSelectedOption] = useState(value??'');
+  const { options, onChange, placeholder, size, type, value } = props;
+  const [selectedOption, setSelectedOption] = useState(value ?? "");
   const [isOpen, setIsOpen] = useState(false);
   const dropDownContainerRef = useRef(null);
   const dropDownRef = useRef(null);
-  useEffect(()=>{
+  useEffect(() => {
     console.log(value);
     setSelectedOption(value);
     function onBodyClick(e) {
       // setIsOpen(false);
-      console.log(e.target.parentElement.parentElement)
-      if(e.target.parentElement.parentElement.classList.contains('custom-dropdown')){
+      // console.log(e.target.parentElement.parentElement)
+      if (e.target.parentElement.parentElement.classList.contains("custom-dropdown")) {
         return;
       }
       // alert(1)
-      ReactDOM.findDOMNode(dropDownContainerRef.current).setAttribute('aria-expanded', "false");
-      ReactDOM.findDOMNode(dropDownRef.current).setAttribute('aria-expanded', "false");
-      ReactDOM.findDOMNode(dropDownRef.current).classList.remove('show');
+      ReactDOM.findDOMNode(dropDownContainerRef.current).setAttribute("aria-expanded", "false");
+      ReactDOM.findDOMNode(dropDownRef.current).setAttribute("aria-expanded", "false");
+      ReactDOM.findDOMNode(dropDownRef.current).classList.remove("show");
     }
     document.body.addEventListener("click", onBodyClick);
     return () => {
       document.body.removeEventListener("click", onBodyClick);
-    }
-  },[value])
+    };
+  }, [value]);
   /*const resizeDropDownPosition = () =>{
     if(isOpen){
       const rect = ReactDOM.findDOMNode(dropDownContainerRef?.current).getBoundingClientRect();
@@ -52,38 +52,37 @@ function Select(props) {
       console.log({y,height,bottom})
     }
   }*/
-  const showHideDropDown = (e) =>{
+  const showHideDropDown = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    if(ReactDOM.findDOMNode(dropDownContainerRef.current).getAttribute('aria-expanded')==='false'){
-      document.querySelectorAll('.custom-dropdown[aria-expanded="true"]').forEach(elem=>{
-        elem.setAttribute('aria-expanded', "false");
-        elem.querySelectorAll(".custom-dropdown-list").item(0).classList.remove('show')
-        elem.querySelectorAll(".custom-dropdown-list").item(0).setAttribute('aria-expanded', "false");
-      })
+    if (ReactDOM.findDOMNode(dropDownContainerRef.current).getAttribute("aria-expanded") === "false") {
+      document.querySelectorAll('.custom-dropdown[aria-expanded="true"]').forEach((elem) => {
+        elem.setAttribute("aria-expanded", "false");
+        elem.querySelectorAll(".custom-dropdown-list").item(0).classList.remove("show");
+        elem.querySelectorAll(".custom-dropdown-list").item(0).setAttribute("aria-expanded", "false");
+      });
       openOrCloseDropdown();
-    } else{
-      document.querySelectorAll('.custom-dropdown[aria-expanded="true"]').forEach(elem=>{
-        elem.setAttribute('aria-expanded', "false");
-        elem.querySelectorAll(".custom-dropdown-list").item(0).classList.remove('show')
-        elem.querySelectorAll(".custom-dropdown-list").item(0).setAttribute('aria-expanded', "false");
-      })
-    }
-
-  }
-  const openOrCloseDropdown=()=>{
-    if(ReactDOM.findDOMNode(dropDownContainerRef.current).getAttribute('aria-expanded')==='false'){
-      console.log('equal: 1',ReactDOM.findDOMNode(dropDownContainerRef.current).getAttribute('aria-expanded'))
-      ReactDOM.findDOMNode(dropDownContainerRef.current).setAttribute('aria-expanded', "true");
-      ReactDOM.findDOMNode(dropDownRef.current).setAttribute('aria-expanded', "true");
-      ReactDOM.findDOMNode(dropDownRef.current).classList.add('show');
-      console.log('equal: 1',ReactDOM.findDOMNode(dropDownContainerRef.current).getAttribute('aria-expanded'))
     } else {
-      ReactDOM.findDOMNode(dropDownContainerRef.current).setAttribute('aria-expanded', "false");
-      ReactDOM.findDOMNode(dropDownRef.current).setAttribute('aria-expanded', "false");
-      ReactDOM.findDOMNode(dropDownRef.current).classList.remove('show');
+      document.querySelectorAll('.custom-dropdown[aria-expanded="true"]').forEach((elem) => {
+        elem.setAttribute("aria-expanded", "false");
+        elem.querySelectorAll(".custom-dropdown-list").item(0).classList.remove("show");
+        elem.querySelectorAll(".custom-dropdown-list").item(0).setAttribute("aria-expanded", "false");
+      });
     }
-  }
+  };
+  const openOrCloseDropdown = () => {
+    if (ReactDOM.findDOMNode(dropDownContainerRef.current).getAttribute("aria-expanded") === "false") {
+      console.log("equal: 1", ReactDOM.findDOMNode(dropDownContainerRef.current).getAttribute("aria-expanded"));
+      ReactDOM.findDOMNode(dropDownContainerRef.current).setAttribute("aria-expanded", "true");
+      ReactDOM.findDOMNode(dropDownRef.current).setAttribute("aria-expanded", "true");
+      ReactDOM.findDOMNode(dropDownRef.current).classList.add("show");
+      console.log("equal: 1", ReactDOM.findDOMNode(dropDownContainerRef.current).getAttribute("aria-expanded"));
+    } else {
+      ReactDOM.findDOMNode(dropDownContainerRef.current).setAttribute("aria-expanded", "false");
+      ReactDOM.findDOMNode(dropDownRef.current).setAttribute("aria-expanded", "false");
+      ReactDOM.findDOMNode(dropDownRef.current).classList.remove("show");
+    }
+  };
   const onHandleChange = (e, v) => {
     e.preventDefault();
     e.stopPropagation();
@@ -96,17 +95,24 @@ function Select(props) {
     }
   };
   return (
-    <div className={"custom-dropdown "+props.className} ref={dropDownContainerRef}  aria-expanded="false" onClick={showHideDropDown}>
-      <div className={`form-select ${size?'form-select-'+size:''} ${type?' form-control-'+type:' form-control'}`}>
+    <div
+      className={"custom-dropdown " + props.className}
+      ref={dropDownContainerRef}
+      aria-expanded="false"
+      onClick={showHideDropDown}
+    >
+      <div
+        className={`form-select ${size ? "form-select-" + size : ""} ${type ? " form-control-" + type : " form-control"}`}
+      >
         <Form.Select value={selectedOption?.value} className="form-select form-select-sm form-control-flush">
           <option value={selectedOption?.value}>{selectedOption?.label}</option>
         </Form.Select>
-        <div className="selected-option">{selectedOption?.label??placeholder}</div>
+        <div className="selected-option">{selectedOption?.label ?? placeholder}</div>
         <div ref={dropDownRef} className={`custom-dropdown-list ${isOpen ? "show" : ""}`} aria-expanded="false">
           <ul>
-            {options?.map((option,i) => (
+            {options?.map((option, i) => (
               <li key={`${option.value}_${option.label}_${i}`}>
-                <a href="#" style={{whiteSpace:'nowrap'}} onClick={(e) => onHandleChange(e, option)}>
+                <a href="#" style={{ whiteSpace: "nowrap" }} onClick={(e) => onHandleChange(e, option)}>
                   {option.label}
                 </a>
               </li>
