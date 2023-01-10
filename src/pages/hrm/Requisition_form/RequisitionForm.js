@@ -48,7 +48,7 @@ export default function RequisitionForm() {
   const [cost_bene, setcost_bene] = useState(0);
 
   const finalsubmit = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     setLoading(true);
     const submit_data = {
       comment_unit_head: "good",
@@ -295,7 +295,9 @@ export default function RequisitionForm() {
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Name of SBU:</label>
+                      <label>
+                        Name of SBU: <span className="text-danger">*</span>
+                      </label>
                       <Select
                         options={data?.map((d) => ({ label: d.name, value: d.id }))}
                         onChange={(e) => {
@@ -310,7 +312,9 @@ export default function RequisitionForm() {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Name of Project/Function: </label>
+                      <label>
+                        Name of Project/Function: <span className="text-danger">*</span>{" "}
+                      </label>
                       <Select
                         options={project?.map((d) => ({ label: d.name, value: d.id }))}
                         onChange={(e) => {
@@ -325,7 +329,9 @@ export default function RequisitionForm() {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Name of SBU Director: </label>
+                      <label>
+                        Name of SBU Director: <span className="text-danger">*</span>{" "}
+                      </label>
                       <Select
                         options={sbu_dir_name?.map((d) => ({ label: d.name, value: d.id }))}
                         onChange={(e) => {
@@ -340,7 +346,9 @@ export default function RequisitionForm() {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Name of Project/Function Head:</label>
+                      <label>
+                        Name of Project/Function Head: <span className="text-danger">*</span>
+                      </label>
                       <Select
                         options={employeelist?.map((d) => ({ label: d.name + " (" + d.employee_id + ")", value: d.id }))}
                         onChange={(e) => {
@@ -355,7 +363,9 @@ export default function RequisitionForm() {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Requisition Raised By </label>
+                      <label>
+                        Requisition Raised By <span className="text-danger">*</span>
+                      </label>
                       <Select
                         options={employeelist?.map((d) => ({ label: d.name + " (" + d.employee_id + ")", value: d.id }))}
                         onChange={(e) => {
@@ -370,7 +380,9 @@ export default function RequisitionForm() {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>No. of quantity Recruitment:</label>
+                      <label>
+                        No. of quantity Recruitment: <span className="text-danger">*</span>
+                      </label>
                       <input
                         type="number"
                         value={quantity_recruitment}
@@ -382,7 +394,8 @@ export default function RequisitionForm() {
                   <div className="col-md-3">
                     <button
                       className="btn btn-primary nextBtn pull-right mt-4 w-50 "
-                      onClick={() => setStepwizard(stepwizard + 1)}
+                      // onClick={() => setStepwizard(stepwizard + 1)}
+                      onClick={() => setStepwizard(2)}
                       type="button"
                     >
                       Next
@@ -394,8 +407,14 @@ export default function RequisitionForm() {
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Reason for Recruitment: </label>
-                      <select className="form-control select2" onChange={(e) => setreason_recruitment(e.target.value)}>
+                      <label>
+                        Reason for Recruitment: <span className="text-danger">*</span>
+                      </label>
+                      <select
+                        className="form-control select2"
+                        onChange={(e) => setreason_recruitment(e.target.value)}
+                        value={reason_recruitment}
+                      >
                         <option value="New Recruit">New Recruit</option>
                         <option value="Replacement">Replacement</option>
                         <option value="R & D">R & D</option>
@@ -404,43 +423,70 @@ export default function RequisitionForm() {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Type for Recruitment: </label>
-                      <Select
+                      <label>
+                        Type for Recruitment: <span className="text-danger">*</span>
+                      </label>
+                      <select
+                        className="form-control select2"
+                        onChange={(e) => settype_of_recruitId_p(e.target.value)}
+                        value={type_of_recruitId_p}
+                      >
+                        {type_of_reason.map((d) => (
+                          <option value={d.label}>{d.label}</option>
+                        ))}
+                      </select>
+                      {/* <Select
                         options={type_of_reason}
                         onChange={(e) => {
                           settype_of_recruitId_p(e.label);
                         }}
                         styles={{ border: "1px solid red" }}
-                      />
+                      /> */}
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>No of Resource: </label>
+                      <label>
+                        No of Resource: <span className="text-danger">*</span>
+                      </label>
                       <input
                         type="number"
                         onChange={(e) => setnumber_of_resource(e.target.value)}
                         className="form-control"
+                        value={number_of_resource}
                       />
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Salary Range: </label>
-                      <input type="text" onChange={(e) => setsalary_range(e.target.value)} className="form-control" />
+                      <label>
+                        Salary Range: <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        onChange={(e) => setsalary_range(e.target.value)}
+                        className="form-control"
+                        value={salary_range}
+                      />
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>Source of Fund: </label>
-                      <input type="text" onChange={(e) => setsource_of_fund(e.target.value)} className="form-control" />
+                      <input
+                        type="text"
+                        onChange={(e) => setsource_of_fund(e.target.value)}
+                        className="form-control"
+                        value={source_of_fund}
+                      />
                     </div>
                   </div>
                   <div className="row">
                     <div className="col-md-3">
                       <button
                         className="btn btn-primary nextBtn pull-right mt-4 w-50"
-                        onClick={() => setStepwizard(stepwizard + 1)}
+                        // onClick={() => setStepwizard(stepwizard + 1)}
+                        onClick={() => setStepwizard(3)}
                         type="button"
                       >
                         Next
@@ -561,17 +607,26 @@ export default function RequisitionForm() {
                         </thead>
                         <tbody>
                           <tr>
-                            <td className="text-center">a. Minimum Skills</td>
-                            <td className="text-center">b. Project special/Required skills</td>
+                            <td className="text-center">
+                              a. Minimum Skills <span className="text-danger">*</span>
+                            </td>
+                            <td className="text-center">
+                              b. Project special/Required skills <span className="text-danger">*</span>
+                            </td>
                           </tr>
                           <tr>
                             <td>
-                              <textarea onChange={(e) => setmin_skill(e.target.value)} className="form-control"></textarea>
+                              <textarea
+                                onChange={(e) => setmin_skill(e.target.value)}
+                                className="form-control"
+                                value={min_skill}
+                              ></textarea>
                             </td>
                             <td>
                               <textarea
                                 onChange={(e) => setrequired_skills(e.target.value)}
                                 className="form-control"
+                                value={required_skills}
                               ></textarea>
                             </td>
                           </tr>
@@ -582,7 +637,6 @@ export default function RequisitionForm() {
                   <div className="row ">
                     <div className="form-group">
                       <p className="text-danger">
-                        {" "}
                         Note: Above this part Need to Fill-up by Requisition request by, Verified by HR and Finance.
                       </p>
                     </div>
@@ -654,7 +708,6 @@ export default function RequisitionForm() {
                   <div className="row ">
                     <div className="form-group">
                       <p className="text-danger">
-                        {" "}
                         Note: Above this part Need to Fill-up by Requisition request by, Verified by HR
                       </p>
                     </div>

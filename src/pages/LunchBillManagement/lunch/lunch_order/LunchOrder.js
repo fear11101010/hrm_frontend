@@ -387,16 +387,18 @@ export default function LunchOrder() {
         <div className="mt-4">
           {resetmapping.length > 0 ? (
             <div className="table-responsive">
-              <Button
-                variant="info"
-                className="mb-3"
-                size="sm"
-                onClick={() => {
-                  setGuest_modal(true);
-                }}
-              >
-                Add Guest meal
-              </Button>
+              <div className="text-end">
+                <Button
+                  variant="info"
+                  className="mb-3"
+                  size="sm"
+                  onClick={() => {
+                    setGuest_modal(true);
+                  }}
+                >
+                  Add Guest meal
+                </Button>
+              </div>
               <Table bordered className="mb-5">
                 <thead>
                   <tr>

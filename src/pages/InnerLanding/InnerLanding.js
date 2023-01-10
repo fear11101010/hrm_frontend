@@ -3,17 +3,22 @@ import { Button, Card, Col, Dropdown, Modal, Nav, Navbar, Row } from "react-boot
 import { Link, useNavigate } from "react-router-dom";
 import ConfirmDialog from "../../components/confirm-dialog/ConfirmDialog";
 import { LOGOUT_API } from "../../utils/routes/api_routes/API_ROUTES";
-import { DASHBOARD_PAGE, LANDING_PAGE } from "../../utils/routes/app_routes/APP_ROUTES";
+import { CONFIG_DASHBOARD, DASHBOARD_PAGE, LANDING_PAGE } from "../../utils/routes/app_routes/APP_ROUTES";
 import { API } from "../../utils/axios/axiosConfig";
 import { REMOVE_TOKEN, SET_MODULE, USER_INFO } from "../../utils/session/token";
 import { useIdleTimer } from "react-idle-timer";
 // import "./layout.css";
 import Container from "react-bootstrap/Container";
-import { FaUser } from "react-icons/fa";
+import { FaCogs, FaUser } from "react-icons/fa";
 import { IoTicketOutline } from "react-icons/io5";
 import { MdOutlineLunchDining } from "react-icons/md";
 import { SUPPORT_DASHBOARD_URL } from "../../utils/routes/app_routes/SP_APP_ROUTES";
 import { LUNCH_DASHBOARD_PAGE } from "../../utils/routes/app_routes/LUNCH_ROUTES";
+import "./innerLanding.css";
+import kpi_svg from "./svgs/kpi-svg.svg";
+import ticket_svg from "./svgs/ticket-svg.svg";
+import lunch_svg from "./svgs/lunch.svg";
+import config_svg from "./svgs/config-svg.svg";
 
 export default function InnerLanding({ children }) {
   const user = USER_INFO();
@@ -56,6 +61,10 @@ export default function InnerLanding({ children }) {
   const changeModule = (e, type) => {
     e.preventDefault();
     switch (type) {
+      case "CONFIGURATION":
+        SET_MODULE("configuration");
+        navigate(CONFIG_DASHBOARD);
+        break;
       case "HRM":
         SET_MODULE("hrm");
         navigate(DASHBOARD_PAGE);
@@ -98,15 +107,35 @@ export default function InnerLanding({ children }) {
           </Nav>
         </Navbar>
 
-        <div className="pt-3 d-flex align-items-center" style={{ height: "calc(100vh - 63.5px)" }}>
+        <div className="pt-3 d-flex align-items-center inner-page" style={{ height: "calc(100vh - 63.5px)" }}>
           <Container fluid>
+            <Row className="justify-content-center mb-3">
+              <Col sm={12} md={3} lg={3}>
+                <Button
+                  className="module-button border-0"
+                  variant="light"
+                  // onClick={(e) => changeModule(e, "CONFIGURATION")}
+                >
+                  <Card className="mb-0">
+                    <Card.Body className="p-0">
+                      <div className="d-flex justify-content-center align-items-center p-3 flex-column">
+                        {/* <FaCogs size={32} /> */}
+                        <img src={config_svg} alt="kpi" width={"120px"} />
+                        <h3 className="mt-2">Configuration</h3>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Button>
+              </Col>
+            </Row>
             <Row className="justify-content-center">
               <Col sm={12} md={3} lg={3}>
                 <Button className="module-button border-0" variant="light" onClick={(e) => changeModule(e, "HRM")}>
-                  <Card className="mb-0">
-                    <Card.Body>
+                  <Card className="mb-0 shadow-lg">
+                    <Card.Body className="p-0">
                       <div className="d-flex justify-content-center align-items-center p-3 flex-column">
-                        <FaUser size={32} />
+                        {/* <FaUser size={32} /> */}
+                        <img src={kpi_svg} alt="kpi" width={"120px"} />
                         <h3 className="mt-2">KPI</h3>
                       </div>
                     </Card.Body>
@@ -115,10 +144,11 @@ export default function InnerLanding({ children }) {
               </Col>
               <Col sm={12} md={3} lg={3}>
                 <Button className="module-button border-0" variant="light" onClick={(e) => changeModule(e, "SUPPORT")}>
-                  <Card className="mb-0">
-                    <Card.Body>
+                  <Card className="mb-0 shadow-lg">
+                    <Card.Body className="p-0">
                       <div className="d-flex justify-content-center align-items-center p-3 flex-column">
-                        <IoTicketOutline size={32} />
+                        {/* <IoTicketOutline size={32} /> */}
+                        <img src={ticket_svg} alt="kpi" width={"140px"} />
                         <h3 className="mt-2">Ticketing System</h3>
                       </div>
                     </Card.Body>
@@ -131,10 +161,11 @@ export default function InnerLanding({ children }) {
                   variant="light"
                   onClick={(e) => changeModule(e, "LUNCH_MANAGEMENT")}
                 >
-                  <Card className="mb-0">
-                    <Card.Body>
+                  <Card className="mb-0 shadow-lg">
+                    <Card.Body className="p-0">
                       <div className="d-flex justify-content-center align-items-center p-3 flex-column">
-                        <MdOutlineLunchDining size={32} />
+                        {/* <MdOutlineLunchDining size={32} /> */}
+                        <img src={lunch_svg} alt="kpi" width={"110px"} />
                         <h3 className="mt-2">Lunch Management</h3>
                       </div>
                     </Card.Body>

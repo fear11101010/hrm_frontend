@@ -36,7 +36,10 @@ import {
   BILL_LIST,
   ASSESTMENT_SUMMARY_REPORT,
   BILL_LIST_URL,
-  CONVEYANCE_LIST_URL, REQUISITION_FORM, REQUISITION_LIST,
+  CONVEYANCE_LIST_URL,
+  REQUISITION_FORM,
+  REQUISITION_LIST,
+  INNER_LANDING,
 } from "../../utils/routes/app_routes/APP_ROUTES";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../utils/axios/axiosConfig";
@@ -45,7 +48,7 @@ import Loader from "../../components/loader/Loader";
 import { REMOVE_TOKEN, USER_INFO } from "../../utils/session/token";
 import ConfirmDialog from "../../components/confirm-dialog/ConfirmDialog";
 import { AiOutlineAudit } from "react-icons/ai";
-import {FaMoneyBill, FaTicketAlt} from "react-icons/fa";
+import { FaMoneyBill, FaTicketAlt } from "react-icons/fa";
 import {
   ALL_TICKETS_URL,
   MY_TICKETS_URL,
@@ -98,33 +101,41 @@ function NavbarSupport(props) {
         <Container fluid>
           <Navbar.Toggle aria-controls="sidebarCollapse" />
           <Navbar.Brand>
-            <Link to={SUPPORT_DASHBOARD_URL}>
+            <Link to={INNER_LANDING}>
               <img src="/img/logo.svg" className="navbar-brand-img mx-auto" alt="..." />
             </Link>
           </Navbar.Brand>
           <Navbar.Collapse id="sidebarCollapse">
             <Nav as="ul">
               {/* Dashboard */}
-              {user.module.includes("Support Dashboard") && (<Nav.Item as={"li"}>
-                <Link to={SUPPORT_DASHBOARD_URL} className="nav-link">
-                  <i className="fe fe-grid"></i> Dashboards
-                </Link>
-              </Nav.Item>)}
-              {user.module.includes("My Tickets") && (<Nav.Item as={"li"}>
-                <Link to={MY_TICKETS_URL} className="nav-link">
-                  My Request
-                </Link>
-              </Nav.Item>)}
-              {user.module.includes("All Request") && (<Nav.Item as={"li"}>
-                <Link className={"nav-link"} to={ALL_TICKETS_URL}>
-                  All Tickets
-                </Link>
-              </Nav.Item>)}
-              {user.module.includes("Other Request") && (<Nav.Item as={"li"}>
-                <Link className={"nav-link"} to={OTHER_TICKETS_URL}>
-                  Request For Approval
-                </Link>
-              </Nav.Item>)}
+              {user.module.includes("Support Dashboard") && (
+                <Nav.Item as={"li"}>
+                  <Link to={SUPPORT_DASHBOARD_URL} className="nav-link">
+                    <i className="fe fe-grid"></i> Dashboards
+                  </Link>
+                </Nav.Item>
+              )}
+              {user.module.includes("My Tickets") && (
+                <Nav.Item as={"li"}>
+                  <Link to={MY_TICKETS_URL} className="nav-link">
+                    My Request
+                  </Link>
+                </Nav.Item>
+              )}
+              {user.module.includes("All Request") && (
+                <Nav.Item as={"li"}>
+                  <Link className={"nav-link"} to={ALL_TICKETS_URL}>
+                    All Tickets
+                  </Link>
+                </Nav.Item>
+              )}
+              {user.module.includes("Other Request") && (
+                <Nav.Item as={"li"}>
+                  <Link className={"nav-link"} to={OTHER_TICKETS_URL}>
+                    Request For Approval
+                  </Link>
+                </Nav.Item>
+              )}
 
               {/* MANAGEMENT
               {user.sub_module.includes("Support") && (

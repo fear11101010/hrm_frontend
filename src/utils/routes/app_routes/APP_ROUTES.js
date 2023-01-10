@@ -20,6 +20,7 @@ export const EMPLOYEE_EDIT_PAGE_URL = `/hrm/employee/edit/:id`;
 export const EMPLOYEE_EDIT_PAGE = (id) => `/hrm/employee/edit/${id}`;
 
 // Configuration
+export const CONFIG_DASHBOARD = "/hrm/configuration";
 export const FILE_UPLOAD_PAGE = "/hrm/file-upload";
 
 // KPI

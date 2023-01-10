@@ -7,7 +7,14 @@ import FormControl from "react-bootstrap/FormControl";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { Collapse } from "react-bootstrap";
 import { useState } from "react";
-import { INNER_LANDING, LOGIN_PAGE } from "../../utils/routes/app_routes/APP_ROUTES";
+import {
+  EMPLOYEE_LIST_PAGE,
+  FILE_UPLOAD_PAGE,
+  INNER_LANDING,
+  LOGIN_PAGE,
+  USER_LIST_PAGE,
+  USER_ROLE_LIST_PAGE,
+} from "../../utils/routes/app_routes/APP_ROUTES";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../utils/axios/axiosConfig";
 import { LOGOUT_API } from "../../utils/routes/api_routes/API_ROUTES";
@@ -21,7 +28,7 @@ import {
   SUBSIDY_COST_LIST_PAGE,
   SUBSIDY_LIST_PAGE,
 } from "../../utils/routes/app_routes/LUNCH_ROUTES";
-export default function NavbarLunchManagement() {
+export default function NavbarConfiguration() {
   const user = USER_INFO();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -73,67 +80,73 @@ export default function NavbarLunchManagement() {
           <Navbar.Collapse id="sidebarCollapse">
             <Nav as="ul">
               {/* Dashboard */}
-              {user.module.includes("Support Dashboard") && (
+              {/* MANAGEMENT */}
+              {user.sub_module.includes("User Management") && (
                 <Nav.Item as={"li"}>
-                  <Link to={LUNCH_DASHBOARD_PAGE} className="nav-link">
-                    <i className="fe fe-grid"></i> Dashboard
-                  </Link>
-                </Nav.Item>
-              )}
-              {user.sub_module.includes("Requisition From") && (
-                <Nav.Item as={"li"}>
-                  <Nav.Link
-                    onClick={() => openOrCloseMenu(2)}
-                    href="#"
-                    className={menuOpenCloseState[2] ? "collapsed" : ""}
+                  <Link
+                    onClick={() => openOrCloseMenu(0)}
+                    to="#"
+                    className={`${menuOpenCloseState[0] ? "collapsed" : ""} nav-link`}
                     data-bs-toggle="collapse"
                     role="button"
-                    aria-expanded={menuOpenCloseState[2] ? "true" : "false"}
-                    aria-controls="sidebarReport"
+                    aria-expanded={menuOpenCloseState[0] ? "true" : "false"}
+                    aria-controls="sidebarUser"
                   >
-                    <i className="fe fe-settings"></i> Settings
-                  </Nav.Link>
-                  <Collapse in={menuOpenCloseState[2]}>
-                    <div id="sidebarDashboards">
+                    <i className="fe fe-users"></i> Management
+                  </Link>
+                  <Collapse in={menuOpenCloseState[0]}>
+                    <div id="sidebarUser">
                       <ul className="nav nav-sm flex-column">
                         <li className="nav-item">
-                          {/* {user.module.includes("Requisition From Entry") && ()} */}
-                          <Link className={"nav-link"} to={SUBSIDY_LIST_PAGE}>
-                            Subsidy List
-                          </Link>
+                          {user.module.includes("User") && (
+                            <Link className={"nav-link"} to={USER_LIST_PAGE}>
+                              User
+                            </Link>
+                          )}
                         </li>
                         <li className="nav-item">
-                          {/* {user.module.includes("Requisition From Entry") && ()} */}
-                          <Link className={"nav-link"} to={SUBSIDY_COST_LIST_PAGE}>
-                            Subsidy
-                          </Link>
+                          {user.module.includes("Role") && (
+                            <Link className={"nav-link"} to={USER_ROLE_LIST_PAGE}>
+                              Role
+                            </Link>
+                          )}
+                        </li>
+                        <li className="nav-item">
+                          {user.module.includes("Employee") && (
+                            <Link className={"nav-link"} to={EMPLOYEE_LIST_PAGE}>
+                              Employee
+                            </Link>
+                          )}
                         </li>
                       </ul>
                     </div>
                   </Collapse>
                 </Nav.Item>
               )}
-              {user.sub_module.includes("Requisition From") && (
+
+              {/* Configuration */}
+              {user.sub_module.includes("Configuration") && (
                 <Nav.Item as={"li"}>
-                  <Nav.Link
-                    onClick={() => openOrCloseMenu(3)}
-                    href="#"
-                    className={menuOpenCloseState[3] ? "collapsed" : ""}
+                  <Link
+                    onClick={() => openOrCloseMenu(1)}
+                    to="#"
+                    className={`${menuOpenCloseState[1] ? "collapsed" : ""} nav-link`}
                     data-bs-toggle="collapse"
                     role="button"
-                    aria-expanded={menuOpenCloseState[3] ? "true" : "false"}
-                    aria-controls="sidebarReport"
+                    aria-expanded={menuOpenCloseState[1] ? "true" : "false"}
+                    aria-controls="sidebarUser"
                   >
-                    <i className="fe fe-file-text"></i> Lunch
-                  </Nav.Link>
-                  <Collapse in={menuOpenCloseState[3]}>
-                    <div id="sidebarDashboards">
+                    <i className="fe fe-settings"></i> Configuration
+                  </Link>
+                  <Collapse in={menuOpenCloseState[1]}>
+                    <div id="sidebarUser">
                       <ul className="nav nav-sm flex-column">
                         <li className="nav-item">
-                          {/* {user.module.includes("Requisition From Entry") && ()} */}
-                          <Link className={"nav-link"} to={LUNCH_ORDER_PAGE}>
-                            Order Lunch
-                          </Link>
+                          {user.module.includes("File Upload") && (
+                            <Link className={"nav-link"} to={FILE_UPLOAD_PAGE}>
+                              File Upload
+                            </Link>
+                          )}
                         </li>
                       </ul>
                     </div>

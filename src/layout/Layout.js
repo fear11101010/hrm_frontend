@@ -4,12 +4,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ConfirmDialog from "../components/confirm-dialog/ConfirmDialog";
 import { LOGOUT_API } from "../utils/routes/api_routes/API_ROUTES";
 import {
+  CONFIG_DASHBOARD,
   DASHBOARD_PAGE,
   LANDING_PAGE,
   LOGIN_PAGE,
   UNAUTHORIZED,
-  USER_LIST_PAGE,
-  USER_ROLE_LIST_PAGE,
 } from "../utils/routes/app_routes/APP_ROUTES";
 import { API } from "../utils/axios/axiosConfig";
 import { GET_MODULE, REMOVE_MODULE, REMOVE_TOKEN, SET_MODULE, USER_INFO } from "../utils/session/token";
@@ -21,10 +20,12 @@ import NavbarSupport from "./navbar/navbar-support";
 import { SUPPORT_DASHBOARD_URL } from "../utils/routes/app_routes/SP_APP_ROUTES";
 import { LUNCH_DASHBOARD_PAGE } from "../utils/routes/app_routes/LUNCH_ROUTES";
 import NavbarLunchManagement from "./navbar/navbar-lunch-management";
+import NavbarConfiguration from "./navbar/navbar-configuration";
 
 export default function Layout({ children }) {
   const user = USER_INFO();
   const modules = [
+    // { label: "Configration", value: "configuration" },
     { label: "HRM", value: "hrm" },
     { label: "Support System", value: "support_system" },
     { label: "Lunch Management", value: "lunch_management" },
@@ -87,6 +88,9 @@ export default function Layout({ children }) {
       case "lunch_management":
         if (!path?.includes("lunch") && !cPath) navigate(LUNCH_DASHBOARD_PAGE);
         return <NavbarLunchManagement />;
+      case "configuration":
+        if (!path?.includes("configuration") && !cPath) navigate(CONFIG_DASHBOARD);
+        return <NavbarConfiguration />;
       default:
         return <Navbar1 />;
     }

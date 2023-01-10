@@ -59,6 +59,7 @@ import {
   USER_LIST_PAGE,
   USER_ROLE_LIST_PAGE,
   USER_ROLE_PRIVILEGE_PAGE_URL,
+  CONFIG_DASHBOARD,
 } from "./utils/routes/app_routes/APP_ROUTES";
 import KpiPerformanceIndex from "./pages/hrm/KPI/kpi-performane-form/kpi-performance-index";
 import KpiPerformanceFormCreate from "./pages/hrm/KPI/kpi-performane-form/kpi-performance-form-create";
@@ -126,6 +127,7 @@ import SubSidyTypeList from "./pages/LunchBillManagement/Admin/Settings/SubSidy/
 import LunchManagementDashboard from "./pages/LunchBillManagement/dashboard/Dashboard";
 import CreateSubSidyLunchCost from "./pages/LunchBillManagement/Admin/Settings/SubSidy/SubSidyLunchCost/Create/CreateSubSidyLunchCost";
 import SubSidyLunchCost from "./pages/LunchBillManagement/Admin/Settings/SubSidy/SubSidyLunchCost/Index/SubSidyLunchCost";
+import ConfigDashboard from "./pages/configuration/Dashboard/ConfigDashboard";
 
 // import BillList from "./pages/bill-management/bill/List";
 // import BillAdd from "./pages/bill-management/bill/billAdd";
@@ -155,7 +157,8 @@ function App() {
         </Route>
 
         {/* Configuration */}
-        <Route path={"/hrm/"} element={<ConfigurationOutlet />}>
+        <Route path={"/"} element={<ConfigurationOutlet />}>
+          <Route path={CONFIG_DASHBOARD} element={<ConfigDashboard />} />
           <Route path={FILE_UPLOAD_PAGE} element={<FileUpload />} />
         </Route>
 
