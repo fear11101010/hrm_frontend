@@ -93,7 +93,7 @@ export default function InnerLanding({ children }) {
   return (
     <>
       <main className="main-content">
-        <Navbar bg="white" className="navbar navbar-expand-md navbar-light ">
+        <Navbar bg="white" className="navbar navbar-expand-md navbar-light">
           <Nav className="ms-auto px-5">
             <Dropdown>
               <Dropdown.Toggle variant="white" id="dropdown-basic" className="fw-bold border-0">
@@ -136,21 +136,7 @@ export default function InnerLanding({ children }) {
                   </Card>
                 </Button>
               </Col> */}
-              <Col sm={12} md={3} lg={3} className="mb-3">
-                <Button className="module-button border-0" variant="light" onClick={(e) => changeModule(e, "REQUISITION")}>
-                  <Card className="mb-0 shadow">
-                    <Card.Body className="p-0">
-                      <div className="d-flex justify-content-center align-items-center p-3 flex-column">
-                        {/* <FaCogs size={32} /> */}
-                        <img src={requisition_svg} alt="kpi" width={"120px"} />
-                        <h3 className="mt-2">Requisition</h3>
-                      </div>
-                    </Card.Body>
-                  </Card>
-                </Button>
-              </Col>
-            </Row>
-            <Row className="justify-content-center">
+
               <Col sm={12} md={3} lg={3} className="mb-3">
                 <Button className="module-button border-0" variant="light" onClick={(e) => changeModule(e, "HRM")}>
                   <Card className="mb-0 shadow">
@@ -159,6 +145,21 @@ export default function InnerLanding({ children }) {
                         {/* <FaUser size={32} /> */}
                         <img src={kpi_svg} alt="kpi" width={"120px"} />
                         <h3 className="mt-2">KPI</h3>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Button>
+              </Col>
+            </Row>
+            <Row className="justify-content-center">
+              <Col sm={12} md={3} lg={3} className="mb-3">
+                <Button className="module-button border-0" variant="light" onClick={(e) => changeModule(e, "REQUISITION")}>
+                  <Card className="mb-0 shadow">
+                    <Card.Body className="p-0">
+                      <div className="d-flex justify-content-center align-items-center p-3 flex-column">
+                        {/* <FaCogs size={32} /> */}
+                        <img src={requisition_svg} alt="kpi" width={"110px"} />
+                        <h3 className="mt-2">Requisition</h3>
                       </div>
                     </Card.Body>
                   </Card>
