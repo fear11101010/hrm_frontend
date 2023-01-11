@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { DESIGNATION_BAND_GET } from "../utils/routes/api_routes/API_ROUTES";
+
 import { API } from "../utils/axios/axiosConfig";
+import { DESIGNATION_BAND_GET } from "../utils/routes/api_routes/API_ROUTES";
 
 export default function useDesignation() {
   const [designationLoading, setDesignationLoading] = useState(false);
