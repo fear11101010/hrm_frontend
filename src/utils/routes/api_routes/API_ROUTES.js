@@ -1,6 +1,7 @@
 // Auth
 export const LOGIN_API = "/login";
 export const LOGOUT_API = "/logout";
+export const USER_GROUP_CHANGE_API = "/usergroupchange/";
 
 // SBU
 export const GET_SBU_API = "/sbu/";

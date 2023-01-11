@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Dropdown, Modal, Nav, Navbar } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import ConfirmDialog from "../components/confirm-dialog/ConfirmDialog";
-import { LOGOUT_API } from "../utils/routes/api_routes/API_ROUTES";
+import {LOGOUT_API, USER_GROUP_CHANGE_API} from "../utils/routes/api_routes/API_ROUTES";
 import {
   CONFIG_DASHBOARD,
   DASHBOARD_PAGE,
@@ -11,7 +11,7 @@ import {
   UNAUTHORIZED,
 } from "../utils/routes/app_routes/APP_ROUTES";
 import { API } from "../utils/axios/axiosConfig";
-import { GET_MODULE, REMOVE_MODULE, REMOVE_TOKEN, SET_MODULE, USER_INFO } from "../utils/session/token";
+import SET_TOKEN, { GET_MODULE, REMOVE_MODULE, REMOVE_TOKEN, SET_MODULE, USER_INFO } from "../utils/session/token";
 import Navbar1 from "./navbar/navbar1";
 import { useIdleTimer } from "react-idle-timer";
 import "./layout.css";
@@ -21,15 +21,20 @@ import { SUPPORT_DASHBOARD_URL } from "../utils/routes/app_routes/SP_APP_ROUTES"
 import { LUNCH_DASHBOARD_PAGE } from "../utils/routes/app_routes/LUNCH_ROUTES";
 import NavbarLunchManagement from "./navbar/navbar-lunch-management";
 import NavbarConfiguration from "./navbar/navbar-configuration";
+import Loader from "../components/loader/Loader";
 
 export default function Layout({ children }) {
-  const user = USER_INFO();
+  const [user,setUser] = useState(USER_INFO());
+  const userGroups = user?.group_access?.map(ga=>({label:ga.name,value:ga.id}))
+  console.log(userGroups)
+  const [currentSelectedGroup,setCurrentSelectedGroup] = useState(userGroups?.find(ug=>parseInt(ug.value)===parseInt(user.group_id||0)))
   const modules = [
     // { label: "Configration", value: "configuration" },
     { label: "HRM", value: "hrm" },
     { label: "Support System", value: "support_system" },
     { label: "Lunch Management", value: "lunch_management" },
   ];
+  const [isLoading,setIsLoading] = useState(false)
   const excludePath = [LOGIN_PAGE];
   const location = useLocation();
   const navigate = useNavigate();
@@ -73,6 +78,22 @@ export default function Layout({ children }) {
   const changeModule = (m) => {
     setSelectedModule(m);
     SET_MODULE(m?.value);
+  };
+  const changeUserGroup = (m) => {
+    setCurrentSelectedGroup(m)
+    setIsLoading(true);
+    API.post(USER_GROUP_CHANGE_API,{group:m?.value})
+        .then((res) => {
+          REMOVE_TOKEN();
+          SET_TOKEN(res.data?.token)
+          setUser(USER_INFO())
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
   };
 
   const getNavBar = () => {
@@ -125,11 +146,18 @@ export default function Layout({ children }) {
           </Nav>
           <Nav className="ms-auto px-5">
             <Dropdown>
-              <Dropdown.Toggle variant="white" id="dropdown-basic" className="fw-bold border-0">
+              <Dropdown.Toggle  variant="white" id="dropdown-basic" className="fw-bold border-0">
                 {user.name}
               </Dropdown.Toggle>
               <Dropdown.Menu className="w-100 border">
                 <Dropdown.Item>{user.username}</Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item>
+                  <label>
+                    <strong>Select a Group</strong>
+                  </label>
+                  <Select options={userGroups} value={currentSelectedGroup} onChange={changeUserGroup}/>
+                </Dropdown.Item>
                 <Dropdown.Divider />
                 <Dropdown.Item
                   onClick={(e) => {
@@ -166,6 +194,7 @@ export default function Layout({ children }) {
           </div>
         </Modal.Body>
       </Modal>
+      {isLoading && <Loader/>}
     </>
   );
 }
