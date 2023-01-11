@@ -3,7 +3,12 @@ import { Button, Card, Col, Dropdown, Modal, Nav, Navbar, Row } from "react-boot
 import { Link, useNavigate } from "react-router-dom";
 import ConfirmDialog from "../../components/confirm-dialog/ConfirmDialog";
 import { LOGOUT_API } from "../../utils/routes/api_routes/API_ROUTES";
-import { CONFIG_DASHBOARD, DASHBOARD_PAGE, LANDING_PAGE } from "../../utils/routes/app_routes/APP_ROUTES";
+import {
+  CONFIG_DASHBOARD,
+  DASHBOARD_PAGE,
+  LANDING_PAGE,
+  REQUISITION_DASHBOARD,
+} from "../../utils/routes/app_routes/APP_ROUTES";
 import { API } from "../../utils/axios/axiosConfig";
 import { REMOVE_TOKEN, SET_MODULE, USER_INFO } from "../../utils/session/token";
 import { useIdleTimer } from "react-idle-timer";
@@ -19,6 +24,7 @@ import kpi_svg from "./svgs/kpi-svg.svg";
 import ticket_svg from "./svgs/ticket-svg.svg";
 import lunch_svg from "./svgs/lunch.svg";
 import config_svg from "./svgs/config-svg.svg";
+import requisition_svg from "./svgs/requisition.webp";
 
 export default function InnerLanding({ children }) {
   const user = USER_INFO();
@@ -77,19 +83,23 @@ export default function InnerLanding({ children }) {
         SET_MODULE("lunch_management");
         navigate(LUNCH_DASHBOARD_PAGE);
         break;
+      case "REQUISITION":
+        SET_MODULE("requisition");
+        navigate(REQUISITION_DASHBOARD);
+        break;
     }
   };
 
   return (
     <>
       <main className="main-content">
-        <Navbar bg="white" className="navbar navbar-expand-md navbar-light d-none d-md-flex">
+        <Navbar bg="white" className="navbar navbar-expand-md navbar-light ">
           <Nav className="ms-auto px-5">
             <Dropdown>
               <Dropdown.Toggle variant="white" id="dropdown-basic" className="fw-bold border-0">
                 {user.name}
               </Dropdown.Toggle>
-              <Dropdown.Menu className="w-100 border">
+              <Dropdown.Menu className="w-100 border bg-white">
                 <Dropdown.Item>{user.username}</Dropdown.Item>
                 <Dropdown.Divider />
                 <Dropdown.Item
@@ -107,21 +117,33 @@ export default function InnerLanding({ children }) {
           </Nav>
         </Navbar>
 
-        <div className="pt-3 d-flex align-items-center inner-page" style={{ height: "calc(100vh - 63.5px)" }}>
+        <div className="pt-3 d-flex align-items-center inner-page" style={{ minHeight: "calc(100vh - 63.5px)" }}>
           <Container fluid>
-            <Row className="justify-content-center mb-3">
-              <Col sm={12} md={3} lg={3}>
+            <Row className="justify-content-center">
+              {/* <Col sm={12} md={3} lg={3} className="mb-3">
                 <Button
                   className="module-button border-0"
                   variant="light"
                   // onClick={(e) => changeModule(e, "CONFIGURATION")}
                 >
-                  <Card className="mb-0">
+                  <Card className="mb-0 shadow">
+                    <Card.Body className="p-0">
+                      <div className="d-flex justify-content-center align-items-center p-3 flex-column">
+                        <img src={config_svg} alt="kpi" width={"120px"} />
+                        <h3 className="mt-2">Configuration</h3>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Button>
+              </Col> */}
+              <Col sm={12} md={3} lg={3} className="mb-3">
+                <Button className="module-button border-0" variant="light" onClick={(e) => changeModule(e, "REQUISITION")}>
+                  <Card className="mb-0 shadow">
                     <Card.Body className="p-0">
                       <div className="d-flex justify-content-center align-items-center p-3 flex-column">
                         {/* <FaCogs size={32} /> */}
-                        <img src={config_svg} alt="kpi" width={"120px"} />
-                        <h3 className="mt-2">Configuration</h3>
+                        <img src={requisition_svg} alt="kpi" width={"120px"} />
+                        <h3 className="mt-2">Requisition</h3>
                       </div>
                     </Card.Body>
                   </Card>
@@ -129,9 +151,9 @@ export default function InnerLanding({ children }) {
               </Col>
             </Row>
             <Row className="justify-content-center">
-              <Col sm={12} md={3} lg={3}>
+              <Col sm={12} md={3} lg={3} className="mb-3">
                 <Button className="module-button border-0" variant="light" onClick={(e) => changeModule(e, "HRM")}>
-                  <Card className="mb-0 shadow-lg">
+                  <Card className="mb-0 shadow">
                     <Card.Body className="p-0">
                       <div className="d-flex justify-content-center align-items-center p-3 flex-column">
                         {/* <FaUser size={32} /> */}
@@ -142,9 +164,9 @@ export default function InnerLanding({ children }) {
                   </Card>
                 </Button>
               </Col>
-              <Col sm={12} md={3} lg={3}>
+              <Col sm={12} md={3} lg={3} className="mb-3">
                 <Button className="module-button border-0" variant="light" onClick={(e) => changeModule(e, "SUPPORT")}>
-                  <Card className="mb-0 shadow-lg">
+                  <Card className="mb-0 shadow">
                     <Card.Body className="p-0">
                       <div className="d-flex justify-content-center align-items-center p-3 flex-column">
                         {/* <IoTicketOutline size={32} /> */}
@@ -155,13 +177,13 @@ export default function InnerLanding({ children }) {
                   </Card>
                 </Button>
               </Col>
-              <Col sm={12} md={3} lg={3}>
+              <Col sm={12} md={3} lg={3} className="mb-3">
                 <Button
                   className="module-button border-0"
                   variant="light"
                   onClick={(e) => changeModule(e, "LUNCH_MANAGEMENT")}
                 >
-                  <Card className="mb-0 shadow-lg">
+                  <Card className="mb-0 shadow">
                     <Card.Body className="p-0">
                       <div className="d-flex justify-content-center align-items-center p-3 flex-column">
                         {/* <MdOutlineLunchDining size={32} /> */}

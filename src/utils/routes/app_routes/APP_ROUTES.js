@@ -52,15 +52,15 @@ export const BILL_LIST = "/bill";
 export const BILL_ADD = "/bill/add";
 
 //REQUISITION FORM
-export const REQUISITION_RESOURCE_LIST = "/hrm/requisitionform/resource-request-list";
-export const REQUISITION_RESOURCE_FORM = "/hrm/requisitionform/resource-request-form";
-
-export const REQUISITION_FORM = "/hrm/requisitionfrom/request-form";
-export const REQUISITION_LIST = "/hrm/requisitionfrom/request-list";
-export const REQUISITION_LIST_PAGE = (id) => `/hrm/requisitionfrom/request-details/${id}`;
-export const REQUISITION_LIST_URL = `/hrm/requisitionfrom/request-details/:id`;
-export const REQUISITION_LIST_PAGE_EDIT = (id) => `/hrm/requisitionfrom/request-edit/${id}`;
-export const REQUISITION_LIST_EDIT_URL = `/hrm/requisitionfrom/request-edit/:id`;
+export const REQUISITION_DASHBOARD = "/requisition/dashboard";
+export const REQUISITION_RESOURCE_LIST = "/requisition/requisitionform/resource-request-list";
+export const REQUISITION_RESOURCE_FORM = "/requisition/requisitionform/resource-request-form";
+export const REQUISITION_FORM = "/requisition/requisitionfrom/request-form";
+export const REQUISITION_LIST = "/requisition/requisitionfrom/request-list";
+export const REQUISITION_LIST_PAGE = (id) => `/requisition/requisitionfrom/request-details/${id}`;
+export const REQUISITION_LIST_URL = `/requisition/requisitionfrom/request-details/:id`;
+export const REQUISITION_LIST_PAGE_EDIT = (id) => `/requisition/requisitionfrom/request-edit/${id}`;
+export const REQUISITION_LIST_EDIT_URL = `/requisition/requisitionfrom/request-edit/:id`;
 
 // Reports
 export const SALARY_FULL_REPORT_URL = `/hrm/report/salary_full_report`;
