@@ -92,13 +92,13 @@ export default function NavbarRequisition() {
                   <Collapse in={menuOpenCloseState[8]}>
                     <div id="sidebarDashboards">
                       <ul className="nav nav-sm flex-column">
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                           {user.module.includes("Requisition From Entry") && (
                             <Link className={"nav-link"} to={REQUISITION_FORM}>
                               Resource Requisition
                             </Link>
                           )}
-                        </li>
+                        </li> */}
                         <li className="nav-item">
                           {user.module.includes("Requisition From List") && (
                             <Link className={"nav-link"} to={REQUISITION_LIST}>

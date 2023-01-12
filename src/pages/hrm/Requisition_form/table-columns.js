@@ -8,7 +8,7 @@ export const kpiPerformanceFormColumns = [
   {
     name: "#",
     selector: (row, index) => index + 1,
-    width: "80px",
+    width: "50px",
   },
   {
     name: "Date",
@@ -26,7 +26,7 @@ export const kpiPerformanceFormColumns = [
     name: "Name",
     selector: (row) => row.created_by.first_name,
     wrap: true,
-    width: "180px",
+    width: "240px",
   },
   {
     name: "SBU",
@@ -37,13 +37,13 @@ export const kpiPerformanceFormColumns = [
     name: "Project",
     selector: (row) => row?.project?.name,
     wrap: true,
-    width: "180px",
+    width: "250px",
   },
   {
     name: "Project Head",
     selector: (row) => row?.project_head?.name,
     wrap: true,
-    width: "180px",
+    width: "250px",
   },
   {
     name: "Action",

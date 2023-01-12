@@ -2,7 +2,7 @@ import PageHeader from "../../../components/header/PageHeader";
 import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import { Link, Navigate } from "react-router-dom";
-import { REQUISITION_LIST_PAGE_EDIT, UNAUTHORIZED } from "../../../utils/routes/app_routes/APP_ROUTES";
+import { REQUISITION_FORM, REQUISITION_LIST_PAGE_EDIT, UNAUTHORIZED } from "../../../utils/routes/app_routes/APP_ROUTES";
 import { API } from "../../../utils/axios/axiosConfig";
 import {
   REQUISITION_APPROVE_POST,
@@ -48,7 +48,7 @@ function RequisitionList(props) {
 
   const EXT_COL = [
     {
-      name: "Approval",
+      name: <div>Approval</div>,
       cell: (row) => (
         <div className="d-flex justify-content-center align-items-center w-100">
           {row?.project_head?.id === user?.user_id && (
@@ -67,7 +67,7 @@ function RequisitionList(props) {
           )}
         </div>
       ),
-      width: "80px",
+      width: "100px",
       wrap: true,
     },
     {
@@ -147,7 +147,14 @@ function RequisitionList(props) {
       <Container fluid>
         <Card>
           <Card.Body>
-            <Table data={data?.data} columns={kpiPerformanceFormColumns.concat(EXT_COL)} />
+            <div className="text-end">
+              {user.module.includes("Requisition From Entry") && (
+                <Link className={"nav-link"} to={REQUISITION_FORM}>
+                  <Button>Create Resource Requisition</Button>
+                </Link>
+              )}
+            </div>
+            <Table dense data={data?.data} columns={kpiPerformanceFormColumns.concat(EXT_COL)} />
           </Card.Body>
         </Card>
       </Container>
