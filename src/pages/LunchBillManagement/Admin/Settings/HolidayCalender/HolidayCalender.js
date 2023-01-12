@@ -1,53 +1,79 @@
 import Layout from "../../../../../layout/Layout";
 import PageHeader from "../../../../../components/header/PageHeader";
 import Container from "react-bootstrap/Container";
-import {Card} from "react-bootstrap";
+import {Button, Card} from "react-bootstrap";
 import './holiday-calender.css';
 import moment from "moment";
+import {useEffect, useState} from "react";
+import Select from "../../../../../components/select/Select";
+import {FaPlus} from "react-icons/fa";
 
 function HolidayCalender(props) {
-    const currentMoment = moment()
-    const currentMonth = currentMoment.month();
-    const currentYear = currentMoment.year();
-    let firstDateOfCurrentMonth = 1;
-    const totalDaysInCurrentMonth = currentMoment.daysInMonth();
-    const firstWeekDayCurrentMonth = currentMoment.date(1).day();
-    const lastWeekDayCurrentMonth = currentMoment.date(totalDaysInCurrentMonth).day();
+    const weekend = [5,6]
+    const months = moment.months('MMMM').map((month,i)=>({value:i,label:month}));
+    const years = Array.from({length:11},(v,i)=>i+moment().year())
+        .map(year=>({value:year,label:year}));
+    console.log('Months: ',months);
+    console.log('Years: ',years);
+    const [selectedMonth,setSelectedMonth] = useState(months.find(month=>month.value===moment().month()))
+    const [selectedYear,setSelectedYear] = useState(years.find(year=>year.value===moment().year()))
+    const [calender,setCalender] = useState([])
 
-    // previous month, year etc ....
-    const previousMonth = currentMonth-1<0?11:currentMonth-1;
-    const previousYear = currentYear-1;
-    const totalDaysInPreviousMonth = moment().month(previousMonth).year(previousYear).daysInMonth()-firstWeekDayCurrentMonth+1;
-    // const lastWeekDayPreviousMonth = moment().month(previousMonth).year(previousYear).date(totalDaysInPreviousMonth).day();
+    useEffect(()=>{
+        if(selectedYear && selectedMonth){
+            const currentMoment = moment().year(selectedYear.value).month(selectedMonth.value)
+            const currentMonth = selectedMonth.value;
+            const currentYear = selectedYear.value;
+            let firstDateOfCurrentMonth = 1;
+            const totalDaysInCurrentMonth = currentMoment.daysInMonth();
+            const firstWeekDayCurrentMonth = currentMoment.date(1).day();
+            const lastWeekDayCurrentMonth = currentMoment.date(totalDaysInCurrentMonth).day();
 
-    // next month, year etc .....
-    const nextMonth = currentMonth+1>11?0:currentMonth+1;
-    const nextYear = currentYear+1;
-    let firstDateOfNextMonth = 1;
-    const dates = [];
-    for(let i=0;i<6;i++){
-        const days = [];
-        for(let d=0;d<firstWeekDayCurrentMonth&&i===0;d++){
-            days.push({date:totalDaysInPreviousMonth+d,month:previousMonth,year:previousYear})
-        }
-        for(let d=(i===0&&firstWeekDayCurrentMonth)||0;d<7&&firstDateOfCurrentMonth<=totalDaysInCurrentMonth;d++){
-            days.push({date:firstDateOfCurrentMonth++,month:currentMonth,year:currentYear})
-        }
-        for(let d=(firstDateOfNextMonth===1&&lastWeekDayCurrentMonth+1)||0;d<7&&firstDateOfCurrentMonth>totalDaysInCurrentMonth;d++){
-            days.push({date:firstDateOfNextMonth++,month:nextMonth,year:nextYear})
-        }
-        dates.push(days)
-    }
+            // previous month, year etc ....
+            const previousMonth = currentMonth-1<0?11:currentMonth-1;
+            const previousYear = currentYear-1;
+            const totalDaysInPreviousMonth = moment().month(previousMonth).year(previousYear).daysInMonth()-firstWeekDayCurrentMonth+1;
+            // const lastWeekDayPreviousMonth = moment().month(previousMonth).year(previousYear).date(totalDaysInPreviousMonth).day();
 
-    console.log('month: ',currentMonth);
-    console.log('day: ',firstWeekDayCurrentMonth);
-    console.log('calender: ',dates);
+            // next month, year etc .....
+            const nextMonth = currentMonth+1>11?0:currentMonth+1;
+            const nextYear = currentYear+1;
+            let firstDateOfNextMonth = 1;
+            const dates = [];
+            for(let i=0;i<6;i++){
+                const days = [];
+                for(let d=0;d<firstWeekDayCurrentMonth&&i===0;d++){
+                    days.push({date:totalDaysInPreviousMonth+d,month:previousMonth,year:previousYear,weekday:d})
+                }
+                for(let d=(i===0&&firstWeekDayCurrentMonth)||0;d<7&&firstDateOfCurrentMonth<=totalDaysInCurrentMonth;d++){
+                    days.push({date:firstDateOfCurrentMonth++,month:currentMonth,year:currentYear,weekday:d})
+                }
+                for(let d=(firstDateOfNextMonth===1&&lastWeekDayCurrentMonth+1)||0;d<7&&firstDateOfCurrentMonth>totalDaysInCurrentMonth;d++){
+                    days.push({date:firstDateOfNextMonth++,month:nextMonth,year:nextYear,weekday:d})
+                }
+                dates.push(days)
+            }
+            setCalender(dates)
+        }
+    },[selectedYear,selectedMonth])
+
+    // console.log('month: ',currentMonth);
+    // console.log('day: ',firstWeekDayCurrentMonth);
+    // console.log('calender: ',dates);
     return (
         <Layout>
             <PageHeader title="Holiday Calender"/>
             <Container fluid>
                 <Card>
                     <Card.Body>
+                        <div className="d-flex justify-content-center mb-3">
+                            <div className="me-2">
+                                <Select options={months} value={selectedMonth} onChange={v=>setSelectedMonth(v)}/>
+                            </div>
+                            <div>
+                                <Select options={years} value={selectedYear} onChange={v=>setSelectedYear(v)}/>
+                            </div>
+                        </div>
                         <table id="holiday-calender">
                             <thead>
                                 <tr>
@@ -82,12 +108,17 @@ function HolidayCalender(props) {
                             </tr>
                             </thead>
                             <tbody>
-                            {dates.map(row=>(
+                            {calender?.map(row=>(
                                 <tr>
                                     {row.map(col=>(
                                         <td>
-                                            <div>
+                                            <div className={weekend.indexOf(col.weekday)>=0?'text-danger':(col.year!==selectedYear.value || col.month!==selectedMonth.value)?'text-muted':''}>
                                                 {col.date}
+                                                <div className={'d-flex justify-content-end align-items-end'} style={{height:'60px'}}>
+                                                <Button variant="primary" size="sm"  className="mb-0" style={{borderRadius:'50%'}}>
+                                                    <FaPlus size={10}/>
+                                                </Button>
+                                                </div>
                                             </div>
                                         </td>
                                     ))}
