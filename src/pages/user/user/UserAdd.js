@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
 import Content from "../../../components/content/Content";
 import PageHeader from "../../../components/header/PageHeader";
@@ -10,11 +10,12 @@ import Layout from "../../../layout/Layout";
 import { UNAUTHORIZED, USER_LIST_PAGE } from "../../../utils/routes/app_routes/APP_ROUTES";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { API } from "../../../utils/axios/axiosConfig";
-import { USER_CREATE_POST } from "../../../utils/routes/api_routes/API_ROUTES";
+import { USER_CREATE_POST, USER_EACH_GET } from "../../../utils/routes/api_routes/API_ROUTES";
 import { success_alert, error_alert } from "../../../components/alert/Alert";
 import { USER_INFO } from "../../../utils/session/token";
 
 export default function UserAdd() {
+  const { id } = useParams();
   const user = USER_INFO();
   const navigate = useNavigate();
   const roleList = useRole()?.data?.map((d) => ({ label: d.name, value: d.id }));
@@ -83,10 +84,21 @@ export default function UserAdd() {
       });
   };
 
+  //Retrive USER if id isnot undefined
+  useEffect(() => {
+    if (id !== undefined) {
+      setLoading(false);
+      API.get(USER_EACH_GET(id))
+        .then((res) => {})
+        .catch((err) => console.log(err))
+        .finally(() => setLoading(false));
+    }
+  }, []);
+
   return user.accessibility.includes("user-register.create") ? (
     <Layout>
       {loading && <Loader />}
-      <PageHeader title="User Add" onBack />
+      <PageHeader title={`User ${id === undefined ? "Add" : "Update"}`} onBack />
       <Content>
         <Form onSubmit={handleSubmit}>
           <Row>
@@ -151,7 +163,7 @@ export default function UserAdd() {
             <Col sm="12" md="6">
               <Form.Group className="mb-3">
                 <Form.Label>User Group</Form.Label>
-                <Select options={roleList} onChange={(e) => setGroup(e.value)} />
+                <Select isMulti options={roleList} onChange={(e) => setGroup(e)} value={group} loadingIndicator={true} />
               </Form.Group>
             </Col>
             <Col sm="12" md="6">

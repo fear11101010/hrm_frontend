@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-
-import { GET_SUPERVISOR } from "../utils/routes/api_routes/API_ROUTES";
 import { API } from "../utils/axios/axiosConfig";
+import { GET_SUPERVISOR } from "../utils/routes/api_routes/API_ROUTES";
 
 export default function useSupervisor() {
   const [data, setData] = useState([]);

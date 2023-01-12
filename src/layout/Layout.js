@@ -8,6 +8,7 @@ import {
   DASHBOARD_PAGE,
   LANDING_PAGE,
   LOGIN_PAGE,
+  REQUISITION_DASHBOARD,
   UNAUTHORIZED,
 } from "../utils/routes/app_routes/APP_ROUTES";
 import { API } from "../utils/axios/axiosConfig";
@@ -22,6 +23,7 @@ import { LUNCH_DASHBOARD_PAGE } from "../utils/routes/app_routes/LUNCH_ROUTES";
 import NavbarLunchManagement from "./navbar/navbar-lunch-management";
 import NavbarConfiguration from "./navbar/navbar-configuration";
 import Loader from "../components/loader/Loader";
+import NavbarRequisition from "./navbar/navbar-requisition";
 
 export default function Layout({ children }) {
   const [user,setUser] = useState(USER_INFO());
@@ -30,6 +32,7 @@ export default function Layout({ children }) {
   const [currentSelectedGroup,setCurrentSelectedGroup] = useState(userGroups?.find(ug=>parseInt(ug.value)===parseInt(user.group_id||0)))
   const modules = [
     // { label: "Configration", value: "configuration" },
+    { label: "Requisition", value: "requisition" },
     { label: "HRM", value: "hrm" },
     { label: "Support System", value: "support_system" },
     { label: "Lunch Management", value: "lunch_management" },
@@ -112,6 +115,9 @@ export default function Layout({ children }) {
       case "configuration":
         if (!path?.includes("configuration") && !cPath) navigate(CONFIG_DASHBOARD);
         return <NavbarConfiguration />;
+      case "requisition":
+        if (!path?.includes("requisition") && !cPath) navigate(REQUISITION_DASHBOARD);
+        return <NavbarRequisition />;
       default:
         return <Navbar1 />;
     }

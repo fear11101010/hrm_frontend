@@ -60,6 +60,8 @@ import {
   USER_ROLE_LIST_PAGE,
   USER_ROLE_PRIVILEGE_PAGE_URL,
   CONFIG_DASHBOARD,
+  REQUISITION_DASHBOARD,
+  USER_EDIT_PAGE_URL,
 } from "./utils/routes/app_routes/APP_ROUTES";
 import KpiPerformanceIndex from "./pages/hrm/KPI/kpi-performane-form/kpi-performance-index";
 import KpiPerformanceFormCreate from "./pages/hrm/KPI/kpi-performane-form/kpi-performance-form-create";
@@ -130,6 +132,9 @@ import SubSidyLunchCost from "./pages/LunchBillManagement/Admin/Settings/SubSidy
 import ConfigDashboard from "./pages/configuration/Dashboard/ConfigDashboard";
 import HolidayCalender from "./pages/LunchBillManagement/Admin/Settings/HolidayCalender/HolidayCalender";
 
+import RequsitionDashboard from "./pages/hrm/Requisition_form/RequsitionDashboard";
+import { USER_EDIT_URL } from "./utils/routes/api_routes/API_ROUTES";
+
 // import BillList from "./pages/bill-management/bill/List";
 // import BillAdd from "./pages/bill-management/bill/billAdd";
 
@@ -151,6 +156,7 @@ function App() {
         <Route path={"/"} element={<UserOutlet />}>
           <Route path={USER_LIST_PAGE} element={<UserList />} />
           <Route path={USER_ADD_PAGE} element={<UserAdd />} />
+          <Route path={USER_EDIT_PAGE_URL} element={<UserAdd />} />
           <Route path={USER_ROLE_LIST_PAGE} element={<RoleList />} />
           <Route path={USER_ROLE_PRIVILEGE_PAGE_URL} element={<Privileges />} />
           <Route path={EMPLOYEE_LIST_PAGE} element={<EmployeeList />} />
@@ -189,7 +195,8 @@ function App() {
         {/*</Route>*/}
 
         {/* REQUISITION */}
-        <Route path={"/hrm/"} element={<RequisitionOutlet />}>
+        <Route path={"/requisition"} element={<RequisitionOutlet />}>
+          <Route path={REQUISITION_DASHBOARD} element={<RequsitionDashboard />} />
           <Route path={REQUISITION_RESOURCE_LIST} element={<RequestRequisitionList />} />
           <Route path={REQUISITION_RESOURCE_FORM} element={<ResourceRequisitionForm />} />
           <Route path={REQUISITION_FORM} element={<RequisitionForm />} />

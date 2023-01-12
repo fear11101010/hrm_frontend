@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { SUB_SBU_GET } from "../../utils/routes/api_routes/API_ROUTES";
 import { API } from "../../utils/axios/axiosConfig";
+import { SUB_SBU_GET } from "../../utils/routes/api_routes/API_ROUTES";
 
 export default function useSubSbu() {
   const [subSbuLoading, setSubSbuLoading] = useState(false);

@@ -518,7 +518,8 @@ function Navbar1(props) {
                   </Collapse>
                 </Nav.Item>
               )}*/}
-              {user.sub_module.includes("Requisition From") && (
+
+              {/* {user.sub_module.includes("Requisition From") && (
                 <Nav.Item as={"li"}>
                   <Nav.Link
                     onClick={() => openOrCloseMenu(8)}
@@ -552,7 +553,7 @@ function Navbar1(props) {
                     </div>
                   </Collapse>
                 </Nav.Item>
-              )}
+              )} */}
             </Nav>
           </Navbar.Collapse>
 
