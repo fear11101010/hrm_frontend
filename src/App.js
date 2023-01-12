@@ -119,7 +119,7 @@ import {
   SUBSIDY_LIST_PAGE,
   LUNCH_DASHBOARD_PAGE,
   SUBSIDY_COST_CREATE_PAGE,
-  SUBSIDY_COST_LIST_PAGE,
+  SUBSIDY_COST_LIST_PAGE, HOLIDAY_CALENDER_PAGE,
 } from "./utils/routes/app_routes/LUNCH_ROUTES";
 import LunchOutlet from "./outlets/lunchManagementOutlet/LunchOutlet";
 import LunchOrder from "./pages/LunchBillManagement/lunch/lunch_order/LunchOrder";
@@ -128,6 +128,7 @@ import LunchManagementDashboard from "./pages/LunchBillManagement/dashboard/Dash
 import CreateSubSidyLunchCost from "./pages/LunchBillManagement/Admin/Settings/SubSidy/SubSidyLunchCost/Create/CreateSubSidyLunchCost";
 import SubSidyLunchCost from "./pages/LunchBillManagement/Admin/Settings/SubSidy/SubSidyLunchCost/Index/SubSidyLunchCost";
 import ConfigDashboard from "./pages/configuration/Dashboard/ConfigDashboard";
+import HolidayCalender from "./pages/LunchBillManagement/Admin/Settings/HolidayCalender/HolidayCalender";
 
 // import BillList from "./pages/bill-management/bill/List";
 // import BillAdd from "./pages/bill-management/bill/billAdd";
@@ -227,6 +228,7 @@ function App() {
           <Route path={SUBSIDY_LIST_PAGE} element={<SubSidyTypeList />} />
           <Route path={SUBSIDY_COST_LIST_PAGE} element={<SubSidyLunchCost />} />
           <Route path={SUBSIDY_COST_CREATE_PAGE} element={<CreateSubSidyLunchCost />} />
+          <Route path={HOLIDAY_CALENDER_PAGE} element={<HolidayCalender />} />
         </Route>
 
         <Route path={UNAUTHORIZED} element={<Unauth />} />

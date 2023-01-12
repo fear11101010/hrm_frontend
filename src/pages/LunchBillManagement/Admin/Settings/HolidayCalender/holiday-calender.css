@@ -1,0 +1,19 @@
+#holiday-calender{
+    width: 100%;
+    /*border: 1px solid #ababab;*/
+    border-collapse: separate;
+    border-spacing: .3em .5em;
+}
+#holiday-calender>thead td{
+    padding: 5px 10px;
+    box-shadow: 1px 1px 5px 0 #ababab;
+    border-radius: 5px;
+    width: calc(100% / 7);
+}
+#holiday-calender>tbody td>div{
+    padding: 5px 10px;
+    height: 100px;
+    vertical-align: top;
+    box-shadow: 1px 1px 5px 0 #ababab;
+    border-radius: 5px;
+}
