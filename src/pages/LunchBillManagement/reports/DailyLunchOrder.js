@@ -21,14 +21,9 @@ export default function DailyLunchOrder() {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const payload = {
-      from_date: from,
-      to_date: to,
-    };
+  const handleSubmit = () => {
     setLoading(true);
-    API.get(DAILY_LUNCH_REPORT_GET)
+    API.get(DAILY_LUNCH_REPORT_GET, { responseType: "blob" })
       .then((res) => {
         const url = window.URL.createObjectURL(new Blob([res.data]));
         const link = document.createElement("a");
@@ -47,6 +42,11 @@ export default function DailyLunchOrder() {
       {loading && <Loader />}
       <PageHeader title="Daily Lunch Order" />
       <Content>
+        <div className="text-center">
+          <Button type="submit" onClick={handleSubmit}>
+            Download Daily Lunch Order Report
+          </Button>
+        </div>
         <Form onSubmit={handleSubmit}>
           {/* <Form.Group className="mb-3">
             <Form.Label>From: </Form.Label>
@@ -64,9 +64,6 @@ export default function DailyLunchOrder() {
               onChange={(e) => setTo(moment(e?._d).format("YYYY-MM-DD"))}
             />
           </Form.Group> */}
-          <div className="text-center">
-            <Button type="submit">Download Daily Lunch Order Report</Button>
-          </div>
         </Form>
       </Content>
     </Layout>
