@@ -18,6 +18,10 @@ import { SUPPORT_DASHBOARD_URL } from "../../utils/routes/app_routes/SP_APP_ROUT
 import {
   LUNCH_DASHBOARD_PAGE,
   LUNCH_ORDER_PAGE,
+  LUNCH_ORDER_SUMMARY_REPORT_PAGE,
+  LUNCH_REPORT_ADMIN_PAGE,
+  LUNCH_REPORT_DAILY_PAGE,
+  LUNCH_REPORT_EMPLOYEE_PAGE,
   SUBSIDY_COST_LIST_PAGE,
   SUBSIDY_LIST_PAGE,
 } from "../../utils/routes/app_routes/LUNCH_ROUTES";
@@ -133,6 +137,43 @@ export default function NavbarLunchManagement() {
                           {/* {user.module.includes("Requisition From Entry") && ()} */}
                           <Link className={"nav-link"} to={LUNCH_ORDER_PAGE}>
                             Order Lunch
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  </Collapse>
+                </Nav.Item>
+              )}
+
+              {user.sub_module.includes("Requisition From") && (
+                <Nav.Item as={"li"}>
+                  <Nav.Link
+                    onClick={() => openOrCloseMenu(4)}
+                    href="#"
+                    className={menuOpenCloseState[4] ? "collapsed" : ""}
+                    data-bs-toggle="collapse"
+                    role="button"
+                    aria-expanded={menuOpenCloseState[4] ? "true" : "false"}
+                    aria-controls="sidebarReport"
+                  >
+                    <i className="fe fe-file-text"></i> Reports
+                  </Nav.Link>
+                  <Collapse in={menuOpenCloseState[4]}>
+                    <div id="sidebarDashboards">
+                      <ul className="nav nav-sm flex-column">
+                        <li className="nav-item">
+                          {/* {user.module.includes("Requisition From Entry") && ()} */}
+                          <Link className={"nav-link"} to={LUNCH_REPORT_EMPLOYEE_PAGE}>
+                            Lunch Report for Employee
+                          </Link>
+                          <Link className={"nav-link"} to={LUNCH_REPORT_ADMIN_PAGE}>
+                            Lunch Report for Admin
+                          </Link>
+                          <Link className={"nav-link"} to={LUNCH_REPORT_DAILY_PAGE}>
+                            Daily Lunch Order
+                          </Link>
+                          <Link className={"nav-link"} to={LUNCH_ORDER_SUMMARY_REPORT_PAGE}>
+                            Lunch Order Summary
                           </Link>
                         </li>
                       </ul>

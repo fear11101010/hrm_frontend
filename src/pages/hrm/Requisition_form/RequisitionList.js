@@ -36,7 +36,7 @@ function RequisitionList(props) {
     try {
       setShowLoading(true);
       const response = await API.get(RESOURCE_REQUISITION_FORM);
-      setData(response.data);
+      setData(response?.data);
     } catch (err) {
     } finally {
       setShowLoading(false);
@@ -76,12 +76,13 @@ function RequisitionList(props) {
       name: "Edit",
       cell: (row) => (
         <div className="d-flex justify-content-center align-items-center w-100">
-          <Link
-            className={`btn btn-rounded-circle btn-sm btn-primary ${row.hr ? "disabled" : ""}`}
-            to={REQUISITION_LIST_PAGE_EDIT(row.id)}
-          >
-            <i className="fe fe-edit"></i>
-          </Link>
+          {row?.hr ? (
+            ""
+          ) : (
+            <Link className={`btn btn-rounded-circle btn-sm btn-primary`} to={REQUISITION_LIST_PAGE_EDIT(row.id)}>
+              <i className="fe fe-edit"></i>
+            </Link>
+          )}
         </div>
       ),
       width: "80px",

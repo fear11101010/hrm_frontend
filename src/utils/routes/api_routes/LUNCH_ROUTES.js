@@ -5,8 +5,12 @@ export const LUNCH_ORDER_POST = "/order/";
 export const LUNCH_ORDER_RETRIEVE = (id, month, year) => `/order/retrieve_by_employee/${id}/${month}/${year}/`;
 export const MONTH_MAPPING = `/weekly_menu_mapping/$/lunch_mapping/`;
 export const GUEST_LUNCH_POST = `/weekly_menu_mapping/$/lunch_mapping/`;
-export const SUBSIDY_LIST_CREATE_API = '/subsidy/'
-export const SUBSIDY_UPDATE_DELETE_API = id=> `/subsidy/${id}/`
+export const SUBSIDY_LIST_CREATE_API = "/subsidy/";
+export const SUBSIDY_UPDATE_DELETE_API = (id) => `/subsidy/${id}/`;
 
+export const SUBSIDY_COST_LIST_CREATE_API = "/subsidy_cost/";
 
-export const SUBSIDY_COST_LIST_CREATE_API = '/subsidy_cost/'
+export const LUNCH_REORT_FOR_EMPLOYEE_POST = "/lunch_reports/$/employee_self_report/";
+export const LUNCH_REORT_FOR_ADMIN_POST = "/lunch_reports/$/admin_lunch_report/";
+export const DAILY_LUNCH_REPORT_GET = "/lunch_reports/$/daily_employee_lunch_orders/";
+export const LUNCH_ORDER_SUMMARY = "";

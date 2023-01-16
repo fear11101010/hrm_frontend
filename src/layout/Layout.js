@@ -98,6 +98,7 @@ export default function Layout({ children }) {
       })
       .finally(() => {
         setIsLoading(false);
+        window.location.reload();
       });
   };
 

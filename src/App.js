@@ -121,7 +121,12 @@ import {
   SUBSIDY_LIST_PAGE,
   LUNCH_DASHBOARD_PAGE,
   SUBSIDY_COST_CREATE_PAGE,
-  SUBSIDY_COST_LIST_PAGE, HOLIDAY_CALENDER_PAGE,
+  SUBSIDY_COST_LIST_PAGE,
+  HOLIDAY_CALENDER_PAGE,
+  LUNCH_REPORT_EMPLOYEE_PAGE,
+  LUNCH_REPORT_ADMIN_PAGE,
+  LUNCH_REPORT_DAILY_PAGE,
+  LUNCH_ORDER_SUMMARY_REPORT_PAGE,
 } from "./utils/routes/app_routes/LUNCH_ROUTES";
 import LunchOutlet from "./outlets/lunchManagementOutlet/LunchOutlet";
 import LunchOrder from "./pages/LunchBillManagement/lunch/lunch_order/LunchOrder";
@@ -134,6 +139,10 @@ import HolidayCalender from "./pages/LunchBillManagement/Admin/Settings/HolidayC
 
 import RequsitionDashboard from "./pages/hrm/Requisition_form/RequsitionDashboard";
 import { USER_EDIT_URL } from "./utils/routes/api_routes/API_ROUTES";
+import LunchReportForEmployee from "./pages/LunchBillManagement/reports/LunchReportForEmployee";
+import LunchReportForAdmin from "./pages/LunchBillManagement/reports/LunchReportForAdmin";
+import DailyLunchOrder from "./pages/LunchBillManagement/reports/DailyLunchOrder";
+import LunchOrderSummaryReport from "./pages/LunchBillManagement/reports/LunchOrderSummaryReport";
 
 // import BillList from "./pages/bill-management/bill/List";
 // import BillAdd from "./pages/bill-management/bill/billAdd";
@@ -235,7 +244,11 @@ function App() {
           <Route path={SUBSIDY_LIST_PAGE} element={<SubSidyTypeList />} />
           <Route path={SUBSIDY_COST_LIST_PAGE} element={<SubSidyLunchCost />} />
           <Route path={SUBSIDY_COST_CREATE_PAGE} element={<CreateSubSidyLunchCost />} />
-          <Route path={HOLIDAY_CALENDER_PAGE} element={<HolidayCalender />} />
+
+          <Route path={LUNCH_REPORT_EMPLOYEE_PAGE} element={<LunchReportForEmployee />} />
+          <Route path={LUNCH_REPORT_ADMIN_PAGE} element={<LunchReportForAdmin />} />
+          <Route path={LUNCH_REPORT_DAILY_PAGE} element={<DailyLunchOrder />} />
+          <Route path={LUNCH_ORDER_SUMMARY_REPORT_PAGE} element={<LunchOrderSummaryReport />} />
         </Route>
 
         <Route path={UNAUTHORIZED} element={<Unauth />} />
