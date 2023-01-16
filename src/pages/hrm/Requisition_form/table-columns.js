@@ -3,6 +3,7 @@ import { REQUISITION_LIST_PAGE } from "../../../utils/routes/app_routes/APP_ROUT
 import React from "react";
 import moment from "moment";
 import { DATE_FORMAT } from "../../../utils/CONSTANT";
+import Badge from "react-bootstrap/Badge";
 
 export const kpiPerformanceFormColumns = [
   {
@@ -17,10 +18,25 @@ export const kpiPerformanceFormColumns = [
     width: "130px",
   },
   {
-    name: "ID",
-    // cell: (row) => <Link to={EMPLOYEE_PERFORMANCE_VIEW(row.id)}>{row.created_by.username}</Link>,
-    selector: (row) => row.created_by.username,
-    width: "100px",
+    name: "Status",
+    selector: (row) => row?.status,
+    cell: (row) => (
+      <>
+        {row?.status === 1 ? (
+          <Badge bg="warning">
+            <h5 className="mb-0">Pending</h5>
+          </Badge>
+        ) : row?.status === 2 ? (
+          <Badge bg="info">
+            <h5 className="mb-0">In Progress</h5>
+          </Badge>
+        ) : (
+          ""
+        )}
+      </>
+    ),
+    width: "180px",
+    center: true,
   },
   {
     name: "Name",

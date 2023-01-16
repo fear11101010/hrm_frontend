@@ -13,9 +13,9 @@ import Table from "../../../components/table/Table";
 import { kpiPerformanceFormColumns } from "./table-columns";
 import Loader from "../../../components/loader/Loader";
 import { Card } from "react-bootstrap";
-import { USER_INFO } from "../../../utils/session/token";
+import { GET_TOKEN, USER_INFO } from "../../../utils/session/token";
 import Layout from "../../../layout/Layout";
-import { Button, Modal, Form } from "react-bootstrap";
+import { Button, Modal, Form, Col } from "react-bootstrap";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
 import { BsBoxArrowUpRight } from "react-icons/bs";
 import useFetch from "../../../hooks/useFetch";
@@ -51,19 +51,58 @@ function RequisitionList(props) {
       name: <div>Approval</div>,
       cell: (row) => (
         <div className="d-flex justify-content-center align-items-center w-100">
-          {row?.project_head?.id === user?.user_id && (
-            <Button
-              size="sm"
-              variant="primary"
-              className="btn-rounded-circle"
-              onClick={() => {
-                setshowApproveModal(true);
-                setSelected_row(row.id);
-              }}
-              disabled={row.hr && row.project_head && row.sbu_dir && row.unit_head ? true : false}
-            >
-              <BsBoxArrowUpRight />
-            </Button>
+          {data?.is_finance ? (
+            <>
+              {row?.forward_group?.id == user?.group_id && row?.sbu_dir_id !== null ? (
+                <Button
+                  size="sm"
+                  variant="primary"
+                  className="btn-rounded-circle"
+                  onClick={() => {
+                    setshowApproveModal(true);
+                    setSelected_row(row.id);
+                  }}
+                  // disabled={row.hr && row.project_head && row.sbu_dir && row.unit_head ? true : false}
+                >
+                  <BsBoxArrowUpRight />
+                </Button>
+              ) : null}
+            </>
+          ) : data?.is_director ? (
+            <>
+              {console.log("!row?.sbu_dir", !row?.sbu_dir)}
+              {!row?.sbu_dir && (
+                <Button
+                  size="sm"
+                  variant="primary"
+                  className="btn-rounded-circle"
+                  onClick={() => {
+                    setshowApproveModal(true);
+                    setSelected_row(row.id);
+                  }}
+                  // disabled={row.hr && row.project_head && row.sbu_dir && row.unit_head ? true : false}
+                >
+                  <BsBoxArrowUpRight />
+                </Button>
+              )}
+            </>
+          ) : (
+            <>
+              {row?.forward_group?.id == user?.group_id && (
+                <Button
+                  size="sm"
+                  variant="primary"
+                  className="btn-rounded-circle"
+                  onClick={() => {
+                    setshowApproveModal(true);
+                    setSelected_row(row.id);
+                  }}
+                  // disabled={row.hr && row.project_head && row.sbu_dir && row.unit_head ? true : false}
+                >
+                  <BsBoxArrowUpRight />
+                </Button>
+              )}
+            </>
           )}
         </div>
       ),
@@ -147,13 +186,17 @@ function RequisitionList(props) {
       <Container fluid>
         <Card>
           <Card.Body>
-            <div className="text-end">
-              {user.module.includes("Requisition From Entry") && (
-                <Link className={"nav-link"} to={REQUISITION_FORM}>
-                  <Button>Create Resource Requisition</Button>
-                </Link>
-              )}
-            </div>
+            {user.module.includes("Requisition From Entry") && (
+              <>
+                <div className="justi-content-end">
+                  <Col className="offset-md-9 mb-3" md="3">
+                    <Link className={"nav-link p-0"} to={REQUISITION_FORM}>
+                      <Button className="w-100">Create Resource Requisition</Button>
+                    </Link>
+                  </Col>
+                </div>
+              </>
+            )}
             <Table dense data={data?.data} columns={kpiPerformanceFormColumns.concat(EXT_COL)} />
           </Card.Body>
         </Card>
