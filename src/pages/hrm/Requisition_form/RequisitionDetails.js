@@ -8,6 +8,7 @@ import { RESOURCE_REQUISITION_DETAILS } from "../../../utils/routes/api_routes/A
 import { API } from "../../../utils/axios/axiosConfig";
 import { HiArrowNarrowLeft } from "react-icons/hi";
 import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 export default function RequisitionDetails() {
   const { id } = useParams();
@@ -19,7 +20,7 @@ export default function RequisitionDetails() {
   const pdfRef = useRef();
 
   const generatePDF = () => {
-    const report = new jsPDF("landscape", "pt", "a3");
+    const report = new jsPDF("l", "pt", "a3");
     report.html(document.querySelector("#report")).then(() => {
       report.save("Requisition_Details.pdf");
     });
@@ -44,7 +45,7 @@ export default function RequisitionDetails() {
 
   const data_body = () => {
     return (
-      <div id="report" ref={pdfRef}>
+      <div id="report">
         <Card>
           <Card.Body>
             <div className="form-group">
@@ -52,7 +53,7 @@ export default function RequisitionDetails() {
                 <table className="table table-bordered table-md">
                   <thead>
                     <tr>
-                      <th colspan="2" className="text-center">
+                      <th colSpan="2" className="text-center">
                         Approval:
                       </th>
                     </tr>
@@ -275,7 +276,7 @@ export default function RequisitionDetails() {
                 <table className="table table-bordered table-md">
                   <thead>
                     <tr>
-                      <th colspan="2" className="text-center">
+                      <th colSpan="2" className="text-center">
                         Required skills:
                       </th>
                     </tr>
@@ -372,7 +373,7 @@ export default function RequisitionDetails() {
             </section>
           </div>
         </div>
-        {data_body()}
+        <div ref={pdfRef}>{data_body()}</div>
       </section>
     </Layout>
   );

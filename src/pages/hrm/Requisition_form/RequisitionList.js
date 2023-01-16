@@ -51,59 +51,22 @@ function RequisitionList(props) {
       name: <div>Approval</div>,
       cell: (row) => (
         <div className="d-flex justify-content-center align-items-center w-100">
-          {data?.is_finance ? (
-            <>
-              {row?.forward_group?.id == user?.group_id && row?.sbu_dir_id !== null ? (
-                <Button
-                  size="sm"
-                  variant="primary"
-                  className="btn-rounded-circle"
-                  onClick={() => {
-                    setshowApproveModal(true);
-                    setSelected_row(row.id);
-                  }}
-                  // disabled={row.hr && row.project_head && row.sbu_dir && row.unit_head ? true : false}
-                >
-                  <BsBoxArrowUpRight />
-                </Button>
-              ) : null}
-            </>
-          ) : data?.is_director ? (
-            <>
-              {console.log("!row?.sbu_dir", !row?.sbu_dir)}
-              {!row?.sbu_dir && (
-                <Button
-                  size="sm"
-                  variant="primary"
-                  className="btn-rounded-circle"
-                  onClick={() => {
-                    setshowApproveModal(true);
-                    setSelected_row(row.id);
-                  }}
-                  // disabled={row.hr && row.project_head && row.sbu_dir && row.unit_head ? true : false}
-                >
-                  <BsBoxArrowUpRight />
-                </Button>
-              )}
-            </>
-          ) : (
-            <>
-              {row?.forward_group?.id == user?.group_id && (
-                <Button
-                  size="sm"
-                  variant="primary"
-                  className="btn-rounded-circle"
-                  onClick={() => {
-                    setshowApproveModal(true);
-                    setSelected_row(row.id);
-                  }}
-                  // disabled={row.hr && row.project_head && row.sbu_dir && row.unit_head ? true : false}
-                >
-                  <BsBoxArrowUpRight />
-                </Button>
-              )}
-            </>
-          )}
+          <>
+            {row?.forward_group?.id == user?.group_id && (
+              <Button
+                size="sm"
+                variant="primary"
+                className="btn-rounded-circle"
+                onClick={() => {
+                  setshowApproveModal(true);
+                  setSelected_row(row.id);
+                }}
+                // disabled={row.hr && row.project_head && row.sbu_dir && row.unit_head ? true : false}
+              >
+                <BsBoxArrowUpRight />
+              </Button>
+            )}
+          </>
         </div>
       ),
       width: "100px",
