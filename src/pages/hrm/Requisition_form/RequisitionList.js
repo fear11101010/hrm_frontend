@@ -1,5 +1,5 @@
 import PageHeader from "../../../components/header/PageHeader";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Container from "react-bootstrap/Container";
 import { Link, Navigate } from "react-router-dom";
 import { REQUISITION_FORM, REQUISITION_LIST_PAGE_EDIT, UNAUTHORIZED } from "../../../utils/routes/app_routes/APP_ROUTES";
@@ -46,49 +46,56 @@ function RequisitionList(props) {
     fetchData();
   }, []);
 
-  const EXT_COL = [
-    {
-      name: <div>Approval</div>,
-      cell: (row) => (
-        <div className="d-flex justify-content-center align-items-center w-100">
-          <>
-            {row?.forward_group?.id == user?.group_id && (
-              <Button
-                size="sm"
-                variant="primary"
-                className="btn-rounded-circle"
-                onClick={() => {
-                  setshowApproveModal(true);
-                  setSelected_row(row.id);
-                }}
-                // disabled={row.hr && row.project_head && row.sbu_dir && row.unit_head ? true : false}
-              >
-                <BsBoxArrowUpRight />
-              </Button>
+  const EXT_COL = useMemo(
+    () => [
+      {
+        name: <div>Approval</div>,
+        cell: (row) => (
+          <div className="d-flex justify-content-center align-items-center w-100">
+            <>
+              {row?.forward_group?.id == user?.group_id && (
+                <>
+                  {row?.status !== 5 && (
+                    <Button
+                      size="sm"
+                      variant="primary"
+                      className="btn-rounded-circle"
+                      onClick={() => {
+                        setshowApproveModal(true);
+                        setSelected_row(row.id);
+                      }}
+                      // disabled={row.hr && row.project_head && row.sbu_dir && row.unit_head ? true : false}
+                    >
+                      <BsBoxArrowUpRight />
+                    </Button>
+                  )}
+                </>
+              )}
+            </>
+          </div>
+        ),
+        width: "100px",
+        wrap: true,
+      },
+      {
+        name: "Edit",
+        cell: (row) => (
+          <div className="d-flex justify-content-center align-items-center w-100">
+            {row?.hr ? (
+              ""
+            ) : (
+              <Link className={`btn btn-rounded-circle btn-sm btn-primary`} to={REQUISITION_LIST_PAGE_EDIT(row.id)}>
+                <i className="fe fe-edit"></i>
+              </Link>
             )}
-          </>
-        </div>
-      ),
-      width: "100px",
-      wrap: true,
-    },
-    {
-      name: "Edit",
-      cell: (row) => (
-        <div className="d-flex justify-content-center align-items-center w-100">
-          {row?.hr ? (
-            ""
-          ) : (
-            <Link className={`btn btn-rounded-circle btn-sm btn-primary`} to={REQUISITION_LIST_PAGE_EDIT(row.id)}>
-              <i className="fe fe-edit"></i>
-            </Link>
-          )}
-        </div>
-      ),
-      width: "80px",
-      wrap: true,
-    },
-  ];
+          </div>
+        ),
+        width: "80px",
+        wrap: true,
+      },
+    ],
+    []
+  );
 
   const submitComment = (e) => {
     e.preventDefault();
