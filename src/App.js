@@ -126,7 +126,7 @@ import {
   LUNCH_REPORT_EMPLOYEE_PAGE,
   LUNCH_REPORT_ADMIN_PAGE,
   LUNCH_REPORT_DAILY_PAGE,
-  LUNCH_ORDER_SUMMARY_REPORT_PAGE,
+  LUNCH_ORDER_SUMMARY_REPORT_PAGE, BRANCH_LIST_PAGE, VENDOR_LIST_PAGE,
 } from "./utils/routes/app_routes/LUNCH_ROUTES";
 import LunchOutlet from "./outlets/lunchManagementOutlet/LunchOutlet";
 import LunchOrder from "./pages/LunchBillManagement/lunch/lunch_order/LunchOrder";
@@ -143,6 +143,8 @@ import LunchReportForEmployee from "./pages/LunchBillManagement/reports/LunchRep
 import LunchReportForAdmin from "./pages/LunchBillManagement/reports/LunchReportForAdmin";
 import DailyLunchOrder from "./pages/LunchBillManagement/reports/DailyLunchOrder";
 import LunchOrderSummaryReport from "./pages/LunchBillManagement/reports/LunchOrderSummaryReport";
+import BranchList from "./pages/LunchBillManagement/Admin/Settings/Branch/BranchList";
+import VendorList from "./pages/LunchBillManagement/Admin/Settings/Vendor/VendorList";
 
 // import BillList from "./pages/bill-management/bill/List";
 // import BillAdd from "./pages/bill-management/bill/billAdd";
@@ -244,6 +246,8 @@ function App() {
           <Route path={SUBSIDY_LIST_PAGE} element={<SubSidyTypeList />} />
           <Route path={SUBSIDY_COST_LIST_PAGE} element={<SubSidyLunchCost />} />
           <Route path={SUBSIDY_COST_CREATE_PAGE} element={<CreateSubSidyLunchCost />} />
+          <Route path={BRANCH_LIST_PAGE} element={<BranchList />} />
+          <Route path={VENDOR_LIST_PAGE} element={<VendorList />} />
 
           <Route path={LUNCH_REPORT_EMPLOYEE_PAGE} element={<LunchReportForEmployee />} />
           <Route path={LUNCH_REPORT_ADMIN_PAGE} element={<LunchReportForAdmin />} />
