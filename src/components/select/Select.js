@@ -11,7 +11,6 @@ function Select(props) {
   const dropDownContainerRef = useRef(null);
   const dropDownRef = useRef(null);
   useEffect(() => {
-    console.log(value);
     setSelectedOption(value);
     function onBodyClick(e) {
       // setIsOpen(false);

@@ -108,7 +108,7 @@ export default function RequisitionForm() {
     API.post(RESOURCE_REQUISITION_FORM, submit_data)
       .then((res) => {
         success_alert("Message send successfully");
-        navigate(DASHBOARD_PAGE);
+        navigate(-1);
         // handleClose('')
       })
       .catch((err) => {
@@ -244,7 +244,20 @@ export default function RequisitionForm() {
                   <div className="stepwizard-step col-xs-3">
                     <a
                       type="button"
-                      onClick={() => setStepwizard(2)}
+                      onClick={() => {
+                        if (
+                          sbuId_p === "" ||
+                          projectId_p === "" ||
+                          sbu_dirId_p === "" ||
+                          project_headId_p === "" ||
+                          req_byId_p === "" ||
+                          quantity_recruitment === ""
+                        ) {
+                          error_alert("Please select all required field");
+                        } else {
+                          setStepwizard(2);
+                        }
+                      }}
                       className={stepwizard === 2 ? "btn btn-info btn-circle" : "btn btn-default btn-circle"}
                     >
                       2
@@ -256,7 +269,18 @@ export default function RequisitionForm() {
                   <div className="stepwizard-step col-xs-3">
                     <a
                       type="button"
-                      onClick={() => setStepwizard(3)}
+                      onClick={() => {
+                        if (
+                          reason_recruitment === "" ||
+                          type_of_recruitId_p === "" ||
+                          number_of_resource === "" ||
+                          salary_range === ""
+                        ) {
+                          error_alert("Please select all required field");
+                        } else {
+                          setStepwizard(3);
+                        }
+                      }}
                       className={stepwizard === 3 ? "btn btn-info btn-circle" : "btn btn-default btn-circle"}
                     >
                       3
@@ -280,7 +304,13 @@ export default function RequisitionForm() {
                   <div className="stepwizard-step col-xs-3">
                     <a
                       type="button"
-                      onClick={() => setStepwizard(5)}
+                      onClick={() => {
+                        if (min_skill === "" || required_skills === "") {
+                          error_alert("Please select all required field");
+                        } else {
+                          setStepwizard(stepwizard + 1);
+                        }
+                      }}
                       className={stepwizard === 5 ? "btn btn-info btn-circle" : "btn btn-default btn-circle"}
                     >
                       5
@@ -395,7 +425,20 @@ export default function RequisitionForm() {
                     <button
                       className="btn btn-primary nextBtn pull-right mt-4 w-50 "
                       // onClick={() => setStepwizard(stepwizard + 1)}
-                      onClick={() => setStepwizard(2)}
+                      onClick={() => {
+                        if (
+                          sbuId_p === "" ||
+                          projectId_p === "" ||
+                          sbu_dirId_p === "" ||
+                          project_headId_p === "" ||
+                          req_byId_p === "" ||
+                          quantity_recruitment === ""
+                        ) {
+                          error_alert("Please select all required field");
+                        } else {
+                          setStepwizard(2);
+                        }
+                      }}
                       type="button"
                     >
                       Next
@@ -415,6 +458,7 @@ export default function RequisitionForm() {
                         onChange={(e) => setreason_recruitment(e.target.value)}
                         value={reason_recruitment}
                       >
+                        <option value="">---</option>
                         <option value="New Recruit">New Recruit</option>
                         <option value="Replacement">Replacement</option>
                         <option value="R & D">R & D</option>
@@ -431,6 +475,7 @@ export default function RequisitionForm() {
                         onChange={(e) => settype_of_recruitId_p(e.target.value)}
                         value={type_of_recruitId_p}
                       >
+                        <option value="">---</option>
                         {type_of_reason.map((d) => (
                           <option value={d.label}>{d.label}</option>
                         ))}
@@ -486,7 +531,18 @@ export default function RequisitionForm() {
                       <button
                         className="btn btn-primary nextBtn pull-right mt-4 w-50"
                         // onClick={() => setStepwizard(stepwizard + 1)}
-                        onClick={() => setStepwizard(3)}
+                        onClick={() => {
+                          if (
+                            reason_recruitment === "" ||
+                            type_of_recruitId_p === "" ||
+                            number_of_resource === "" ||
+                            salary_range === ""
+                          ) {
+                            error_alert("Please select all required field");
+                          } else {
+                            setStepwizard(3);
+                          }
+                        }}
                         type="button"
                       >
                         Next
@@ -645,7 +701,13 @@ export default function RequisitionForm() {
                     <div className="col-md-3">
                       <button
                         className="btn btn-primary nextBtn pull-right mt-4 w-50"
-                        onClick={() => setStepwizard(stepwizard + 1)}
+                        onClick={() => {
+                          if (min_skill === "" || required_skills === "") {
+                            error_alert("Please select all required field");
+                          } else {
+                            setStepwizard(stepwizard + 1);
+                          }
+                        }}
                         type="button"
                       >
                         Next

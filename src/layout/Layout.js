@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Dropdown, Modal, Nav, Navbar } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import ConfirmDialog from "../components/confirm-dialog/ConfirmDialog";
-import {LOGOUT_API, USER_GROUP_CHANGE_API} from "../utils/routes/api_routes/API_ROUTES";
+import { LOGOUT_API, USER_GROUP_CHANGE_API } from "../utils/routes/api_routes/API_ROUTES";
 import {
   CONFIG_DASHBOARD,
   DASHBOARD_PAGE,
@@ -26,10 +26,11 @@ import Loader from "../components/loader/Loader";
 import NavbarRequisition from "./navbar/navbar-requisition";
 
 export default function Layout({ children }) {
-  const [user,setUser] = useState(USER_INFO());
-  const userGroups = user?.group_access?.map(ga=>({label:ga.name,value:ga.id}))
-  console.log(userGroups)
-  const [currentSelectedGroup,setCurrentSelectedGroup] = useState(userGroups?.find(ug=>parseInt(ug.value)===parseInt(user.group_id||0)))
+  const [user, setUser] = useState(USER_INFO());
+  const userGroups = user?.group_access?.map((ga) => ({ label: ga.name, value: ga.id }));
+  const [currentSelectedGroup, setCurrentSelectedGroup] = useState(
+    userGroups?.find((ug) => parseInt(ug.value) === parseInt(user.group_id || 0))
+  );
   const modules = [
     // { label: "Configration", value: "configuration" },
     { label: "Requisition", value: "requisition" },
@@ -37,7 +38,7 @@ export default function Layout({ children }) {
     { label: "Support System", value: "support_system" },
     { label: "Lunch Management", value: "lunch_management" },
   ];
-  const [isLoading,setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const excludePath = [LOGIN_PAGE];
   const location = useLocation();
   const navigate = useNavigate();
@@ -82,21 +83,23 @@ export default function Layout({ children }) {
     setSelectedModule(m);
     SET_MODULE(m?.value);
   };
+
   const changeUserGroup = (m) => {
-    setCurrentSelectedGroup(m)
+    setCurrentSelectedGroup(m);
     setIsLoading(true);
-    API.post(USER_GROUP_CHANGE_API,{group:m?.value})
-        .then((res) => {
-          REMOVE_TOKEN();
-          SET_TOKEN(res.data?.token)
-          setUser(USER_INFO())
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+    API.post(USER_GROUP_CHANGE_API, { group: m?.value })
+      .then((res) => {
+        REMOVE_TOKEN();
+        SET_TOKEN(res.data?.token);
+        setUser(USER_INFO());
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+        window.location.reload();
+      });
   };
 
   const getNavBar = () => {
@@ -152,7 +155,7 @@ export default function Layout({ children }) {
           </Nav>
           <Nav className="ms-auto px-5">
             <Dropdown>
-              <Dropdown.Toggle  variant="white" id="dropdown-basic" className="fw-bold border-0">
+              <Dropdown.Toggle variant="white" id="dropdown-basic" className="fw-bold border-0">
                 {user.name}
               </Dropdown.Toggle>
               <Dropdown.Menu className="w-100 border">
@@ -162,7 +165,7 @@ export default function Layout({ children }) {
                   <label>
                     <strong>Select a Group</strong>
                   </label>
-                  <Select options={userGroups} value={currentSelectedGroup} onChange={changeUserGroup}/>
+                  <Select options={userGroups} value={currentSelectedGroup} onChange={changeUserGroup} />
                 </Dropdown.Item>
                 <Dropdown.Divider />
                 <Dropdown.Item
@@ -200,7 +203,7 @@ export default function Layout({ children }) {
           </div>
         </Modal.Body>
       </Modal>
-      {isLoading && <Loader/>}
+      {isLoading && <Loader />}
     </>
   );
 }
