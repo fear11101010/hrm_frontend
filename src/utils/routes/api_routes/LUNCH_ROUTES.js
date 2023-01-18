@@ -12,8 +12,9 @@ export const VENDOR_MENU_LIST_CREATE_API = "/menu/";
 export const SUBSIDY_UPDATE_DELETE_API = (id) => `/subsidy/${id}/`;
 export const BRANCH_UPDATE_DELETE_API = (id) => `/office_branch/${id}/`;
 export const VENDOR_UPDATE_DELETE_API = (id) => `/vendor/${id}/`;
+export const VENDOR_LIST_BY_BRANCH_API = (id) => `/vendor/${id}/get_by_branch/`;
 export const VENDOR_MENU_UPDATE_DELETE_API = (id) => `/menu/${id}/`;
-
+export const VENDOR_MENU_LIST_BY_VENDOR_API = (id) => `/menu/${id}/get_menu_list_by_vendor/`;
 export const SUBSIDY_COST_LIST_CREATE_API = "/subsidy_cost/";
 
 export const LUNCH_REORT_FOR_EMPLOYEE_POST = "/lunch_reports/$/employee_self_report/";

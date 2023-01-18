@@ -63,7 +63,11 @@ export default function VendorList(props){
     }
 
     function editBranch(e, i) {
-        reset({name: data?.data[i]?.name, id: data?.data[i]?.id,office_branch:data?.data[i]?.office_branch})
+        reset({
+            name: data?.data[i]?.name,
+            id: data?.data[i]?.id,
+            office_branch:data?.data[i]?.office_branch
+        })
         setUpdateVendorModal(true)
     }
     return (
@@ -167,7 +171,7 @@ export default function VendorList(props){
                                 )}/>
                         </Form.Group>
                         <Button type="submit" variant="primary">
-                            Create Subsidy
+                            Create Vendor
                         </Button>
                     </Form>
                 </Modal.Body>
