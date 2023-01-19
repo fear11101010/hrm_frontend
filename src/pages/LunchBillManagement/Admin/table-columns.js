@@ -1,6 +1,6 @@
 import moment from "moment";
 import {USER_INFO} from "../../../utils/session/token";
-import {Button} from "react-bootstrap";
+import {Badge, Button} from "react-bootstrap";
 import {FaEdit, FaTrash} from "react-icons/fa";
 const user = USER_INFO();
 export const SUBSIDY_TABLE_COLUMNS=(editFunc,deleteFunc)=>[
@@ -27,6 +27,33 @@ export const SUBSIDY_TABLE_COLUMNS=(editFunc,deleteFunc)=>[
                 {(user.accessibility.includes("subsidy.destroy") || true) && <Button size="sm" variant="primary" onClick={e=>deleteFunc(e,i)}>
                     <FaTrash/> Delete
                 </Button>}
+            </div>
+        ),
+    },
+]
+export const MENU_ENTRY_TABLE_COLUMNS=(addFunc,deleteFunc)=>[
+    {
+        name:'Serial No.',
+        selector:(row,i)=>i+1
+    },
+    {
+        name:'Date',
+        selector:(row,i)=>moment(row?.date).format('DD MMM, YYYY'),
+    },
+    {
+        name:'Weekday',
+        selector:(row,i)=>row?.weekday,
+    },
+    {
+        name:'Add Menu',
+        width:300,
+        cell:(row,i)=>(
+            <div>
+                <div onClick={e=>addFunc(i)} className="text-secondary" style={{textDecoration:"none",cursor:"pointer",whiteSpace:'break-spaces'}}>
+                    {row?.monthlymapping_monthly_menu_mapping && row?.monthlymapping_monthly_menu_mapping?.filter(({menu})=>menu?.id)?.length>0?(
+                                row.monthlymapping_monthly_menu_mapping?.filter(({menu})=>menu?.id).map(({menu})=>(<Badge bg="secondary" className="me-2">{menu.item}</Badge>))
+                    ):'Click here to add menu'}
+                </div>
             </div>
         ),
     },
