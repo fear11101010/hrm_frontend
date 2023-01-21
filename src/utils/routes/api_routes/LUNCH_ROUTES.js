@@ -9,6 +9,7 @@ export const SUBSIDY_LIST_CREATE_API = "/subsidy/";
 export const BRANCH_LIST_CREATE_API = "/office_branch/";
 export const VENDOR_LIST_CREATE_API = "/vendor/";
 export const VENDOR_MENU_LIST_CREATE_API = "/menu/";
+export const MONTHLY_MENU_ENTRY_LIST_CREATE_API = "/menu_entry/";
 export const SUBSIDY_UPDATE_DELETE_API = (id) => `/subsidy/${id}/`;
 export const BRANCH_UPDATE_DELETE_API = (id) => `/office_branch/${id}/`;
 export const VENDOR_UPDATE_DELETE_API = (id) => `/vendor/${id}/`;
