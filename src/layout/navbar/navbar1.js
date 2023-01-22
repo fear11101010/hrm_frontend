@@ -40,6 +40,7 @@ import {
   REQUISITION_FORM,
   REQUISITION_LIST,
   INNER_LANDING,
+  UPDATE_CIRCULAR_PAGE,
 } from "../../utils/routes/app_routes/APP_ROUTES";
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../utils/axios/axiosConfig";
@@ -187,6 +188,13 @@ function Navbar1(props) {
                           {user.module.includes("File Upload") && (
                             <Link className={"nav-link"} to={FILE_UPLOAD_PAGE}>
                               File Upload
+                            </Link>
+                          )}
+                        </li>
+                        <li className="nav-item">
+                          {user.module.includes("Assessment Performance") && (
+                            <Link className={"nav-link"} to={UPDATE_CIRCULAR_PAGE}>
+                              Update Circular
                             </Link>
                           )}
                         </li>

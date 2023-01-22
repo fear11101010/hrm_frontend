@@ -44,6 +44,8 @@ export const DESIGNATION_BAND_GET = `/designation_band/`;
 ////////////////////////////////////
 
 export const FILE_UPLOAD_POST = (id) => `/kpi_performance/${id}/file_data_upload/`;
+export const UPDATE_CIRCULAR_EMPLOYEE_POST = (id) => `/assessment/${id}/update_review_closedate_employee/`;
+export const UPDATE_CIRCULAR_SBU_POST = (id) => `/assessment/${id}/update_review_closedate_sbu/`;
 
 ////////////////////////////////////
 ////////////KPI//////////////

@@ -62,6 +62,7 @@ import {
   CONFIG_DASHBOARD,
   REQUISITION_DASHBOARD,
   USER_EDIT_PAGE_URL,
+  UPDATE_CIRCULAR_PAGE,
 } from "./utils/routes/app_routes/APP_ROUTES";
 import KpiPerformanceIndex from "./pages/hrm/KPI/kpi-performane-form/kpi-performance-index";
 import KpiPerformanceFormCreate from "./pages/hrm/KPI/kpi-performane-form/kpi-performance-form-create";
@@ -136,13 +137,13 @@ import CreateSubSidyLunchCost from "./pages/LunchBillManagement/Admin/Settings/S
 import SubSidyLunchCost from "./pages/LunchBillManagement/Admin/Settings/SubSidy/SubSidyLunchCost/Index/SubSidyLunchCost";
 import ConfigDashboard from "./pages/configuration/Dashboard/ConfigDashboard";
 import HolidayCalender from "./pages/LunchBillManagement/Admin/Settings/HolidayCalender/HolidayCalender";
-
 import RequsitionDashboard from "./pages/hrm/Requisition_form/RequsitionDashboard";
 import { USER_EDIT_URL } from "./utils/routes/api_routes/API_ROUTES";
 import LunchReportForEmployee from "./pages/LunchBillManagement/reports/LunchReportForEmployee";
 import LunchReportForAdmin from "./pages/LunchBillManagement/reports/LunchReportForAdmin";
 import DailyLunchOrder from "./pages/LunchBillManagement/reports/DailyLunchOrder";
 import LunchOrderSummaryReport from "./pages/LunchBillManagement/reports/LunchOrderSummaryReport";
+import UpdateCircularToEmployee from "./pages/hrm/Configuration/update-circular/UpdateCircularToEmployee";
 
 // import BillList from "./pages/bill-management/bill/List";
 // import BillAdd from "./pages/bill-management/bill/billAdd";
@@ -176,6 +177,7 @@ function App() {
         <Route path={"/"} element={<ConfigurationOutlet />}>
           <Route path={CONFIG_DASHBOARD} element={<ConfigDashboard />} />
           <Route path={FILE_UPLOAD_PAGE} element={<FileUpload />} />
+          <Route path={UPDATE_CIRCULAR_PAGE} element={<UpdateCircularToEmployee />} />
         </Route>
 
         {/* KPI */}

@@ -27,19 +27,19 @@ export const kpiPerformanceFormColumns = [
             <h5 className="mb-0">Pending</h5>
           </Badge>
         ) : row?.status === 2 ? (
-          <Badge bg="info">
+          <Badge bg="primary">
             <h5 className="mb-0">Approved by Tech Head</h5>
           </Badge>
         ) : row?.status === 3 ? (
-          <Badge bg="info">
+          <Badge bg="primary">
             <h5 className="mb-0">Approved by HR</h5>
           </Badge>
         ) : row?.status === 4 ? (
-          <Badge bg="info">
+          <Badge bg="primary">
             <h5 className="mb-0">Approved by Director</h5>
           </Badge>
         ) : row?.status === 5 ? (
-          <Badge bg="info">
+          <Badge bg="success">
             <h5 className="mb-0">Approved by Finance Director</h5>
           </Badge>
         ) : (
@@ -47,7 +47,7 @@ export const kpiPerformanceFormColumns = [
         )}
       </>
     ),
-    width: "180px",
+    width: "auto",
     center: true,
   },
   {

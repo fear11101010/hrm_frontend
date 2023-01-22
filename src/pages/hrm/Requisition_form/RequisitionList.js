@@ -162,7 +162,9 @@ function RequisitionList(props) {
                 <div className="justi-content-end">
                   <Col className="offset-md-9 mb-3" md="3">
                     <Link className={"nav-link p-0"} to={REQUISITION_FORM}>
-                      <Button className="w-100">Create Resource Requisition</Button>
+                      <Button className="w-100 d-flex justify-content-center align-items-center">
+                        <i class="fe fe-plus fs-3 me-2"></i> Create Resource Requisition
+                      </Button>
                     </Link>
                   </Col>
                 </div>

@@ -16,6 +16,7 @@
     "bootstrap": "^5.2.2",
     "crypto-js": "^4.1.1",
     "dompurify": "^2.4.1",
+    "generate-pdf-from-react-html": "^1.0.5",
     "html2canvas": "^1.4.1",
     "install": "^0.13.0",
     "jspdf": "^2.5.1",

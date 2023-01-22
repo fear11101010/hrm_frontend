@@ -51,11 +51,11 @@ export default function RequisitionForm() {
     e.preventDefault();
     setLoading(true);
     const submit_data = {
-      comment_unit_head: "good",
-      comment_sub_director: "best",
-      comment_director_finance: "avg",
-      comment_chief_executive: "well",
-      comment_hr: "not bad",
+      comment_unit_head: "",
+      comment_sub_director: "",
+      comment_director_finance: "",
+      comment_chief_executive: "",
+      comment_hr: "",
       requisition_raised_by: req_byId,
       quantity_requisition: quantity_recruitment,
       new_recruit: "1",

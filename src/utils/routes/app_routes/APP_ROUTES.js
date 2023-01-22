@@ -22,6 +22,7 @@ export const EMPLOYEE_EDIT_PAGE = (id) => `/hrm/employee/edit/${id}`;
 // Configuration
 export const CONFIG_DASHBOARD = "/hrm/configuration";
 export const FILE_UPLOAD_PAGE = "/hrm/file-upload";
+export const UPDATE_CIRCULAR_PAGE = "/hrm/update-circular";
 
 // KPI
 export const KPI_EMPLOYEE_ASSIGN_PAGE = "/hrm/kpi-assign";
