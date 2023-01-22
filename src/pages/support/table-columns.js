@@ -67,7 +67,7 @@ export const MY_TICKET_TABLE_COLUMNS = (func)=> [
         name:'Action',
         cell:(row,index)=>(
             <div className="d-flex justify-content-center align-items-center">
-                {(row?.current_status?.id===1 && user.accessibility.includes("request_detail_update.PUT")) && (
+                {(row?.current_status?.id===1 && user?.accessibility.includes("request_detail_update.PUT")) && (
                     <Link to={EDIT_TICKET_URL_FUNC(row?.id)} disabled={true} style={{marginRight:'10px'}} className="btn btn-primary btn-sm d-flex justify-content-center align-items-center">
                         <FaEdit/>&nbsp;Edit
                     </Link>

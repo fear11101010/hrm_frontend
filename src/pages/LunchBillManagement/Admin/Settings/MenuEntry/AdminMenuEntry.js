@@ -16,9 +16,12 @@ import moment from "moment";
 import {FaDownload} from "react-icons/fa";
 import CustomTable from "../../../../../components/custom-table/CustomTable";
 import {MENU_ENTRY_TABLE_COLUMNS} from "../../table-columns";
+import Loader from "../../../../../components/loader/Loader";
+import {error_alert, success_alert} from "../../../../../components/alert/Alert";
+import useMonthAndYearList from "../../../../../hooks/useMonthAndYearList";
 
 const MonthlyMenuMappingComponent = ({index, menus, register, control}) => {
-    const {fields, append, remove, replace} = useFieldArray({
+    const {fields, append, remove, update} = useFieldArray({
         control,
         name: `mapping_menu_entry.${index}.menus`,
         keyName: 'key',
@@ -27,9 +30,9 @@ const MonthlyMenuMappingComponent = ({index, menus, register, control}) => {
     function appendMenu(e, menu) {
 
         if (e.target.checked) {
-            append({menu})
+            append(menu)
         } else {
-            const i = fields.map((item, i) => item?.menu?.id)?.indexOf(menu.id)
+            const i = fields.map((item) => item?.id)?.indexOf(menu.id)
             if (i >= 0) {
                 remove(i)
             }
@@ -39,12 +42,12 @@ const MonthlyMenuMappingComponent = ({index, menus, register, control}) => {
     return (
         <>
             {menus.map((menu, i) => (
-                <li key={menu.key} style={{listStyle: 'none'}} className="p-2">
+                <li key={menu.id} style={{listStyle: 'none'}} className="p-2">
                     <Form.Check
-                        key={menu.id}
+                        key={i}
                         type="switch"
                         id={`check-switch-${menu.id}`}
-                        {...register(`mapping_menu_entry.${index}.menus.${i}`, {
+                        {...register(`mapping_menu_entry.${index}.menus.${i}.menu`, {
                             onChange: e => appendMenu(e, menu),
                         })}
                         label={menu.item}
@@ -55,17 +58,12 @@ const MonthlyMenuMappingComponent = ({index, menus, register, control}) => {
     )
 }
 export default function AdminMenuEntry(props) {
-    const weeklyHoliday = [5, 6];
-    const months = moment.months('MMMM').map((month, i) => month);
-    const currentMoment = moment();
-    const monthList = (currentMoment.month() === 11 ? [11, 0] : [currentMoment.month(), currentMoment.month() + 1])
-        .map((v, i) => ({value: v, label: months[v]}))
-    const yearList = (currentMoment.month() === 11 ? [currentMoment.year(), currentMoment.year() + 1] : [currentMoment.year()])
-        .map((v, i) => ({value: v, label: v}))
+    const [monthList,yearList,currentMoment,weeklyHoliday] = useMonthAndYearList()
     const [refresh, setRefresh] = useState(false);
     const {data, isLoading} = useFetch(BRANCH_LIST_CREATE_API, refresh)
     const [branchList, setBranchList] = useState([]);
     const [vendorList, setVendorList] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [vendorMenuList, setVendorMenuList] = useState([]);
     const {register, handleSubmit, formState: {errors, isValid}, reset, getValues, control, watch} = useForm({
         mode: 'onChange'
@@ -108,13 +106,12 @@ export default function AdminMenuEntry(props) {
             replace([])
             for (let i = currentMoment.month() === m.month() ? m.date() : 1; i <= totalDaysInAMonth; i++) {
                 const dm = m.date(i);
-                console.log(dm.weekday())
                 if (weeklyHoliday.indexOf(dm.weekday()) >= 0) continue;
                 mappingMenuEntryAppend({
                     day: i,
                     weekday: moment.weekdays(m.date(i).weekday()),
                     date: m.date(i).format('YYYY-MM-DD'),
-                    menus: success?.data?.data?.map(v => (false))
+                    menus: success?.data?.data?.map(v => false)
                 })
             }
         }).then(err => {
@@ -123,15 +120,15 @@ export default function AdminMenuEntry(props) {
     }
 
     function submitMonthlyMenu(data, e) {
-        console.log(data)
+        setLoading(true)
         const newMappingMenuEntry = []
-        for (const mme of data?.mapping_menu_entry) {
-            console.log(mme?.menus?.filter((menu) => {
-                console.log(menu)
-                return !(typeof menu === 'boolean')
-            }))
-            if (mme?.menus.length > 0 && mme?.menus?.filter(({menu}) => !(typeof menu === 'boolean')).length > 0) {
-                newMappingMenuEntry.push({...mme,menus:mme?.menus?.filter(({menu}) => !(typeof menu === 'boolean'))})
+        for (let i=0;i<data?.mapping_menu_entry?.length;i++) {
+            const mme = data?.mapping_menu_entry[i];
+            if (mme?.menus.length > 0 && mme?.menus?.filter((menu) => menu?.id).length > 0) {
+                newMappingMenuEntry.push({...mme,menus:mme?.menus?.filter((menu) => menu?.id)})
+            } else {
+                const index = data?.mapping_menu_entry?.indexOf(v=>v.day===mme.day);
+                if(index>=0) data?.mapping_menu_entry?.splice(i,1);
             }
         }
 
@@ -139,10 +136,12 @@ export default function AdminMenuEntry(props) {
             console.log(data)
             API.post(MONTHLY_MENU_ENTRY_LIST_CREATE_API,data).then(success=>{
                 console.log(success?.data)
+                success_alert(success?.data?.message)
             }).then(err=>{
                 console.log(err)
+                error_alert(err?.data?.message)
             }).then(()=>{
-
+                setLoading(false)
             })
         }
 
@@ -330,7 +329,7 @@ export default function AdminMenuEntry(props) {
 
                     </Form>
                 </Content>
-
+                {loading && <Loader/>}
             </Layout>
         )
     }

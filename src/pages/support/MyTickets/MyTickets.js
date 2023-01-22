@@ -37,14 +37,14 @@ function MyTickets(props) {
 
   return (
     <Layout>
-      <PageHeader title={"Request List"} />
+      <PageHeader title={"Ticketing List"} />
       <Container fluid>
         <Card>
           <Card.Body>
             {user.accessibility.includes("request_detail.create") && (
               <div className="d-flex justify-content-end align-items-end mb-3">
                 <Link to={CREATE_TICKET_URL} className="btn btn-primary btn-sm">
-                  <FaPlus /> Create New Request
+                  <FaPlus /> Create New Ticket
                 </Link>
               </div>
             )}
@@ -60,7 +60,7 @@ function MyTickets(props) {
         </Card>
       </Container>
       {isLoading && <Loader />}
-      <ViewTicketDetail id={ticketId} show={show} handleClose={handleClose} />
+      {show&&<ViewTicketDetail id={ticketId} show={show} handleClose={handleClose} />}
     </Layout>
   );
 }

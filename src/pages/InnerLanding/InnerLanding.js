@@ -119,8 +119,8 @@ export default function InnerLanding({ children }) {
 
         <div className="pt-3 d-flex align-items-center inner-page" style={{ minHeight: "calc(100vh - 63.5px)" }}>
           <Container fluid>
-            <Row className="justify-content-center">
-              {/* <Col sm={12} md={3} lg={3} className="mb-3">
+            {/*<Row className="justify-content-center">
+               <Col sm={12} md={3} lg={3} className="mb-3">
                 <Button
                   className="module-button border-0"
                   variant="light"
@@ -135,14 +135,14 @@ export default function InnerLanding({ children }) {
                     </Card.Body>
                   </Card>
                 </Button>
-              </Col> */}
+              </Col>
 
               <Col sm={12} md={3} lg={3} className="mb-3">
                 <Button className="module-button border-0" variant="light" onClick={(e) => changeModule(e, "HRM")}>
                   <Card className="mb-0 shadow">
                     <Card.Body className="p-0">
                       <div className="d-flex justify-content-center align-items-center p-3 flex-column">
-                        {/* <FaUser size={32} /> */}
+                         <FaUser size={32} />
                         <img src={kpi_svg} alt="kpi" width={"120px"} />
                         <h3 className="mt-2">KPI</h3>
                       </div>
@@ -150,27 +150,27 @@ export default function InnerLanding({ children }) {
                   </Card>
                 </Button>
               </Col>
-            </Row>
+            </Row>*/}
             <Row className="justify-content-center">
-              <Col sm={12} md={3} lg={3} className="mb-3">
+              {/*<Col sm={12} md={3} lg={3} className="mb-3">
                 <Button className="module-button border-0" variant="light" onClick={(e) => changeModule(e, "REQUISITION")}>
                   <Card className="mb-0 shadow">
                     <Card.Body className="p-0">
                       <div className="d-flex justify-content-center align-items-center p-3 flex-column">
-                        {/* <FaCogs size={32} /> */}
+                         <FaCogs size={32} />
                         <img src={requisition_svg} alt="kpi" width={"110px"} />
                         <h3 className="mt-2">Requisition</h3>
                       </div>
                     </Card.Body>
                   </Card>
                 </Button>
-              </Col>
+              </Col>*/}
               <Col sm={12} md={3} lg={3} className="mb-3">
                 <Button className="module-button border-0" variant="light" onClick={(e) => changeModule(e, "SUPPORT")}>
                   <Card className="mb-0 shadow">
                     <Card.Body className="p-0">
                       <div className="d-flex justify-content-center align-items-center p-3 flex-column">
-                        {/* <IoTicketOutline size={32} /> */}
+                         <IoTicketOutline size={32} />
                         <img src={ticket_svg} alt="kpi" width={"140px"} />
                         <h3 className="mt-2">Ticketing System</h3>
                       </div>
@@ -178,7 +178,7 @@ export default function InnerLanding({ children }) {
                   </Card>
                 </Button>
               </Col>
-              <Col sm={12} md={3} lg={3} className="mb-3">
+              {/*<Col sm={12} md={3} lg={3} className="mb-3">
                 <Button
                   className="module-button border-0"
                   variant="light"
@@ -187,14 +187,14 @@ export default function InnerLanding({ children }) {
                   <Card className="mb-0 shadow">
                     <Card.Body className="p-0">
                       <div className="d-flex justify-content-center align-items-center p-3 flex-column">
-                        {/* <MdOutlineLunchDining size={32} /> */}
+                         <MdOutlineLunchDining size={32} />
                         <img src={lunch_svg} alt="kpi" width={"110px"} />
                         <h3 className="mt-2">Lunch Management</h3>
                       </div>
                     </Card.Body>
                   </Card>
                 </Button>
-              </Col>
+              </Col>*/}
             </Row>
           </Container>
         </div>

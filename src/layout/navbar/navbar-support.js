@@ -118,7 +118,7 @@ function NavbarSupport(props) {
               {user.module.includes("My Tickets") && (
                 <Nav.Item as={"li"}>
                   <Link to={MY_TICKETS_URL} className="nav-link">
-                    My Request
+                    My Tickets
                   </Link>
                 </Nav.Item>
               )}
@@ -132,7 +132,7 @@ function NavbarSupport(props) {
               {user.module.includes("Other Request") && (
                 <Nav.Item as={"li"}>
                   <Link className={"nav-link"} to={OTHER_TICKETS_URL}>
-                    Request For Approval
+                    Approval List
                   </Link>
                 </Nav.Item>
               )}

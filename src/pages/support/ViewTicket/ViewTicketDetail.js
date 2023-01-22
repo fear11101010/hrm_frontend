@@ -22,6 +22,7 @@ function ViewTicketDetail({id,show,handleClose}) {
         async function loadFile() {
             const td = data?.data;
             for(let i=0; i<td.attachment?.length;i++){
+
                 const f = td.attachment[i];
                 const file = await loadFileInfo(f.attachment_name);
                 td.attachment[i] = {...f,...file}

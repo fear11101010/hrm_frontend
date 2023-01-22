@@ -50,8 +50,35 @@ export const MENU_ENTRY_TABLE_COLUMNS=(addFunc,deleteFunc)=>[
         cell:(row,i)=>(
             <div>
                 <div onClick={e=>addFunc(i)} className="text-secondary" style={{textDecoration:"none",cursor:"pointer",whiteSpace:'break-spaces'}}>
-                    {row?.monthlymapping_monthly_menu_mapping && row?.monthlymapping_monthly_menu_mapping?.filter(({menu})=>menu?.id)?.length>0?(
-                                row.monthlymapping_monthly_menu_mapping?.filter(({menu})=>menu?.id).map(({menu})=>(<Badge bg="secondary" className="me-2">{menu.item}</Badge>))
+                    {row?.menus && row?.menus?.filter((menu)=>menu?.id)?.length>0?(
+                                row?.menus?.filter((menu)=>menu?.id).map((menu)=>(<Badge bg="secondary" className="me-2">{menu.item}</Badge>))
+                    ):'Click here to add menu'}
+                </div>
+            </div>
+        ),
+    },
+]
+export const MENU_ENTRY_LIST_TABLE_COLUMNS=(updateFunc,deleteFunc)=>[
+    {
+        name:'Serial No.',
+        selector:(row,i)=>i+1
+    },
+    {
+        name:'Date',
+        selector:(row,i)=>moment(row?.date).format('DD MMM, YYYY'),
+    },
+    {
+        name:'Weekday',
+        selector:(row,i)=>row?.weekday,
+    },
+    {
+        name:'Add Menu',
+        width:300,
+        cell:(row,i)=>(
+            <div>
+                <div onClick={e=>updateFunc(i)} className="text-secondary" style={{textDecoration:"none",cursor:"pointer",whiteSpace:'break-spaces'}}>
+                    {row?.menus && row?.menus?.filter((menu)=>menu?.id)?.length>0?(
+                                row?.menus?.filter((menu)=>menu?.id).map((menu)=>(<Badge bg="secondary" className="me-2">{menu.item}</Badge>))
                     ):'Click here to add menu'}
                 </div>
             </div>

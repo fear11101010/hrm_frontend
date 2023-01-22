@@ -60,7 +60,7 @@ function OtherTickets(props) {
     return (
         <>
             <Layout>
-                <PageHeader title={"Request List"}/>
+                <PageHeader title={"Approval List"}/>
                 <Container fluid>
                     <Card>
                         <Card.Body>
