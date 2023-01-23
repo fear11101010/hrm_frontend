@@ -10,8 +10,8 @@ export const ADMIN_MENU_ENTRY_TABLE_COLUMNS=(editFunc,deleteFunc)=>[
     },
     {
         name:'Date',
-        selector:(row,i)=>row?.date?.toDate(),
-        cell:(row,i)=><span>{row?.date?.format('DD MMM, YYYY')}</span>
+        selector:(row,i)=>row?.date,
+        cell:(row,i)=><span>{moment(row?.date).format('DD MMM, YYYY')}</span>
     },
     {
         name:'Weekday',
@@ -38,10 +38,10 @@ export const ADMIN_MENU_ENTRY_TABLE_COLUMNS=(editFunc,deleteFunc)=>[
         name:'Action',
         cell:(row,i)=>(
             <div className="d-flex">
-                {(user.accessibility.includes("subsidy.update") || true) && <Button className="me-3" size="sm" variant="primary" onClick={e=>editFunc(e,i)}>
+                {(user.accessibility.includes("subsidy.update") || true) && <Button disabled={row?.disabled} className="me-3" size="sm" variant="primary" onClick={e=>editFunc(e,i)}>
                     <FaEdit/> Edit
                 </Button>}
-                {(user.accessibility.includes("subsidy.destroy") || true) && <Button size="sm" variant="primary" onClick={e=>deleteFunc(e,i)}>
+                {(user.accessibility.includes("subsidy.destroy") || true) && <Button disabled={row?.disabled} size="sm" variant="primary" onClick={e=>deleteFunc(e,i)}>
                     <FaTrash/> Delete
                 </Button>}
             </div>

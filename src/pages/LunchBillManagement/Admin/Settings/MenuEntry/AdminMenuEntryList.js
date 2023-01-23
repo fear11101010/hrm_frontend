@@ -12,11 +12,13 @@ import {API} from "../../../../../utils/axios/axiosConfig";
 import {Accordion, Button, Col, Form, Row} from "react-bootstrap";
 import {Controller, useForm} from "react-hook-form";
 import Select from "../../../../../components/select/Select";
-import {FaDownload} from "react-icons/fa";
+import {FaDownload, FaPlus} from "react-icons/fa";
 import {generateCalender, monthAndYearList} from "../../../../../utils/helper";
 import CustomTable from "../../../../../components/custom-table/CustomTable";
 import {ADMIN_MENU_ENTRY_TABLE_COLUMNS} from "./table-columns";
 import {MdDelete, MdModeEdit} from "react-icons/md";
+import {Link} from "react-router-dom";
+import {ADMIN_MENU_ENTRY_CREATE_PAGE} from "../../../../../utils/routes/app_routes/LUNCH_ROUTES";
 
 export default function AdminMenuEntryList(props) {
     const [monthList, yearList, currentMoment] = monthAndYearList()
@@ -60,6 +62,11 @@ export default function AdminMenuEntryList(props) {
                         </Card.Body>
                     </Card>
                 </Form>*/}
+                <div className="mb-3 d-flex justify-content-end">
+                    <Link className="btn btn-primary" to={ADMIN_MENU_ENTRY_CREATE_PAGE}>
+                        <FaPlus/> Create Monthly Menu
+                    </Link>
+                </div>
                 <Accordion defaultActiveKey={`${defaultEventKey}`}>
                     <Accordion.Item eventKey="0">
                         <Accordion.Header className="text-black">

@@ -40,10 +40,11 @@ export const generateCalender = ({month, year, menuEntry}) => {
         calender.push({
             day: i,
             weekday: moment.weekdays(m.date(i).weekday()),
-            date: m.date(i),
+            date: dm.toDate(),
             officeBranch: menuEntry?.mapping_menu_entry?.find(d => d?.day === i) ? menuEntry?.office_branch?.name : '---',
             vendor: menuEntry?.mapping_menu_entry?.find(d => d?.day === i) ? menuEntry?.vendor?.name : '---',
             menus: menuEntry?.mapping_menu_entry?.find(d => d?.day === i) ? menuEntry?.mapping_menu_entry?.find(d => d?.day === i)?.menus : undefined,
+            disabled:currentMoment.month()===month?currentMoment.date()<i:false
         })
     }
     return calender;
