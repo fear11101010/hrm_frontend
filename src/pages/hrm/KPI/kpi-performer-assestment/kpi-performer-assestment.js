@@ -147,7 +147,7 @@ export default function KpiPerformerAssestment() {
         <>
           <Button
             size="sm"
-            variant="primary"
+            variant="primary"F
             title="Details"
             className="btn-rounded-circle"
             onClick={() => {

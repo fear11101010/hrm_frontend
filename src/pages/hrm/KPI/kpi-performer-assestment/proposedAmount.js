@@ -205,7 +205,7 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
             </Button> */}
             {user.group_id.split(",").map(
               (d) =>
-                d === "1" &&
+                (d === "11" || d === '7') &&
                 user.accessibility.includes("performer_assessment.update") && (
                   <Button
                     type="submit"

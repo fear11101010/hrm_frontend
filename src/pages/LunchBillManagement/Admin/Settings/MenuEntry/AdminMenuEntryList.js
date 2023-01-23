@@ -7,39 +7,41 @@ import {
     MONTHLY_MENU_ENTRY_LIST_CREATE_API
 } from "../../../../../utils/routes/api_routes/LUNCH_ROUTES";
 import Loader from "../../../../../components/loader/Loader";
-import useMonthAndYearList from "../../../../../hooks/useMonthAndYearList";
 import {useEffect, useState} from "react";
 import {API} from "../../../../../utils/axios/axiosConfig";
-import {Accordion, Button, Card, Col, Form, Row} from "react-bootstrap";
+import {Accordion, Button, Col, Form, Row} from "react-bootstrap";
 import {Controller, useForm} from "react-hook-form";
 import Select from "../../../../../components/select/Select";
 import {FaDownload} from "react-icons/fa";
+import {generateCalender, monthAndYearList} from "../../../../../utils/helper";
+import CustomTable from "../../../../../components/custom-table/CustomTable";
+import {ADMIN_MENU_ENTRY_TABLE_COLUMNS} from "./table-columns";
 
 export default function AdminMenuEntryList(props) {
-    const [monthList, yearList,currentMoment] = useMonthAndYearList()
-    const {control,reset,getValues} = useForm()
+    const [monthList, yearList, currentMoment] = monthAndYearList()
+    const {control, reset, getValues} = useForm()
     const {data} = useFetch(BRANCH_LIST_CREATE_API)
     const [menuEntryList, setMenuEntryList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [defaultEventKey, setDefaultEventKey] = useState(0);
     const [branchList, setBranchList] = useState([]);
     useEffect(() => {
-        if(data?.data){
+        if (data?.data) {
             loadMenuEntryData();
             setBranchList(data?.data?.map((v, i) => ({label: v.name, value: v.id})))
         }
     }, [data])
-    const loadMenuEntryData = ()=>{
+    const loadMenuEntryData = () => {
         setLoading(true);
         API.get(MONTHLY_MENU_ENTRY_LIST_CREATE_API, {
             params: {
                 months: (getValues('month') && [getValues('month')]) || monthList?.map(v => v.value),
                 year: (getValues('year') && [getValues('year')]) || yearList?.map(v => v.value),
-                office_branch:getValues('office_branch')
+                office_branch: getValues('office_branch')
             }
         }).then(success => {
             setMenuEntryList(success?.data?.data)
-            setDefaultEventKey(success?.data?.data?.length>0?1:0)
+            setDefaultEventKey(success?.data?.data?.length > 0 ? 1 : 0)
         }).then(err => {
 
         }).then(() => setLoading(false))
@@ -160,7 +162,7 @@ export default function AdminMenuEntryList(props) {
                                 </Row>
                                 <Row className="justify-content-center mt-3">
                                     <Col sm={12} md={6} lg={6} className="d-flex justify-content-center">
-                                        <Button variant="primary" size="md" onClick={e=>loadMenuEntryData()}>
+                                        <Button variant="primary" size="md" onClick={e => loadMenuEntryData()}>
                                             <FaDownload/> Filter Data
                                         </Button>
                                     </Col>
@@ -169,22 +171,18 @@ export default function AdminMenuEntryList(props) {
                         </Accordion.Body>
                     </Accordion.Item>
                     {menuEntryList?.map((entryList, i) =>
-                        <Accordion.Item eventKey={`${i+1}`}>
+                        <Accordion.Item eventKey={`${i + 1}`}>
                             <Accordion.Header as="h3" className="header-title mb-0 text-black">
                                 {currentMoment.month(entryList?.month).year(entryList?.year).format('MMMM, YYYY')}
                             </Accordion.Header>
                             <Accordion.Body>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                                culpa qui officia deserunt mollit anim id est laborum.
+                                <CustomTable data={generateCalender({month:entryList?.month,year:entryList?.year,menuEntry:entryList})}
+                                             pagination={{}}
+                                             size="sm" columns={ADMIN_MENU_ENTRY_TABLE_COLUMNS((d,e)=>{},(d,e)=>{})}/>
                             </Accordion.Body>
                         </Accordion.Item>
                     )}
-                    {menuEntryList?.length<=0 && <h2 className="text-center mt-4">No Data Available</h2>}
+                    {menuEntryList?.length <= 0 && <h2 className="text-center mt-4">No Data Available</h2>}
                 </Accordion>
             </Content>
             {loading && <Loader/>}
