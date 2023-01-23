@@ -30,10 +30,41 @@ function UpdateStatus({id,show,handleClose}) {
                 comments:''
             }
             reset(ticketDetail);
-            const rs = requestStatus?.map(status=>{
+            const filteredRequestStatus = requestStatus?.filter(rs=>{
+                if(data?.data?.current_status?.name?.toLowerCase()==='pending'){
+                    return ['in progress','pending'].indexOf(rs?.name?.toLowerCase())>=0
+                }
+                if(data?.data?.current_status?.name?.toLowerCase()==='in progress'){
+                    return ['in progress','in queue'].indexOf(rs?.name?.toLowerCase())>=0
+                }
+                if(data?.data?.current_status?.name?.toLowerCase()==='in queue' &&
+                    (data?.data?.request_type?.name?.toLowerCase()==='requisition' || data?.data?.request_type?.name?.toLowerCase()==='change request')
+                && !data?.data?.approve_status){
+                    return rs?.name?.toLowerCase()==='in queue'
+                }
+                if(data?.data?.current_status?.name?.toLowerCase()==='approved' &&
+                    (data?.data?.request_type?.name?.toLowerCase()==='requisition' || data?.data?.request_type?.name?.toLowerCase()==='change request')
+                && data?.data?.approve_status){
+                    return ["resolved","rejected","approved"].indexOf(rs?.name?.toLowerCase())>=0
+                }
+                if(data?.data?.current_status?.name?.toLowerCase()==='in queue' &&
+                    (data?.data?.request_type?.name?.toLowerCase()==='problem' || data?.data?.request_type?.name?.toLowerCase()==='issue document')
+                ){
+                    return ["rejected","approved","in queue"].indexOf(rs?.name?.toLowerCase())>=0
+                }
+                if(data?.data?.current_status?.name?.toLowerCase()==='approved' &&
+                    (data?.data?.request_type?.name?.toLowerCase()==='problem' || data?.data?.request_type?.name?.toLowerCase()==='issue document')
+                ){
+                    return ["resolved","rejected","approved"].indexOf(rs?.name?.toLowerCase())>=0
+                }
+
+            })
+            console.debug(filteredRequestStatus)
+            const rs = filteredRequestStatus?.map(status=>{
                 return {
                     label:status.name.substring(0,1).toUpperCase()+status.name.substring(1,status.name.length),
-                    value:status.id
+                    value:status.id,
+                    disabled:status?.id === ticketDetail?.request_status
                 }
             }).filter(value=>value!==null)
             setRequestStatusList(rs)

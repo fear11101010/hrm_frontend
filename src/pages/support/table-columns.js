@@ -25,8 +25,19 @@ const getStatus = (statusId)=>{
 }
 export const MY_TICKET_TABLE_COLUMNS = (func)=> [
     {
-        name:'SL. No',
-        selector:(_,index)=>index+1,
+        name:'Status',
+        selector:(row,index)=>row?.current_status?.name,
+        cell:(row,index)=>(<span className={`badge ${getStatus(row?.current_status?.id)}`}>{row?.current_status?.name}</span>),
+        sortable:true
+    },
+    {
+        name:'Ticket Type',
+        selector:(row,index)=>row?.request_type?.name,
+        sortable:true
+    },
+    {
+        name:'Forward to',
+        selector:(row,index)=>row?.forwarded_to ?? '---',
         sortable:true
     },
     {
@@ -43,12 +54,6 @@ export const MY_TICKET_TABLE_COLUMNS = (func)=> [
         name:'Rising Date',
         selector:(row,index)=>row?.occurring_date?moment(row?.occurring_date).toDate():'',
         cell:(row,index)=>(<span>{row?.occurring_date?moment(row?.occurring_date).format('DD MMM, YYYY'):''}</span>),
-        sortable:true
-    },
-    {
-        name:'Status',
-        selector:(row,index)=>row?.current_status?.name,
-        cell:(row,index)=>(<span className={`badge ${getStatus(row?.current_status?.id)}`}>{row?.current_status?.name}</span>),
         sortable:true
     },
     {
@@ -82,8 +87,19 @@ export const MY_TICKET_TABLE_COLUMNS = (func)=> [
 ]
 export const STATUS_WISE_TICKET_TABLE_COLUMNS = (func)=> [
     {
-        name:'SL. No',
-        selector:(_,index)=>index+1,
+        name:'Status',
+        selector:(row,index)=>row?.current_status?.name,
+        cell:(row,index)=>(<span className={`badge ${getStatus(row?.current_status?.id)}`}>{row?.current_status?.name}</span>),
+        sortable:true
+    },
+    {
+        name:'Ticket Type',
+        selector:(row,index)=>row?.request_type?.name,
+        sortable:true
+    },
+    {
+        name:'Forward to',
+        selector:(row,index)=>row?.forwarded_to ?? '---',
         sortable:true
     },
     {
@@ -100,12 +116,6 @@ export const STATUS_WISE_TICKET_TABLE_COLUMNS = (func)=> [
         name:'Rising Date',
         selector:(row,index)=>row?.occurring_date?moment(row?.occurring_date).toDate():'',
         cell:(row,index)=>(<span>{row?.occurring_date?moment(row?.occurring_date).format('DD MMM, YYYY'):''}</span>),
-        sortable:true
-    },
-    {
-        name:'Status',
-        selector:(row,index)=>row?.current_status?.name,
-        cell:(row,index)=>(<span className={`badge ${getStatus(row?.current_status?.id)}`}>{row?.current_status?.name}</span>),
         sortable:true
     },
     {
@@ -135,9 +145,20 @@ export const STATUS_WISE_TICKET_TABLE_COLUMNS = (func)=> [
 export const ALL_TICKET_TABLE_COLUMNS = (viewFunc)=> {
     return [
         {
-            name: 'SL. No',
-            selector: (_, index) => index + 1,
-            sortable: true
+            name:'Status',
+            selector:(row,index)=>row?.current_status?.name,
+            cell:(row,index)=>(<span className={`badge ${getStatus(row?.current_status?.id)}`}>{row?.current_status?.name}</span>),
+            sortable:true
+        },
+        {
+            name:'Ticket Type',
+            selector:(row,index)=>row?.request_type?.name,
+            sortable:true
+        },
+        {
+            name:'Forward to',
+            selector:(row,index)=>row?.forwarded_to ?? '---',
+            sortable:true
         },
         {
             name: 'Ticket No',
@@ -159,13 +180,6 @@ export const ALL_TICKET_TABLE_COLUMNS = (viewFunc)=> {
             selector: (row, index) => row?.occurring_date ? moment(row?.occurring_date).toDate() : '',
             cell: (row, index) => (
                 <span>{row?.occurring_date ? moment(row?.occurring_date).format('DD MMM, YYYY') : ''}</span>),
-            sortable: true
-        },
-        {
-            name: 'Status',
-            selector: (row, index) => row?.current_status?.name,
-            cell: (row, index) => (<span
-                className={`badge ${getStatus(row?.current_status?.id)}`}>{row?.current_status?.name}</span>),
             sortable: true
         },
         {
@@ -227,9 +241,20 @@ export const ALL_TICKET_TABLE_COLUMNS = (viewFunc)=> {
 export const OTHER_TICKET_TABLE_COLUMNS = (viewFunc)=> {
     return [
         {
-            name: 'SL. No',
-            selector: (_, index) => index + 1,
-            sortable: true
+            name:'Status',
+            selector:(row,index)=>row?.current_status?.name,
+            cell:(row,index)=>(<span className={`badge ${getStatus(row?.current_status?.id)}`}>{row?.current_status?.name}</span>),
+            sortable:true
+        },
+        {
+            name:'Ticket Type',
+            selector:(row,index)=>row?.request_type?.name,
+            sortable:true
+        },
+        {
+            name:'Forward to',
+            selector:(row,index)=>row?.forwarded_to ?? '---',
+            sortable:true
         },
         {
             name: 'Ticket No',
