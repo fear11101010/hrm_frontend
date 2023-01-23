@@ -16,6 +16,7 @@ import {FaDownload} from "react-icons/fa";
 import {generateCalender, monthAndYearList} from "../../../../../utils/helper";
 import CustomTable from "../../../../../components/custom-table/CustomTable";
 import {ADMIN_MENU_ENTRY_TABLE_COLUMNS} from "./table-columns";
+import {MdDelete, MdModeEdit} from "react-icons/md";
 
 export default function AdminMenuEntryList(props) {
     const [monthList, yearList, currentMoment] = monthAndYearList()
@@ -173,12 +174,21 @@ export default function AdminMenuEntryList(props) {
                     {menuEntryList?.map((entryList, i) =>
                         <Accordion.Item eventKey={`${i + 1}`}>
                             <Accordion.Header as="h3" className="header-title mb-0 text-black">
-                                {currentMoment.month(entryList?.month).year(entryList?.year).format('MMMM, YYYY')}
+                                <span
+                                    className="me-2">{currentMoment.month(entryList?.month).year(entryList?.year).format('MMMM, YYYY')}</span>
+                                <Button variant="primary" size="sm" className="me-2"><MdModeEdit/> Edit</Button>
+                                <Button variant="danger" size="sm"><MdDelete/> Delete</Button>
                             </Accordion.Header>
                             <Accordion.Body>
-                                <CustomTable data={generateCalender({month:entryList?.month,year:entryList?.year,menuEntry:entryList})}
+                                <CustomTable data={generateCalender({
+                                    month: entryList?.month,
+                                    year: entryList?.year,
+                                    menuEntry: entryList
+                                })}
                                              pagination={{}}
-                                             size="sm" columns={ADMIN_MENU_ENTRY_TABLE_COLUMNS((d,e)=>{},(d,e)=>{})}/>
+                                             size="sm" columns={ADMIN_MENU_ENTRY_TABLE_COLUMNS((d, e) => {
+                                }, (d, e) => {
+                                })}/>
                             </Accordion.Body>
                         </Accordion.Item>
                     )}
