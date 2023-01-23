@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Card, Col, Row, Button, Form } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
-import PageHeader from "../../../components/header/PageHeader";
 import Loader from "../../../components/loader/Loader";
 import Layout from "../../../layout/Layout";
 import { RESOURCE_REQUISITION_DETAILS } from "../../../utils/routes/api_routes/API_ROUTES";
@@ -9,6 +8,8 @@ import { API } from "../../../utils/axios/axiosConfig";
 import { HiArrowNarrowLeft } from "react-icons/hi";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { pdfFromReact } from "generate-pdf-from-react-html";
+import Content from "../../../components/content/Content";
 
 export default function RequisitionDetails() {
   const { id } = useParams();
@@ -20,9 +21,35 @@ export default function RequisitionDetails() {
   const pdfRef = useRef();
 
   const generatePDF = () => {
-    const report = new jsPDF("l", "pt", "a3");
-    report.html(document.querySelector("#report")).then(() => {
-      report.save("Requisition_Details.pdf");
+    //////////////////////////////////////////////////////
+    // const report = new jsPDF("l", "pt", "a3");
+    // report.html(document.querySelector("#report")).then(() => {
+    //   report.save("Requisition_Details.pdf");
+    // });
+    //////////////////////////////////////////////////////
+    var data = document.getElementById("report");
+    var date = new Date();
+    html2canvas(data).then((canvas) => {
+      var imgWidth = 210;
+      var pageHeight = 297;
+      var imgHeight = (canvas.height * imgWidth) / canvas.width;
+      var heightLeft = imgHeight;
+      //enter code here
+      const imgData = canvas.toDataURL("image/png");
+
+      var doc = new jsPDF("p", "mm");
+      var position = 0;
+
+      doc.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight + 15);
+      heightLeft -= pageHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        doc.addPage();
+        doc.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight + 15);
+        heightLeft -= pageHeight;
+      }
+      doc.save("Requisition Details" + ".pdf");
     });
   };
 
@@ -45,7 +72,7 @@ export default function RequisitionDetails() {
 
   const data_body = () => {
     return (
-      <div id="report">
+      <div id="report" className="element-to-print">
         <Card>
           <Card.Body>
             <div className="form-group">
@@ -53,8 +80,10 @@ export default function RequisitionDetails() {
                 <table className="table table-bordered table-md">
                   <thead>
                     <tr>
-                      <th colSpan="2" className="text-center">
-                        Approval:
+                      <th colSpan="2" className="text-left">
+                        <h2 className="mb-0 text-muted" style={{ textTransform: "capitalize " }}>
+                          Approval
+                        </h2>
                       </th>
                     </tr>
                   </thead>
@@ -78,7 +107,7 @@ export default function RequisitionDetails() {
                           as="textarea"
                           rows={3}
                           value={data?.comment_sub_director?.concat(
-                            "\n",
+                            "\n\n",
                             data.sbu_dir ? data?.sbu_dir?.first_name + "(" + data?.sbu_dir?.username + ")" : ""
                           )}
                           readOnly
@@ -92,7 +121,7 @@ export default function RequisitionDetails() {
                           as="textarea"
                           rows={3}
                           value={data?.comment_director_finance?.concat(
-                            "\n",
+                            "\n\n",
                             data.dir_finance ? data?.dir_finance?.first_name + "(" + data?.dir_finance?.username + ")" : ""
                           )}
                           readOnly
@@ -104,7 +133,7 @@ export default function RequisitionDetails() {
                           as="textarea"
                           rows={3}
                           value={data?.comment_chief_executive?.concat(
-                            "\n",
+                            "\n\n",
                             data.dir_finance ? data?.dir_finance?.first_name + "(" + data?.dir_finance?.username + ")" : ""
                           )}
                           readOnly
@@ -118,7 +147,7 @@ export default function RequisitionDetails() {
                           as="textarea"
                           rows={3}
                           value={data?.comment_hr?.concat(
-                            "\n",
+                            "\n\n",
                             data.hr ? data?.hr?.first_name + "(" + data?.hr?.username + ")" : ""
                           )}
                           readOnly
@@ -276,8 +305,10 @@ export default function RequisitionDetails() {
                 <table className="table table-bordered table-md">
                   <thead>
                     <tr>
-                      <th colSpan="2" className="text-center">
-                        Required skills:
+                      <th colSpan="2" className="text-left">
+                        <h2 className="mb-0 text-muted" style={{ textTransform: "capitalize " }}>
+                          Required skills
+                        </h2>
                       </th>
                     </tr>
                   </thead>
@@ -364,16 +395,22 @@ export default function RequisitionDetails() {
                 </div>
                 <div className="section-header-breadcrumb">
                   <div className="buttons">
-                    <a onClick={generatePDF} className="btn btn-primary">
+                    {/* <a onClick={generatePDF} className="btn btn-primary">
                       Certificate Request
-                    </a>
+                    </a> */}
+                    <Button
+                      // onClick={() => pdfFromReact(".element-to-print", "Requisition Details", "l", true, false)}
+                      onClick={generatePDF}
+                    >
+                      Certificate Request
+                    </Button>
                   </div>
                 </div>
               </div>
             </section>
           </div>
         </div>
-        <div ref={pdfRef}>{data_body()}</div>
+        <div>{data_body()}</div>
       </section>
     </Layout>
   );
