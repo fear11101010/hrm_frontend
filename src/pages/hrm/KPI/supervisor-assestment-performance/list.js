@@ -77,7 +77,7 @@ export default function SupervisorAssestmentPerformance() {
 
   // Disabled row when status is approved by head
   const rowDisabledCriteria = (row) => row.approve_by_sbu === 1;
-  return user.accessibility.includes("team_assessment_perf_assessment.retrieve") ? (
+  return user.accessibility.includes("assessment_team_assessment_perf.retrieve") ? (
     <Layout>
       {loading && <Loader />}
       <PageHeader title={"Team Assestment Performance"} />
