@@ -223,10 +223,19 @@ export default function EmAssestmentSingle() {
     setIsConfirm(true);
   };
 
-  if (flag === 1 && user.group_id.split(",").includes("1")) {
+  // if (flag === 1 && user.group_id.split(",").includes("1")) {
+  //   return <Navigate to={UNAUTHORIZED} />;
+  // }
+
+  if (
+    !user.accessibility.includes("assessment.list") ||
+    !user.accessibility.includes("assessment.supervisor_head") ||
+    !user.accessibility.includes("assessment_team_assessment_perf.retrieve")
+  ) {
     return <Navigate to={UNAUTHORIZED} />;
   }
-  return user.accessibility.includes("assessment.list") || user.accessibility.includes("assessment.supervisor_head") ? (
+
+  return (
     <Layout>
       {loading && <Loader />}
       <PageHeader title="Assessment Details" onBack />
@@ -614,7 +623,5 @@ export default function EmAssestmentSingle() {
         )}
       </Content>
     </Layout>
-  ) : (
-    <Navigate to={UNAUTHORIZED} />
   );
 }

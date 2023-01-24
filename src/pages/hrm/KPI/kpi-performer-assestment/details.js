@@ -121,6 +121,16 @@ export default function EmployeePerformerDetails({ rowId, afterSubmit }) {
     e.preventDefault();
     setIsConfirm(true);
   };
+
+  if (!user?.accessibility?.includes("assessment_perf_review.retrieve")) {
+    return (
+      <>
+        <h2 mb="b" className="text-center">
+          UNAUTHORIZED
+        </h2>
+      </>
+    );
+  }
   return (
     <div>
       {isLoading && <Loader />}

@@ -1,6 +1,9 @@
 import moment from "moment";
 import { Link } from "react-router-dom";
-import { EMPLOYEE_PERFORMANCE_PREV_YEAR_PAGE, EMPLOYEE_PERFORMANCE_SINGLE_PAGE } from "../../../../utils/routes/app_routes/APP_ROUTES";
+import {
+  EMPLOYEE_PERFORMANCE_PREV_YEAR_PAGE,
+  EMPLOYEE_PERFORMANCE_SINGLE_PAGE,
+} from "../../../../utils/routes/app_routes/APP_ROUTES";
 import { DATE_FORMAT } from "../../../../utils/CONSTANT";
 import { USER_INFO } from "../../../../utils/session/token";
 const user = USER_INFO();
@@ -41,11 +44,13 @@ export const columns = [
     name: "Action",
     cell: (row) => (
       <>
-        <Link to={EMPLOYEE_PERFORMANCE_SINGLE_PAGE(row.id)}>
-          <button className="btn btn-sm btn-rounded-circle btn-primary" title="Details">
-            <i className="fe fe-edit"></i>
-          </button>
-        </Link>
+        {user?.accessibility?.includes("kpi_performance_for_team_apprisal_review.retrieve") && (
+          <Link to={EMPLOYEE_PERFORMANCE_SINGLE_PAGE(row.id)}>
+            <button className="btn btn-sm btn-rounded-circle btn-primary" title="Details">
+              <i className="fe fe-edit"></i>
+            </button>
+          </Link>
+        )}
       </>
     ),
     width: "80px",
@@ -60,11 +65,15 @@ export const columns = [
         {user?.group_id.split(",").includes("6") ||
         user?.group_id.split(",").includes("1") ||
         user?.group_id.split(",").includes("7") ? (
-          <Link to={EMPLOYEE_PERFORMANCE_PREV_YEAR_PAGE(row.id)}>
-            <button className="btn btn-sm btn-rounded-circle btn-light" title="Previous Year Data">
-              <i className="fe fe-file-text"></i>
-            </button>
-          </Link>
+          <>
+            {user?.accessibility?.includes("kpi_performance_for_team_apprisal_review.retrieve") && (
+              <Link to={EMPLOYEE_PERFORMANCE_PREV_YEAR_PAGE(row.id)}>
+                <button className="btn btn-sm btn-rounded-circle btn-light" title="Previous Year Data">
+                  <i className="fe fe-file-text"></i>
+                </button>
+              </Link>
+            )}
+          </>
         ) : (
           ""
         )}

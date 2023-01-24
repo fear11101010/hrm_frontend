@@ -52,7 +52,9 @@ export default function Dashboard() {
       {loading && <Loader />}
       {/* <PageHeader subTitle={"Overview"} title={"Dashboard"} /> */}
 
-      {user?.group_id?.split(",").includes("1") || user?.group_id?.split(",").includes("7") ? (
+      {user?.group_id?.split(",").includes("1") ||
+      user?.group_id?.split(",").includes("7") ||
+      user?.group_id?.split(",").includes("11") ? (
         <div className="px-5">
           <Row>
             <Col sm="12" md="12" className="mb-3 d-flex justify-content-end">
