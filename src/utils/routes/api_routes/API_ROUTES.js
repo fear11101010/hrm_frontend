@@ -70,22 +70,26 @@ export const SUPERVISOR_ASSESTMENT_GET = "/assessment/$/supervisor_head/";
 export const SUPERVISOR_ASSESTMENT_BULK_POST = `/assessment/$/bulk_assessment_approve/`;
 export const EMPLOYEE_PERFORMANCE_GET = "/kpi_performance/";
 export const APPRAISAL_FORM_GET = "/kpi_performance/$/employee_performance/";
-export const EMPLOYEE_PERFORMANCE_EACH_GET = (id) => `/kpi_performance/${id}/`;
+// export const EMPLOYEE_PERFORMANCE_EACH_GET = (id) => `/kpi_performance/${id}/`;
+export const EMPLOYEE_PERFORMANCE_EACH_GET = (id) => `/team_apprisal_review_kpi_performance/${id}/`;
 export const EMPLOYEE_PERFORMANCE_EACH_PUT = (id) => `/kpi_performance/${id}/`;
 export const EMPLOYEE_ASSESTMENT_SINGLE_GET = (id) => `/assessment/${id}/`;
-export const EMPLOYEE_ASSESTMENT_SINGLE_POST = (id) => `/assessment/${id}/`;
+// export const EMPLOYEE_ASSESTMENT_SINGLE_POST = (id) => `/assessment/${id}/`;
+export const EMPLOYEE_ASSESTMENT_SINGLE_POST = (id) => `/team_assessment_perf_assessment/${id}/`;
 
 export const GET_SUPERVISOR = "/supervisor/";
 export const KPI_PERFORMANCE_FORM = "/kpi_performance/";
 export const KPI_PERFORMANCE_FORM_DATE_VALIDATE = "kpi_performance/$/get_date_range/";
 export const KPI_PERFORMANCE_FORM_DRAFT = "/kpi_performance/";
-export const KPI_PERFORMANCE_FORM_SINGLE = (id) => `/kpi_performance/${id}/`;
+// export const KPI_PERFORMANCE_FORM_SINGLE = (id) => `/kpi_performance/${id}/`;
+export const KPI_PERFORMANCE_FORM_SINGLE = (id) => `/team_apprisal_review_kpi_performance/${id}/`;
 export const KPI_PERFORMANCE_FORM_SUBMIT = (id) => `/kpi_performance/${id}/`;
 export const KPI_SUPERVISOR_APPRAISAL_REVIEW_GET = `/kpi_performance/$/supervisor_head/`;
 
 export const KPI_PERFORMANCE_THREE_YEARS_GET = (id) => `/salary_three_years/${id}/`;
 export const KPI_PERMORMER_ASSESTMENT_BY_SBU_GET = (id) => `/performer_assessment/${id}/search_by_sbu/`;
-export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET = (id) => `/assessment/${id}/`;
+// export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET = (id) => `/assessment/${id}/`;
+export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_GET = (id) => `/perf_review_assessment/${id}/`;
 export const KPI_PERMORMER_ASSESTMENT_INDIVIDUAL_PUT = (id) => `/performer_assessment/${id}/`;
 export const KPI_PERMORMER_ASSESTMENT_BULK_SUBMIT = `performer_assessment/$/bulk_assessment_final_submit/`;
 

@@ -12,8 +12,8 @@ import {
   KPI_PERFORMANCE_FORM_SINGLE,
 } from "../../../../utils/routes/api_routes/API_ROUTES";
 import Loader from "../../../../components/loader/Loader";
-import { EMPLOYEE_PERFORMANCE_PAGE } from "../../../../utils/routes/app_routes/APP_ROUTES";
-import { useNavigate, useParams } from "react-router-dom";
+import { EMPLOYEE_PERFORMANCE_PAGE, UNAUTHORIZED } from "../../../../utils/routes/app_routes/APP_ROUTES";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { error_alert, success_alert } from "../../../../components/alert/Alert";
 import useKpiValue from "../../../../hooks/kpi/kpi_value";
 import useHrRating from "../../../../hooks/kpi/hr_rating";
@@ -139,7 +139,7 @@ export default function EmPerformanceSingle() {
     setIsConfirm(true);
   };
 
-  return (
+  return user?.accessibility?.includes("kpi_performance_for_team_apprisal_review.retrieve") ? (
     <Layout>
       {loading && <Loader />}
       <PageHeader subTitle={""} title={"KPI Performance Form"} onBack />
@@ -1331,6 +1331,8 @@ export default function EmPerformanceSingle() {
         </Form>
       </Container>
     </Layout>
+  ) : (
+    <Navigate to={UNAUTHORIZED} />
   );
 }
 

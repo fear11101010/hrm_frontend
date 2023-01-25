@@ -19,6 +19,7 @@ import { API } from "../../../../utils/axios/axiosConfig";
 import { USER_INFO } from "../../../../utils/session/token";
 import { Navigate } from "react-router-dom";
 import { UNAUTHORIZED } from "../../../../utils/routes/app_routes/APP_ROUTES";
+import { error_alert, success_alert } from "../../../../components/alert/Alert";
 
 export default function UpdateCircularToEmployee() {
   const user = USER_INFO();
@@ -37,7 +38,7 @@ export default function UpdateCircularToEmployee() {
 
   const fetchEmployee = () => {
     setLoading(true);
-    API.get(EMPLOYEE_LIST_GET)
+    API.get("/update_circulation_employee_list/")
       .then((res) => {
         let a = res?.data?.data?.map((d) => ({ label: d?.name + " (" + d?.employee_id + ")", value: d?.id }));
         setEmployeeList(a);
@@ -68,9 +69,16 @@ export default function UpdateCircularToEmployee() {
     };
     setLoading(true);
     API.post(
-      (isEmployee && UPDATE_CIRCULAR_EMPLOYEE_POST(selected_employee)) || (isSbu && UPDATE_CIRCULAR_SBU_POST(selected_sbu))
+      (isEmployee && UPDATE_CIRCULAR_EMPLOYEE_POST(selected_employee)) || (isSbu && UPDATE_CIRCULAR_SBU_POST(selected_sbu)),
+      payload
     )
-      .then((res) => {})
+      .then((res) => {
+        if (res.data.statuscode === 200) {
+          success_alert(res.data.message);
+        } else {
+          error_alert("Error! please try later");
+        }
+      })
       .catch((err) => {
         console.log(err);
       })

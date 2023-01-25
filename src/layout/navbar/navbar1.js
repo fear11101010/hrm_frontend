@@ -192,7 +192,7 @@ function Navbar1(props) {
                           )}
                         </li>
                         <li className="nav-item">
-                          {user.module.includes("Assessment Performance") && (
+                          {user.module.includes("Update Circular") && (
                             <Link className={"nav-link"} to={UPDATE_CIRCULAR_PAGE}>
                               Update Circular
                             </Link>

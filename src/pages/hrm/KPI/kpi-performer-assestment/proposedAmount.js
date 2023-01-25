@@ -120,6 +120,16 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
     getAssestmentData();
   }, []);
 
+  if (!user?.accessibility?.includes("assessment_perf_review.retrieve")) {
+    return (
+      <>
+        <h2 mb="b" className="text-center">
+          UNAUTHORIZED
+        </h2>
+      </>
+    );
+  }
+
   return (
     <div>
       {isLoading && <Loader />}
@@ -205,7 +215,7 @@ export default function ProposedAmount({ rowId, afterSubmit }) {
             </Button> */}
             {user.group_id.split(",").map(
               (d) =>
-                (d === "11" || d === '7') &&
+                (d === "11" || d === "7") &&
                 user.accessibility.includes("performer_assessment.update") && (
                   <Button
                     type="submit"

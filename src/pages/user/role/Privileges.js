@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal, Tab, Table, Tabs } from "react-bootstrap";
+import { Button, Form, Modal, Tab, Table, Tabs } from "react-bootstrap";
 import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
 import Content from "../../../components/content/Content";
@@ -11,6 +11,7 @@ import { LOGIN_PAGE, UNAUTHORIZED } from "../../../utils/routes/app_routes/APP_R
 import { API } from "../../../utils/axios/axiosConfig";
 import { REMOVE_TOKEN, USER_INFO } from "../../../utils/session/token";
 import { useFunction, useModuleName, useModuleUrl } from "./hooks";
+import ReactSelect from "react-select";
 
 export default function Privileges() {
   const { id } = useParams();
@@ -28,6 +29,15 @@ export default function Privileges() {
   const funcList = useFunction();
   const moduleNameList = useModuleName();
   const moduleUrlList = useModuleUrl();
+
+  // moduleNameList?.map((subModule, idx) =>
+  // moduleUrlList?.filter((moduleUrl, ix) => moduleUrl.module === subModule.id && moduleUrl)
+
+  let x = funcList?.map((d, i) =>
+    moduleNameList?.map((subModule, idx) =>
+      moduleUrlList?.map((moduleUrl, ix) => moduleUrl.module === subModule.id && moduleUrl)
+    )
+  );
 
   const [confirmModal, setConfirmModal] = useState(false);
 
@@ -119,46 +129,22 @@ export default function Privileges() {
         <Tabs id="controlled-tab-example" className="mb-3">
           {funcList.map((d, i) => (
             <Tab eventKey={d.id} title={d.module_type}>
-              <Table bordered hover>
-                <thead>
-                  <tr>
-                    <th>Module Name</th>
-                    {d?.id === 4 ? (
-                      <>
-                        <th>List</th>
-                        <th>Create</th>
-                        <th>Retrive/Update</th>
-                        <th>Retrive/Update</th>
-                        {/* <th>Option-1</th>
-                        <th>Option-2</th>
-                        <th>Option-3</th> */}
-                      </>
-                    ) : (
-                      <>
-                        <th>List</th>
-                        <th>Add</th>
-                        <th>Edit</th>
-                        <th>Delelte</th>
-                      </>
-                    )}
-
-                    {d?.id === 2 && <th> List Privileges </th>}
-                    {d?.id === 2 && <th> Add Privileges </th>}
-                  </tr>
-                </thead>
+              <Table responsive bordered className="mt-3">
                 <tbody>
-                  {moduleNameList.map((subModule, id) =>
+                  {moduleNameList.map((subModule, indx) =>
                     subModule.module_type === d.id ? (
                       <tr key={subModule.id}>
-                        <td key={subModule.id}>{subModule.module_name}</td>
+                        <td key={subModule.id}>
+                          <h4 className="mb-0 text-secondary">{subModule.module_name}</h4>
+                        </td>
                         {moduleUrlList.map((moduleUrl, idx) =>
                           moduleUrl.module === subModule.id ? (
-                            <td key={moduleUrl.id}>
-                              <div class="form-check form-switch">
-                                <input
-                                  class="form-check-input"
-                                  type="checkbox"
-                                  id="flexSwitchCheckDefault"
+                            <td key={moduleUrl.id} style={{ minWidth: "200px" }}>
+                              <Form>
+                                <Form.Check
+                                  type="switch"
+                                  id={`custom-switch-${idx + 1}`}
+                                  label={moduleUrl?.name}
                                   defaultChecked={hasPrivileges.includes(moduleUrl.id)}
                                   onChange={(e) => {
                                     if (e.target.checked) {
@@ -168,7 +154,7 @@ export default function Privileges() {
                                     }
                                   }}
                                 />
-                              </div>
+                              </Form>
                             </td>
                           ) : null
                         )}
@@ -206,4 +192,49 @@ export default function Privileges() {
   // : (
   //   <Navigate to={UNAUTHORIZED} />
   // );
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+{
+  /* <thead>
+                  <tr>
+                    <th>Module Name</th>
+                    {d?.id === 4 ? (
+                      <>
+                        <th>List</th>
+                        <th>Create</th>
+                        <th>Retrive/Update</th>
+                        <th>Retrive/Update</th>
+                      </>
+                    ) : (
+                      <>
+                        <th>List</th>
+                        <th>Add</th>
+                        <th>Edit</th>
+                        <th>Delelte</th>
+                      </>
+                    )}
+                    {d?.id === 2 && <th> List Privileges </th>}
+                    {d?.id === 2 && <th> Add Privileges </th>}
+                  </tr>
+                </thead> */
+}
+
+{
+  /* <div class="form-check form-switch">
+                                <label>asdkaskdk</label>
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  id="flexSwitchCheckDefault"
+                                  defaultChecked={hasPrivileges.includes(moduleUrl.id)}
+                                  onChange={(e) => {
+                                    if (e.target.checked) {
+                                      addPrivileges(e, moduleUrl, idx);
+                                    } else {
+                                      removePrivileges(e, moduleUrl, idx);
+                                    }
+                                  }}
+                                />
+                              </div> */
 }

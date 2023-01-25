@@ -7,13 +7,11 @@ import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
 import { Decrypt, Encrypt, _Decode } from "../utils/Hash";
 import FileUpload from "./hrm/Configuration/file-upload/FileUpload";
+import { GET_TOKEN } from "../utils/session/token";
 var CryptoJS = require("crypto-js");
 
-export function Test(props) {
-  const [a, setA] = useState(false);
-}
-
 export default function Demo() {
+  const token = GET_TOKEN();
   const [date, setDate] = useState(new Date());
 
   // // encoded.iv.clamp();
@@ -23,7 +21,7 @@ export default function Demo() {
   // console.log("ct", encoded);
   // console.log("dec", decoded.toString(CryptoJS.enc.Utf8));
 
-  console.log(_Decode(""));
+  console.log(_Decode(token));
 
   return (
     <>
