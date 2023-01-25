@@ -9,7 +9,7 @@ import {
 import Loader from "../../../../../components/loader/Loader";
 import {useEffect, useState} from "react";
 import {API} from "../../../../../utils/axios/axiosConfig";
-import {Accordion, Button, Col, Form, Row} from "react-bootstrap";
+import {Accordion, Button, Card, Col, Form, Row, useAccordionButton} from "react-bootstrap";
 import {Controller, useForm} from "react-hook-form";
 import Select from "../../../../../components/select/Select";
 import {FaDownload, FaPlus} from "react-icons/fa";
@@ -19,6 +19,18 @@ import {ADMIN_MENU_ENTRY_TABLE_COLUMNS} from "./table-columns";
 import {MdDelete, MdModeEdit} from "react-icons/md";
 import {Link} from "react-router-dom";
 import {ADMIN_MENU_ENTRY_CREATE_PAGE} from "../../../../../utils/routes/app_routes/LUNCH_ROUTES";
+
+function CustomToggle({children, eventKey}) {
+    const decoratedOnClick = useAccordionButton(eventKey, () =>
+        console.log('totally custom!'),
+    );
+
+    return (
+        <h3 className="header-title mb-3 shadow-sm p-3" style={{cursor:"pointer",borderRadius:'5px'}} onClick={decoratedOnClick}>
+            {children}
+        </h3>
+    );
+}
 
 export default function AdminMenuEntryList(props) {
     const [monthList, yearList, currentMoment] = monthAndYearList()
@@ -68,136 +80,144 @@ export default function AdminMenuEntryList(props) {
                     </Link>
                 </div>
                 <Accordion defaultActiveKey={`${defaultEventKey}`}>
-                    <Accordion.Item eventKey="0">
-                        <Accordion.Header className="text-black">
-                            <h3 className="header-title mb-0">
+                    <Card>
+                        <Card.Body>
+                            <CustomToggle eventKey="0">
                                 Filter
-                            </h3>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                            <Form>
-                                <Row className="justify-content-center">
-                                    <Col sm={12} md={6} lg={6}>
-                                        <Form.Group className="mb-3">
-                                            <Form.Label>Office Branch</Form.Label>
-                                            <Controller
-                                                name="office_branch"
-                                                control={control}
-                                                render={({
-                                                             field: {onChange, value},
-                                                             fieldState: {error},
-                                                             formState,
+                            </CustomToggle>
+                            <Accordion.Collapse eventKey="0">
+                                <Form>
+                                    <Row className="justify-content-center">
+                                        <Col sm={12} md={6} lg={6}>
+                                            <Form.Group className="mb-3">
+                                                <Form.Label>Office Branch</Form.Label>
+                                                <Controller
+                                                    name="office_branch"
+                                                    control={control}
+                                                    render={({
+                                                                 field: {onChange, value},
+                                                                 fieldState: {error},
+                                                                 formState,
 
-                                                         }) => (
-                                                    <>
-                                                        <Select
-                                                            placeholder="--Select a branch--"
-                                                            options={branchList}
-                                                            value={branchList?.find(v => v.value === value)}
-                                                            size="md"
-                                                            className={error ? 'is-invalid' : ''}
-                                                            onChange={v => {
-                                                                onChange(v.value);
-                                                            }}/>
+                                                             }) => (
+                                                        <>
+                                                            <Select
+                                                                placeholder="--Select a branch--"
+                                                                options={branchList}
+                                                                value={branchList?.find(v => v.value === value)}
+                                                                size="md"
+                                                                className={error ? 'is-invalid' : ''}
+                                                                onChange={v => {
+                                                                    onChange(v.value);
+                                                                }}/>
 
-                                                        {error && (
-                                                            <div className="invalid-feedback">Select a branch</div>)}
-                                                    </>
-                                                )}/>
-                                        </Form.Group>
-                                        <Row className="mb-3">
-                                            <Col sm={12} md={6} lg={6}>
-                                                <Form.Group>
-                                                    <Form.Label>Month</Form.Label>
-                                                    <Controller
-                                                        name="month"
-                                                        control={control}
-                                                        render={({
-                                                                     field: {onChange, value},
-                                                                     fieldState: {error},
-                                                                     formState,
-                                                                 }) => (
-                                                            <>
-                                                                <Select
-                                                                    placeholder="Month"
-                                                                    options={monthList}
-                                                                    value={monthList?.find(v => v.value === value)}
-                                                                    size="md"
-                                                                    className={error ? 'is-invalid' : ''}
-                                                                    onChange={v => {
-                                                                        onChange(v.value);
-                                                                    }}/>
+                                                            {error && (
+                                                                <div className="invalid-feedback">Select a branch</div>)}
+                                                        </>
+                                                    )}/>
+                                            </Form.Group>
+                                            <Row className="mb-3">
+                                                <Col sm={12} md={6} lg={6}>
+                                                    <Form.Group>
+                                                        <Form.Label>Month</Form.Label>
+                                                        <Controller
+                                                            name="month"
+                                                            control={control}
+                                                            render={({
+                                                                         field: {onChange, value},
+                                                                         fieldState: {error},
+                                                                         formState,
+                                                                     }) => (
+                                                                <>
+                                                                    <Select
+                                                                        placeholder="Month"
+                                                                        options={monthList}
+                                                                        value={monthList?.find(v => v.value === value)}
+                                                                        size="md"
+                                                                        className={error ? 'is-invalid' : ''}
+                                                                        onChange={v => {
+                                                                            onChange(v.value);
+                                                                        }}/>
 
-                                                                {error && (
-                                                                    <div className="invalid-feedback">Select a
-                                                                        month</div>)}
-                                                            </>
-                                                        )}/>
-                                                </Form.Group>
-                                            </Col>
-                                            <Col sm={12} md={6} lg={6}>
-                                                <Form.Group>
-                                                    <Form.Label>Year</Form.Label>
-                                                    <Controller
-                                                        name="year"
-                                                        control={control}
-                                                        render={({
-                                                                     field: {onChange, value},
-                                                                     fieldState: {error},
-                                                                     formState,
-                                                                 }) => (
-                                                            <>
-                                                                <Select
-                                                                    placeholder="Year"
-                                                                    options={yearList}
-                                                                    value={yearList?.find(v => v.value === value)}
-                                                                    size="md"
-                                                                    className={error ? 'is-invalid' : ''}
-                                                                    onChange={v => {
-                                                                        onChange(v.value);
-                                                                    }}/>
+                                                                    {error && (
+                                                                        <div className="invalid-feedback">Select a
+                                                                            month</div>)}
+                                                                </>
+                                                            )}/>
+                                                    </Form.Group>
+                                                </Col>
+                                                <Col sm={12} md={6} lg={6}>
+                                                    <Form.Group>
+                                                        <Form.Label>Year</Form.Label>
+                                                        <Controller
+                                                            name="year"
+                                                            control={control}
+                                                            render={({
+                                                                         field: {onChange, value},
+                                                                         fieldState: {error},
+                                                                         formState,
+                                                                     }) => (
+                                                                <>
+                                                                    <Select
+                                                                        placeholder="Year"
+                                                                        options={yearList}
+                                                                        value={yearList?.find(v => v.value === value)}
+                                                                        size="md"
+                                                                        className={error ? 'is-invalid' : ''}
+                                                                        onChange={v => {
+                                                                            onChange(v.value);
+                                                                        }}/>
 
-                                                                {error && (
-                                                                    <div className="invalid-feedback">Select a
-                                                                        year</div>)}
-                                                            </>
-                                                        )}/>
-                                                </Form.Group>
-                                            </Col>
-                                        </Row>
-                                    </Col>
+                                                                    {error && (
+                                                                        <div className="invalid-feedback">Select a
+                                                                            year</div>)}
+                                                                </>
+                                                            )}/>
+                                                    </Form.Group>
+                                                </Col>
+                                            </Row>
+                                        </Col>
 
-                                </Row>
-                                <Row className="justify-content-center mt-3">
-                                    <Col sm={12} md={6} lg={6} className="d-flex justify-content-center">
-                                        <Button variant="primary" size="md" onClick={e => loadMenuEntryData()}>
-                                            <FaDownload/> Filter Data
-                                        </Button>
-                                    </Col>
-                                </Row>
-                            </Form>
-                        </Accordion.Body>
-                    </Accordion.Item>
+                                    </Row>
+                                    <Row className="justify-content-center mt-3">
+                                        <Col sm={12} md={6} lg={6} className="d-flex justify-content-center">
+                                            <Button variant="primary" size="md" onClick={e => loadMenuEntryData()}>
+                                                <FaDownload/> Filter Data
+                                            </Button>
+                                        </Col>
+                                    </Row>
+                                </Form>
+                            </Accordion.Collapse>
+                        </Card.Body>
+                    </Card>
                     {menuEntryList?.map((entryList, i) =>
-                        <Accordion.Item eventKey={`${i + 1}`}>
-                            <Accordion.Header as="h3" className="header-title mb-0 text-black">
-                                <span
-                                    className="me-2">{currentMoment.month(entryList?.month).year(entryList?.year).format('MMMM, YYYY')}</span>
-                                <Button variant="primary" size="sm" className="me-2"><MdModeEdit/> Edit</Button>
-                                <Button variant="danger" size="sm"><MdDelete/> Delete</Button>
-                            </Accordion.Header>
-                            <Accordion.Body>
-                                <CustomTable data={generateCalender({
-                                    month: entryList?.month,
-                                    year: entryList?.year,
-                                    menuEntry: entryList
-                                })}
-                                             pagination={{}}
-                                             size="sm" columns={ADMIN_MENU_ENTRY_TABLE_COLUMNS((d, e) => {
-                                }, (d, e) => {
-                                })}/>
-                            </Accordion.Body>
-                        </Accordion.Item>
+                        <Card>
+                            <Card.Body>
+                                <CustomToggle eventKey={`${i + 1}`}>
+                                    <div className="mb-2">
+                                        Office branch : {entryList?.office_branch?.name}
+                                    </div>
+                                    <div>
+                                        <span className="me-2">
+                                            {currentMoment.month(entryList?.month).year(entryList?.year).format('MMMM, YYYY')}
+                                        </span>
+                                        <Button variant="primary" size="sm" className="me-2"><MdModeEdit/> Edit</Button>
+                                        <Button variant="danger" size="sm"><MdDelete/> Delete</Button>
+                                    </div>
+                                </CustomToggle>
+                                <Accordion.Collapse eventKey={`${i + 1}`}>
+                                    <CustomTable data={generateCalender({
+                                        month: entryList?.month,
+                                        year: entryList?.year,
+                                        menuEntry: entryList
+                                    })}
+                                                 pagination={{}}
+                                                 size="sm" columns={ADMIN_MENU_ENTRY_TABLE_COLUMNS((d, e) => {
+                                    }, (d, e) => {
+                                    })}/>
+                                </Accordion.Collapse>
+                            </Card.Body>
+                        </Card>
                     )}
                     {menuEntryList?.length <= 0 && <h2 className="text-center mt-4">No Data Available</h2>}
                 </Accordion>

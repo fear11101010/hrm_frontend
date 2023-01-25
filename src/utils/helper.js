@@ -49,3 +49,22 @@ export const generateCalender = ({month, year, menuEntry}) => {
     }
     return calender;
 }
+
+export const getStatus = (statusId)=>{
+    switch (statusId){
+        case 1:
+            return 'bg-secondary'
+        case 2:
+        case 8:
+            return 'bg-warning'
+        case 7:
+        case 3:
+            return 'bg-primary'
+        case 4:
+            return 'bg-success'
+        case 5:
+            return 'bg-danger'
+        case 6:
+            return 'bg-info'
+    }
+}

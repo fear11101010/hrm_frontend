@@ -45,7 +45,7 @@ export default function AdminMenuEntry(props) {
 
     return (
         <Layout>
-            <PageHeader title="Menu Entry"/>
+            <PageHeader title="Menu Entry" onBack/>
             <Content>
                 {/*<Form onSubmit={handleSubmit(submitMonthlyMenu)}>
                     <Card>

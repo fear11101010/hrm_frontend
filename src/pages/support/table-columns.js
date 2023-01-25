@@ -4,25 +4,9 @@ import {EDIT_TICKET_URL_FUNC, VIEW_TICKET_URL_FUNC} from "../../utils/routes/app
 import {FaEdit, FaEye, FaFile, FaForward} from "react-icons/fa";
 import {Button, ButtonGroup, DropdownButton,Dropdown} from "react-bootstrap";
 import {USER_INFO} from "../../utils/session/token";
+import {getStatus} from "../../utils/helper";
 const user = USER_INFO();
-const getStatus = (statusId)=>{
-    switch (statusId){
-        case 1:
-            return 'bg-secondary'
-        case 2:
-        case 8:
-            return 'bg-warning'
-        case 7:
-        case 3:
-            return 'bg-primary'
-        case 4:
-            return 'bg-success'
-        case 5:
-            return 'bg-danger'
-        case 6:
-            return 'bg-info'
-    }
-}
+
 export const MY_TICKET_TABLE_COLUMNS = (func)=> [
     {
         name:'Status',

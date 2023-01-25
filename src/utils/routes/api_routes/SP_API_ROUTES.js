@@ -15,3 +15,4 @@ export const REQUEST_MESSAGE_REPLY_API = '/request_reply_queries/'
 export const FETCH_TICKET_BY_ID_API = id=> `/individual_request_detail/${id}/`
 export const UPDATE_TICKET_BY_ID_API = id=> `/request_detail_update/${id}/`
 export const APPROVE_REQUEST_API = id=> `/support_request/${id}/request_approve/`
+export const REQUEST_STATUS_LOG_API = id=> `/request_status_log/${id}/`
