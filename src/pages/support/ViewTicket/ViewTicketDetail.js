@@ -112,6 +112,15 @@ function ViewTicketDetail({id,show,handleClose}) {
                                                     </div>
                                                 </li>
                                             ))}
+                                            {ticketDetail?.attachment?.length<=0 && (
+                                                <li key={`status_log_no_available`} className="list-group-item dz-processing">
+                                                    <div className="row align-items-center justify-content-center">
+                                                        <div className="col-auto">
+                                                            No Attachment Available
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            )}
                                         </ul>
                                     </Col>
                                 </Row>
