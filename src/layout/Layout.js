@@ -34,9 +34,9 @@ export default function Layout({ children }) {
   const modules = [
     // { label: "Configration", value: "configuration" },
     // { label: "Requisition", value: "requisition" },
-    // { label: "HRM", value: "hrm" },
+    { label: "HRM", value: "hrm" },
     { label: "Ticketing System", value: "support_system" },
-    // { label: "Lunch Management", value: "lunch_management" },
+    { label: "Lunch Management", value: "lunch_management" },
   ];
   const [isLoading, setIsLoading] = useState(false);
   const excludePath = [LOGIN_PAGE];

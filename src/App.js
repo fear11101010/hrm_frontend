@@ -258,6 +258,7 @@ function App() {
           <Route path={BRANCH_LIST_PAGE} element={<BranchList />} />
           <Route path={VENDOR_LIST_PAGE} element={<VendorList />} />
           <Route path={VENDOR_MENU_LIST_PAGE} element={<VendorMenuList />} />
+          <Route path={HOLIDAY_CALENDER_PAGE} element={<HolidayCalender />} />
           <Route path={ADMIN_MENU_ENTRY_LIST_PAGE} element={<AdminMenuEntryList />} />
           <Route path={ADMIN_MENU_ENTRY_CREATE_PAGE} element={<AdminMenuEntry />} />
 

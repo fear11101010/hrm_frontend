@@ -25,7 +25,7 @@ export const ADMIN_MENU_ENTRY_TABLE_COLUMNS=(editFunc,deleteFunc)=>[
         name:'Vendor',
         selector:(row,i)=>row?.vendor,
     },
-    {
+    /*{
         name:'Menus',
         width:500,
         cell:(row,i)=><div style={{textDecoration:"none",cursor:"pointer",whiteSpace:'break-spaces'}}>
@@ -33,7 +33,7 @@ export const ADMIN_MENU_ENTRY_TABLE_COLUMNS=(editFunc,deleteFunc)=>[
                 <Badge bg="secondary" className="me-2">{menu?.item}</Badge>
             ))}
         </div>,
-    },
+    },*/
     {
         name:'Action',
         cell:(row,i)=>(
@@ -41,7 +41,7 @@ export const ADMIN_MENU_ENTRY_TABLE_COLUMNS=(editFunc,deleteFunc)=>[
                 {(user.accessibility.includes("subsidy.update") || true) && <Button disabled={row?.disabled} className="me-3" size="sm" variant="primary" onClick={e=>editFunc(e,i)}>
                     <FaEdit/> Edit
                 </Button>}
-                {(user.accessibility.includes("subsidy.destroy") || true) && <Button disabled={row?.disabled} size="sm" variant="primary" onClick={e=>deleteFunc(e,i)}>
+                {(user.accessibility.includes("subsidy.destroy") || true) && <Button disabled={row?.disabled} size="sm" variant="danger" onClick={e=>deleteFunc(e,i)}>
                     <FaTrash/> Delete
                 </Button>}
             </div>

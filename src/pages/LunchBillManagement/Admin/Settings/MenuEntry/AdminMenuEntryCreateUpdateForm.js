@@ -27,16 +27,18 @@ const MonthlyMenuMappingComponent = ({index, menus, register, control, func}) =>
         if (e.target.checked) {
             append(menu)
             console.log(func)
-            console.log(fields)
+            console.log(fields.filter((item) => item?.id))
             const i = fields.filter((item) => item?.id)?.length
             console.log('i:',i)
-            func(menu,i)
+            func(menu,i,'add')
 
         } else {
-            const i = fields.map((item) => item?.id)?.indexOf(menu.id)
+            const index = fields.filter((item) => item?.id)
+                .map(item=>item?.id)?.indexOf(menu.id)
+            const i = fields.map(item=>item?.id)?.indexOf(menu.id)
             if (i >= 0) {
                 remove(i)
-                func(menu,i)
+                func(menu,index,'rm')
             }
         }
     }
@@ -95,8 +97,8 @@ export default function AdminMenuEntryCreateUpdateForm({
         setTableColumns(MENU_ENTRY_TABLE_COLUMNS(showMenuDialog, deleteMenus))
     }, [])
 
-    const addNewColumn = useCallback((menu, index) => {
-        addNewField(menu, index)
+    const addNewColumn = useCallback((menu, index,type) => {
+        addNewField(menu, index,type)
     }, [tableColumns])
 
     function onBranchChange(v) {
@@ -114,21 +116,35 @@ export default function AdminMenuEntryCreateUpdateForm({
         setShowMenus(true)
     }
 
-    const addNewField = (menu, index) => {
+    const addNewField = (menu, index,type='add') => {
         const mappingMenuEntry = getValues('mapping_menu_entry');
+        console.log(mappingMenuEntry)
         const menuData = mappingMenuEntry?.map(mme=>mme?.menus?.filter((menu)=>menu?.id).length).filter(v=>v)
         const minMenuLength = Math.min(...menuData)
+        const maxMenuLength = Math.min(...menuData)
         const menuLengthNotZero = menuData.length
         console.log(menuLengthNotZero,'-----',minMenuLength,'----',tableColumns.filter(col=>col.name.toLowerCase().startsWith('menu')).length)
-        if(menuLengthNotZero < tableColumns.filter(col=>col.name.toLowerCase().startsWith('menu')).length){
-
-            // debugger
+        if(type==='rm'){
             setTableColumns(columns => {
+                // debugger
                 const data = [...columns];
-                data.splice(columns.length - 2, 1)
+                const l = 2;
+                if(menuData.filter(v=>v===tableColumns.filter(col=>col.name.toLowerCase().startsWith('menu')).length)<=1){
+                    data.splice(l + index+1, 1)
+                    data.forEach((col,ii)=>{
+                        if(col.name.toLowerCase().startsWith('menu')){
+                            console.log(`Menu ${ii-3+1}`)
+                            data[ii] = {
+                                ...col,name:`Menu ${ii-3+1}`,cell: (row, i) => {
+                                    return row?.menus && row?.menus?.filter((menu)=>menu?.id)?.length>0&&<Badge bg="secondary" className="me-2">{row?.menus?.filter((menu)=>menu?.id)[ii-3]?.item}</Badge>
+                                }
+                            }
+                        }
+                    })
+                }
                 return data;
             })
-        } else if(minMenuLength<=index || menuLengthNotZero===1){
+        } else if(type==='add' && (minMenuLength<=index || menuLengthNotZero===1)){
             // debugger
             setTableColumns(columns => {
                 const data = [...columns];
