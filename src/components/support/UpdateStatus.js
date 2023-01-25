@@ -1,6 +1,10 @@
 import useTicketStatus from "../../hooks/support/useTicketStatus";
 import useFetch from "../../hooks/useFetch";
-import {FETCH_TICKET_BY_ID_API, REQUEST_STATUS_UPDATE_API} from "../../utils/routes/api_routes/SP_API_ROUTES";
+import {
+    FETCH_TICKET_BY_ID_API,
+    REQUEST_STATUS_LOG_API,
+    REQUEST_STATUS_UPDATE_API
+} from "../../utils/routes/api_routes/SP_API_ROUTES";
 import {Controller, set, useForm} from "react-hook-form";
 import {useEffect, useState} from "react";
 import {Button, Card, Col, Form, Modal, Row, Spinner} from "react-bootstrap";
@@ -19,6 +23,7 @@ function UpdateStatus({id,show,handleClose}) {
     const [requestStatusList,setRequestStatusList] = useState([])
     const requestStatus = useTicketStatus();
     const {data} = useFetch(FETCH_TICKET_BY_ID_API(id));
+    const statusLog = useFetch(REQUEST_STATUS_LOG_API(id));
     const {register,reset,handleSubmit, formState: {errors}, control} = useForm({
         defaultValues:data?.data
     });
@@ -33,6 +38,11 @@ function UpdateStatus({id,show,handleClose}) {
             const filteredRequestStatus = requestStatus?.filter(rs=>{
                 if(data?.data?.current_status?.name?.toLowerCase()==='pending'){
                     return ['in progress','pending'].indexOf(rs?.name?.toLowerCase())>=0
+                }
+                if(data?.data?.current_status?.name?.toLowerCase()==='in progress' &&
+                    (data?.data?.request_type?.name?.toLowerCase()==='problem' || data?.data?.request_type?.name?.toLowerCase()==='issue document')
+                ){
+                    return ["rejected","approved","in queue","resolved"].indexOf(rs?.name?.toLowerCase())>=0
                 }
                 if(data?.data?.current_status?.name?.toLowerCase()==='in progress'){
                     return ['in progress','in queue'].indexOf(rs?.name?.toLowerCase())>=0
