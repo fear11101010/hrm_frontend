@@ -1,5 +1,5 @@
 import {Controller, useFieldArray, useForm} from "react-hook-form";
-import {Button, Card, Col, Form, Modal, Row} from "react-bootstrap";
+import {Badge, Button, Card, Col, Form, Modal, Row} from "react-bootstrap";
 import Select from "../../../../../components/select/Select";
 import {FaDownload} from "react-icons/fa";
 import CustomTable from "../../../../../components/custom-table/CustomTable";
@@ -11,11 +11,11 @@ import {
     VENDOR_LIST_BY_BRANCH_API
 } from "../../../../../utils/routes/api_routes/LUNCH_ROUTES";
 import {error_alert, success_alert} from "../../../../../components/alert/Alert";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {monthAndYearList} from "../../../../../utils/helper";
 import useFetch from "../../../../../hooks/useFetch";
 
-const MonthlyMenuMappingComponent = ({index, menus, register, control}) => {
+const MonthlyMenuMappingComponent = ({index, menus, register, control, func}) => {
     const {fields, append, remove, update} = useFieldArray({
         control,
         name: `mapping_menu_entry.${index}.menus`,
@@ -26,10 +26,17 @@ const MonthlyMenuMappingComponent = ({index, menus, register, control}) => {
 
         if (e.target.checked) {
             append(menu)
+            console.log(func)
+            console.log(fields)
+            const i = fields.filter((item) => item?.id)?.length
+            console.log('i:',i)
+            func(menu,i)
+
         } else {
             const i = fields.map((item) => item?.id)?.indexOf(menu.id)
             if (i >= 0) {
                 remove(i)
+                func(menu,i)
             }
         }
     }
@@ -52,13 +59,20 @@ const MonthlyMenuMappingComponent = ({index, menus, register, control}) => {
         </>
     )
 }
-export default function AdminMenuEntryCreateUpdateForm({menus,monthlyData,existingData,callFuncWithVendorMonthYear,onSubmitData}){
+export default function AdminMenuEntryCreateUpdateForm({
+                                                           menus,
+                                                           monthlyData,
+                                                           existingData,
+                                                           callFuncWithVendorMonthYear,
+                                                           onSubmitData
+                                                       }) {
     const [monthList, yearList] = monthAndYearList()
     const {data, isLoading} = useFetch(BRANCH_LIST_CREATE_API)
     const [branchList, setBranchList] = useState([]);
     const [vendorList, setVendorList] = useState([]);
     const [showMenus, setShowMenus] = useState(false)
     const [tableIndex, setTableIndex] = useState(-1)
+    const [tableColumns, setTableColumns] = useState([])
     const {register, handleSubmit, formState: {errors, isValid}, reset, getValues, control, watch} = useForm({
         mode: 'onChange'
     });
@@ -72,11 +86,18 @@ export default function AdminMenuEntryCreateUpdateForm({menus,monthlyData,existi
             setBranchList(data?.data?.map((v, i) => ({label: v.name, value: v.id})))
         }
     }, [data])
-    useEffect(()=>{
-        if(monthlyData){
+    useEffect(() => {
+        if (monthlyData) {
             replace(monthlyData)
         }
-    },[monthlyData])
+    }, [monthlyData])
+    useEffect(() => {
+        setTableColumns(MENU_ENTRY_TABLE_COLUMNS(showMenuDialog, deleteMenus))
+    }, [])
+
+    const addNewColumn = useCallback((menu, index) => {
+        addNewField(menu, index)
+    }, [tableColumns])
 
     function onBranchChange(v) {
         API.get(VENDOR_LIST_BY_BRANCH_API(v)).then(success => {
@@ -86,16 +107,50 @@ export default function AdminMenuEntryCreateUpdateForm({menus,monthlyData,existi
 
         })
     }
-    function showMenuDialog(i) {
+
+    function showMenuDialog(i, func) {
         setTableIndex(i)
+        console.log("func")
         setShowMenus(true)
+    }
+
+    const addNewField = (menu, index) => {
+        const mappingMenuEntry = getValues('mapping_menu_entry');
+        const menuData = mappingMenuEntry?.map(mme=>mme?.menus?.filter((menu)=>menu?.id).length).filter(v=>v)
+        const minMenuLength = Math.min(...menuData)
+        const menuLengthNotZero = menuData.length
+        console.log(menuLengthNotZero,'-----',minMenuLength,'----',tableColumns.filter(col=>col.name.toLowerCase().startsWith('menu')).length)
+        if(menuLengthNotZero < tableColumns.filter(col=>col.name.toLowerCase().startsWith('menu')).length){
+
+            // debugger
+            setTableColumns(columns => {
+                const data = [...columns];
+                data.splice(columns.length - 2, 1)
+                return data;
+            })
+        } else if(minMenuLength<=index || menuLengthNotZero===1){
+            // debugger
+            setTableColumns(columns => {
+                const data = [...columns];
+                data.splice(columns.length - 1, 0, {
+                    name: `Menu ${index+1}`,
+                    cell: (row, i) => {
+                        return row?.menus && row?.menus?.filter((menu)=>menu?.id)?.length>0&&<Badge bg="secondary" className="me-2">{row?.menus?.filter((menu)=>menu?.id)[index]?.item}</Badge>
+                    }
+                })
+                return data;
+            })
+        }
+
+        console.log(tableColumns)
     }
 
     function deleteMenus() {
 
     }
+
     function submitMonthlyMenu(data, e) {
-        if(onSubmitData) onSubmitData(true)
+        if (onSubmitData) onSubmitData(true)
         const newMappingMenuEntry = []
         for (let i = 0; i < data?.mapping_menu_entry?.length; i++) {
             const mme = data?.mapping_menu_entry[i];
@@ -116,9 +171,10 @@ export default function AdminMenuEntryCreateUpdateForm({menus,monthlyData,existi
             console.log(err)
             error_alert(err?.data?.message)
         }).then(() => {
-            if(onSubmitData) onSubmitData(false)
+            if (onSubmitData) onSubmitData(false)
         })
     }
+
     return (
         <Form onSubmit={handleSubmit(submitMonthlyMenu)}>
             <Card>
@@ -249,10 +305,10 @@ export default function AdminMenuEntryCreateUpdateForm({menus,monthlyData,existi
                     </Row>
                     <Row className="justify-content-center mt-3">
                         <Col sm={12} md={6} lg={6} className="d-flex justify-content-center">
-                            <Button variant="primary" size="md" onClick={e=>{
+                            <Button variant="primary" size="md" onClick={e => {
                                 e.preventDefault();
-                                if(callFuncWithVendorMonthYear){
-                                    callFuncWithVendorMonthYear(getValues('vendor'),getValues('month'),getValues('year'))
+                                if (callFuncWithVendorMonthYear) {
+                                    callFuncWithVendorMonthYear(getValues('vendor'), getValues('month'), getValues('year'))
                                 }
                             }}>
                                 <FaDownload/> Load Menu Item
@@ -264,7 +320,7 @@ export default function AdminMenuEntryCreateUpdateForm({menus,monthlyData,existi
             </Card>
             <Card>
                 <Card.Body>
-                    <CustomTable columns={MENU_ENTRY_TABLE_COLUMNS(showMenuDialog, deleteMenus)}
+                    <CustomTable columns={tableColumns}
                                  data={mappingMenuEntryFieldsWatch} responsive pagination={{}}/>
                 </Card.Body>
             </Card>
@@ -289,7 +345,8 @@ export default function AdminMenuEntryCreateUpdateForm({menus,monthlyData,existi
                     <ul className="m-0 p-0" style={{listStyle: 'none'}}>
                         <MonthlyMenuMappingComponent control={control} register={register}
                                                      menus={menus}
-                                                     index={tableIndex}/>
+                                                     index={tableIndex}
+                                                     func={addNewColumn}/>
                     </ul>
                 </Modal.Body>
             </Modal>
