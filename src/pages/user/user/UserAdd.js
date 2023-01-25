@@ -30,7 +30,7 @@ export default function UserAdd() {
   const [joining_date, setJoining_date] = useState("");
   const [mobile_number, setMobile_number] = useState("");
   const [address, setAddress] = useState("");
-  const [group, setGroup] = useState("");
+  const [group, setGroup] = useState([]);
 
   //err states
   const [usernameErr, setUserNameErr] = useState("");
@@ -42,6 +42,7 @@ export default function UserAdd() {
     setLoading(true);
     setUserNameErr("");
     setPassErr("");
+    let a = group?.map((d) => d.value.toString());
     const payload = {
       username: username,
       email: email,
@@ -50,7 +51,8 @@ export default function UserAdd() {
       joining_date: joining_date,
       mobile_number: mobile_number,
       address: address,
-      group: group,
+      // group: group,
+      group: a.join(","),
     };
     API.post(USER_CREATE_POST, payload)
       .then((res) => {
