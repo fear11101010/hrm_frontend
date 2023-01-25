@@ -6,6 +6,7 @@ import Content from "../../../../components/content/Content";
 import {
   EMPLOYEE_ASSESTMENT_SINGLE_GET,
   EMPLOYEE_ASSESTMENT_SINGLE_POST,
+  EMPLOYEE_ASSESTMENT_TEAM_SINGLE_GET,
 } from "../../../../utils/routes/api_routes/API_ROUTES";
 import { Col, Form, FormControl, Row } from "react-bootstrap";
 import moment from "moment";
@@ -86,7 +87,11 @@ export default function EmAssestmentSingle() {
 
   const getAssestmentData = () => {
     setLoading(true);
-    API.get(EMPLOYEE_ASSESTMENT_SINGLE_GET(id))
+    API.get(
+      user.accessibility.includes("assessment_team_assessment_perf.retrieve")
+        ? EMPLOYEE_ASSESTMENT_TEAM_SINGLE_GET(id)
+        : EMPLOYEE_ASSESTMENT_SINGLE_GET(id)
+    )
       .then((res) => {
         if (res.data.statuscode === 200) {
           setEmployee_details(res.data?.data?.employee);
@@ -228,400 +233,403 @@ export default function EmAssestmentSingle() {
   // }
 
   if (
-    !user.accessibility.includes("assessment.list") ||
-    !user.accessibility.includes("assessment.supervisor_head") ||
-    !user.accessibility.includes("assessment_team_assessment_perf.retrieve")
+    user.accessibility.includes("assessment.list") === false ||
+    user.accessibility.includes("assessment.supervisor_head") === false ||
+    user.accessibility.includes("assessment_team_assessment_perf.retrieve") === false
   ) {
-    return <Navigate to={UNAUTHORIZED} />;
-  }
-
-  return (
-    <Layout>
-      {loading && <Loader />}
-      <PageHeader title="Assessment Details" onBack />
-      <Content>
-        {/* Heading */}
-        <Row className="d-flex align-items-center">
-          <Col sm="12" md="6">
-            <div className="mb-0 ">
-              <h1 className="mb-2 me-2">{employee_details?.name} </h1>
-              <h4 className="mb-0"> {employee_details?.employee_id} </h4>
-            </div>
-          </Col>
-          <Col sm="12" md="6">
-            <Row>
-              <Col sm="6" md="6">
-                <h5 className="mb-1 text-secondary">Date of Joining</h5>
-                <h4 className="text-dark">{moment(employee_details?.date_of_joining).format(DATE_FORMAT)}</h4>
-              </Col>
-              <Col sm="6" md="6">
-                <h5 className="mb-1 text-secondary">Duration</h5>
-                <h4>
-                  {diffByYear} Years {diffByMonths} Months
-                </h4>
-              </Col>
-              <Col sm="6" md="6">
-                <h5 className="mb-1 text-secondary">Assessment Duration</h5>
-                <h4>12 months</h4>
-              </Col>
-              <Col sm="6" md="6">
-                <h5 className="mb-1 text-secondary">SBU</h5>
-                <h4>{employee_details?.sbu?.name}</h4>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-        <hr />
-
-        {/* FORM BODY */}
-        <div className="mt-4">
-          <Form onSubmit={handleConfirm}>
-            {/* KPI  */}
-            <div className="card">
-              <div className="card-header">
-                <h2 className="mb-0 py-3">KPI</h2>
-                <i className="fe fe-bar-chart fs-2 text-muted"></i>
+    return (
+      <Layout>
+        {loading && <Loader />}
+        <PageHeader title="Assessment Details" onBack />
+        <Content>
+          {/* Heading */}
+          <Row className="d-flex align-items-center">
+            <Col sm="12" md="6">
+              <div className="mb-0 ">
+                <h1 className="mb-2 me-2">{employee_details?.name} </h1>
+                <h4 className="mb-0"> {employee_details?.employee_id} </h4>
               </div>
-              <div className="card-body">
-                <Row>
-                  <Col sm="6" md="4" className="mb-4">
-                    <Form.Group>
-                      <h4 className="text-secondary">
-                        Objective {new Date().getFullYear()} <span className="text-danger">*</span>{" "}
-                      </h4>
-                    </Form.Group>
-                    <ReactSelect
-                      options={kpiObjectiveList}
-                      placeholder={
-                        kpi_obj_curr !== "" && kpiObjectiveList?.map((d) => (d.value === kpi_obj_curr ? d.label : null))
-                      }
-                      onChange={(e) => {
-                        setKpi_obj_curr(e.value);
-                      }}
-                      // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
-                    />
-                  </Col>
-                  <Col sm="6" md="4" className="mb-4">
-                    <Form.Group>
-                      <h4 className="text-secondary">
-                        Value {new Date().getFullYear()} <span className="text-danger">*</span>{" "}
-                      </h4>
-                    </Form.Group>
-                    <ReactSelect
-                      options={kpiValueList}
-                      placeholder={
-                        kpi_val_curr !== "" && kpiValueList?.map((d) => (d.value === kpi_val_curr ? d.label : null))
-                      }
-                      onChange={(e) => {
-                        setKpi_val_curr(e.value);
-                      }}
-                      // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
-                    />
-                  </Col>
-                  {user.group_id.split(",").includes("7") && (
+            </Col>
+            <Col sm="12" md="6">
+              <Row>
+                <Col sm="6" md="6">
+                  <h5 className="mb-1 text-secondary">Date of Joining</h5>
+                  <h4 className="text-dark">{moment(employee_details?.date_of_joining).format(DATE_FORMAT)}</h4>
+                </Col>
+                <Col sm="6" md="6">
+                  <h5 className="mb-1 text-secondary">Duration</h5>
+                  <h4>
+                    {diffByYear} Years {diffByMonths} Months
+                  </h4>
+                </Col>
+                <Col sm="6" md="6">
+                  <h5 className="mb-1 text-secondary">Assessment Duration</h5>
+                  <h4>12 months</h4>
+                </Col>
+                <Col sm="6" md="6">
+                  <h5 className="mb-1 text-secondary">SBU</h5>
+                  <h4>{employee_details?.sbu?.name}</h4>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+          <hr />
+
+          {/* FORM BODY */}
+          <div className="mt-4">
+            <Form onSubmit={handleConfirm}>
+              {/* KPI  */}
+              <div className="card">
+                <div className="card-header">
+                  <h2 className="mb-0 py-3">KPI</h2>
+                  <i className="fe fe-bar-chart fs-2 text-muted"></i>
+                </div>
+                <div className="card-body">
+                  <Row>
                     <Col sm="6" md="4" className="mb-4">
                       <Form.Group>
                         <h4 className="text-secondary">
-                          HR Rating {new Date().getFullYear()} <span className="text-danger">*</span>
+                          Objective {new Date().getFullYear()} <span className="text-danger">*</span>{" "}
                         </h4>
                       </Form.Group>
                       <ReactSelect
-                        options={hrRatingList}
+                        options={kpiObjectiveList}
                         placeholder={
-                          hr_rat_curr !== "" && hrRatingList?.map((d) => (d.value === hr_rat_curr ? d.label : null))
+                          kpi_obj_curr !== "" && kpiObjectiveList?.map((d) => (d.value === kpi_obj_curr ? d.label : null))
                         }
                         onChange={(e) => {
-                          setHr_rat_curr(e.value);
+                          setKpi_obj_curr(e.value);
                         }}
                         // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
                       />
                     </Col>
-                  )}
+                    <Col sm="6" md="4" className="mb-4">
+                      <Form.Group>
+                        <h4 className="text-secondary">
+                          Value {new Date().getFullYear()} <span className="text-danger">*</span>{" "}
+                        </h4>
+                      </Form.Group>
+                      <ReactSelect
+                        options={kpiValueList}
+                        placeholder={
+                          kpi_val_curr !== "" && kpiValueList?.map((d) => (d.value === kpi_val_curr ? d.label : null))
+                        }
+                        onChange={(e) => {
+                          setKpi_val_curr(e.value);
+                        }}
+                        // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
+                      />
+                    </Col>
+                    {user.group_id.split(",").includes("7") && (
+                      <Col sm="6" md="4" className="mb-4">
+                        <Form.Group>
+                          <h4 className="text-secondary">
+                            HR Rating {new Date().getFullYear()} <span className="text-danger">*</span>
+                          </h4>
+                        </Form.Group>
+                        <ReactSelect
+                          options={hrRatingList}
+                          placeholder={
+                            hr_rat_curr !== "" && hrRatingList?.map((d) => (d.value === hr_rat_curr ? d.label : null))
+                          }
+                          onChange={(e) => {
+                            setHr_rat_curr(e.value);
+                          }}
+                          // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
+                        />
+                      </Col>
+                    )}
 
-                  <Col sm="6" md="4" className="mb-4">
-                    <Form.Group>
-                      <h4 className="text-secondary">
-                        KPI {new Date().getFullYear()} <span className="text-danger">*</span>
-                      </h4>
-                    </Form.Group>
-                    <FormControl value={kpi_overall_curr} disabled className="bg-light" />
-                  </Col>
+                    <Col sm="6" md="4" className="mb-4">
+                      <Form.Group>
+                        <h4 className="text-secondary">
+                          KPI {new Date().getFullYear()} <span className="text-danger">*</span>
+                        </h4>
+                      </Form.Group>
+                      <FormControl value={kpi_overall_curr} disabled className="bg-light" />
+                    </Col>
 
-                  <Col sm="6" md="4" className="mb-4">
-                    <Form.Group>
-                      <h4 className="text-secondary">
-                        Criticality {new Date().getFullYear()} <span className="text-danger">*</span>
-                      </h4>
-                    </Form.Group>
-                    <ReactSelect
-                      options={criticalityList}
-                      placeholder={
-                        criticality_curr !== "" &&
-                        criticalityList?.map((d) => (d.value === criticality_curr ? d.label : null))
-                      }
-                      onChange={(e) => {
-                        setCriticality_curr(e.value);
-                      }}
-                      // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
-                    />
-                  </Col>
-                </Row>
+                    <Col sm="6" md="4" className="mb-4">
+                      <Form.Group>
+                        <h4 className="text-secondary">
+                          Criticality {new Date().getFullYear()} <span className="text-danger">*</span>
+                        </h4>
+                      </Form.Group>
+                      <ReactSelect
+                        options={criticalityList}
+                        placeholder={
+                          criticality_curr !== "" &&
+                          criticalityList?.map((d) => (d.value === criticality_curr ? d.label : null))
+                        }
+                        onChange={(e) => {
+                          setCriticality_curr(e.value);
+                        }}
+                        // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
+                      />
+                    </Col>
+                  </Row>
+                </div>
               </div>
-            </div>
 
-            {/* Permormance and outcome */}
-            <div className="card">
-              <div className="card-header">
-                <h2 className="mb-0 py-3">Permormance</h2>
-                <i className="fe fe-sliders fs-2 text-muted"></i>
-              </div>
-              <div className="card-body">
-                <Row>
-                  <Col sm="6" md="4" className="mb-4">
-                    <Form.Group>
-                      <h4 className="text-secondary">
-                        Top/Average/Bottom Performer {new Date().getFullYear()} <span className="text-danger">*</span>
-                      </h4>
-                    </Form.Group>
-                    <ReactSelect
-                      options={topAvgBotPerformerList}
-                      // placeholder={top_avg_bot_performer_curr}
-                      placeholder={
-                        top_avg_bot_performer_curr !== "" &&
-                        topAvgBotPerformerList?.map((d) => (d.value === top_avg_bot_performer_curr ? d.label : null))
-                      }
-                      onChange={(e) => {
-                        setTop_avg_bot_performer_curr(e.value);
-                      }}
-                      // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
-                    />
-                  </Col>
-                  <Col sm="6" md="4" className="mb-4">
-                    <Form.Group>
-                      <h4 className="text-secondary">
-                        Best performer inside team {new Date().getFullYear()} <span className="text-danger">*</span>
-                      </h4>
-                    </Form.Group>
-                    <ReactSelect
-                      options={bestPerformerTeamList}
-                      placeholder={
-                        best_performer_team_curr !== "" &&
-                        bestPerformerTeamList?.map((d) => (d.value === best_performer_team_curr ? d.label : null))
-                      }
-                      onChange={(e) => {
-                        setBest_performer_team_curr(e.value);
-                      }}
-                      // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
-                    />
-                  </Col>
-                  <Col sm="6" md="4" className="mb-4">
-                    <Form.Group>
-                      <h4 className="text-secondary">
-                        Best performer in the organization {new Date().getFullYear()} <span className="text-danger">*</span>
-                      </h4>
-                    </Form.Group>
-                    <ReactSelect
-                      options={bestPerformerOrgList}
-                      placeholder={
-                        best_performer_org_curr !== "" &&
-                        bestPerformerOrgList?.map((d) => (d.value === best_performer_org_curr ? d.label : null))
-                      }
-                      onChange={(e) => {
-                        setBest_performer_org_curr(e.value);
-                      }}
-                      // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
-                    />
-                  </Col>
+              {/* Permormance and outcome */}
+              <div className="card">
+                <div className="card-header">
+                  <h2 className="mb-0 py-3">Permormance</h2>
+                  <i className="fe fe-sliders fs-2 text-muted"></i>
+                </div>
+                <div className="card-body">
+                  <Row>
+                    <Col sm="6" md="4" className="mb-4">
+                      <Form.Group>
+                        <h4 className="text-secondary">
+                          Top/Average/Bottom Performer {new Date().getFullYear()} <span className="text-danger">*</span>
+                        </h4>
+                      </Form.Group>
+                      <ReactSelect
+                        options={topAvgBotPerformerList}
+                        // placeholder={top_avg_bot_performer_curr}
+                        placeholder={
+                          top_avg_bot_performer_curr !== "" &&
+                          topAvgBotPerformerList?.map((d) => (d.value === top_avg_bot_performer_curr ? d.label : null))
+                        }
+                        onChange={(e) => {
+                          setTop_avg_bot_performer_curr(e.value);
+                        }}
+                        // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
+                      />
+                    </Col>
+                    <Col sm="6" md="4" className="mb-4">
+                      <Form.Group>
+                        <h4 className="text-secondary">
+                          Best performer inside team {new Date().getFullYear()} <span className="text-danger">*</span>
+                        </h4>
+                      </Form.Group>
+                      <ReactSelect
+                        options={bestPerformerTeamList}
+                        placeholder={
+                          best_performer_team_curr !== "" &&
+                          bestPerformerTeamList?.map((d) => (d.value === best_performer_team_curr ? d.label : null))
+                        }
+                        onChange={(e) => {
+                          setBest_performer_team_curr(e.value);
+                        }}
+                        // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
+                      />
+                    </Col>
+                    <Col sm="6" md="4" className="mb-4">
+                      <Form.Group>
+                        <h4 className="text-secondary">
+                          Best performer in the organization {new Date().getFullYear()}{" "}
+                          <span className="text-danger">*</span>
+                        </h4>
+                      </Form.Group>
+                      <ReactSelect
+                        options={bestPerformerOrgList}
+                        placeholder={
+                          best_performer_org_curr !== "" &&
+                          bestPerformerOrgList?.map((d) => (d.value === best_performer_org_curr ? d.label : null))
+                        }
+                        onChange={(e) => {
+                          setBest_performer_org_curr(e.value);
+                        }}
+                        // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
+                      />
+                    </Col>
 
-                  <Col sm="6" md="4" className="mb-4">
-                    <Form.Group>
-                      <h4 className="text-secondary">
-                        Best performer among all PM {new Date().getFullYear()} <span className="text-danger">*</span>
-                      </h4>
-                    </Form.Group>
-                    <ReactSelect
-                      options={bestPerformerPmList}
-                      placeholder={
-                        best_performer_pm_curr !== "" &&
-                        bestPerformerPmList?.map((d) => (d.value === best_performer_pm_curr ? d.label : null))
-                      }
-                      onChange={(e) => {
-                        setBest_performer_pm_curr(e.value);
-                      }}
-                      // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
-                    />
-                  </Col>
+                    <Col sm="6" md="4" className="mb-4">
+                      <Form.Group>
+                        <h4 className="text-secondary">
+                          Best performer among all PM {new Date().getFullYear()} <span className="text-danger">*</span>
+                        </h4>
+                      </Form.Group>
+                      <ReactSelect
+                        options={bestPerformerPmList}
+                        placeholder={
+                          best_performer_pm_curr !== "" &&
+                          bestPerformerPmList?.map((d) => (d.value === best_performer_pm_curr ? d.label : null))
+                        }
+                        onChange={(e) => {
+                          setBest_performer_pm_curr(e.value);
+                        }}
+                        // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
+                      />
+                    </Col>
 
-                  <Col sm="6" md="4" className="mb-4">
-                    <Form.Group>
-                      <h4 className="text-secondary">
-                        Best innovator inside team {new Date().getFullYear()} <span className="text-danger">*</span>
-                      </h4>
-                    </Form.Group>
-                    <ReactSelect
-                      options={bestInnovatorTeamList}
-                      placeholder={
-                        best_innovator_team_curr !== "" &&
-                        bestInnovatorTeamList?.map((d) => (d.value === best_innovator_team_curr ? d.label : null))
-                      }
-                      onChange={(e) => {
-                        setBest_innovator_team_curr(e.value);
-                      }}
-                      // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
-                    />
-                  </Col>
-                </Row>
+                    <Col sm="6" md="4" className="mb-4">
+                      <Form.Group>
+                        <h4 className="text-secondary">
+                          Best innovator inside team {new Date().getFullYear()} <span className="text-danger">*</span>
+                        </h4>
+                      </Form.Group>
+                      <ReactSelect
+                        options={bestInnovatorTeamList}
+                        placeholder={
+                          best_innovator_team_curr !== "" &&
+                          bestInnovatorTeamList?.map((d) => (d.value === best_innovator_team_curr ? d.label : null))
+                        }
+                        onChange={(e) => {
+                          setBest_innovator_team_curr(e.value);
+                        }}
+                        // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
+                      />
+                    </Col>
+                  </Row>
+                </div>
               </div>
-            </div>
 
-            {/* Outcome */}
-            <div className="card">
-              <div className="card-header">
-                <h2 className="mb-0 py-3">Outcome</h2>
-                <i className="fe fe-trending-up fs-2 text-muted "></i>
+              {/* Outcome */}
+              <div className="card">
+                <div className="card-header">
+                  <h2 className="mb-0 py-3">Outcome</h2>
+                  <i className="fe fe-trending-up fs-2 text-muted "></i>
+                </div>
+                <div className="card-body">
+                  <Row>
+                    <Col sm="6" md="4" className="mb-4">
+                      <Form.Group>
+                        <h4 className="text-secondary">
+                          Potential for Improvement <br /> {new Date().getFullYear()} <span className="text-danger">*</span>
+                        </h4>
+                      </Form.Group>
+                      <ReactSelect
+                        options={potentialImprovementList}
+                        placeholder={
+                          pot_improve_curr !== "" &&
+                          potentialImprovementList?.map((d) => (d.value === pot_improve_curr ? d.label : null))
+                        }
+                        onChange={(e) => {
+                          setPot_improve_curr(e.value);
+                        }}
+                        // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
+                      />
+                    </Col>
+                    <Col sm="6" md="4" className="mb-4">
+                      <Form.Group>
+                        <h4 className="text-secondary">
+                          Technical/Implementation/Operational {new Date().getFullYear()}{" "}
+                          <span className="text-danger">*</span>
+                        </h4>
+                      </Form.Group>
+                      <ReactSelect
+                        options={technicalImplementationOperationalList}
+                        placeholder={
+                          tech_imple_opera_curr !== "" &&
+                          technicalImplementationOperationalList?.map((d) =>
+                            d.value === tech_imple_opera_curr ? d.label : null
+                          )
+                        }
+                        onChange={(e) => {
+                          setTech_imple_opera_curr_curr(e.value);
+                        }}
+                        // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
+                      />
+                    </Col>
+                    <Col sm="6" md="4" className="mb-4">
+                      <Form.Group>
+                        <h4 className="text-secondary">
+                          Confirmation/Increment/No Increment {new Date().getFullYear()}{" "}
+                          <span className="text-danger">*</span>
+                        </h4>
+                      </Form.Group>
+                      <ReactSelect
+                        options={confIncNoIncList}
+                        placeholder={
+                          conf_inc_noInc !== "" &&
+                          confIncNoIncList?.map((d) => (d.value === conf_inc_noInc ? d.label : null))
+                        }
+                        onChange={(e) => {
+                          setConf_inc_noInc(e.value);
+                        }}
+                        // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
+                      />
+                    </Col>
+                    <Col sm="12" md="4" className="mb-4">
+                      <Form.Group>
+                        <h4 className="text-secondary">
+                          Proposed Designation {new Date().getFullYear()} <span className="text-danger">*</span>
+                        </h4>
+                      </Form.Group>
+                      <ReactSelect
+                        options={designationList}
+                        placeholder={proposed_designation}
+                        // placeholder={
+                        //   proposed_designation_id !== "" &&
+                        //   designationList?.map((d) => (d.value === proposed_designation_id ? d.label : null))
+                        // }
+                        onChange={(e) => {
+                          setProposed_designation(e.label);
+                          setProposed_designation_id(e.value);
+                        }}
+                        // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
+                      />
+                    </Col>
+                    <Col sm="6" md="4" className="mb-4">
+                      <Form.Group>
+                        <h4 className="text-secondary">
+                          Proposed Amount By Supervisor {new Date().getFullYear()} <span className="text-danger">*</span>
+                        </h4>
+                      </Form.Group>
+                      <FormControl
+                        type="text"
+                        value={propose_SBU}
+                        onChange={(e) => {
+                          setPropose_sbu(e.target.value.replace(/[^0-9]/g, ""));
+                        }}
+                        //  disabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
+                      />
+                    </Col>
+                  </Row>
+                </div>
               </div>
-              <div className="card-body">
-                <Row>
-                  <Col sm="6" md="4" className="mb-4">
-                    <Form.Group>
-                      <h4 className="text-secondary">
-                        Potential for Improvement <br /> {new Date().getFullYear()} <span className="text-danger">*</span>
-                      </h4>
-                    </Form.Group>
-                    <ReactSelect
-                      options={potentialImprovementList}
-                      placeholder={
-                        pot_improve_curr !== "" &&
-                        potentialImprovementList?.map((d) => (d.value === pot_improve_curr ? d.label : null))
-                      }
-                      onChange={(e) => {
-                        setPot_improve_curr(e.value);
-                      }}
-                      // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
-                    />
-                  </Col>
-                  <Col sm="6" md="4" className="mb-4">
-                    <Form.Group>
-                      <h4 className="text-secondary">
-                        Technical/Implementation/Operational {new Date().getFullYear()}{" "}
-                        <span className="text-danger">*</span>
-                      </h4>
-                    </Form.Group>
-                    <ReactSelect
-                      options={technicalImplementationOperationalList}
-                      placeholder={
-                        tech_imple_opera_curr !== "" &&
-                        technicalImplementationOperationalList?.map((d) =>
-                          d.value === tech_imple_opera_curr ? d.label : null
-                        )
-                      }
-                      onChange={(e) => {
-                        setTech_imple_opera_curr_curr(e.value);
-                      }}
-                      // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
-                    />
-                  </Col>
-                  <Col sm="6" md="4" className="mb-4">
-                    <Form.Group>
-                      <h4 className="text-secondary">
-                        Confirmation/Increment/No Increment {new Date().getFullYear()} <span className="text-danger">*</span>
-                      </h4>
-                    </Form.Group>
-                    <ReactSelect
-                      options={confIncNoIncList}
-                      placeholder={
-                        conf_inc_noInc !== "" && confIncNoIncList?.map((d) => (d.value === conf_inc_noInc ? d.label : null))
-                      }
-                      onChange={(e) => {
-                        setConf_inc_noInc(e.value);
-                      }}
-                      // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
-                    />
-                  </Col>
-                  <Col sm="12" md="4" className="mb-4">
-                    <Form.Group>
-                      <h4 className="text-secondary">
-                        Proposed Designation {new Date().getFullYear()} <span className="text-danger">*</span>
-                      </h4>
-                    </Form.Group>
-                    <ReactSelect
-                      options={designationList}
-                      placeholder={proposed_designation}
-                      // placeholder={
-                      //   proposed_designation_id !== "" &&
-                      //   designationList?.map((d) => (d.value === proposed_designation_id ? d.label : null))
-                      // }
-                      onChange={(e) => {
-                        setProposed_designation(e.label);
-                        setProposed_designation_id(e.value);
-                      }}
-                      // isDisabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
-                    />
-                  </Col>
-                  <Col sm="6" md="4" className="mb-4">
-                    <Form.Group>
-                      <h4 className="text-secondary">
-                        Proposed Amount By Supervisor {new Date().getFullYear()} <span className="text-danger">*</span>
-                      </h4>
-                    </Form.Group>
-                    <FormControl
-                      type="text"
-                      value={propose_SBU}
-                      onChange={(e) => {
-                        setPropose_sbu(e.target.value.replace(/[^0-9]/g, ""));
-                      }}
-                      //  disabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
-                    />
-                  </Col>
-                </Row>
-              </div>
-            </div>
 
-            {/* Others */}
-            <div className="card">
-              <div className="card-header">
-                <h2 className="mb-0 py-3">Others</h2>
-                <i className="fe fe-align-right fs-2 text-muted "></i>
+              {/* Others */}
+              <div className="card">
+                <div className="card-header">
+                  <h2 className="mb-0 py-3">Others</h2>
+                  <i className="fe fe-align-right fs-2 text-muted "></i>
+                </div>
+                <div className="card-body">
+                  <Row>
+                    <Col sm="12" md="12" className="mb-4">
+                      <Form.Group>
+                        <h4 className="text-secondary">Remarks {new Date().getFullYear()}</h4>
+                      </Form.Group>
+                      <FormControl
+                        as="textarea"
+                        rows={3}
+                        value={remarks}
+                        onChange={(e) => {
+                          setRemarks(e.target.value);
+                        }}
+                        //  disabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
+                      />
+                    </Col>
+                  </Row>
+                </div>
               </div>
-              <div className="card-body">
-                <Row>
-                  <Col sm="12" md="12" className="mb-4">
-                    <Form.Group>
-                      <h4 className="text-secondary">Remarks {new Date().getFullYear()}</h4>
-                    </Form.Group>
-                    <FormControl
-                      as="textarea"
-                      rows={3}
-                      value={remarks}
-                      onChange={(e) => {
-                        setRemarks(e.target.value);
-                      }}
-                      //  disabled={user.group_id.split(",").includes("2") && isSupervisor === "False"}
-                    />
-                  </Col>
-                </Row>
-              </div>
-            </div>
-            {user.accessibility.includes("assessment.update") && (
-              <button className="btn btn-primary px-4" type="submit">
-                Save
+              {user.accessibility.includes("assessment.update") && (
+                <button className="btn btn-primary px-4" type="submit">
+                  Save
+                </button>
+              )}
+
+              <button className="btn btn-light px-4 ms-2 fw-bold" onClick={() => navigate(-1)}>
+                Cancel
               </button>
-            )}
+            </Form>
+          </div>
 
-            <button className="btn btn-light px-4 ms-2 fw-bold" onClick={() => navigate(-1)}>
-              Cancel
-            </button>
-          </Form>
-        </div>
-
-        {isConfirm && (
-          <ConfirmDialog
-            message={"Are you sure you want to submit?"}
-            onOkButtonClick={handleSave}
-            onCancelButtonClick={(e) => setIsConfirm(false)}
-          />
-        )}
-      </Content>
-    </Layout>
-  );
+          {isConfirm && (
+            <ConfirmDialog
+              message={"Are you sure you want to submit?"}
+              onOkButtonClick={handleSave}
+              onCancelButtonClick={(e) => setIsConfirm(false)}
+            />
+          )}
+        </Content>
+      </Layout>
+    );
+  } else {
+    return <Navigate to={UNAUTHORIZED} />;
+  }
 }

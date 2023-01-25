@@ -73,7 +73,10 @@ export const APPRAISAL_FORM_GET = "/kpi_performance/$/employee_performance/";
 // export const EMPLOYEE_PERFORMANCE_EACH_GET = (id) => `/kpi_performance/${id}/`;
 export const EMPLOYEE_PERFORMANCE_EACH_GET = (id) => `/team_apprisal_review_kpi_performance/${id}/`;
 export const EMPLOYEE_PERFORMANCE_EACH_PUT = (id) => `/kpi_performance/${id}/`;
+
 export const EMPLOYEE_ASSESTMENT_SINGLE_GET = (id) => `/assessment/${id}/`;
+export const EMPLOYEE_ASSESTMENT_TEAM_SINGLE_GET = (id) => `/team_assessment_perf_assessment/${id}/`;
+
 // export const EMPLOYEE_ASSESTMENT_SINGLE_POST = (id) => `/assessment/${id}/`;
 export const EMPLOYEE_ASSESTMENT_SINGLE_POST = (id) => `/team_assessment_perf_assessment/${id}/`;
 
