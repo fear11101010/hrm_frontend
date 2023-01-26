@@ -21,25 +21,41 @@ export default function Summary({ rowId }) {
     {
       name: "Basic Salary",
       selector: (row) => row?.basic_salary,
-      cell: (row) => _Decode(row?.basic_salary?.toLocaleString("en-IN")),
+      cell: (row) => (
+        <>{_Decode(row?.basic_salary) === "None" ? "0" : _Decode(row?.basic_salary?.toLocaleString("en-IN"))}</>
+      ),
       right: true,
     },
     {
       name: "Gross Salary",
       selector: (row) => row?.gross_salary,
-      cell: (row) => _Decode(row?.new_gross_salary_b?.toLocaleString("en-IN")),
+      cell: (row) => (
+        <>{_Decode(row?.new_gross_salary_b) === "None" ? "0" : _Decode(row?.new_gross_salary_b?.toLocaleString("en-IN"))}</>
+      ),
       right: true,
     },
     {
       name: "Increment Amount",
       selector: (row) => row?.proposed_by_sbu_director_pm_self,
-      cell: (row) => _Decode(row?.proposed_by_sbu_director_pm_self?.toLocaleString("en-IN")),
+      cell: (row) => (
+        <>
+          {_Decode(row?.proposed_by_sbu_director_pm_self) === "None"
+            ? "0"
+            : _Decode(row?.proposed_by_sbu_director_pm_self?.toLocaleString("en-IN"))}
+        </>
+      ),
       right: true,
     },
     {
       name: <div className="text-end">Proposed Amount by Director</div>,
       selector: (row) => row?.proposed_by_sbu_director_pm_self,
-      cell: (row) => _Decode(row?.proposed_by_sbu_director_pm_self?.toLocaleString("en-IN")),
+      cell: (row) => (
+        <>
+          {_Decode(row?.proposed_by_sbu_director_pm_self) === "None"
+            ? "0"
+            : _Decode(row?.proposed_by_sbu_director_pm_self?.toLocaleString("en-IN"))}
+        </>
+      ),
       right: true,
     },
     {
