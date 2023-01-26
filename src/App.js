@@ -131,7 +131,8 @@ import {
   BRANCH_LIST_PAGE,
   VENDOR_LIST_PAGE,
   VENDOR_MENU_LIST_PAGE,
-  ADMIN_MENU_ENTRY_CREATE_PAGE, ADMIN_MENU_ENTRY_LIST_PAGE,
+  ADMIN_MENU_ENTRY_CREATE_PAGE,
+  ADMIN_MENU_ENTRY_LIST_PAGE,
 } from "./utils/routes/app_routes/LUNCH_ROUTES";
 import LunchOutlet from "./outlets/lunchManagementOutlet/LunchOutlet";
 import LunchOrder from "./pages/LunchBillManagement/lunch/lunch_order/LunchOrder";
@@ -153,6 +154,11 @@ import VendorMenuList from "./pages/LunchBillManagement/Admin/Settings/Vendor/Me
 import AdminMenuEntry from "./pages/LunchBillManagement/Admin/Settings/MenuEntry/AdminMenuEntry";
 import AdminMenuEntryList from "./pages/LunchBillManagement/Admin/Settings/MenuEntry/AdminMenuEntryList";
 import UpdateCircularToEmployee from "./pages/hrm/Configuration/update-circular/UpdateCircularToEmployee";
+import BillManagementOutlet from "./outlets/billing/BillManagementOutlet";
+import { BILLING_DASHBOARD, BILL_ADD_URL, BILL_LIST_URL } from "./utils/routes/app_routes/BILL_APP_ROUTE";
+import BillingBashboard from "./pages/bill-management/dashboard/BillingBashboard";
+import Bill from "./pages/bill-management/Bill/Bill";
+import BillAdd from "./pages/bill-management/Bill/billAdd";
 
 // import BillList from "./pages/bill-management/bill/List";
 // import BillAdd from "./pages/bill-management/bill/billAdd";
@@ -208,11 +214,12 @@ function App() {
           <Route path={SUPERVISOR_APPRAISAL_REVIEW_PAGE} element={<SupervisorAppraisalReview />} />
         </Route>
 
-        {/* BILL */}
-        {/*<Route path={"/"} element={<RequisitionOutlet />}>*/}
-        {/*  <Route path={BILL_LIST} element={<BillList />} />*/}
-        {/*  <Route path={BILL_ADD} element={<BillAdd />} />*/}
-        {/*</Route>*/}
+        {/* BILL MANAGEENT */}
+        <Route path={"/bill_management"} element={<BillManagementOutlet />}>
+          <Route path={BILLING_DASHBOARD} element={<BillingBashboard />} />
+          <Route path={BILL_LIST_URL} element={<Bill />} />
+          <Route path={BILL_ADD_URL} element={<BillAdd />} />
+        </Route>
 
         {/* REQUISITION */}
         <Route path={"/requisition"} element={<RequisitionOutlet />}>

@@ -62,13 +62,17 @@ export default function Summary({ rowId }) {
       name: "Percentage of Increment",
       selector: (row) => row?.percentage_of_increment,
       cell: (row) => (
-        <>        
+        <>
           {_Decode(row?.percentage_of_increment) === "None" && <span>0.0</span>}
           {/* {_Decode(row?.percentage_of_increment) !== "None" && <span>{_Decode(row?.percentage_of_increment)}%</span>} */}
-          {_Decode(row?.percentage_of_increment) !== "None" && <span>{_Decode(row?.percentage_of_increment)?.toString()?.split('.')[0]}.{_Decode(row?.percentage_of_increment)?.toString()?.split('.')[1]?.split("")[0]}{_Decode(row?.percentage_of_increment)?.toString()?.split('.')[1]?.split("")[1]}%</span>}
+          {_Decode(row?.percentage_of_increment) !== "None" && (
+            <span>
+              {_Decode(row?.percentage_of_increment)?.toString()?.split(".")[0]}.
+              {_Decode(row?.percentage_of_increment)?.toString()?.split(".")[1]?.split("")[0]}
+              {_Decode(row?.percentage_of_increment)?.toString()?.split(".")[1]?.split("")[1]}%
+            </span>
+          )}
         </>
-
-        
       ),
     },
   ];

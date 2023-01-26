@@ -6,4 +6,5 @@
     letter-spacing: 0;
     text-transform: capitalize;
     padding: 8px;
+    z-index: 999;
 }
