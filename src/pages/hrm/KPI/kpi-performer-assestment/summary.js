@@ -47,8 +47,7 @@ export default function Summary({ rowId }) {
       selector: (row) => row?.percentage_of_increment,
       cell: (row) => (
         <p className="mb-0">
-          {" "}
-          {_Decode(row?.percentage_of_increment) === "None" ? "0" : _Decode(row?.percentage_of_increment).toFixed(2)}%
+          {_Decode(row?.percentage_of_increment) === "None" ? "0.0" : _Decode(row?.percentage_of_increment)}%
         </p>
       ),
     },
