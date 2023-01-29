@@ -178,7 +178,7 @@ export default function InnerLanding({ children }) {
                   </Card>
                 </Button>
               </Col>
-              {/*<Col sm={12} md={3} lg={3} className="mb-3">
+              <Col sm={12} md={3} lg={3} className="mb-3">
                 <Button
                   className="module-button border-0"
                   variant="light"
@@ -194,7 +194,7 @@ export default function InnerLanding({ children }) {
                     </Card.Body>
                   </Card>
                 </Button>
-              </Col>*/}
+              </Col>
             </Row>
           </Container>
         </div>

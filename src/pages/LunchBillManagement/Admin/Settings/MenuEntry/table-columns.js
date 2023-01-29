@@ -38,7 +38,7 @@ export const ADMIN_MENU_ENTRY_TABLE_COLUMNS=(editFunc,deleteFunc)=>[
         name:'Action',
         cell:(row,i)=>(
             <div className="d-flex">
-                {(user.accessibility.includes("subsidy.update") || true) && <Button disabled={row?.disabled} className="me-3" size="sm" variant="primary" onClick={e=>editFunc(e,i)}>
+                {(user.accessibility.includes("subsidy.update") || true) && <Button disabled={row?.disabled} className="me-3" size="sm" variant="primary" onClick={e=>editFunc(row,e)}>
                     <FaEdit/> Edit
                 </Button>}
                 {(user.accessibility.includes("subsidy.destroy") || true) && <Button disabled={row?.disabled} size="sm" variant="danger" onClick={e=>deleteFunc(e,i)}>

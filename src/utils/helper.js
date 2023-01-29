@@ -30,7 +30,8 @@ export const monthAndYearList = () => {
         .map((v, i) => ({value: v, label: v}))
     return [monthList, yearList, currentMoment, weeklyHoliday]
 }
-export const generateCalender = ({month, year, menuEntry}) => {
+export const generateCalender = ({month, year, menuEntry,id}) => {
+    console.log({id})
     const [, _, currentMoment, weeklyHoliday] = monthAndYearList();
     const calender = []
     const m = moment().month(month).year(year);
@@ -44,10 +45,29 @@ export const generateCalender = ({month, year, menuEntry}) => {
             officeBranch: menuEntry?.mapping_menu_entry?.find(d => d?.day === i) ? menuEntry?.office_branch?.name : '---',
             vendor: menuEntry?.mapping_menu_entry?.find(d => d?.day === i) ? menuEntry?.vendor?.name : '---',
             menus: menuEntry?.mapping_menu_entry?.find(d => d?.day === i) ? menuEntry?.mapping_menu_entry?.find(d => d?.day === i)?.menus : undefined,
-            disabled:currentMoment.month()===month?currentMoment.date()<i:false
+            disabled:currentMoment.month()===month?currentMoment.date()<i:false,
+            menuEntryId:id,
+            id:menuEntry?.id
         })
     }
     return calender;
+}
+export const generateCalenderForCreateOrUpdate = ({month, year, menus}) => {
+    const [, _, currentMoment, weeklyHoliday] = monthAndYearList()
+    const m = moment().month(month).year(year);
+    const totalDaysInAMonth = m.daysInMonth();
+    const mappingMenuEntry = []
+    for (let i = currentMoment.month() === m.month() ? m.date() : 1; i <= totalDaysInAMonth; i++) {
+        const dm = m.date(i);
+        if (weeklyHoliday.indexOf(dm.weekday()) >= 0) continue;
+        mappingMenuEntry.push({
+            day: i,
+            weekday: moment.weekdays(m.date(i).weekday()),
+            date: m.date(i).format('YYYY-MM-DD'),
+            menus: menus?.map(v => false)
+        })
+    }
+    return mappingMenuEntry;
 }
 
 export const getStatus = (statusId)=>{

@@ -17,8 +17,11 @@ import {generateCalender, monthAndYearList} from "../../../../../utils/helper";
 import CustomTable from "../../../../../components/custom-table/CustomTable";
 import {ADMIN_MENU_ENTRY_TABLE_COLUMNS} from "./table-columns";
 import {MdDelete, MdModeEdit} from "react-icons/md";
-import {Link} from "react-router-dom";
-import {ADMIN_MENU_ENTRY_CREATE_PAGE} from "../../../../../utils/routes/app_routes/LUNCH_ROUTES";
+import {Link, useNavigate} from "react-router-dom";
+import {
+    ADMIN_MENU_ENTRY_CREATE_PAGE,
+    ADMIN_MENU_ENTRY_EDIT_PAGE
+} from "../../../../../utils/routes/app_routes/LUNCH_ROUTES";
 import {MENU_ENTRY_TABLE_COLUMNS} from "../../table-columns";
 
 function CustomToggle({children, eventKey}) {
@@ -42,6 +45,7 @@ export default function AdminMenuEntryList(props) {
     const [defaultEventKey, setDefaultEventKey] = useState(0);
     const [branchList, setBranchList] = useState([]);
     const [tableColumns, setTableColumns] = useState([])
+    const navigate = useNavigate()
     useEffect(() => {
         if (data?.data) {
             loadMenuEntryData();
@@ -51,7 +55,11 @@ export default function AdminMenuEntryList(props) {
     useEffect(() => {
         if(menuEntryList.length>0){
             setTableColumns([])
-            const columns = ADMIN_MENU_ENTRY_TABLE_COLUMNS((d, e) => {}, (d, e) => {})
+            const columns = ADMIN_MENU_ENTRY_TABLE_COLUMNS((d, e) => {
+                e.preventDefault();
+                console.log(d)
+                navigate(ADMIN_MENU_ENTRY_EDIT_PAGE(d?.menuEntryId,d?.id))
+            }, (d, e) => {})
             menuEntryList?.forEach(({mapping_menu_entry},i)=>{
                 const cols = addNewField(mapping_menu_entry);
                 const newCols = [...columns]
@@ -242,7 +250,8 @@ export default function AdminMenuEntryList(props) {
                                     <CustomTable data={generateCalender({
                                         month: entryList?.month,
                                         year: entryList?.year,
-                                        menuEntry: entryList
+                                        menuEntry: entryList,
+                                        id:menuEntryList?.id
                                     })}
                                                  pagination={{}}
                                                  size="sm" columns={tableColumns[i] || []} responsive/>

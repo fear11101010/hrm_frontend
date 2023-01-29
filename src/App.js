@@ -131,7 +131,7 @@ import {
   BRANCH_LIST_PAGE,
   VENDOR_LIST_PAGE,
   VENDOR_MENU_LIST_PAGE,
-  ADMIN_MENU_ENTRY_CREATE_PAGE, ADMIN_MENU_ENTRY_LIST_PAGE,
+  ADMIN_MENU_ENTRY_CREATE_PAGE, ADMIN_MENU_ENTRY_LIST_PAGE, ADMIN_MENU_ENTRY_EDIT_PAGE_URL,
 } from "./utils/routes/app_routes/LUNCH_ROUTES";
 import LunchOutlet from "./outlets/lunchManagementOutlet/LunchOutlet";
 import LunchOrder from "./pages/LunchBillManagement/lunch/lunch_order/LunchOrder";
@@ -153,6 +153,7 @@ import VendorMenuList from "./pages/LunchBillManagement/Admin/Settings/Vendor/Me
 import AdminMenuEntry from "./pages/LunchBillManagement/Admin/Settings/MenuEntry/AdminMenuEntry";
 import AdminMenuEntryList from "./pages/LunchBillManagement/Admin/Settings/MenuEntry/AdminMenuEntryList";
 import UpdateCircularToEmployee from "./pages/hrm/Configuration/update-circular/UpdateCircularToEmployee";
+import AdminMenuEntryEdit from "./pages/LunchBillManagement/Admin/Settings/MenuEntry/AdminMenuEntryEdit";
 
 // import BillList from "./pages/bill-management/bill/List";
 // import BillAdd from "./pages/bill-management/bill/billAdd";
@@ -261,6 +262,7 @@ function App() {
           <Route path={HOLIDAY_CALENDER_PAGE} element={<HolidayCalender />} />
           <Route path={ADMIN_MENU_ENTRY_LIST_PAGE} element={<AdminMenuEntryList />} />
           <Route path={ADMIN_MENU_ENTRY_CREATE_PAGE} element={<AdminMenuEntry />} />
+          <Route path={ADMIN_MENU_ENTRY_EDIT_PAGE_URL} element={<AdminMenuEntryEdit />} />
 
           <Route path={LUNCH_REPORT_EMPLOYEE_PAGE} element={<LunchReportForEmployee />} />
           <Route path={LUNCH_REPORT_ADMIN_PAGE} element={<LunchReportForAdmin />} />

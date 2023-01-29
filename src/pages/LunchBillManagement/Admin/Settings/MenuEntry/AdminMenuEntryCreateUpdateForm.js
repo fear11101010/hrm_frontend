@@ -7,7 +7,7 @@ import {MENU_ENTRY_TABLE_COLUMNS} from "../../table-columns";
 import {API} from "../../../../../utils/axios/axiosConfig";
 import {
     BRANCH_LIST_CREATE_API,
-    MONTHLY_MENU_ENTRY_LIST_CREATE_API,
+    MONTHLY_MENU_ENTRY_LIST_CREATE_API, MONTHLY_MENU_ENTRY_UPDATE_API,
     VENDOR_LIST_BY_BRANCH_API
 } from "../../../../../utils/routes/api_routes/LUNCH_ROUTES";
 import {error_alert, success_alert} from "../../../../../components/alert/Alert";
@@ -15,7 +15,7 @@ import {useCallback, useEffect, useState} from "react";
 import {monthAndYearList} from "../../../../../utils/helper";
 import useFetch from "../../../../../hooks/useFetch";
 
-const MonthlyMenuMappingComponent = ({index, menus, register, control, func}) => {
+const MonthlyMenuMappingComponent = ({index, menus, register, control,func}) => {
     const {fields, append, remove, update} = useFieldArray({
         control,
         name: `mapping_menu_entry.${index}.menus`,
@@ -66,7 +66,8 @@ export default function AdminMenuEntryCreateUpdateForm({
                                                            monthlyData,
                                                            existingData,
                                                            callFuncWithVendorMonthYear,
-                                                           onSubmitData
+                                                           onSubmitData,
+                                                           update:{single,multiple}
                                                        }) {
     const [monthList, yearList] = monthAndYearList()
     const {data, isLoading} = useFetch(BRANCH_LIST_CREATE_API)
@@ -83,6 +84,7 @@ export default function AdminMenuEntryCreateUpdateForm({
         name: 'mapping_menu_entry',
     })
     const mappingMenuEntryFieldsWatch = watch('mapping_menu_entry');
+    const method = single||multiple?'patch':'post'
     useEffect(() => {
         if (data?.data) {
             setBranchList(data?.data?.map((v, i) => ({label: v.name, value: v.id})))
@@ -96,6 +98,11 @@ export default function AdminMenuEntryCreateUpdateForm({
     useEffect(() => {
         setTableColumns(MENU_ENTRY_TABLE_COLUMNS(showMenuDialog, deleteMenus))
     }, [])
+    useEffect(() => {
+        if(existingData){
+            reset({...existingData})
+        }
+    }, [single,multiple,existingData])
 
     const addNewColumn = useCallback((menu, index,type) => {
         addNewField(menu, index,type)
@@ -180,7 +187,7 @@ export default function AdminMenuEntryCreateUpdateForm({
 
         data.mapping_menu_entry = newMappingMenuEntry
         console.log(data)
-        API.post(MONTHLY_MENU_ENTRY_LIST_CREATE_API, data).then(success => {
+        API[method]((single||multiple)?MONTHLY_MENU_ENTRY_UPDATE_API(existingData?.id):MONTHLY_MENU_ENTRY_LIST_CREATE_API, data).then(success => {
             console.log(success?.data)
             success_alert(success?.data?.message)
         }).then(err => {

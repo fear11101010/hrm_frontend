@@ -217,8 +217,11 @@ export default function AdminMenuEntry(props) {
                     </Modal>
 
                 </Form>*/}
-                <AdminMenuEntryCreateUpdateForm menus={vendorMenuList} callFuncWithVendorMonthYear={loadMenuItem}
-                                                monthlyData={mappingMenuEntryList} onSubmitData={(status)=>setLoading(status)}/>
+                <AdminMenuEntryCreateUpdateForm menus={vendorMenuList}
+                                                callFuncWithVendorMonthYear={loadMenuItem}
+                                                monthlyData={mappingMenuEntryList}
+                                                onSubmitData={(status)=>setLoading(status)}
+                                                update={{}}/>
             </Content>
             {loading && <Loader/>}
         </Layout>
