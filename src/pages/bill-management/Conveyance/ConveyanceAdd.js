@@ -16,7 +16,7 @@ import { FaFileExcel, FaFilePdf, FaFileWord, FaTrash } from "react-icons/fa";
 import { API } from "../../../utils/axios/axiosConfig";
 import { BILL_POST } from "../../../utils/routes/api_routes/BILL_API_ROUTES";
 
-export default function BillAdd() {
+export default function ConveyanceAdd() {
   const user = USER_INFO();
   const projectList = useProjects();
   const employeeList = useEmployee();
@@ -37,7 +37,7 @@ export default function BillAdd() {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   //Mapping template which is object. Which will be act as a template
-  const useInvoiceTemplate = { date: "", particular: "", unit: "", unit_price: "", total: 0 };
+  const useInvoiceTemplate = { date: "", from: "", to: "", purpose_of_visit: "", mode_of_transport: "", amount: 0 };
 
   // The mapping template will be state as a array of obj
   const [invoiceItems, setInvoiceItems] = useState([useInvoiceTemplate]);
@@ -52,19 +52,12 @@ export default function BillAdd() {
     const updateMapping = invoiceItems.map((map, i) =>
       i === index ? Object.assign(map, { [e.target.name]: e.target.value }) : map
     );
-    const x = updateMapping?.map((d, i) =>
-      i === index ? Object.assign(d, { ["total"]: (d.unit * d.unit_price).toFixed(2) }) : d
-    );
-    setInvoiceItems(x);
 
-    const filter_total = x?.map((d, i) => parseFloat(d.total));
+    setInvoiceItems(updateMapping);
+
+    const filter_total = updateMapping?.map((d, i) => parseFloat(d.amount));
     const st = filter_total.reduce((partialSum, a) => partialSum + a, 0);
     setSubTotal(st);
-
-    // basic logic
-    // e.target.name === "unit_price"
-    //           ? { ["unit_price"]: e.target.value, ["total"]: map.unit * map.unit_price }
-    //           :
   };
 
   // Configuration Table individual row delete
@@ -75,38 +68,9 @@ export default function BillAdd() {
     setInvoiceItems(filterMapping);
 
     // Recalculating Subtotal
-    const filter_total = filterMapping?.map((d, i) => parseFloat(d.total));
+    const filter_total = filterMapping?.map((d, i) => parseFloat(d.amount));
     const st = filter_total.reduce((partialSum, a) => partialSum + a, 0);
     setSubTotal(st);
-  };
-
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // File Submit
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  const onDropFile = (acceptedFiles) => {
-    console.log(acceptedFiles);
-    setFiles((files) => [...files, ...acceptedFiles]);
-  };
-  const removeFile = (e, i) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setFiles((files) => {
-      const f = [...files];
-      f.splice(i, 1);
-      return f;
-    });
-  };
-  const removeUploadedFile = (e, i) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const f = uploadedFile[i];
-    setDeletedFile((df) => [...df, f.id]);
-    setUploadedFile((files) => {
-      const f = [...files];
-      f.splice(i, 1);
-      console.log(f);
-      return f;
-    });
   };
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -139,9 +103,9 @@ export default function BillAdd() {
           <Row>
             <Col sm="12" md="3" className="mb-4">
               <Form.Group>
-                <Form.Label>Invoice Date</Form.Label>
+                <Form.Label>Date</Form.Label>
                 <DatePicker
-                  placeholder={"Invoice date"}
+                  placeholder={"date"}
                   dateFormat={"dd-mm-yyyy"}
                   value={selected_date && moment(selected_date).format("DD-MM-YYYY")}
                   onChange={(e) => setSelected_date(moment(e?._d).format("YYYY-MM-DD"))}
@@ -177,10 +141,11 @@ export default function BillAdd() {
               <tr>
                 <th>#</th>
                 <th>Date</th>
-                <th>Particular</th>
-                <th>Unit</th>
-                <th>Unit Price</th>
-                <th>Total Price</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Purpose of Visit</th>
+                <th>Mode of Transport</th>
+                <th>Amount</th>
                 <th></th>
               </tr>
             </thead>
@@ -191,6 +156,7 @@ export default function BillAdd() {
                     <td>{i + 1}</td>
                     <td style={{ minWidth: "50px" }}>
                       <FormControl
+                        placeholder="Date"
                         type="date"
                         name="date"
                         onChange={(e) => {
@@ -201,36 +167,53 @@ export default function BillAdd() {
                     </td>
                     <td style={{ minWidth: "50px" }}>
                       <Form.Control
-                        placeholder="Particular"
-                        name="particular"
+                        placeholder="From"
+                        name="from"
                         onChange={(e) => {
                           onItemChange(e, i);
                         }}
-                        value={d.particular}
+                        value={d.from}
                       />
                     </td>
                     <td style={{ minWidth: "50px" }}>
                       <Form.Control
-                        placeholder="Unit"
-                        name="unit"
+                        placeholder="To"
+                        name="to"
                         onChange={(e) => {
                           onItemChange(e, i);
                         }}
-                        value={d.unit}
+                        value={d.to}
                       />
                     </td>
                     <td style={{ minWidth: "50px" }}>
                       <Form.Control
-                        placeholder="Unit Price"
-                        name="unit_price"
+                        placeholder="Purpose of Visit"
+                        name="purpose_of_visit"
                         onChange={(e) => {
                           onItemChange(e, i);
                         }}
-                        value={d.unit_price}
+                        value={d.purpose_of_visit}
                       />
                     </td>
                     <td style={{ minWidth: "50px" }}>
-                      <Form.Control placeholder="Total Price" name="total" value={d.total} className="bg-light" disabled />
+                      <Form.Control
+                        placeholder="Mode of Transport"
+                        name="mode_of_transport"
+                        onChange={(e) => {
+                          onItemChange(e, i);
+                        }}
+                        value={d.mode_of_transport}
+                      />
+                    </td>
+                    <td style={{ minWidth: "50px" }}>
+                      <Form.Control
+                        placeholder="amount"
+                        name="amount"
+                        value={d.amount}
+                        onChange={(e) => {
+                          onItemChange(e, i);
+                        }}
+                      />
                     </td>
                     <td>
                       {invoiceItems?.length > 1 && (
@@ -263,68 +246,6 @@ export default function BillAdd() {
           </div>
           <hr />
 
-          {/* Upload File */}
-          <div>
-            <FileDropZone multiple onFileSelect={onDropFile} />
-            <ul className="dz-preview dz-preview-multiple list-group list-group-lg list-group-flush">
-              {files.map((file, i) => (
-                <li key={`pre-${i}`} className="list-group-item dz-processing">
-                  <div className="row align-items-center">
-                    <div className="col-auto">
-                      {file?.type === "application/pdf" ? (
-                        <FaFilePdf size={32} />
-                      ) : file?.name.split(".")[1] === "docx" || file?.name.split(".")[1] === "doc" ? (
-                        <FaFileWord size={32} />
-                      ) : file?.name.split(".")[1] === "xlsx" || file?.name.split(".")[1] === "xls" ? (
-                        <FaFileExcel size={32} />
-                      ) : file?.type.startsWith("image") ? (
-                        <>
-                          <a href={URL.createObjectURL(file)} target="#">
-                            <Image src={URL.createObjectURL(file)} href={URL.createObjectURL(file)} target="#" height={48} />
-                          </a>
-                        </>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                    <div className="col ms-n3">
-                      <h4 className="mb-1" data-dz-name="">
-                        {file.name}
-                      </h4>
-                      <small className="text-muted" data-dz-size="">
-                        <strong>{Math.ceil(file.size / 1024)}</strong>KB
-                      </small>
-                    </div>
-                    <div className="col-auto">
-                      <button className="btn btn-light btn-sm" onClick={(e) => removeFile(e, i)}>
-                        <FaTrash />
-                      </button>
-                    </div>
-                  </div>
-                </li>
-              ))}
-              {uploadedFile.map((file, i) => (
-                <li key={`pre-del-${i}`} className="list-group-item dz-processing">
-                  <div className="row align-items-center">
-                    <div className="col-auto"></div>
-                    <div className="col ms-n3">
-                      <h4 className="mb-1" data-dz-name="">
-                        {file.fileName}
-                      </h4>
-                      <small className="text-muted" data-dz-size="">
-                        <strong>{file.size}</strong>
-                      </small>
-                    </div>
-                    <div className="col-auto">
-                      <button className="btn btn-light btn-sm" onClick={(e) => removeUploadedFile(e, i)}>
-                        <FaTrash />
-                      </button>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
           <Button type="submit" className="mt-5">
             Submit
           </Button>
@@ -332,16 +253,4 @@ export default function BillAdd() {
       </Content>
     </Layout>
   );
-}
-
-{
-  /* <Button
-              size="sm"
-              variant="secondary"
-              className="d-flex justify-content-center align-items-center"
-              title="Add More"
-              onClick={addItems}
-            >
-              <RiAddFill fill={"#fff"} style={{ height: "24px", width: "24px" }} className="mr-0" />
-            </Button> */
 }

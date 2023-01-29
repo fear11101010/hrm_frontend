@@ -119,9 +119,6 @@ export const ASSESTMENT_SUMMARY_REPORT_POST = `reports/$/assessment_summary/`;
 
 // BILL MANAGEMENT
 
-export const BILL_LIST_API = "/bill_list_file_upload/";
-export const CONVEYANCE_LIST_API = "/bill_list_file_upload/";
-
 // REQUISITION_FORM
 export const RESOURCE_REQUISITION_FORM = "/resource_requisition/";
 export const RESOURCE_REQUISITION_DETAILS = "resource_requisition_details/";

@@ -155,10 +155,18 @@ import AdminMenuEntry from "./pages/LunchBillManagement/Admin/Settings/MenuEntry
 import AdminMenuEntryList from "./pages/LunchBillManagement/Admin/Settings/MenuEntry/AdminMenuEntryList";
 import UpdateCircularToEmployee from "./pages/hrm/Configuration/update-circular/UpdateCircularToEmployee";
 import BillManagementOutlet from "./outlets/billing/BillManagementOutlet";
-import { BILLING_DASHBOARD, BILL_ADD_URL, BILL_LIST_URL } from "./utils/routes/app_routes/BILL_APP_ROUTE";
+import {
+  BILLING_DASHBOARD,
+  BILL_ADD_URL,
+  BILL_LIST_URL,
+  CONVEYANCE_ADD_URL,
+  CONVEYANCE_LIST_URL,
+} from "./utils/routes/app_routes/BILL_APP_ROUTE";
 import BillingBashboard from "./pages/bill-management/dashboard/BillingBashboard";
 import Bill from "./pages/bill-management/Bill/Bill";
 import BillAdd from "./pages/bill-management/Bill/billAdd";
+import Conveyance from "./pages/bill-management/Conveyance/Conveyance";
+import ConveyanceAdd from "./pages/bill-management/Conveyance/ConveyanceAdd";
 
 // import BillList from "./pages/bill-management/bill/List";
 // import BillAdd from "./pages/bill-management/bill/billAdd";
@@ -219,6 +227,8 @@ function App() {
           <Route path={BILLING_DASHBOARD} element={<BillingBashboard />} />
           <Route path={BILL_LIST_URL} element={<Bill />} />
           <Route path={BILL_ADD_URL} element={<BillAdd />} />
+          <Route path={CONVEYANCE_LIST_URL} element={<Conveyance />} />
+          <Route path={CONVEYANCE_ADD_URL} element={<ConveyanceAdd />} />
         </Route>
 
         {/* REQUISITION */}

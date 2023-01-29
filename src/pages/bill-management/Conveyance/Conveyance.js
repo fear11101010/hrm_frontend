@@ -1,16 +1,17 @@
-import Layout from "../../../layout/Layout";
-import PageHeader from "../../../components/header/PageHeader";
 import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import { Card } from "react-bootstrap";
-import CustomTable from "../../../components/custom-table/CustomTable";
-import { BILL_LIST_TABLE_COLUMN, CONVEYANCE_LIST_TABLE } from "../table-columns";
-import Loader from "../../../components/loader/Loader";
-import { API } from "../../../utils/axios/axiosConfig";
-import { CONVEYANCE_LIST_API } from "../../../utils/API_ROUTES";
 import { Link } from "react-router-dom";
-import { BILL_LIST_URL, CONVEYANCE_LIST_URL } from "../../../utils/APP_ROUTES";
+import { API } from "../../../utils/axios/axiosConfig";
+import Layout from "../../../layout/Layout";
+import PageHeader from "../../../components/header/PageHeader";
+import { CONVEYANCE_ADD_URL, CONVEYANCE_LIST_URL } from "../../../utils/routes/app_routes/BILL_APP_ROUTE";
 import { FaPlus } from "react-icons/fa";
+
+import { CONVEYANCE_LIST_TABLE } from "../table-columns";
+import Loader from "../../../components/loader/Loader";
+import Table from "../../../components/table/Table";
+import { CONVEYANCE_LIST_API } from "../../../utils/routes/api_routes/BILL_API_ROUTES";
 
 function Conveyance(props) {
   const [isLoading, setIsLoading] = useState(false);
@@ -36,17 +37,11 @@ function Conveyance(props) {
           <Card>
             <Card.Body>
               <div className="d-flex justify-content-end align-items-end mb-3">
-                <Link to={CONVEYANCE_LIST_URL} className="btn btn-primary btn-sm">
+                <Link to={CONVEYANCE_ADD_URL} className="btn btn-primary btn-sm">
                   <FaPlus /> Add New Conveyance
                 </Link>
               </div>
-              <CustomTable
-                columns={CONVEYANCE_LIST_TABLE}
-                data={conveyance}
-                size={"sm"}
-                // pagination
-                responsive
-              />
+              <Table dense data={conveyance} columns={CONVEYANCE_LIST_TABLE} />
             </Card.Body>
           </Card>
         </Container>
