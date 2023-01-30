@@ -55,12 +55,8 @@ export default function AdminMenuEntryList(props) {
     useEffect(() => {
         if(menuEntryList.length>0){
             setTableColumns([])
-            const columns = ADMIN_MENU_ENTRY_TABLE_COLUMNS((d, e) => {
-                e.preventDefault();
-                console.log(d)
-                navigate(ADMIN_MENU_ENTRY_EDIT_PAGE(d?.menuEntryId,d?.id))
-            }, (d, e) => {})
-            menuEntryList?.forEach(({mapping_menu_entry},i)=>{
+            menuEntryList?.forEach(({id,mapping_menu_entry},i)=>{
+                const columns = ADMIN_MENU_ENTRY_TABLE_COLUMNS((id,d, e) => {}, (d, e) => {},id)
                 const cols = addNewField(mapping_menu_entry);
                 const newCols = [...columns]
                 for(let i=0;i<cols?.length;i++){

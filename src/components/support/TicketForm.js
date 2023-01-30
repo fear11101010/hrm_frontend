@@ -219,7 +219,7 @@ function TicketForm({url, data, method}) {
                         <Row className="mb-4">
                             <Col sm={12} md={6} lg={6} xl={6} className="m-auto">
                                 <Form.Group style={{height: '220px'}}>
-                                    <Form.Label>Request Heading</Form.Label>
+                                    <Form.Label>Request Details</Form.Label>
                                     <Controller
                                         name="detail"
                                         control={control}

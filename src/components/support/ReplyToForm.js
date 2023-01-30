@@ -264,6 +264,67 @@ function ReplyToForm({id, show, handleClose}) {
 
                                 )
                             })}
+                            {showReplyMessageBox && ticketDetail?.message_details?.messages?.length<=0 && <Form onSubmit={handleSubmit(submitRequest)}>
+                                <Card>
+                                    <Card.Body>
+                                        <Row className="mb-2">
+                                            <Col sm={12} md={12} lg={12} xl={12} className="m-auto">
+                                                <Form.Group>
+                                                    <Form.Label>Messages</Form.Label>
+                                                    <Form.Control as="textarea" rows={5} {...register('query_message')}
+                                                                  placeholder="Please enter message"/>
+                                                    {/*{errors?.heading && (<div className="invalid-feedback">Enter request heading</div>)}*/}
+                                                </Form.Group>
+                                            </Col>
+                                        </Row>
+                                        <Row className="mb-2">
+                                            <Col sm={12} md={12} lg={12} xl={12} className="m-auto">
+                                                <Form.Group>
+                                                    <Form.Label>Upload Attachment</Form.Label>
+                                                    <FileDropZone multiple onFileSelect={onDropFile}/>
+                                                    <ul className="dz-preview dz-preview-multiple list-group list-group-lg list-group-flush">
+                                                        {files.map((file, i) => (
+                                                            <li key={`pre-${i}`}
+                                                                className="list-group-item dz-processing">
+                                                                <div className="row align-items-center">
+                                                                    <div className="col-auto"></div>
+                                                                    <div className="col ms-n3">
+                                                                        <h4 className="mb-1"
+                                                                            data-dz-name="">{file.name}</h4>
+                                                                        <small className="text-muted"
+                                                                               data-dz-size=""><strong>{Math.ceil(file.size / 1024)}</strong>KB</small>
+                                                                    </div>
+                                                                    <div className="col-auto">
+                                                                        <button className="btn btn-light btn-sm"
+                                                                                onClick={e => removeFile(e, i)}>
+                                                                            <FaTrash/>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </Form.Group>
+                                            </Col>
+                                        </Row>
+                                        <Row className="mt-4">
+                                            <Col sm={12} md={12} lg={12} xl={12} className="m-auto">
+                                                <div className="mt-2 text-end">
+                                                    <Button type="submit" name="submit" disabled={isSubmitting}
+                                                            variant="primary"
+                                                            style={{marginRight: "10px", lineHeight: 1}}>
+                                                        {isSubmitting && <Spinner size="sm" animation="border"/>} Send
+                                                    </Button>
+                                                    <Button disabled={isSubmitting} variant="secondary"
+                                                            onClick={handleClose} style={{lineHeight: 1}}>
+                                                        <FaWindowClose/> Cancel
+                                                    </Button>
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                    </Card.Body>
+                                </Card>
+                            </Form>}
 
                         </div>
                     </Modal.Body>

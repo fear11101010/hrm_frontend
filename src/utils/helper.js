@@ -47,7 +47,7 @@ export const generateCalender = ({month, year, menuEntry,id}) => {
             menus: menuEntry?.mapping_menu_entry?.find(d => d?.day === i) ? menuEntry?.mapping_menu_entry?.find(d => d?.day === i)?.menus : undefined,
             disabled:currentMoment.month()===month?currentMoment.date()<i:false,
             menuEntryId:id,
-            id:menuEntry?.id
+            id:menuEntry?.mapping_menu_entry?.find(d => d?.day === i) ? menuEntry?.mapping_menu_entry?.find(d => d?.day === i)?.id : undefined
         })
     }
     return calender;

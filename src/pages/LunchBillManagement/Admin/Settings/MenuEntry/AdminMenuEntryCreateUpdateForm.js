@@ -22,6 +22,8 @@ const MonthlyMenuMappingComponent = ({index, menus, register, control,func}) => 
         keyName: 'key',
     })
 
+
+
     function appendMenu(e, menu) {
 
         if (e.target.checked) {
@@ -82,6 +84,7 @@ export default function AdminMenuEntryCreateUpdateForm({
     const {fields, append, remove, replace} = useFieldArray({
         control,
         name: 'mapping_menu_entry',
+        keyName:'mme'
     })
     const mappingMenuEntryFieldsWatch = watch('mapping_menu_entry');
     const method = single||multiple?'patch':'post'
@@ -99,8 +102,21 @@ export default function AdminMenuEntryCreateUpdateForm({
         setTableColumns(MENU_ENTRY_TABLE_COLUMNS(showMenuDialog, deleteMenus))
     }, [])
     useEffect(() => {
+        setTableColumns(MENU_ENTRY_TABLE_COLUMNS(showMenuDialog, deleteMenus))
+    }, [existingData])
+    useEffect(() => {
         if(existingData){
+            console.log({...existingData})
             reset({...existingData})
+            setTimeout(()=>{
+                console.log(fields)
+            },2000)
+            existingData?.mapping_menu_entry?.forEach(mme=>{
+                mme?.menus?.filter(m=>m?.id).forEach((menu,i)=>{
+                    addNewField(menu,i)
+                })
+            })
+            onBranchChange(existingData?.office_branch)
         }
     }, [single,multiple,existingData])
 
@@ -111,7 +127,6 @@ export default function AdminMenuEntryCreateUpdateForm({
     function onBranchChange(v) {
         API.get(VENDOR_LIST_BY_BRANCH_API(v)).then(success => {
             setVendorList(success?.data?.data?.map(v => ({value: v.id, label: v.name})))
-
         }).then(err => {
 
         })
@@ -151,7 +166,8 @@ export default function AdminMenuEntryCreateUpdateForm({
                 }
                 return data;
             })
-        } else if(type==='add' && (minMenuLength<=index || menuLengthNotZero===1)){
+        }
+        else if(type==='add' && (minMenuLength<=index || menuLengthNotZero===1)){
             // debugger
             setTableColumns(columns => {
                 const data = [...columns];
@@ -173,6 +189,8 @@ export default function AdminMenuEntryCreateUpdateForm({
     }
 
     function submitMonthlyMenu(data, e) {
+        console.log(data)
+        return;
         if (onSubmitData) onSubmitData(true)
         const newMappingMenuEntry = []
         for (let i = 0; i < data?.mapping_menu_entry?.length; i++) {
@@ -223,6 +241,7 @@ export default function AdminMenuEntryCreateUpdateForm({
                                                 options={branchList}
                                                 value={branchList?.find(v => v.value === value)}
                                                 size="md"
+                                                disabled={(single || multiple) || false}
                                                 className={error ? 'is-invalid' : ''}
                                                 onChange={v => {
                                                     onChange(v.value);
@@ -280,6 +299,7 @@ export default function AdminMenuEntryCreateUpdateForm({
                                                         options={monthList}
                                                         value={monthList?.find(v => v.value === value)}
                                                         size="md"
+                                                        disabled={(single || multiple) || false}
                                                         className={error ? 'is-invalid' : ''}
                                                         onChange={v => {
                                                             onChange(v.value);
@@ -310,6 +330,7 @@ export default function AdminMenuEntryCreateUpdateForm({
                                                         options={yearList}
                                                         value={yearList?.find(v => v.value === value)}
                                                         size="md"
+                                                        disabled={(single || multiple) || false}
                                                         className={error ? 'is-invalid' : ''}
                                                         onChange={v => {
                                                             onChange(v.value);

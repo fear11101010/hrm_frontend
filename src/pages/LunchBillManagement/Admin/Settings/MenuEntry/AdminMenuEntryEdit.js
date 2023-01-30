@@ -24,18 +24,31 @@ export default function AdminMenuEntryEdit(props) {
     const [vendorMenuList, setVendorMenuList] = useState([]);
     const [mappingMenuEntryList, setMappingMenuEntryList] = useState([]);
     const {data,isLoading} = useFetch(MONTHLY_MENU_ENTRY_RETRIEVE_UPDATE_API(id,mappingId))
+    const [editData,setEditData] = useState({})
 
     function loadMenuItem(vendor, month, year) {
         API.get(VENDOR_MENU_LIST_BY_VENDOR_API(vendor)).then(success => {
             setVendorMenuList(success?.data?.data)
+            const menus = Array(success?.data?.data?.length).fill({menu:false});
             if(multiple){
                 const mappingMenuEntry = generateCalenderForCreateOrUpdate({month,year,menus:success?.data?.data})
                 setMappingMenuEntryList(mappingMenuEntry)
             } else if(single){
                 data?.data?.mapping_menu_entry?.forEach(mme=>{
                     delete mme?.menu_entry;
-                    mme.weekday = moment(mme?.date).weekday();
+                    mme.weekday = moment.weekdays(moment(mme?.date).weekday());
+                    const menuIds = success?.data?.data?.map(m=>m?.id)
+                    let j=0;
+                    for(const m of mme?.menus){
+                        const i = menuIds.indexOf(m?.id)
+                        if(i>=0){
+                            menus[i] = {menu:true};
+                            menus.splice(menus.length,0,mme?.menus[j++])
+                        }
+                    }
+                    mme.menus = menus
                 })
+                setEditData(data?.data)
             }
         }).then(err => {
 
@@ -50,7 +63,7 @@ export default function AdminMenuEntryEdit(props) {
                 setMultiple(true)
                 setSingle(false)
             }
-            loadMenuItem(data?.data?.vendor?.id,data?.data?.month,data?.data?.year)
+            loadMenuItem(data?.data?.vendor,data?.data?.month,data?.data?.year)
         }
     },[data])
 
@@ -62,7 +75,7 @@ export default function AdminMenuEntryEdit(props) {
                                                 monthlyData={mappingMenuEntryList}
                                                 onSubmitData={(status)=>setLoading(status)}
                                                 update={{single,multiple}}
-                                                existingData={data?.data}/>
+                                                existingData={editData}/>
             </Content>
             {loading && <Loader/>}
         </Layout>
