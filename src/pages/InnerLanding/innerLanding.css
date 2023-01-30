@@ -16,5 +16,13 @@
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
+}
 
+.inner-page .card {
+    transition: 300ms;
+}
+
+.inner-page .card:hover {
+    transform: translateY(-3px);
+    transition: 300ms;
 }

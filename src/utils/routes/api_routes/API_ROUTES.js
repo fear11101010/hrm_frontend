@@ -101,7 +101,7 @@ export const GLOBAL_FILTER = "/global_filtering/";
 
 ////////////////////////////////////
 ////////////BILL////////////////////
-export const BILL_LIST_GET = `/`;
+
 ////////////////////////////////////
 
 ////////////////////////////////////
@@ -118,9 +118,6 @@ export const SBU_ASSESTMENT_REPORT_GET = `report_performance_assessed_data/`;
 export const ASSESTMENT_SUMMARY_REPORT_POST = `reports/$/assessment_summary/`;
 
 // BILL MANAGEMENT
-
-export const BILL_LIST_API = "/bill_list_file_upload/";
-export const CONVEYANCE_LIST_API = "/bill_list_file_upload/";
 
 // REQUISITION_FORM
 export const RESOURCE_REQUISITION_FORM = "/resource_requisition/";
