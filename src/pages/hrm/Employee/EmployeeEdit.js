@@ -16,10 +16,12 @@ import { EMPLOYEE_EACH_GET, EMPLOYEE_EDIT_POST } from "../../../utils/routes/api
 import { EMPLOYEE_LIST_PAGE, UNAUTHORIZED } from "../../../utils/routes/app_routes/APP_ROUTES";
 import { API } from "../../../utils/axios/axiosConfig";
 import { USER_INFO } from "../../../utils/session/token";
+import { _Decode } from "../../../utils/Hash";
 
 export default function EmployeeEdit() {
   const { id } = useParams();
   const user = USER_INFO();
+  console.log(user)
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
@@ -54,8 +56,7 @@ export default function EmployeeEdit() {
   const { data } = useSbu();
   const { subSbudata } = useSubSbu();
   const supervisorList = useSupervisor();
-  const designationList = useDesignation();
-  console.log(designationList);
+  const designationList = useDesignation();  
 
   //Fetch
   useEffect(() => {
@@ -70,19 +71,19 @@ export default function EmployeeEdit() {
           setDate_of_joining(res.data?.data?.date_of_joining);
           setDesignation(res.data?.data?.desig_id);
           setsupervisor(res.data?.data?.supervisor?.id);
-          setTotal_salary_and_allowance(res.data?.data?.total_salary_and_allowance);
-          setbasic_salary(res.data?.data?.basic_salary);
-          setgross_salary(res.data?.data?.gross_salary);
-          sethouse_rent(res.data?.data?.house_rent);
-          setmedical_allowance(res.data?.data?.medical_allowance);
-          setconveyance_allowance(res.data?.data?.conveyance_allowance);
-          setwppf(res.data?.data?.wppf);
-          setspecial_bonus(res.data?.data?.special_bonus);
-          setmobile_and_other_allowance(res.data?.data?.mobile_and_other_allowance);
-          setother_benefit(res.data?.data?.other_benefit);
-          setpf_com_contribution(res.data?.data?.pf_com_contribution);
-          setincrement(res.data?.data?.increment);
-          setproject_expense(res.data?.data?.project_expense);
+          setTotal_salary_and_allowance(_Decode(res.data?.data?.total_salary_and_allowance));
+          setbasic_salary(_Decode(res.data?.data?.basic_salary));
+          setgross_salary(_Decode( res.data?.data?.gross_salary));
+          sethouse_rent(_Decode(res.data?.data?.house_rent));
+          setmedical_allowance(_Decode(res.data?.data?.medical_allowance));
+          setconveyance_allowance(_Decode(res.data?.data?.conveyance_allowance));
+          setwppf(_Decode(res.data?.data?.wppf));
+          setspecial_bonus(_Decode(res.data?.data?.special_bonus));
+          setmobile_and_other_allowance(_Decode(res.data?.data?.mobile_and_other_allowance));
+          setother_benefit(_Decode(res.data?.data?.other_benefit));
+          setpf_com_contribution(_Decode(res.data?.data?.pf_com_contribution));
+          setincrement(_Decode(res.data?.data?.increment));
+          setproject_expense(_Decode(res.data?.data?.project_expense));
           setproject(res.data?.data?.project);
           setLevel(res.data?.data?.level);
         } else {
@@ -149,7 +150,7 @@ export default function EmployeeEdit() {
       });
   };
 
-  return user.accessibility.includes("employee.GET") ? (
+  return user?.accessibility?.includes("employee.GET") ? (
     <Layout>
       {loading && <Loader />}
       <PageHeader title={"Update Employee"} onBack />

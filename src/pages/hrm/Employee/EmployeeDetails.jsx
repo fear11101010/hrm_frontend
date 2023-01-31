@@ -6,6 +6,7 @@ import useFetch from "../../../hooks/useFetch";
 import useSupervisor from "../../../hooks/useSupervisor";
 import { EMPLOYEE_EACH_GET } from "../../../utils/routes/api_routes/API_ROUTES";
 import { DATE_FORMAT } from "../../../utils/CONSTANT";
+import { _Decode } from "../../../utils/Hash";
 
 export default function EmployeeDetails({ rowId }) {
   const id = rowId;
@@ -52,47 +53,47 @@ export default function EmployeeDetails({ rowId }) {
             <Row>
               <Col sm="12" md="3" className="mb-2">
                 <h4 className="mb-1">Total Salary and Allowance</h4>
-                <h5 className="text-secondary">{data.data?.total_salary_and_allowance?.toLocaleString("en-IN")}</h5>
+                <h5 className="text-secondary">{_Decode(data.data?.total_salary_and_allowance?.toLocaleString("en-IN"))}</h5>
               </Col>
               <Col sm="12" md="3" className="mb-2">
                 <h4 className="mb-1">Gross</h4>
-                <h5 className="text-secondary">{data.data?.gross_salary?.toLocaleString("en-IN")}</h5>
+                <h5 className="text-secondary">{_Decode(data.data?.gross_salary?.toLocaleString("en-IN"))}</h5>
               </Col>
               <Col sm="12" md="3" className="mb-2">
                 <h4 className="mb-1">Basic</h4>
-                <h5 className="text-secondary">{data.data?.basic_salary?.toLocaleString("en-IN")}</h5>
+                <h5 className="text-secondary">{_Decode(data.data?.basic_salary?.toLocaleString("en-IN"))}</h5>
               </Col>
               <Col sm="12" md="3" className="mb-2">
                 <h4 className="mb-1">PF Contribution</h4>
-                <h5 className="text-secondary">{data.data?.pf_com_contribution?.toLocaleString("en-IN")}</h5>
+                <h5 className="text-secondary">{_Decode(data.data?.pf_com_contribution?.toLocaleString("en-IN"))}</h5>
               </Col>
               <Col sm="12" md="3" className="mb-2">
                 <h4 className="mb-1">House Rent</h4>
-                <h5 className="text-secondary">{data.data?.house_rent?.toLocaleString("en-IN")}</h5>
+                <h5 className="text-secondary">{_Decode(data.data?.house_rent?.toLocaleString("en-IN"))}</h5>
               </Col>
               <Col sm="12" md="3" className="mb-2">
                 <h4 className="mb-1">Medical Allowance</h4>
-                <h5 className="text-secondary">{data.data?.medical_allowance?.toLocaleString("en-IN")}</h5>
+                <h5 className="text-secondary">{_Decode(data.data?.medical_allowance?.toLocaleString("en-IN"))}</h5>
               </Col>
               <Col sm="12" md="3" className="mb-2">
                 <h4 className="mb-1">Conveyance Allowance</h4>
-                <h5 className="text-secondary">{data.data?.conveyance_allowance?.toLocaleString("en-IN")}</h5>
+                <h5 className="text-secondary">{_Decode(data.data?.conveyance_allowance?.toLocaleString("en-IN"))}</h5>
               </Col>
               <Col sm="12" md="3" className="mb-2">
                 <h4 className="mb-1">WPPF</h4>
-                <h5 className="text-secondary">{data.data?.wppf?.toLocaleString("en-IN")}</h5>
+                <h5 className="text-secondary">{_Decode(data.data?.wppf?.toLocaleString("en-IN"))}</h5>
               </Col>
               <Col sm="12" md="3" className="mb-2">
                 <h4 className="mb-1">Special Bonus</h4>
-                <h5 className="text-secondary">{data.data?.special_bonus?.toLocaleString("en-IN")}</h5>
+                <h5 className="text-secondary">{_Decode(data.data?.special_bonus?.toLocaleString("en-IN"))}</h5>
               </Col>
               <Col sm="12" md="3" className="mb-2">
                 <h4 className="mb-1">Mobile and Other Allowance</h4>
-                <h5 className="text-secondary">{data.data?.mobile_and_other_allowance?.toLocaleString("en-IN")}</h5>
+                <h5 className="text-secondary">{_Decode(data.data?.mobile_and_other_allowance?.toLocaleString("en-IN"))}</h5>
               </Col>
               <Col sm="12" md="3" className="mb-2">
                 <h4 className="mb-1">Increment</h4>
-                <h5 className="text-secondary">{data.data?.increment?.toLocaleString("en-IN")}</h5>
+                <h5 className="text-secondary">{_Decode(data.data?.increment?.toLocaleString("en-IN"))}</h5>
               </Col>
             </Row>
           </Accordion.Body>
