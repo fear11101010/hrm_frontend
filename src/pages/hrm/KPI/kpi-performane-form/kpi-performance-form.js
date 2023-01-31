@@ -30,11 +30,11 @@ export default function KpiPerformanceForm() {
   const navigate = useNavigate();
   const { data, err, loading } = useFetchKpiFormData(id);
 
-  useEffect(() => {
-    if (err?.non_field_errors[0] || err?.message) {
-      // data?.non_field_errors[0]
-    }
-  }, [err]);
+  // useEffect(() => {
+  //   if (err?.non_field_errors[0] || err?.message) {
+  //     // data?.non_field_errors[0]
+  //   }
+  // }, [err]);
   const beforeSubmit = () => {
     setIsLoading(true);
   };

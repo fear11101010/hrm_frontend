@@ -42,14 +42,13 @@ export const kpiPerformanceFormColumns = [
     name: "Action",
     cell: (row) => (
       <div className="d-flex justify-content-center align-items-center w-100">
-        {user.accessibility.includes("kpi_performance.retrieve") && (
           <Link
             className={`btn btn-rounded-circle btn-sm btn-primary ${row.flag ? "disabled" : ""}`}
             to={KPI_PERMORMANCE_FORM_PAGE(row.id)}
           >
             <i className="fe fe-file-text"></i>
           </Link>
-        )}
+        {/* {user?.accessibility?.includes("kpi_performance.retrieve")} */}
       </div>
     ),
     width: "80px",
