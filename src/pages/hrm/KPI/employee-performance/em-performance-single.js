@@ -184,7 +184,7 @@ export default function EmPerformanceSingle() {
               <hr className="mb-4" />
               <Row>
                 <Col sm="12" md={admin ? "6" : "12"}>
-                  <h1 className="text-center mb-2">{currYear + 1}</h1>
+                  <h1 className="text-center mb-2">{currYear}</h1>
                   <Accordion alwaysOpen>
                     <Accordion.Item>
                       <Accordion.Header as={"div"}>
@@ -611,7 +611,7 @@ export default function EmPerformanceSingle() {
               <hr className="mb-4" />
               <Row>
                 <Col sm="12" md={admin ? "6" : "12"}>
-                  <h1 className="text-center mb-2">{currYear + 1}</h1>
+                  <h1 className="text-center mb-2">{currYear}</h1>
                   <Accordion>
                     <Accordion.Item>
                       <Accordion.Header as={"div"}>
@@ -970,7 +970,7 @@ export default function EmPerformanceSingle() {
             <Card.Body>
               <Row>
                 <Col sm="12" md={admin ? "6" : "12"}>
-                  <h1 className="text-center mb-2">{currYear + 1}</h1>
+                  <h1 className="text-center mb-2">{currYear}</h1>
                   <Accordion>
                     <Accordion.Item>
                       <Accordion.Header as={"div"}>
@@ -1066,7 +1066,7 @@ export default function EmPerformanceSingle() {
               <hr className="mb-4" />
               <Row>
                 <Col sm="12" md={admin ? "6" : "12"}>
-                  <h1 className="text-center mb-2">{currYear + 1}</h1>
+                  <h1 className="text-center mb-2">{currYear}</h1>
                   <Accordion>
                     <Accordion.Item>
                       <Accordion.Header as={"div"}>
@@ -1236,7 +1236,7 @@ export default function EmPerformanceSingle() {
               <hr className="mb-4" />
               <Row>
                 <Col sm="12" md={admin ? "6" : "12"}>
-                  <h1 className="text-center mb-2">{currYear + 1}</h1>
+                  <h1 className="text-center mb-2">{currYear}</h1>
                   <Accordion>
                     <Accordion.Item>
                       <Accordion.Body className={"show"}>
