@@ -278,7 +278,10 @@ function App() {
           <Route path={HOLIDAY_CALENDER_PAGE} element={<HolidayCalender />} />
           <Route path={ADMIN_MENU_ENTRY_LIST_PAGE} element={<AdminMenuEntryList />} />
           <Route path={ADMIN_MENU_ENTRY_CREATE_PAGE} element={<AdminMenuEntry />} />
-          <Route path={ADMIN_MENU_ENTRY_EDIT_PAGE_URL} element={<AdminMenuEntryEdit />} />
+          <Route path={ADMIN_MENU_ENTRY_EDIT_PAGE_URL} >
+            <Route index element={<AdminMenuEntryEdit/>}/>
+            <Route path=":mappingId" element={<AdminMenuEntryEdit/>}/>
+          </Route>
 
           <Route path={LUNCH_REPORT_EMPLOYEE_PAGE} element={<LunchReportForEmployee />} />
           <Route path={LUNCH_REPORT_ADMIN_PAGE} element={<LunchReportForAdmin />} />

@@ -10,7 +10,7 @@ export const BRANCH_LIST_CREATE_API = "/office_branch/";
 export const VENDOR_LIST_CREATE_API = "/vendor/";
 export const VENDOR_MENU_LIST_CREATE_API = "/menu/";
 export const MONTHLY_MENU_ENTRY_LIST_CREATE_API = "/menu_entry/";
-export const MONTHLY_MENU_ENTRY_RETRIEVE_UPDATE_API =(id,mappingId=undefined)=> mappingId?`/menu_entry/${id}/retrieve/${mappingId}/`:`/menu_entry/${id}/`;
+export const MONTHLY_MENU_ENTRY_RETRIEVE_API =(id,mappingId=undefined)=> mappingId?`/menu_entry/${id}/${mappingId}/`:`/menu_entry/${id}/`;
 export const MONTHLY_MENU_ENTRY_UPDATE_API =(id)=> `/menu_entry/${id}/`;
 export const SUBSIDY_UPDATE_DELETE_API = (id) => `/subsidy/${id}/`;
 export const BRANCH_UPDATE_DELETE_API = (id) => `/office_branch/${id}/`;
