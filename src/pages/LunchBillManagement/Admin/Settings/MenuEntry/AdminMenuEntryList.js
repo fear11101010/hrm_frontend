@@ -9,7 +9,7 @@ import {
 import Loader from "../../../../../components/loader/Loader";
 import {useEffect, useState} from "react";
 import {API} from "../../../../../utils/axios/axiosConfig";
-import {Accordion, Button, Card, Col, Form, Row, useAccordionButton} from "react-bootstrap";
+import {Accordion, Badge, Button, Card, Col, Form, Row, useAccordionButton} from "react-bootstrap";
 import {Controller, useForm} from "react-hook-form";
 import Select from "../../../../../components/select/Select";
 import {FaDownload, FaPlus} from "react-icons/fa";
@@ -17,8 +17,12 @@ import {generateCalender, monthAndYearList} from "../../../../../utils/helper";
 import CustomTable from "../../../../../components/custom-table/CustomTable";
 import {ADMIN_MENU_ENTRY_TABLE_COLUMNS} from "./table-columns";
 import {MdDelete, MdModeEdit} from "react-icons/md";
-import {Link} from "react-router-dom";
-import {ADMIN_MENU_ENTRY_CREATE_PAGE} from "../../../../../utils/routes/app_routes/LUNCH_ROUTES";
+import {Link, useNavigate} from "react-router-dom";
+import {
+    ADMIN_MENU_ENTRY_CREATE_PAGE,
+    ADMIN_MENU_ENTRY_EDIT_PAGE
+} from "../../../../../utils/routes/app_routes/LUNCH_ROUTES";
+import {MENU_ENTRY_TABLE_COLUMNS} from "../../table-columns";
 
 function CustomToggle({children, eventKey}) {
     const decoratedOnClick = useAccordionButton(eventKey, () =>
@@ -40,12 +44,45 @@ export default function AdminMenuEntryList(props) {
     const [loading, setLoading] = useState(false);
     const [defaultEventKey, setDefaultEventKey] = useState(0);
     const [branchList, setBranchList] = useState([]);
+    const [tableColumns, setTableColumns] = useState([])
+    const navigate = useNavigate()
     useEffect(() => {
         if (data?.data) {
             loadMenuEntryData();
             setBranchList(data?.data?.map((v, i) => ({label: v.name, value: v.id})))
         }
     }, [data])
+    useEffect(() => {
+        if(menuEntryList.length>0){
+            setTableColumns([])
+            menuEntryList?.forEach(({id,mapping_menu_entry},i)=>{
+                const columns = ADMIN_MENU_ENTRY_TABLE_COLUMNS((id,d, e) => {}, (d, e) => {},id)
+                const cols = addNewField(mapping_menu_entry);
+                const newCols = [...columns]
+                for(let i=0;i<cols?.length;i++){
+                    newCols.splice(4+i+1,0,cols[i])
+                }
+                setTableColumns(tc=>{
+                    const data = [...tc];
+                    data.push(newCols)
+                    return data;
+                })
+            })
+        }
+    }, [menuEntryList])
+    const addNewField = (mappingMenuEntry) => {
+        const menuData = mappingMenuEntry?.map(mme=>mme?.menus?.filter((menu)=>menu?.id).length).filter(v=>v)
+        const maxMenuLength = Math.min(...menuData)
+        const columns = []
+        for (let i=0;i<maxMenuLength;i++){
+            columns.push({
+                name: `Menu ${i+1}`,
+                cell: (row, index) => {
+                    return row?.menus && row?.menus?.filter((menu)=>menu?.id)?.length>0&&<Badge bg="secondary" className="me-2">{row?.menus?.filter((menu,index)=>menu?.id)[i]?.item}</Badge>
+                }})
+        }
+        return columns
+    }
     const loadMenuEntryData = () => {
         setLoading(true);
         API.get(MONTHLY_MENU_ENTRY_LIST_CREATE_API, {
@@ -209,12 +246,11 @@ export default function AdminMenuEntryList(props) {
                                     <CustomTable data={generateCalender({
                                         month: entryList?.month,
                                         year: entryList?.year,
-                                        menuEntry: entryList
+                                        menuEntry: entryList,
+                                        id:menuEntryList?.id
                                     })}
                                                  pagination={{}}
-                                                 size="sm" columns={ADMIN_MENU_ENTRY_TABLE_COLUMNS((d, e) => {
-                                    }, (d, e) => {
-                                    })}/>
+                                                 size="sm" columns={tableColumns[i] || []} responsive/>
                                 </Accordion.Collapse>
                             </Card.Body>
                         </Card>

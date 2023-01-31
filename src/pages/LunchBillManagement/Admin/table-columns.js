@@ -44,7 +44,10 @@ export const MENU_ENTRY_TABLE_COLUMNS=(addFunc,deleteFunc)=>{
         },
         {
             name:'Weekday',
-            selector:(row,i)=>row?.weekday,
+            selector:(row,i)=>{
+                console.log(row)
+                return row?.weekday
+            },
         },
         {
             name:'Action',

@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 
 function Select(props) {
-  const { options, onChange, placeholder, size, type, value } = props;
+  const { options, onChange, placeholder, size, type, value,disabled } = props;
   const [selectedOption, setSelectedOption] = useState(value ?? "");
   const [isOpen, setIsOpen] = useState(false);
   const dropDownContainerRef = useRef(null);
@@ -98,15 +98,16 @@ function Select(props) {
       className={"custom-dropdown " + props.className}
       ref={dropDownContainerRef}
       aria-expanded="false"
-      onClick={showHideDropDown}
+      onClick={disabled?undefined:showHideDropDown}
+      style={{cursor:disabled?'not-allowed':'pointer'}}
     >
-      <div
+      <div style={{cursor:disabled?'not-allowed':'pointer'}}
         className={`form-select ${size ? "form-select-" + size : ""} ${type ? " form-control-" + type : " form-control"}`}
       >
-        <Form.Select value={selectedOption?.value} className="form-select form-select-sm form-control-flush">
+        <Form.Select value={selectedOption?.value} className={`form-select form-select-sm form-control-flush`}>
           <option value={selectedOption?.value}>{selectedOption?.label}</option>
         </Form.Select>
-        <div className="selected-option">{selectedOption?.label ?? placeholder}</div>
+        <div style={{cursor:disabled?'not-allowed':'pointer'}} className={`selected-option ${disabled?'text-secondary':''}`}>{selectedOption?.label ?? placeholder}</div>
         <div ref={dropDownRef} className={`custom-dropdown-list ${isOpen ? "show" : ""}`} aria-expanded="false">
           <ul>
             {options?.map((option, i) => (
