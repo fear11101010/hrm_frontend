@@ -31,14 +31,26 @@ export default function AdminMenuEntryEdit(props) {
         setEditData({})
         API.get(VENDOR_MENU_LIST_BY_VENDOR_API(vendor)).then(success => {
             setVendorMenuList(success?.data?.data)
-            const menus = Array(success?.data?.data?.length).fill({menu: false});
             if (multiple) {
+                const menuEntry = mapData(data?.data, success?.data?.data);
                 const mappingMenuEntry = generateCalenderForCreateOrUpdate({month, year, menus: success?.data?.data})
-                setMappingMenuEntryList(mappingMenuEntry)
+                mappingMenuEntry?.forEach((mme, i) => {
+                    const m = moment(mme.date)
+                    const mme1 = menuEntry?.mapping_menu_entry?.find(v => v.day === mme.day && menuEntry?.month === m.month() &&
+                        m.year() === menuEntry.year && menuEntry.vendor === vendor)
+                    if (mme1) {
+                        mappingMenuEntry[i] = mme1
+                    }
+                })
+                menuEntry.mapping_menu_entry = mappingMenuEntry
+                setEditData(menuEntry)
             } else if (single) {
-
-                data.data.vendor = vendor
-                data?.data?.mapping_menu_entry?.forEach(mme => {
+                const menuEntry = mapData(data?.data, success?.data?.data);
+                if (menuEntry) {
+                    menuEntry.vendor = vendor
+                    setEditData(menuEntry);
+                }
+                /*data?.data?.mapping_menu_entry?.forEach(mme => {
                     delete mme?.menu_entry;
                     mme.weekday = moment.weekdays(moment(mme?.date).weekday());
                     const menuIds = success?.data?.data?.map(m => m?.id)
@@ -52,7 +64,7 @@ export default function AdminMenuEntryEdit(props) {
                     }
                     mme.menus = menus
                 })
-                setEditData(data?.data)
+                setEditData(data?.data)*/
             }
         }).then(err => {
             console.log(err)
@@ -62,7 +74,9 @@ export default function AdminMenuEntryEdit(props) {
     }
 
     const callbackFunc = useCallback((vendor, month, year) => {
-        loadMenuItem(vendor, month, year)
+        if(data?.data){
+            loadMenuItem(vendor, month, year)
+        }
     }, [editData])
     useEffect(() => {
         if (data) {
@@ -76,6 +90,25 @@ export default function AdminMenuEntryEdit(props) {
             loadMenuItem(data?.data?.vendor, data?.data?.month, data?.data?.year)
         }
     }, [data])
+
+    const mapData = (data, menus) => {
+        const menuIds = menus?.map(m => m?.id)
+        data?.mapping_menu_entry?.forEach(mme => {
+            delete mme?.menu_entry;
+            const menuCheckBox = Array(menus?.length).fill({menu: false});
+            mme.weekday = moment.weekdays(moment(mme?.date).weekday());
+            let j = 0;
+            for (const m of mme?.menus) {
+                const i = menuIds.indexOf(m?.id)
+                if (i >= 0) {
+                    menuCheckBox[i] = {menu: true};
+                    menuCheckBox.splice(menus.length, 0, mme?.menus[j++])
+                }
+            }
+            mme.menus = menuCheckBox
+        })
+        return data;
+    }
 
     return (
         <Layout>

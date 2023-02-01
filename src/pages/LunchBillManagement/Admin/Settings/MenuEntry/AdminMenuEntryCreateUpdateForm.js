@@ -102,24 +102,34 @@ export default function AdminMenuEntryCreateUpdateForm({
         setTableColumns(MENU_ENTRY_TABLE_COLUMNS(showMenuDialog, deleteMenus))
     }, [])
     useEffect(() => {
-
-        setTableColumns(MENU_ENTRY_TABLE_COLUMNS(showMenuDialog, deleteMenus))
-    }, [existingData])
-    useEffect(() => {
-        if (existingData) {
+        if (existingData && Object.keys(existingData)?.length>0) {
+            const columns = MENU_ENTRY_TABLE_COLUMNS(showMenuDialog, deleteMenus)
             console.log({...existingData})
             reset({...existingData})
-            setTimeout(() => {
-                console.log(fields)
-            }, 2000)
-            existingData?.mapping_menu_entry?.forEach(mme => {
+            let mappingMenuEntryMaxLength = Math.max(...(existingData?.mapping_menu_entry?.filter(mme=>mme?.menus?.filter(m => m?.id)?.length)
+                .map(mme=>mme?.menus?.filter(m => m?.id).length)))
+            const arr = Array(mappingMenuEntryMaxLength).fill(0).map((_,i)=>`Menu ${i+1}`)
+            arr.forEach((v,index)=>{
+                debugger
+                const ii = --mappingMenuEntryMaxLength;
+                columns?.splice(3+index,0,{
+                    name: v,
+                    cell: (row, i) => {
+                        return row?.menus && row?.menus?.filter((menu) => menu?.id)?.length > 0 && <Badge bg="secondary"
+                                                                                                          className="me-2">{row?.menus?.filter((menu) => menu?.id)[ii]?.item}</Badge>
+                    }
+                })
+            })
+            setTableColumns(columns)
+
+            /*existingData?.mapping_menu_entry?.forEach(mme => {
                 mme?.menus?.filter(m => m?.id).forEach((menu, i) => {
                     addNewField(menu, i)
                 })
-            })
+            })*/
             onBranchChange(existingData?.office_branch)
         }
-    }, [single, multiple, existingData])
+    }, [existingData])
 
     const addNewColumn = useCallback((menu, index, type) => {
         addNewField(menu, index, type)
@@ -197,7 +207,7 @@ export default function AdminMenuEntryCreateUpdateForm({
         for (let i = 0; i < data?.mapping_menu_entry?.length; i++) {
             const mme = data?.mapping_menu_entry[i];
             if (mme?.menus.length > 0 && mme?.menus?.filter((menu) => menu?.id).length > 0) {
-                newMappingMenuEntry.push({...mme, menus: mme?.menus?.filter((menu) => menu?.id)})
+                newMappingMenuEntry.push({...mme, menus: mme?.menus?.filter((menu) => menu?.id).map((m,i)=>({...m,position:i+1}))})
             } else {
                 const index = data?.mapping_menu_entry?.indexOf(v => v.day === mme.day);
                 if (index >= 0) data?.mapping_menu_entry?.splice(i, 1);
@@ -271,7 +281,7 @@ export default function AdminMenuEntryCreateUpdateForm({
                                                 options={vendorList}
                                                 value={vendorList?.find(v => v.value === value)}
                                                 size="md"
-                                                // disabled={(single || multiple) || false}
+                                                disabled={(single || multiple) || false}
                                                 className={error ? 'is-invalid' : ''}
                                                 onChange={v => {
                                                     onChange(v.value);
