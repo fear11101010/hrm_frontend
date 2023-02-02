@@ -17,6 +17,7 @@ export const SUPERVISOR_BY_SBU = `/supervisorbyheadsbu/`;
 export const USER_GET = "/user/userlist/";
 export const USER_CREATE_POST = "/user/register/";
 export const USER_EACH_GET = (id) => `/user/userlist/${id}/`;
+export const USER_EACH_POST = (id) => `/user/userlist/${id}/`;
 
 //Role
 export const ROLE_LIST_GET = "/role";

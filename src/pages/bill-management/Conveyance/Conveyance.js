@@ -37,7 +37,7 @@ function Conveyance(props) {
           <Card>
             <Card.Body>
               <div className="d-flex justify-content-end align-items-end mb-3">
-                <Link to={CONVEYANCE_ADD_URL} className="btn btn-primary btn-sm">
+                <Link to={CONVEYANCE_ADD_URL} className="btn btn-primary">
                   <FaPlus /> Add New Conveyance
                 </Link>
               </div>

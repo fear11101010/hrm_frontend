@@ -1,5 +1,6 @@
 import moment from "moment";
 import { Button, Image } from "react-bootstrap";
+import { FaFileAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { BASE_URL_FOR_MEDIA_FILE, DATE_FORMAT } from "../../../utils/CONSTANT";
 import { USER_INFO } from "../../../utils/session/token";
@@ -16,27 +17,20 @@ export const columns = [
   { name: "Project", selector: (row) => row?.project_name, minWidth: "200px", wrap: true },
   { name: "Employee", selector: (row) => row?.employee_name, minWidth: "200px", wrap: true },
   { name: "Status", selector: (row) => row?.status, width: "80px", wrap: true },
-  {
-    name: "Files",
-    selector: (row) => row?.attach_files?.map((d) => d?.main_img),
-    cell: (row) => (
-      <div className="d-flex">
-        <Image src={BASE_URL_FOR_MEDIA_FILE + row?.attach_files?.map((d) => d?.main_img)} />
-      </div>
-    ),
-    minWidth: "200px",
-    wrap: true,
-  },
+
   {
     name: "Action",
     cell: (row) => (
       <>
         <Link>
-          <Button size="sm">Invoice</Button>
+          <Button variant="secondary" size="sm" className="d-flex justify-content-between align-items-center">
+            <FaFileAlt style={{ marginRight: "4px" }} /> Invoice
+          </Button>
         </Link>
       </>
     ),
     minWidth: "120px",
     wrap: true,
+    center: true,
   },
 ];

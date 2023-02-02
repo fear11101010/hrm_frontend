@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Button, Col, Form, FormControl, Image, Row, Table } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Button, Col, Form, FormControl, Row, Table } from "react-bootstrap";
 import Content from "../../../components/content/Content";
 import PageHeader from "../../../components/header/PageHeader";
 import Layout from "../../../layout/Layout";
@@ -11,25 +11,31 @@ import useEmployee from "../../../hooks/useEmployee";
 import "./style.css";
 import { RiAddFill, RiDeleteBin5Fill } from "react-icons/ri";
 import moment from "moment";
-import FileDropZone from "../../../components/FileDropZone";
-import { FaFileExcel, FaFilePdf, FaFileWord, FaTrash } from "react-icons/fa";
 import { API } from "../../../utils/axios/axiosConfig";
-import { BILL_POST } from "../../../utils/routes/api_routes/BILL_API_ROUTES";
+import {
+  CONVEYANCE_EACH_GET_API,
+  CONVEYANCE_EACH_PUT_API,
+  CONVEYANCE_POST,
+} from "../../../utils/routes/api_routes/BILL_API_ROUTES";
+import { error_alert, success_alert } from "../../../components/alert/Alert";
+import { useNavigate, useParams } from "react-router-dom";
+import useEmployeeDropdown from "../../../hooks/useEmployeeDropdown";
+import Loader from "../../../components/loader/Loader";
 
 export default function ConveyanceAdd() {
+  const { id } = useParams();
   const user = USER_INFO();
   const projectList = useProjects();
-  const employeeList = useEmployee();
+  let { employeeDropdownLoading, employeeDropdownList } = useEmployeeDropdown();
+
+  let navigate = useNavigate();
 
   //States
   const [loading, setLoading] = useState(false);
   const [selected_date, setSelected_date] = useState("");
-  const [invoice_date, setInvoice_date] = useState("");
   const [project_name, setProject_name] = useState("");
   const [employee_name, setEmployee_name] = useState("");
-  const [files, setFiles] = useState([]);
-  const [uploadedFile, setUploadedFile] = useState([]);
-  const [deletedFile, setDeletedFile] = useState([]);
+  const [invoice_code, setInvoice_code] = useState("");
   const [subtotal, setSubTotal] = useState(0);
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,7 +43,14 @@ export default function ConveyanceAdd() {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   //Mapping template which is object. Which will be act as a template
-  const useInvoiceTemplate = { date: "", from: "", to: "", purpose_of_visit: "", mode_of_transport: "", amount: 0 };
+  const useInvoiceTemplate = {
+    date: "",
+    purposefrom: "",
+    purposeto: "",
+    purposevisit: "",
+    modetransport: "",
+    amount: 0,
+  };
 
   // The mapping template will be state as a array of obj
   const [invoiceItems, setInvoiceItems] = useState([useInvoiceTemplate]);
@@ -74,30 +87,86 @@ export default function ConveyanceAdd() {
   };
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // FETCH CONVETANCE WHEN EDIT
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  const fetchConveyance = async () => {
+    setLoading(true);
+    try {
+      const res = await API.get(CONVEYANCE_EACH_GET_API(id));
+      if (res.data.statuscode === 200) {
+        setSelected_date(res?.data?.conveyance[0]?.conveyance_date);
+        setInvoice_code(res?.data?.conveyance[0]?.invoice_code);
+        setProject_name(res?.data?.conveyance[0]?.project?.id);
+        setEmployee_name(res?.data?.conveyance[0]?.employee?.id);
+        setSubTotal(res?.data?.conveyance[0]?.totalamount);
+        setInvoiceItems(res?.data?.conveyance_items);
+      } else {
+        error_alert("ERROR! please try again later");
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    if (id !== undefined) {
+      fetchConveyance();
+    }
+  }, []);
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // SUBMIT FUNC
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   const handleSubmit = (e) => {
     e.preventDefault();
     let payload = {
       invoice_post: {
-        invoice_date: selected_date,
+        conveyance_date: selected_date,
         project: project_name,
         employee: employee_name,
         totalamount: subtotal,
       },
       particulars: invoiceItems,
-      files: files,
+      files: "",
     };
-    setLoading(true);
-    API.post(BILL_POST, payload)
-      .then((res) => {})
-      .catch((err) => console.log(err))
-      .finally(() => setLoading(false));
+    let payload_when_update = {
+      invoice_post: {
+        conveyance_date: selected_date,
+        project: project_name,
+        employee: employee_name,
+        totalamount: subtotal,
+        invoice_code: invoice_code,
+      },
+      particulars: invoiceItems,
+      files: "",
+    };
+
+    if (project_name === "" || employee_name === "") {
+      error_alert("Please select all fields");
+    } else {
+      setLoading(true);
+      id !== undefined
+        ? API.put(CONVEYANCE_EACH_PUT_API(id), payload_when_update)
+        : API.post(CONVEYANCE_POST, payload)
+            .then((res) => {
+              if (res.data.statuscode === 200) {
+                success_alert(res.data.message);
+                navigate(-1, { replace: true });
+              } else {
+                error_alert("Error! please try again");
+              }
+            })
+            .catch((err) => console.log(err))
+            .finally(() => setLoading(false));
+    }
   };
   return (
     <Layout>
-      <PageHeader title="Add New Bill" onBack />
+      {loading && <Loader />}
+      {employeeDropdownLoading && <Loader />}
+      <PageHeader title={id === undefined ? "Add New Conveyance " : "Update Conveyance "} onBack />
       <Content>
         <Form onSubmit={handleSubmit}>
           <Row>
@@ -121,6 +190,7 @@ export default function ConveyanceAdd() {
                 <ReactSelect
                   options={projectList?.map((d) => ({ label: d.name, value: d.id }))}
                   onChange={(e) => setProject_name(e.value)}
+                  placeholder={projectList?.map((d) => d.id === project_name && d?.name)}
                 />
               </Form.Group>
             </Col>
@@ -128,8 +198,9 @@ export default function ConveyanceAdd() {
               <Form.Group>
                 <Form.Label>Employee Name</Form.Label>
                 <ReactSelect
-                  options={employeeList?.map((d) => ({ label: d.name + " (" + d.employee_id + ")", value: d.id }))}
+                  options={employeeDropdownList?.map((d) => ({ label: d.name + " (" + d.employee_id + ")", value: d.id }))}
                   onChange={(e) => setEmployee_name(e.value)}
+                  placeholder={employeeDropdownList?.map((d) => d.id === employee_name && d?.name)}
                 />
               </Form.Group>
             </Col>
@@ -163,46 +234,51 @@ export default function ConveyanceAdd() {
                           onItemChange(e, i);
                         }}
                         value={d.date}
+                        required
                       />
                     </td>
                     <td style={{ minWidth: "50px" }}>
                       <Form.Control
                         placeholder="From"
-                        name="from"
+                        name="purposefrom"
                         onChange={(e) => {
                           onItemChange(e, i);
                         }}
-                        value={d.from}
+                        value={d.purposefrom}
+                        required
                       />
                     </td>
                     <td style={{ minWidth: "50px" }}>
                       <Form.Control
                         placeholder="To"
-                        name="to"
+                        name="purposeto"
                         onChange={(e) => {
                           onItemChange(e, i);
                         }}
-                        value={d.to}
+                        value={d.purposeto}
+                        required
                       />
                     </td>
                     <td style={{ minWidth: "50px" }}>
                       <Form.Control
                         placeholder="Purpose of Visit"
-                        name="purpose_of_visit"
+                        name="purposevisit"
                         onChange={(e) => {
                           onItemChange(e, i);
                         }}
-                        value={d.purpose_of_visit}
+                        value={d.purposevisit}
+                        required
                       />
                     </td>
                     <td style={{ minWidth: "50px" }}>
                       <Form.Control
                         placeholder="Mode of Transport"
-                        name="mode_of_transport"
+                        name="modetransport"
                         onChange={(e) => {
                           onItemChange(e, i);
                         }}
-                        value={d.mode_of_transport}
+                        value={d.modetransport}
+                        required
                       />
                     </td>
                     <td style={{ minWidth: "50px" }}>
@@ -213,6 +289,7 @@ export default function ConveyanceAdd() {
                         onChange={(e) => {
                           onItemChange(e, i);
                         }}
+                        required
                       />
                     </td>
                     <td>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
@@ -10,11 +10,13 @@ import Layout from "../../../layout/Layout";
 import { UNAUTHORIZED, USER_LIST_PAGE } from "../../../utils/routes/app_routes/APP_ROUTES";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { API } from "../../../utils/axios/axiosConfig";
-import { USER_CREATE_POST, USER_EACH_GET } from "../../../utils/routes/api_routes/API_ROUTES";
+import { USER_CREATE_POST, USER_EACH_GET, USER_EACH_POST } from "../../../utils/routes/api_routes/API_ROUTES";
 import { success_alert, error_alert } from "../../../components/alert/Alert";
 import { USER_INFO } from "../../../utils/session/token";
+import moment from "moment";
+import axios from "axios";
 
-export default function UserAdd() {
+export default function UserEdit() {
   const { id } = useParams();
   const user = USER_INFO();
   const navigate = useNavigate();
@@ -31,15 +33,55 @@ export default function UserAdd() {
   const [mobile_number, setMobile_number] = useState("");
   const [address, setAddress] = useState("");
   const [group, setGroup] = useState([]);
-
+  const [tempGrp, setTempGrp] = useState("");
   //err states
   const [usernameErr, setUserNameErr] = useState("");
   const [passErr, setPassErr] = useState("");
 
+  const fetchUser = () => {
+    setLoading(true);
+    API.get(USER_EACH_GET(id))
+      .then((res) => {
+        if (res.data.statuscode === 200) {
+          setFull_name(res?.data?.data?.first_name);
+          setUsername(res?.data?.data?.username);
+          setJoining_date(moment(res?.data?.data?.date_joined).format("YYYY-MM-DD"));
+          setEmail(res?.data?.data?.email);
+          setMobile_number(res?.data?.data?.phone_number);
+          setAddress(res?.data?.data?.address);
+          setTempGrp(res?.data?.data?.group);
+          let filteringRole = [];
+          let grp = res?.data?.data?.group?.split(",").map((item) => parseInt(item));
+          grp?.map((g) => roleList?.map((role, idx) => role.value === g && filteringRole.push(idx)));
+          let ax = filteringRole?.map((a) => roleList[a]);
+        }
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
+  };
+
+  //Retrive USER if id is not undefined
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+    fetchUser();
+    return () => {
+      source.cancel("Component got unmounted");
+    };
+  }, []);
+
+  //   For role rendering purpose
+  //   useEffect(() => {
+  //     let grp = tempGrp?.split(",").map(function (item) {
+  //       return parseInt(item);
+  //     });
+  //     let filteringRole = [];
+  //     grp?.map((g) => roleList?.map((role, idx) => role.value === g && filteringRole.push(idx)));
+  //     setGroup(filteringRole?.map((a) => roleList[a]));
+  //   }, [tempGrp]);
+
   // Submit Function
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
     setUserNameErr("");
     setPassErr("");
     let a = group?.map((d) => d.value.toString());
@@ -54,59 +96,45 @@ export default function UserAdd() {
       // group: group,
       group: a.join(","),
     };
-    API.post(USER_CREATE_POST, payload)
-      .then((res) => {
-        if (res.data.statuscode === 200) {
-          success_alert(res.data.message);
-          navigate(-1);
-        } else {
-          error_alert(res.data.message);
-        }
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-        // Username Error
-        if (err.response.data.error.username) {
-          setUserNameErr(err.response.data.error.username);
-        }
 
-        // Password Error
-        if (err.response.data.error.password) {
-          if (err.response.data.error.password.length > 1) {
-            setPassErr(err.response.data.error.password[0] + " " + err.response.data.error.password[1]);
-            error_alert(err.response.data.error.password[0] + " " + err.response.data.error.password[1]);
+    if (group.length === 0) {
+      error_alert("Please select group");
+    } else {
+      setLoading(true);
+      API.put(USER_EACH_POST(id), payload)
+        .then((res) => {
+          if (res.data.statuscode === 200) {
+            success_alert(res.data.message);
+            navigate(-1);
           } else {
-            setPassErr(err.response.data.error.password[0]);
-            error_alert(err.response.data.error.password[0]);
+            error_alert(res.data.message);
           }
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+          // Username Error
+          if (err.response.data.error.username) {
+            setUserNameErr(err.response.data.error.username);
+          }
+
+          // Password Error
+          if (err.response.data.error.password) {
+            if (err.response.data.error.password.length > 1) {
+              setPassErr(err.response.data.error.password[0] + " " + err.response.data.error.password[1]);
+              error_alert(err.response.data.error.password[0] + " " + err.response.data.error.password[1]);
+            } else {
+              setPassErr(err.response.data.error.password[0]);
+              error_alert(err.response.data.error.password[0]);
+            }
+          }
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   };
 
-  const fetchUser = () => {
-    setLoading(true);
-    API.get(USER_EACH_GET(id))
-      .then((res) => {
-        if (res.data.statuscode === 200) {
-          setFull_name(res?.data?.data?.first_name);
-          setUsername(res?.data?.data?.username);
-        }
-      })
-      .catch((err) => console.log(err))
-      .finally(() => setLoading(false));
-  };
-
-  //Retrive USER if id is not undefined
-  useEffect(() => {
-    fetchUser();
-  }, [id]);
-
-  console.log(setFull_name);
-
-  return user.accessibility.includes("user-register.create") ? (
+  return user.accessibility.includes("user-list.retrieve") ? (
     <Layout>
       {loading && <Loader />}
       <PageHeader title={`User ${id === undefined ? "Add" : "Update"}`} onBack />
@@ -119,7 +147,7 @@ export default function UserAdd() {
                 <Form.Control
                   placeholder="Enter fullname"
                   type="text"
-                  values={full_name}
+                  value={full_name}
                   onChange={(e) => {
                     setFull_name(e.target.value);
                   }}
@@ -132,7 +160,7 @@ export default function UserAdd() {
                 <Form.Control
                   placeholder="Enter Username"
                   type="text"
-                  values={username}
+                  value={username}
                   onChange={(e) => {
                     setUsername(e.target.value);
                   }}
@@ -142,41 +170,10 @@ export default function UserAdd() {
                 {usernameErr && <div className="invalid-feedback">{usernameErr}</div>}
               </Form.Group>
             </Col>
-
-            <Col sm="12" md="6">
-              {id === undefined && (
-                <Form.Group className="mb-3">
-                  <Form.Label>Password</Form.Label>
-                  <div className="d-flex">
-                    <Form.Control
-                      placeholder="Enter Password"
-                      type={showPass ? "text" : "password"}
-                      values={password}
-                      onChange={(e) => {
-                        setPassword(e.target.value);
-                      }}
-                      className={passErr ? "is-invalid" : ""}
-                      required
-                    />
-                    <Button
-                      variant="light"
-                      className="ms-2"
-                      onClick={() => {
-                        setShowPass(!showPass);
-                      }}
-                      title={showPass ? " Hide Password" : "Show Password"}
-                    >
-                      {showPass ? <FaEye /> : <FaEyeSlash />}
-                    </Button>
-                  </div>
-                  {passErr && <div className="invalid-feedback">{passErr}</div>}
-                </Form.Group>
-              )}
-            </Col>
             <Col sm="12" md="6">
               <Form.Group className="mb-3">
                 <Form.Label>User Group</Form.Label>
-                <Select isMulti options={roleList} onChange={(e) => setGroup(e)} value={group} loadingIndicator={true} />
+                <Select key={group} defaultValue={group} isMulti options={roleList} onChange={(e) => setGroup(e)} />
               </Form.Group>
             </Col>
             <Col sm="12" md="6">
@@ -185,9 +182,22 @@ export default function UserAdd() {
                 <Form.Control
                   placeholder="Enter Joining Date"
                   type="date"
-                  values={joining_date}
+                  value={joining_date}
                   onChange={(e) => {
                     setJoining_date(e.target.value);
+                  }}
+                />
+              </Form.Group>
+            </Col>
+            <Col sm="12" md="6">
+              <Form.Group className="mb-3">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  placeholder="Enter Email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
                   }}
                 />
               </Form.Group>
@@ -199,22 +209,9 @@ export default function UserAdd() {
                   placeholder="Enter Mobile Number"
                   type="text"
                   maxlength="11"
-                  values={mobile_number}
+                  value={mobile_number}
                   onChange={(e) => {
                     setMobile_number(e.target.value);
-                  }}
-                />
-              </Form.Group>
-            </Col>
-            <Col sm="12" md="6">
-              <Form.Group className="mb-3">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  placeholder="Enter Email"
-                  type="email"
-                  values={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
                   }}
                 />
               </Form.Group>
@@ -228,7 +225,7 @@ export default function UserAdd() {
                   placeholder="Enter Address"
                   type="text"
                   maxlength="11"
-                  values={address}
+                  value={address}
                   onChange={(e) => {
                     setAddress(e.target.value);
                   }}
@@ -237,7 +234,7 @@ export default function UserAdd() {
             </Col>
             <div>
               <Button type="submit" variant="primary">
-                Submit
+                Update
               </Button>
               <Link to={USER_LIST_PAGE}>
                 <Button variant="light" className="ms-2">

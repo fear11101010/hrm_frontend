@@ -24,6 +24,8 @@ import NavbarLunchManagement from "./navbar/navbar-lunch-management";
 import NavbarConfiguration from "./navbar/navbar-configuration";
 import Loader from "../components/loader/Loader";
 import NavbarRequisition from "./navbar/navbar-requisition";
+import { BILLING_DASHBOARD } from "../utils/routes/app_routes/BILL_APP_ROUTE";
+import NavbarBill from "./navbar/navbar-bill";
 
 export default function Layout({ children }) {
   const [user, setUser] = useState(USER_INFO());
@@ -37,6 +39,7 @@ export default function Layout({ children }) {
     { label: "HRM", value: "hrm" },
     { label: "Ticketing System", value: "support_system" },
     { label: "Lunch Management", value: "lunch_management" },
+    { label: "Bill Management", value: "bill_management" },
   ];
   const [isLoading, setIsLoading] = useState(false);
   const excludePath = [LOGIN_PAGE];
@@ -121,6 +124,9 @@ export default function Layout({ children }) {
       case "requisition":
         if (!path?.includes("requisition") && !cPath) navigate(REQUISITION_DASHBOARD);
         return <NavbarRequisition />;
+      case "bill_management":
+        if (!path?.includes("bill_management") && !cPath) navigate(BILLING_DASHBOARD);
+        return <NavbarBill />;
       default:
         return <Navbar1 />;
     }
@@ -133,25 +139,6 @@ export default function Layout({ children }) {
         <Navbar bg="white" className="navbar navbar-expand-md navbar-light d-none d-md-flex">
           <Nav className="me-auto px-5">
             <Select options={modules} value={selectedModule} onChange={changeModule} />
-            {/*<Dropdown>
-              <Dropdown.Toggle variant="white" id="dropdown-basic" className="fw-bold border-0">
-                {user.name}
-              </Dropdown.Toggle>
-              <Dropdown.Menu className="w-100 border">
-                <Dropdown.Item>{user.username}</Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item
-                  onClick={(e) => {
-                    handleConfirm(e);
-                  }}
-                  className="text-danger"
-                >
-                  <h5 className="mb-0 fw-bold">
-                    <i className="fe fe-log-out me-1"></i> LOGOUT
-                  </h5>
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>*/}
           </Nav>
           <Nav className="ms-auto px-5">
             <Dropdown>

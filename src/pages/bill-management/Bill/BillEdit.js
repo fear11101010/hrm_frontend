@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Form, FormControl, Image, Row, Table } from "react-bootstrap";
 import Content from "../../../components/content/Content";
 import PageHeader from "../../../components/header/PageHeader";
@@ -14,16 +14,16 @@ import moment from "moment";
 import FileDropZone from "../../../components/FileDropZone";
 import { FaFileExcel, FaFilePdf, FaFileWord, FaTrash } from "react-icons/fa";
 import { API } from "../../../utils/axios/axiosConfig";
-import { BILL_POST } from "../../../utils/routes/api_routes/BILL_API_ROUTES";
+import { BILL_EACH_GET, BILL_POST } from "../../../utils/routes/api_routes/BILL_API_ROUTES";
 import Loader from "../../../components/loader/Loader";
-import { useNavigate } from "react-router-dom";
-import { error_alert, success_alert } from "../../../components/alert/Alert";
+import { useParams } from "react-router-dom";
+import { error_alert } from "../../../components/alert/Alert";
 
-export default function BillAdd() {
+export default function BillEdit() {
+  const { id } = useParams();
   const user = USER_INFO();
   const projectList = useProjects();
   const employeeList = useEmployee();
-  let navigate = useNavigate();
 
   //States
   const [loading, setLoading] = useState(false);
@@ -78,10 +78,34 @@ export default function BillAdd() {
   };
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // Fetch Func
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const fetchBill = () => {
+    setLoading(true);
+    API.get(BILL_EACH_GET(id))
+      .then((res) => {
+        if (res.data.statuscode === 200) {
+          setSelected_date(res?.data?.invoice[0]?.invoice_date);
+          setProject_name(res?.data?.invoice[0]?.project);
+          setEmployee_name(res?.data?.invoice[0]?.employee);
+          setFiles(res?.data?.files);
+          setInvoiceItems(res?.data?.invoice_items);
+        } else {
+          error_alert("Error!!" + res.data.message);
+        }
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
+  };
+  useEffect(() => {
+    fetchBill();
+  }, []);
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // File Submit
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const onDropFile = (acceptedFiles) => {
-    console.log("acceptedFiles", acceptedFiles);
+    console.log(acceptedFiles);
     setFiles((files) => [...files, ...acceptedFiles]);
   };
   const removeFile = (e, i) => {
@@ -93,6 +117,7 @@ export default function BillAdd() {
       return f;
     });
   };
+
   const removeUploadedFile = (e, i) => {
     e.preventDefault();
     e.stopPropagation();
@@ -109,6 +134,7 @@ export default function BillAdd() {
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // SUBMIT FUNC
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   const handleSubmit = (e) => {
     e.preventDefault();
     let invoice_post = {
@@ -119,11 +145,9 @@ export default function BillAdd() {
     };
 
     const formData = new FormData();
-    formData.append("invoice_post", JSON.stringify(invoice_post));
-    formData.append("particulars", JSON.stringify(invoiceItems));
-    files.forEach((v, i) => {
-      formData.append(`files`, v);
-    });
+    formData.append("invoice_post", invoice_post);
+    formData.append("particulars", invoiceItems);
+    formData.append(`files`, files);
 
     setLoading(true);
     API.post(BILL_POST, formData, {
@@ -131,21 +155,15 @@ export default function BillAdd() {
         "content-type": "multipart/form-data",
       },
     })
-      .then((res) => {
-        if (res.data.statuscode === 200) {
-          success_alert(res.data.message);
-          navigate(-1, { replace: true });
-        } else {
-          error_alert("ERROR! Please try again");
-        }
-      })
+      .then((res) => {})
       .catch((err) => console.log(err))
       .finally(() => setLoading(false));
   };
+
   return (
     <Layout>
       {loading && <Loader />}
-      <PageHeader title="Add New Bill" onBack />
+      <PageHeader title="Edit Bill" onBack />
       <Content>
         <Form onSubmit={handleSubmit}>
           <Row>
@@ -168,6 +186,7 @@ export default function BillAdd() {
                 <Form.Label>Project Name</Form.Label>
                 <ReactSelect
                   options={projectList?.map((d) => ({ label: d.name, value: d.id }))}
+                  placeholder={projectList?.map((d) => d.id === project_name && d?.name)}
                   onChange={(e) => setProject_name(e.value)}
                 />
               </Form.Group>
@@ -177,6 +196,7 @@ export default function BillAdd() {
                 <Form.Label>Employee Name</Form.Label>
                 <ReactSelect
                   options={employeeList?.map((d) => ({ label: d.name + " (" + d.employee_id + ")", value: d.id }))}
+                  placeholder={employeeList?.map((d) => d.id === employee_name && d?.name)}
                   onChange={(e) => setEmployee_name(e.value)}
                 />
               </Form.Group>
@@ -287,11 +307,11 @@ export default function BillAdd() {
                     <div className="col-auto">
                       {file?.type === "application/pdf" ? (
                         <FaFilePdf size={32} />
-                      ) : file?.name.split(".")[1] === "docx" || file?.name.split(".")[1] === "doc" ? (
+                      ) : file?.name?.split(".")[1] === "docx" || file?.name?.split(".")[1] === "doc" ? (
                         <FaFileWord size={32} />
-                      ) : file?.name.split(".")[1] === "xlsx" || file?.name.split(".")[1] === "xls" ? (
+                      ) : file?.name?.split(".")[1] === "xlsx" || file?.name?.split(".")[1] === "xls" ? (
                         <FaFileExcel size={32} />
-                      ) : file?.type.startsWith("image") ? (
+                      ) : file?.type?.startsWith("image") ? (
                         <>
                           <a href={URL.createObjectURL(file)} target="#">
                             <Image src={URL.createObjectURL(file)} href={URL.createObjectURL(file)} target="#" height={48} />
@@ -303,10 +323,10 @@ export default function BillAdd() {
                     </div>
                     <div className="col ms-n3">
                       <h4 className="mb-1" data-dz-name="">
-                        {file.name}
+                        {file?.name}
                       </h4>
                       <small className="text-muted" data-dz-size="">
-                        <strong>{Math.ceil(file.size / 1024)}</strong>KB
+                        <strong>{Math.ceil(file?.size / 1024)}</strong>KB
                       </small>
                     </div>
                     <div className="col-auto">
@@ -346,16 +366,4 @@ export default function BillAdd() {
       </Content>
     </Layout>
   );
-}
-
-{
-  /* <Button
-              size="sm"
-              variant="secondary"
-              className="d-flex justify-content-center align-items-center"
-              title="Add More"
-              onClick={addItems}
-            >
-              <RiAddFill fill={"#fff"} style={{ height: "24px", width: "24px" }} className="mr-0" />
-            </Button> */
 }
