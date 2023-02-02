@@ -160,8 +160,10 @@ import BillManagementOutlet from "./outlets/billing/BillManagementOutlet";
 import {
   BILLING_DASHBOARD,
   BILL_ADD_URL,
+  BILL_EDIT_URL,
   BILL_LIST_URL,
   CONVEYANCE_ADD_URL,
+  CONVEYANCE_EDIT_URL,
   CONVEYANCE_LIST_URL,
 } from "./utils/routes/app_routes/BILL_APP_ROUTE";
 import BillingBashboard from "./pages/bill-management/dashboard/BillingBashboard";
@@ -169,9 +171,12 @@ import Bill from "./pages/bill-management/Bill/Bill";
 import BillAdd from "./pages/bill-management/Bill/billAdd";
 import Conveyance from "./pages/bill-management/Conveyance/Conveyance";
 import ConveyanceAdd from "./pages/bill-management/Conveyance/ConveyanceAdd";
+import UserEdit from "./pages/user/user/UserEdit";
+
 import AdminMenuEntryEdit from "./pages/LunchBillManagement/Admin/Settings/MenuEntry/AdminMenuEntryEdit";
 import LunchOrderTimeConfiguration
   from "./pages/LunchBillManagement/Admin/Settings/LunchTimeConfiguration/LunchOrderTimeConfiguration";
+import BillEdit from "./pages/bill-management/Bill/BillEdit";
 
 // import BillList from "./pages/bill-management/bill/List";
 // import BillAdd from "./pages/bill-management/bill/billAdd";
@@ -194,7 +199,7 @@ function App() {
         <Route path={"/"} element={<UserOutlet />}>
           <Route path={USER_LIST_PAGE} element={<UserList />} />
           <Route path={USER_ADD_PAGE} element={<UserAdd />} />
-          <Route path={USER_EDIT_PAGE_URL} element={<UserAdd />} />
+          <Route path={USER_EDIT_PAGE_URL} element={<UserEdit />} />
           <Route path={USER_ROLE_LIST_PAGE} element={<RoleList />} />
           <Route path={USER_ROLE_PRIVILEGE_PAGE_URL} element={<Privileges />} />
           <Route path={EMPLOYEE_LIST_PAGE} element={<EmployeeList />} />
@@ -232,8 +237,10 @@ function App() {
           <Route path={BILLING_DASHBOARD} element={<BillingBashboard />} />
           <Route path={BILL_LIST_URL} element={<Bill />} />
           <Route path={BILL_ADD_URL} element={<BillAdd />} />
+          <Route path={BILL_EDIT_URL} element={<BillEdit />} />
           <Route path={CONVEYANCE_LIST_URL} element={<Conveyance />} />
           <Route path={CONVEYANCE_ADD_URL} element={<ConveyanceAdd />} />
+          <Route path={CONVEYANCE_EDIT_URL} element={<ConveyanceAdd />} />
         </Route>
 
         {/* REQUISITION */}

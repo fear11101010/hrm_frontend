@@ -30,7 +30,7 @@ export const COLUMNS = [
     name: "Edit",
     cell: (row) => (
       <>
-        {user.accessibility.includes("employee_update.PUT") && (
+        {user?.accessibility?.includes("employee_update.PUT") && (
           <Link to={EMPLOYEE_EDIT_PAGE(row.id)}>
             <Button size="sm" className="btn-rounded-circle" title={`Edit`}>
               <i className="fe fe-edit"></i>

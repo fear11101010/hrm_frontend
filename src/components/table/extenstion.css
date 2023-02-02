@@ -18,3 +18,17 @@
     border-color: #2c7be5;
     transition: 300ms;
 }
+
+.sc-dmctIk::-webkit-scrollbar {
+    height: .52em;
+    width: .52em;
+}
+
+.sc-dmctIk::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.sc-dmctIk::-webkit-scrollbar-thumb {
+    background-color: #95aac9;
+    border-radius: 50px;
+}

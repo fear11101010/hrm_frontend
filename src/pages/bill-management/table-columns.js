@@ -1,7 +1,9 @@
 import moment from "moment";
 import { getDurations } from "../../utils/helper";
-import { FaFileInvoice } from "react-icons/fa";
+import { FaEdit, FaFileInvoice } from "react-icons/fa";
 import { Badge, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { CONVEYANCE_EDIT_PAGE_URL } from "../../utils/routes/app_routes/BILL_APP_ROUTE";
 
 export const BILL_LIST_TABLE_COLUMN = [
   {
@@ -65,20 +67,22 @@ export const BILL_LIST_TABLE_COLUMN = [
 
 export const CONVEYANCE_LIST_TABLE = [
   {
-    name: "#",
-    width: "80px",
-    selector: (row, index) => index + 1,
+    name: `Employee`,
+    width: "250px",
+    selector: (row, index) => row?.employee?.name,
+  },
+  {
+    name: `ID`,
+    width: "120px",
+    selector: (row, index) => row?.employee?.employee_id,
   },
   {
     name: "Project",
     sortable: true,
     selector: (row, index) => row?.project?.name,
+    width: "180px",
   },
-  {
-    name: `Employee`,
-    width: "250px",
-    selector: (row, index) => row?.employee?.name,
-  },
+
   {
     name: "Invoice Code",
     selector: (row, index) => row?.invoice_code,
@@ -87,25 +91,35 @@ export const CONVEYANCE_LIST_TABLE = [
   {
     name: `Total Amount`,
     selector: (row, index) => row?.totalamount,
-    width: "180px",
+    width: "150px",
+    right: true,
   },
   {
     name: `Status`,
     sortable: true,
-    selector: (row, index) => (row?.status ? "Approved" : "In Progress"),
-    cell: (row, index) => (
-      <span className="item-title">
-        <Badge bg={row?.status ? "success" : "warning"}>{row?.status ? "Approved" : "In Progress"}</Badge>
-      </span>
-    ),
+    selector: (row, index) => row?.status,
+    cell: (row) => <>{row?.status}</>,
   },
   {
-    name: `Action`,
-    width: "250px",
+    name: `Invoice`,
+    width: "120px",
     cell: (row, index) => (
       <Button size="sm">
         <FaFileInvoice /> Invoice
       </Button>
     ),
+    center: true,
+  },
+  {
+    name: `Edit`,
+    width: "80px",
+    cell: (row, index) => (
+      <Link to={CONVEYANCE_EDIT_PAGE_URL(row.id)}>
+        <Button size="sm">
+          <FaEdit />
+        </Button>
+      </Link>
+    ),
+    center: true,
   },
 ];

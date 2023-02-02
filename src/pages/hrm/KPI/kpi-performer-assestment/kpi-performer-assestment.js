@@ -184,6 +184,7 @@ export default function KpiPerformerAssestment() {
         </>
       ),
       width: "80px",
+
       center: true,
     },
     {

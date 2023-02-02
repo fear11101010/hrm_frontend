@@ -1,10 +1,12 @@
-#custom-table-container::-webkit-scrollbar{
+#custom-table-container::-webkit-scrollbar {
     height: .52em;
     width: .52em;
 }
+
 #custom-table-container::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
+
 #custom-table-container::-webkit-scrollbar-thumb {
     background-color: #95aac9;
     border-radius: 50px;
