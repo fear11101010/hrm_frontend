@@ -12,6 +12,7 @@ import moment from "moment";
 import Loader from "../../../../../components/loader/Loader";
 import {monthAndYearList} from "../../../../../utils/helper";
 import AdminMenuEntryCreateUpdateForm from "./AdminMenuEntryCreateUpdateForm";
+import {error_alert} from "../../../../../components/alert/Alert";
 
 
 export default function AdminMenuEntry(props) {
@@ -22,7 +23,11 @@ export default function AdminMenuEntry(props) {
 
 
     function loadMenuItem(vendor, month, year) {
-        API.get(VENDOR_MENU_LIST_BY_VENDOR_API(vendor)).then(success => {
+        API.get(VENDOR_MENU_LIST_BY_VENDOR_API(vendor),{
+            params:{
+                month,year
+            }
+        }).then(success => {
             setVendorMenuList(success?.data?.data)
             const m = moment().month(month).year(year);
             const totalDaysInAMonth = m.daysInMonth();
@@ -38,8 +43,9 @@ export default function AdminMenuEntry(props) {
                 })
             }
             setMappingMenuEntryList(mappingMenuEntry)
-        }).then(err => {
-
+        }).catch(err => {
+            console.log(err?.data)
+            error_alert(err?.response?.data?.error)
         })
     }
 

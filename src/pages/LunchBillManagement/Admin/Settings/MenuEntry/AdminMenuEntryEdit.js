@@ -13,6 +13,7 @@ import Loader from "../../../../../components/loader/Loader";
 import {generateCalenderForCreateOrUpdate, monthAndYearList} from "../../../../../utils/helper";
 import AdminMenuEntryCreateUpdateForm from "./AdminMenuEntryCreateUpdateForm";
 import {useParams} from "react-router-dom";
+import {error_alert} from "../../../../../components/alert/Alert";
 
 
 export default function AdminMenuEntryEdit(props) {
@@ -29,7 +30,11 @@ export default function AdminMenuEntryEdit(props) {
     function loadMenuItem(vendor, month, year) {
         setLoading(true)
         setEditData({})
-        API.get(VENDOR_MENU_LIST_BY_VENDOR_API(vendor)).then(success => {
+        API.get(VENDOR_MENU_LIST_BY_VENDOR_API(vendor),{
+            params:{
+                month,year
+            }
+        }).then(success => {
             setVendorMenuList(success?.data?.data)
             if (multiple) {
                 const menuEntry = mapData(data?.data, success?.data?.data);
@@ -50,24 +55,10 @@ export default function AdminMenuEntryEdit(props) {
                     menuEntry.vendor = vendor
                     setEditData(menuEntry);
                 }
-                /*data?.data?.mapping_menu_entry?.forEach(mme => {
-                    delete mme?.menu_entry;
-                    mme.weekday = moment.weekdays(moment(mme?.date).weekday());
-                    const menuIds = success?.data?.data?.map(m => m?.id)
-                    let j = 0;
-                    for (const m of mme?.menus) {
-                        const i = menuIds.indexOf(m?.id)
-                        if (i >= 0) {
-                            menus[i] = {menu: true};
-                            menus.splice(menus.length, 0, mme?.menus[j++])
-                        }
-                    }
-                    mme.menus = menus
-                })
-                setEditData(data?.data)*/
             }
-        }).then(err => {
+        }).catch(err => {
             console.log(err)
+            error_alert(err?.data?.error)
         }).finally(() => {
             setLoading(false)
         })
@@ -97,12 +88,14 @@ export default function AdminMenuEntryEdit(props) {
             delete mme?.menu_entry;
             const menuCheckBox = Array(menus?.length).fill({menu: false});
             mme.weekday = moment.weekdays(moment(mme?.date).weekday());
+            debugger
+            mme?.menus?.sort((a,b)=>a?.menu_position-b?.menu_position)
             let j = 0;
             for (const m of mme?.menus) {
                 const i = menuIds.indexOf(m?.id)
                 if (i >= 0) {
                     menuCheckBox[i] = {menu: true};
-                    menuCheckBox.splice(menus.length, 0, mme?.menus[j++])
+                    menuCheckBox.splice(menuCheckBox.length, 0, mme?.menus[j++])
                 }
             }
             mme.menus = menuCheckBox

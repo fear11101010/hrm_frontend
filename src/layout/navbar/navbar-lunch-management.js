@@ -16,6 +16,7 @@ import { REMOVE_TOKEN, USER_INFO } from "../../utils/session/token";
 import ConfirmDialog from "../../components/confirm-dialog/ConfirmDialog";
 import { SUPPORT_DASHBOARD_URL } from "../../utils/routes/app_routes/SP_APP_ROUTES";
 import {
+  ADMIN_LUNCH_ORDER_TIME_CONFIG_PAGE_URL, ADMIN_MENU_ENTRY_LIST_PAGE,
   BRANCH_LIST_PAGE,
   LUNCH_DASHBOARD_PAGE,
   LUNCH_ORDER_PAGE,
@@ -129,6 +130,18 @@ export default function NavbarLunchManagement() {
                           {/* {user.module.includes("Requisition From Entry") && ()} */}
                           <Link className={"nav-link"} to={VENDOR_MENU_LIST_PAGE}>
                             Vendor Menus
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          {/* {user.module.includes("Requisition From Entry") && ()} */}
+                          <Link className={"nav-link"} to={ADMIN_LUNCH_ORDER_TIME_CONFIG_PAGE_URL}>
+                            Time Configuration
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          {/* {user.module.includes("Requisition From Entry") && ()} */}
+                          <Link className={"nav-link"} to={ADMIN_MENU_ENTRY_LIST_PAGE}>
+                            Menu Entry
                           </Link>
                         </li>
                       </ul>

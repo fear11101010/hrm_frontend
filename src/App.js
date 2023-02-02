@@ -131,7 +131,10 @@ import {
   BRANCH_LIST_PAGE,
   VENDOR_LIST_PAGE,
   VENDOR_MENU_LIST_PAGE,
-  ADMIN_MENU_ENTRY_CREATE_PAGE, ADMIN_MENU_ENTRY_LIST_PAGE, ADMIN_MENU_ENTRY_EDIT_PAGE_URL,
+  ADMIN_MENU_ENTRY_CREATE_PAGE,
+  ADMIN_MENU_ENTRY_LIST_PAGE,
+  ADMIN_MENU_ENTRY_EDIT_PAGE_URL,
+  ADMIN_LUNCH_ORDER_TIME_CONFIG_PAGE_URL,
 } from "./utils/routes/app_routes/LUNCH_ROUTES";
 import LunchOutlet from "./outlets/lunchManagementOutlet/LunchOutlet";
 import LunchOrder from "./pages/LunchBillManagement/lunch/lunch_order/LunchOrder";
@@ -167,6 +170,8 @@ import BillAdd from "./pages/bill-management/Bill/billAdd";
 import Conveyance from "./pages/bill-management/Conveyance/Conveyance";
 import ConveyanceAdd from "./pages/bill-management/Conveyance/ConveyanceAdd";
 import AdminMenuEntryEdit from "./pages/LunchBillManagement/Admin/Settings/MenuEntry/AdminMenuEntryEdit";
+import LunchOrderTimeConfiguration
+  from "./pages/LunchBillManagement/Admin/Settings/LunchTimeConfiguration/LunchOrderTimeConfiguration";
 
 // import BillList from "./pages/bill-management/bill/List";
 // import BillAdd from "./pages/bill-management/bill/billAdd";
@@ -278,6 +283,7 @@ function App() {
           <Route path={HOLIDAY_CALENDER_PAGE} element={<HolidayCalender />} />
           <Route path={ADMIN_MENU_ENTRY_LIST_PAGE} element={<AdminMenuEntryList />} />
           <Route path={ADMIN_MENU_ENTRY_CREATE_PAGE} element={<AdminMenuEntry />} />
+          <Route path={ADMIN_LUNCH_ORDER_TIME_CONFIG_PAGE_URL} element={<LunchOrderTimeConfiguration />} />
           <Route path={ADMIN_MENU_ENTRY_EDIT_PAGE_URL} >
             <Route index element={<AdminMenuEntryEdit/>}/>
             <Route path=":mappingId" element={<AdminMenuEntryEdit/>}/>
