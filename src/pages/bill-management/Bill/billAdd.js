@@ -18,16 +18,18 @@ import { BILL_POST } from "../../../utils/routes/api_routes/BILL_API_ROUTES";
 import Loader from "../../../components/loader/Loader";
 import { useNavigate } from "react-router-dom";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
+import useEmployeeDropdown from "../../../hooks/useEmployeeDropdown";
 
 export default function BillAdd() {
   const user = USER_INFO();
   const projectList = useProjects();
-  const employeeList = useEmployee();
+  // const employeeDropdownList = useEmployee();
+  let { employeeDropdownLoading, employeeDropdownList } = useEmployeeDropdown();
   let navigate = useNavigate();
 
   //States
   const [loading, setLoading] = useState(false);
-  const [selected_date, setSelected_date] = useState("");
+  const [selected_date, setSelected_date] = useState(moment().format("YYYY-MM-DD"));
   const [invoice_date, setInvoice_date] = useState("");
   const [project_name, setProject_name] = useState("");
   const [employee_name, setEmployee_name] = useState("");
@@ -122,9 +124,8 @@ export default function BillAdd() {
     formData.append("invoice_post", JSON.stringify(invoice_post));
     formData.append("particulars", JSON.stringify(invoiceItems));
     files.forEach((v, i) => {
-      formData.append(`files`, v);
+      formData.append(`main_img`, v);
     });
-
     setLoading(true);
     API.post(BILL_POST, formData, {
       headers: {
@@ -134,6 +135,7 @@ export default function BillAdd() {
       .then((res) => {
         if (res.data.statuscode === 200) {
           success_alert(res.data.message);
+          setFiles([]);
           navigate(-1, { replace: true });
         } else {
           error_alert("ERROR! Please try again");
@@ -145,6 +147,7 @@ export default function BillAdd() {
   return (
     <Layout>
       {loading && <Loader />}
+      {employeeDropdownLoading && <Loader />}
       <PageHeader title="Add New Bill" onBack />
       <Content>
         <Form onSubmit={handleSubmit}>
@@ -176,7 +179,7 @@ export default function BillAdd() {
               <Form.Group>
                 <Form.Label>Employee Name</Form.Label>
                 <ReactSelect
-                  options={employeeList?.map((d) => ({ label: d.name + " (" + d.employee_id + ")", value: d.id }))}
+                  options={employeeDropdownList?.map((d) => ({ label: d.name + " (" + d.employee_id + ")", value: d.id }))}
                   onChange={(e) => setEmployee_name(e.value)}
                 />
               </Form.Group>

@@ -10,7 +10,13 @@ import Loader from "../../components/loader/Loader";
 import { REMOVE_TOKEN, USER_INFO } from "../../utils/session/token";
 import ConfirmDialog from "../../components/confirm-dialog/ConfirmDialog";
 import { SUPPORT_DASHBOARD_URL } from "../../utils/routes/app_routes/SP_APP_ROUTES";
-import { BILLING_DASHBOARD, BILL_LIST_URL, CONVEYANCE_LIST_URL } from "../../utils/routes/app_routes/BILL_APP_ROUTE";
+import {
+  BILLING_DASHBOARD,
+  BILL_APPROVE_LIST,
+  BILL_LIST_URL,
+  CONVEYANCE_APPROVE_LIST,
+  CONVEYANCE_LIST_URL,
+} from "../../utils/routes/app_routes/BILL_APP_ROUTE";
 
 export default function NavbarBill() {
   const user = USER_INFO();
@@ -70,8 +76,22 @@ export default function NavbarBill() {
             )}
             {user.module.includes("Support Dashboard") && (
               <Nav.Item as={"li"}>
+                <Link to={BILL_APPROVE_LIST} className="nav-link">
+                  <i className="fe fe-clipboard"></i> Bill Approve
+                </Link>
+              </Nav.Item>
+            )}
+            {user.module.includes("Support Dashboard") && (
+              <Nav.Item as={"li"}>
                 <Link to={CONVEYANCE_LIST_URL} className="nav-link">
                   <i className="fe fe-file-text"></i> Conveyance
+                </Link>
+              </Nav.Item>
+            )}
+            {user.module.includes("Support Dashboard") && (
+              <Nav.Item as={"li"}>
+                <Link to={CONVEYANCE_APPROVE_LIST} className="nav-link">
+                  <i className="fe fe-file-text"></i> Conveyance Approve
                 </Link>
               </Nav.Item>
             )}

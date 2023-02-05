@@ -22,6 +22,7 @@ import { LUNCH_DASHBOARD_PAGE } from "../../utils/routes/app_routes/LUNCH_ROUTES
 import "./innerLanding.css";
 import kpi_svg from "./svgs/kpi-svg.svg";
 import ticket_svg from "./svgs/ticket-svg.svg";
+import bill_img from "./svgs/bill.png";
 import lunch_svg from "./svgs/lunch.svg";
 import config_svg from "./svgs/config-svg.svg";
 import requisition_svg from "./svgs/requisition.webp";
@@ -147,7 +148,6 @@ export default function InnerLanding({ children }) {
                   <Card className="mb-0 shadow">
                     <Card.Body className="p-0">
                       <div className="d-flex justify-content-center align-items-center p-3 flex-column">
-                        <FaUser size={32} />
                         <img src={kpi_svg} alt="kpi" width={"120px"} />
                         <h3 className="mt-2">KPI</h3>
                       </div>
@@ -160,7 +160,6 @@ export default function InnerLanding({ children }) {
                   <Card className="mb-0 shadow">
                     <Card.Body className="p-0">
                       <div className="d-flex justify-content-center align-items-center p-3 flex-column">
-                        <IoTicketOutline size={32} />
                         <img src={ticket_svg} alt="kpi" width={"140px"} />
                         <h3 className="mt-2">Ticketing System</h3>
                       </div>
@@ -173,8 +172,7 @@ export default function InnerLanding({ children }) {
                   <Card className="mb-0 shadow">
                     <Card.Body className="p-0">
                       <div className="d-flex justify-content-center align-items-center p-3 flex-column">
-                        <IoTicketOutline size={32} />
-                        <img src={ticket_svg} alt="kpi" width={"140px"} />
+                        <img src={bill_img} alt="kpi" width={"115px"} />
                         <h3 className="mt-2">Billing System</h3>
                       </div>
                     </Card.Body>
@@ -189,7 +187,6 @@ export default function InnerLanding({ children }) {
                   <Card className="mb-0 shadow">
                     <Card.Body className="p-0">
                       <div className="d-flex justify-content-center align-items-center p-3 flex-column">
-                        <FaCogs size={32} />
                         <img src={requisition_svg} alt="kpi" width={"110px"} />
                         <h3 className="mt-2">Requisition</h3>
                       </div>
@@ -207,7 +204,6 @@ export default function InnerLanding({ children }) {
                   <Card className="mb-0 shadow">
                     <Card.Body className="p-0">
                       <div className="d-flex justify-content-center align-items-center p-3 flex-column">
-                        <MdOutlineLunchDining size={32} />
                         <img src={lunch_svg} alt="kpi" width={"110px"} />
                         <h3 className="mt-2">Lunch Management</h3>
                       </div>

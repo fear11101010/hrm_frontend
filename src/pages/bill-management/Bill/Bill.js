@@ -10,12 +10,15 @@ import { API } from "../../../utils/axios/axiosConfig";
 import { BILL_LIST_GET } from "../../../utils/routes/api_routes/BILL_API_ROUTES";
 import { BILL_ADD_URL, BILL_EDIT_PAGE_URL } from "../../../utils/routes/app_routes/BILL_APP_ROUTE";
 import { columns } from "./colums";
+import Invoice from "./invoice/Invoice";
 import ViewFileModal from "./ViewFileModal";
 
 function Bill(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [billData, setBillData] = useState([]);
   const [fileModal, setFileModal] = useState(false);
+  const [invoiceModal, setInvoiceModal] = useState(false);
+  const [selected_id, setSelected_id] = useState("");
   const [seleced_file, setSelectedFile] = useState([]);
 
   useEffect(() => {
@@ -33,6 +36,27 @@ function Bill(props) {
   }, []);
 
   const EXTENDED_COLUMN = [
+    {
+      name: "Invoice",
+      cell: (row) => (
+        <>
+          <Button
+            variant="primary"
+            size="sm"
+            className="d-flex align-items-center"
+            onClick={() => {
+              setInvoiceModal(true);
+              setSelected_id(row?.id);
+            }}
+          >
+            <FaFileAlt style={{ marginRight: "4px" }} /> Invoice
+          </Button>
+        </>
+      ),
+      minWidth: "120px",
+      wrap: true,
+      center: true,
+    },
     {
       name: "Files",
       cell: (row) => (
@@ -92,6 +116,14 @@ function Bill(props) {
           setFileModal(false);
           setSelectedFile([]);
         }}
+      />
+      <Invoice
+        onShow={invoiceModal}
+        onHide={() => {
+          setInvoiceModal(false);
+          setSelected_id("");
+        }}
+        data={selected_id}
       />
     </>
   );

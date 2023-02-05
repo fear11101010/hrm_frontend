@@ -13,11 +13,10 @@ import {
 import { FaEdit, FaFileAlt, FaPlus } from "react-icons/fa";
 import Loader from "../../../components/loader/Loader";
 import Table from "../../../components/table/Table";
-import InvoiceCon from "./invoice/Invoice";
 import { CONVEYANCE_LIST_API } from "../../../utils/routes/api_routes/BILL_API_ROUTES";
-import { CONVEYANCE_LIST_TABLE } from "./Columns";
+import { CONVEYANCE_LIST_TABLE } from "./columns";
 
-function Conveyance(props) {
+export default function ConveyanceApprove() {
   const [isLoading, setIsLoading] = useState(false);
   const [conveyance, setConveyance] = useState([]);
   const [invoiceModal, setInvoiceModal] = useState(false);
@@ -39,27 +38,6 @@ function Conveyance(props) {
 
   const EXTENDED_COLUMN = [
     {
-      name: "Invoice",
-      cell: (row) => (
-        <>
-          <Button
-            variant="primary"
-            size="sm"
-            className="d-flex align-items-center"
-            onClick={() => {
-              setInvoiceModal(true);
-              setSelected_id(row?.id);
-            }}
-          >
-            <FaFileAlt style={{ marginRight: "4px" }} /> Invoice
-          </Button>
-        </>
-      ),
-      minWidth: "120px",
-      wrap: true,
-      center: true,
-    },
-    {
       name: `Edit`,
       width: "80px",
       cell: (row, index) => (
@@ -72,35 +50,17 @@ function Conveyance(props) {
       center: true,
     },
   ];
-
   return (
-    <>
-      <Layout>
-        <PageHeader title={"Conveyance Bill List"} />
-        <Container fluid>
-          <Card>
-            <Card.Body>
-              <div className="d-flex justify-content-end align-items-end mb-3">
-                <Link to={CONVEYANCE_ADD_URL} className="btn btn-primary">
-                  <FaPlus /> Add New Conveyance
-                </Link>
-              </div>
-              <Table dense data={conveyance} columns={CONVEYANCE_LIST_TABLE.concat(EXTENDED_COLUMN)} />
-            </Card.Body>
-          </Card>
-        </Container>
-      </Layout>
+    <Layout>
       {isLoading && <Loader />}
-      <InvoiceCon
-        onShow={invoiceModal}
-        onHide={() => {
-          setInvoiceModal(false);
-          setSelected_id("");
-        }}
-        data={selected_id}
-      />
-    </>
+      <PageHeader title={"Conveyance Bill List"} />
+      <Container fluid>
+        <Card>
+          <Card.Body>
+            <Table dense data={conveyance} columns={CONVEYANCE_LIST_TABLE.concat(EXTENDED_COLUMN)} />
+          </Card.Body>
+        </Card>
+      </Container>
+    </Layout>
   );
 }
-
-export default Conveyance;

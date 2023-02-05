@@ -159,9 +159,11 @@ import BillManagementOutlet from "./outlets/billing/BillManagementOutlet";
 import {
   BILLING_DASHBOARD,
   BILL_ADD_URL,
+  BILL_APPROVE_LIST,
   BILL_EDIT_URL,
   BILL_LIST_URL,
   CONVEYANCE_ADD_URL,
+  CONVEYANCE_APPROVE_LIST,
   CONVEYANCE_EDIT_URL,
   CONVEYANCE_LIST_URL,
 } from "./utils/routes/app_routes/BILL_APP_ROUTE";
@@ -174,6 +176,8 @@ import UserEdit from "./pages/user/user/UserEdit";
 
 import AdminMenuEntryEdit from "./pages/LunchBillManagement/Admin/Settings/MenuEntry/AdminMenuEntryEdit";
 import BillEdit from "./pages/bill-management/Bill/BillEdit";
+import BillApprove from "./pages/bill-management/Bill-approve/BillApprove";
+import ConveyanceApprove from "./pages/bill-management/Conveyance-approve/ConveyanceApprove";
 
 // import BillList from "./pages/bill-management/bill/List";
 // import BillAdd from "./pages/bill-management/bill/billAdd";
@@ -235,9 +239,11 @@ function App() {
           <Route path={BILL_LIST_URL} element={<Bill />} />
           <Route path={BILL_ADD_URL} element={<BillAdd />} />
           <Route path={BILL_EDIT_URL} element={<BillEdit />} />
+          <Route path={BILL_APPROVE_LIST} element={<BillApprove />} />
           <Route path={CONVEYANCE_LIST_URL} element={<Conveyance />} />
           <Route path={CONVEYANCE_ADD_URL} element={<ConveyanceAdd />} />
           <Route path={CONVEYANCE_EDIT_URL} element={<ConveyanceAdd />} />
+          <Route path={CONVEYANCE_APPROVE_LIST} element={<ConveyanceApprove />} />
         </Route>
 
         {/* REQUISITION */}

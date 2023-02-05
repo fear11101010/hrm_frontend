@@ -18,12 +18,14 @@ import { BILL_EACH_GET, BILL_POST } from "../../../utils/routes/api_routes/BILL_
 import Loader from "../../../components/loader/Loader";
 import { useParams } from "react-router-dom";
 import { error_alert } from "../../../components/alert/Alert";
+import useEmployeeDropdown from "../../../hooks/useEmployeeDropdown";
 
 export default function BillEdit() {
   const { id } = useParams();
   const user = USER_INFO();
   const projectList = useProjects();
-  const employeeList = useEmployee();
+  //   const employeeDropdownList = useEmployee();
+  let { employeeDropdownLoading, employeeDropdownList } = useEmployeeDropdown();
 
   //States
   const [loading, setLoading] = useState(false);
@@ -147,7 +149,9 @@ export default function BillEdit() {
     const formData = new FormData();
     formData.append("invoice_post", invoice_post);
     formData.append("particulars", invoiceItems);
-    formData.append(`files`, files);
+    files.forEach((v, i) => {
+      formData.append(`files`, v);
+    });
 
     setLoading(true);
     API.post(BILL_POST, formData, {
@@ -195,8 +199,10 @@ export default function BillEdit() {
               <Form.Group>
                 <Form.Label>Employee Name</Form.Label>
                 <ReactSelect
-                  options={employeeList?.map((d) => ({ label: d.name + " (" + d.employee_id + ")", value: d.id }))}
-                  placeholder={employeeList?.map((d) => d.id === employee_name && d?.name)}
+                  options={employeeDropdownList?.map((d) => ({ label: d.name + " (" + d.employee_id + ")", value: d.id }))}
+                  placeholder={employeeDropdownList?.map(
+                    (d) => d.id === employee_name && d?.name + " (" + d?.employee_id + ")"
+                  )}
                   onChange={(e) => setEmployee_name(e.value)}
                 />
               </Form.Group>

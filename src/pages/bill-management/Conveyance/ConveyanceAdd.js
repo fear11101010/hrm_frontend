@@ -32,7 +32,7 @@ export default function ConveyanceAdd() {
 
   //States
   const [loading, setLoading] = useState(false);
-  const [selected_date, setSelected_date] = useState("");
+  const [selected_date, setSelected_date] = useState(id !== undefined ? "" : moment().format("YYYY-MM-DD"));
   const [project_name, setProject_name] = useState("");
   const [employee_name, setEmployee_name] = useState("");
   const [invoice_code, setInvoice_code] = useState("");
@@ -131,6 +131,7 @@ export default function ConveyanceAdd() {
       particulars: invoiceItems,
       files: "",
     };
+
     let payload_when_update = {
       invoice_post: {
         conveyance_date: selected_date,
@@ -146,20 +147,33 @@ export default function ConveyanceAdd() {
     if (project_name === "" || employee_name === "") {
       error_alert("Please select all fields");
     } else {
-      setLoading(true);
-      id !== undefined
-        ? API.put(CONVEYANCE_EACH_PUT_API(id), payload_when_update)
-        : API.post(CONVEYANCE_POST, payload)
-            .then((res) => {
-              if (res.data.statuscode === 200) {
-                success_alert(res.data.message);
-                navigate(-1, { replace: true });
-              } else {
-                error_alert("Error! please try again");
-              }
-            })
-            .catch((err) => console.log(err))
-            .finally(() => setLoading(false));
+      // WHILE PUT
+      if (id !== undefined) {
+        API.put(CONVEYANCE_EACH_PUT_API(id), payload_when_update)
+          .then((res) => {
+            if (res.data.statuscode === 200) {
+              success_alert(res.data.message);
+              navigate(-1, { replace: true });
+            } else {
+              error_alert("Error! please try again");
+            }
+          })
+          .catch((err) => console.log(err))
+          .finally(() => setLoading(false));
+      } else {
+        setLoading(true);
+        API.post(CONVEYANCE_POST, payload)
+          .then((res) => {
+            if (res.data.statuscode === 200) {
+              success_alert(res.data.message);
+              navigate(-1, { replace: true });
+            } else {
+              error_alert("Error! please try again");
+            }
+          })
+          .catch((err) => console.log(err))
+          .finally(() => setLoading(false));
+      }
     }
   };
   return (
@@ -200,7 +214,9 @@ export default function ConveyanceAdd() {
                 <ReactSelect
                   options={employeeDropdownList?.map((d) => ({ label: d.name + " (" + d.employee_id + ")", value: d.id }))}
                   onChange={(e) => setEmployee_name(e.value)}
-                  placeholder={employeeDropdownList?.map((d) => d.id === employee_name && d?.name)}
+                  placeholder={employeeDropdownList?.map(
+                    (d) => d.id === employee_name && d?.name + " (" + d?.employee_id + ")"
+                  )}
                 />
               </Form.Group>
             </Col>

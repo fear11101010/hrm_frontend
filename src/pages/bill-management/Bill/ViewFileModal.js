@@ -48,9 +48,11 @@ export default function ViewFileModal({ data, show, onHide }) {
                   <h5 className=" mt-1 mb-0">{d?.main_img?.split("/")[1]}</h5>
                 </div>
                 <div>
-                  <Button size="sm" variant="primary" title="Download" className="d-flex mt-2 py-2">
-                    <FaDownload style={{ marginRight: "4px" }} /> <h5 className="mb-0">Download</h5>
-                  </Button>
+                  <a href={BASE_URL_FOR_MEDIA_FILE + d?.main_img} target="#">
+                    <Button size="sm" variant="primary" title="Download" className="d-flex mt-2 py-2">
+                      <FaDownload style={{ marginRight: "4px" }} /> <h5 className="mb-0">Download</h5>
+                    </Button>
+                  </a>
                 </div>
               </div>
             </Card.Body>
