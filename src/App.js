@@ -134,6 +134,7 @@ import {
   ADMIN_MENU_ENTRY_CREATE_PAGE,
   ADMIN_MENU_ENTRY_LIST_PAGE,
   ADMIN_MENU_ENTRY_EDIT_PAGE_URL,
+  ADMIN_LUNCH_ORDER_TIME_CONFIG_PAGE_URL,
 } from "./utils/routes/app_routes/LUNCH_ROUTES";
 import LunchOutlet from "./outlets/lunchManagementOutlet/LunchOutlet";
 import LunchOrder from "./pages/LunchBillManagement/lunch/lunch_order/LunchOrder";
@@ -175,6 +176,8 @@ import ConveyanceAdd from "./pages/bill-management/Conveyance/ConveyanceAdd";
 import UserEdit from "./pages/user/user/UserEdit";
 
 import AdminMenuEntryEdit from "./pages/LunchBillManagement/Admin/Settings/MenuEntry/AdminMenuEntryEdit";
+import LunchOrderTimeConfiguration
+  from "./pages/LunchBillManagement/Admin/Settings/LunchTimeConfiguration/LunchOrderTimeConfiguration";
 import BillEdit from "./pages/bill-management/Bill/BillEdit";
 import BillApprove from "./pages/bill-management/Bill-approve/BillApprove";
 import ConveyanceApprove from "./pages/bill-management/Conveyance-approve/ConveyanceApprove";
@@ -293,7 +296,11 @@ function App() {
           <Route path={HOLIDAY_CALENDER_PAGE} element={<HolidayCalender />} />
           <Route path={ADMIN_MENU_ENTRY_LIST_PAGE} element={<AdminMenuEntryList />} />
           <Route path={ADMIN_MENU_ENTRY_CREATE_PAGE} element={<AdminMenuEntry />} />
-          <Route path={ADMIN_MENU_ENTRY_EDIT_PAGE_URL} element={<AdminMenuEntryEdit />} />
+          <Route path={ADMIN_LUNCH_ORDER_TIME_CONFIG_PAGE_URL} element={<LunchOrderTimeConfiguration />} />
+          <Route path={ADMIN_MENU_ENTRY_EDIT_PAGE_URL} >
+            <Route index element={<AdminMenuEntryEdit/>}/>
+            <Route path=":mappingId" element={<AdminMenuEntryEdit/>}/>
+          </Route>
 
           <Route path={LUNCH_REPORT_EMPLOYEE_PAGE} element={<LunchReportForEmployee />} />
           <Route path={LUNCH_REPORT_ADMIN_PAGE} element={<LunchReportForAdmin />} />

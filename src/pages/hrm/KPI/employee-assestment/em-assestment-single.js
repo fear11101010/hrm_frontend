@@ -233,9 +233,9 @@ export default function EmAssestmentSingle() {
   // }
 
   if (
-    user.accessibility.includes("assessment.list") === false ||
-    user.accessibility.includes("assessment.supervisor_head") === false ||
-    user.accessibility.includes("assessment_team_assessment_perf.retrieve") === false
+    user.accessibility.includes("assessment.list") === true ||
+    user.accessibility.includes("assessment.supervisor_head") === true ||
+    user.accessibility.includes("assessment_team_assessment_perf.retrieve") === true
   ) {
     return (
       <Layout>
@@ -605,14 +605,13 @@ export default function EmAssestmentSingle() {
                       />
                     </Col>
                   </Row>
+
+
                 </div>
-              </div>
-              {user.accessibility.includes("assessment.update") && (
+             </div>                        
                 <button className="btn btn-primary px-4" type="submit">
                   Save
                 </button>
-              )}
-
               <button className="btn btn-light px-4 ms-2 fw-bold" onClick={() => navigate(-1)}>
                 Cancel
               </button>

@@ -16,6 +16,8 @@ import { REMOVE_TOKEN, USER_INFO } from "../../utils/session/token";
 import ConfirmDialog from "../../components/confirm-dialog/ConfirmDialog";
 import { SUPPORT_DASHBOARD_URL } from "../../utils/routes/app_routes/SP_APP_ROUTES";
 import {
+  ADMIN_LUNCH_ORDER_TIME_CONFIG_PAGE_URL, ADMIN_MENU_ENTRY_LIST_PAGE,
+  BRANCH_LIST_PAGE,
   LUNCH_DASHBOARD_PAGE,
   LUNCH_ORDER_PAGE,
   LUNCH_ORDER_SUMMARY_REPORT_PAGE,
@@ -23,7 +25,7 @@ import {
   LUNCH_REPORT_DAILY_PAGE,
   LUNCH_REPORT_EMPLOYEE_PAGE,
   SUBSIDY_COST_LIST_PAGE,
-  SUBSIDY_LIST_PAGE,
+  SUBSIDY_LIST_PAGE, VENDOR_LIST_PAGE, VENDOR_MENU_LIST_PAGE,
 } from "../../utils/routes/app_routes/LUNCH_ROUTES";
 export default function NavbarLunchManagement() {
   const user = USER_INFO();
@@ -110,6 +112,36 @@ export default function NavbarLunchManagement() {
                           {/* {user.module.includes("Requisition From Entry") && ()} */}
                           <Link className={"nav-link"} to={SUBSIDY_COST_LIST_PAGE}>
                             Subsidy
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          {/* {user.module.includes("Requisition From Entry") && ()} */}
+                          <Link className={"nav-link"} to={BRANCH_LIST_PAGE}>
+                            Office Branch
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          {/* {user.module.includes("Requisition From Entry") && ()} */}
+                          <Link className={"nav-link"} to={VENDOR_LIST_PAGE}>
+                            Vendors
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          {/* {user.module.includes("Requisition From Entry") && ()} */}
+                          <Link className={"nav-link"} to={VENDOR_MENU_LIST_PAGE}>
+                            Vendor Menus
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          {/* {user.module.includes("Requisition From Entry") && ()} */}
+                          <Link className={"nav-link"} to={ADMIN_LUNCH_ORDER_TIME_CONFIG_PAGE_URL}>
+                            Time Configuration
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          {/* {user.module.includes("Requisition From Entry") && ()} */}
+                          <Link className={"nav-link"} to={ADMIN_MENU_ENTRY_LIST_PAGE}>
+                            Menu Entry
                           </Link>
                         </li>
                       </ul>

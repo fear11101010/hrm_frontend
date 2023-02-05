@@ -7,7 +7,8 @@ import {MENU_ENTRY_TABLE_COLUMNS} from "../../table-columns";
 import {API} from "../../../../../utils/axios/axiosConfig";
 import {
     BRANCH_LIST_CREATE_API,
-    MONTHLY_MENU_ENTRY_LIST_CREATE_API, MONTHLY_MENU_ENTRY_UPDATE_API,
+    MONTHLY_MENU_ENTRY_LIST_CREATE_API,
+    MONTHLY_MENU_ENTRY_UPDATE_API,
     VENDOR_LIST_BY_BRANCH_API
 } from "../../../../../utils/routes/api_routes/LUNCH_ROUTES";
 import {error_alert, success_alert} from "../../../../../components/alert/Alert";
@@ -15,13 +16,12 @@ import {useCallback, useEffect, useState} from "react";
 import {monthAndYearList} from "../../../../../utils/helper";
 import useFetch from "../../../../../hooks/useFetch";
 
-const MonthlyMenuMappingComponent = ({index, menus, register, control,func}) => {
+const MonthlyMenuMappingComponent = ({index, menus, register, control, func}) => {
     const {fields, append, remove, update} = useFieldArray({
         control,
         name: `mapping_menu_entry.${index}.menus`,
         keyName: 'key',
     })
-
 
 
     function appendMenu(e, menu) {
@@ -31,16 +31,16 @@ const MonthlyMenuMappingComponent = ({index, menus, register, control,func}) => 
             console.log(func)
             console.log(fields.filter((item) => item?.id))
             const i = fields.filter((item) => item?.id)?.length
-            console.log('i:',i)
-            func(menu,i,'add')
+            console.log('i:', i)
+            func(menu, i, 'add')
 
         } else {
             const index = fields.filter((item) => item?.id)
-                .map(item=>item?.id)?.indexOf(menu.id)
-            const i = fields.map(item=>item?.id)?.indexOf(menu.id)
+                .map(item => item?.id)?.indexOf(menu.id)
+            const i = fields.map(item => item?.id)?.indexOf(menu.id)
             if (i >= 0) {
                 remove(i)
-                func(menu,index,'rm')
+                func(menu, index, 'rm')
             }
         }
     }
@@ -56,7 +56,7 @@ const MonthlyMenuMappingComponent = ({index, menus, register, control,func}) => 
                         {...register(`mapping_menu_entry.${index}.menus.${i}.menu`, {
                             onChange: e => appendMenu(e, menu),
                         })}
-                        label={menu.item}
+                        label={`${menu.item} ${fields.filter((item) => item?.id)?.map(m => m?.id)?.indexOf(menu.id) >= 0 ? `(Menu ${fields.filter((item) => item?.id)?.map(m => m?.id)?.indexOf(menu.id) + 1})` : ''}`}
                     />
                 </li>
             ))}
@@ -69,7 +69,7 @@ export default function AdminMenuEntryCreateUpdateForm({
                                                            existingData,
                                                            callFuncWithVendorMonthYear,
                                                            onSubmitData,
-                                                           update:{single,multiple}
+                                                           update: {single, multiple}
                                                        }) {
     const [monthList, yearList] = monthAndYearList()
     const {data, isLoading} = useFetch(BRANCH_LIST_CREATE_API)
@@ -84,10 +84,10 @@ export default function AdminMenuEntryCreateUpdateForm({
     const {fields, append, remove, replace} = useFieldArray({
         control,
         name: 'mapping_menu_entry',
-        keyName:'mme'
+        keyName: 'mme'
     })
     const mappingMenuEntryFieldsWatch = watch('mapping_menu_entry');
-    const method = single||multiple?'patch':'post'
+    const method = single || multiple ? 'put' : 'post'
     useEffect(() => {
         if (data?.data) {
             setBranchList(data?.data?.map((v, i) => ({label: v.name, value: v.id})))
@@ -102,26 +102,41 @@ export default function AdminMenuEntryCreateUpdateForm({
         setTableColumns(MENU_ENTRY_TABLE_COLUMNS(showMenuDialog, deleteMenus))
     }, [])
     useEffect(() => {
-        setTableColumns(MENU_ENTRY_TABLE_COLUMNS(showMenuDialog, deleteMenus))
-    }, [existingData])
-    useEffect(() => {
-        if(existingData){
+        if (existingData && Object.keys(existingData)?.length>0) {
+            const columns = MENU_ENTRY_TABLE_COLUMNS(showMenuDialog, deleteMenus)
             console.log({...existingData})
             reset({...existingData})
-            setTimeout(()=>{
-                console.log(fields)
-            },2000)
-            existingData?.mapping_menu_entry?.forEach(mme=>{
-                mme?.menus?.filter(m=>m?.id).forEach((menu,i)=>{
-                    addNewField(menu,i)
-                })
+            const cols = addExtraBulkMenuField(existingData?.mapping_menu_entry)
+            cols.forEach((c,i)=>{
+                columns.splice(3+i,0,c)
             })
+            setTableColumns(columns)
+
+            /*existingData?.mapping_menu_entry?.forEach(mme => {
+                mme?.menus?.filter(m => m?.id).forEach((menu, i) => {
+                    addNewField(menu, i)
+                })
+            })*/
             onBranchChange(existingData?.office_branch)
         }
-    }, [single,multiple,existingData])
+    }, [existingData])
 
-    const addNewColumn = useCallback((menu, index,type) => {
-        addNewField(menu, index,type)
+    const addExtraBulkMenuField = (mappingMenuEntry) => {
+        const menuData = mappingMenuEntry?.map(mme=>mme?.menus?.filter((menu)=>menu?.id).length).filter(v=>v)
+        const maxMenuLength = Math.max(...menuData)
+        const columns = []
+        for (let i=0;i<maxMenuLength;i++){
+            columns.push({
+                name: `Menu ${i+1}`,
+                cell: (row, index) => {
+                    return row?.menus && row?.menus?.filter((menu)=>menu?.id)?.length>0&&<Badge bg="secondary" className="me-2">{row?.menus?.filter((menu,index)=>menu?.id)[i]?.item}</Badge>
+                }})
+        }
+        return columns
+    }
+
+    const addNewColumn = useCallback((menu, index, type) => {
+        addNewField(menu, index, type)
     }, [tableColumns])
 
     function onBranchChange(v) {
@@ -138,27 +153,29 @@ export default function AdminMenuEntryCreateUpdateForm({
         setShowMenus(true)
     }
 
-    const addNewField = (menu, index,type='add') => {
+    const addNewField = (menu, index, type = 'add') => {
         const mappingMenuEntry = getValues('mapping_menu_entry');
         console.log(mappingMenuEntry)
-        const menuData = mappingMenuEntry?.map(mme=>mme?.menus?.filter((menu)=>menu?.id).length).filter(v=>v)
+        const menuData = mappingMenuEntry?.map(mme => mme?.menus?.filter((menu) => menu?.id).length).filter(v => v)
         const minMenuLength = Math.min(...menuData)
         const maxMenuLength = Math.min(...menuData)
         const menuLengthNotZero = menuData.length
-        console.log(menuLengthNotZero,'-----',minMenuLength,'----',tableColumns.filter(col=>col.name.toLowerCase().startsWith('menu')).length)
-        if(type==='rm'){
+        console.log(menuLengthNotZero, '-----', minMenuLength, '----', tableColumns.filter(col => col.name.toLowerCase().startsWith('menu')).length)
+        if (type === 'rm') {
             setTableColumns(columns => {
                 // debugger
                 const data = [...columns];
                 const l = 2;
-                if(menuData.filter(v=>v===tableColumns.filter(col=>col.name.toLowerCase().startsWith('menu')).length)<=1){
-                    data.splice(l + index+1, 1)
-                    data.forEach((col,ii)=>{
-                        if(col.name.toLowerCase().startsWith('menu')){
-                            console.log(`Menu ${ii-3+1}`)
+                if (menuData.filter(v => v === tableColumns.filter(col => col.name.toLowerCase().startsWith('menu')).length) <= 1) {
+                    data.splice(l + index + 1, 1)
+                    data.forEach((col, ii) => {
+                        if (col.name.toLowerCase().startsWith('menu')) {
+                            console.log(`Menu ${ii - 3 + 1}`)
                             data[ii] = {
-                                ...col,name:`Menu ${ii-3+1}`,cell: (row, i) => {
-                                    return row?.menus && row?.menus?.filter((menu)=>menu?.id)?.length>0&&<Badge bg="secondary" className="me-2">{row?.menus?.filter((menu)=>menu?.id)[ii-3]?.item}</Badge>
+                                ...col, name: `Menu ${ii - 3 + 1}`, cell: (row, i) => {
+                                    return row?.menus && row?.menus?.filter((menu) => menu?.id)?.length > 0 &&
+                                        <Badge bg="secondary"
+                                               className="me-2">{row?.menus?.filter((menu) => menu?.id)[ii - 3]?.item}</Badge>
                                 }
                             }
                         }
@@ -166,15 +183,15 @@ export default function AdminMenuEntryCreateUpdateForm({
                 }
                 return data;
             })
-        }
-        else if(type==='add' && (minMenuLength<=index || menuLengthNotZero===1)){
+        } else if (type === 'add' && (minMenuLength <= index || menuLengthNotZero === 1)) {
             // debugger
             setTableColumns(columns => {
                 const data = [...columns];
                 data.splice(columns.length - 1, 0, {
-                    name: `Menu ${index+1}`,
+                    name: `Menu ${index + 1}`,
                     cell: (row, i) => {
-                        return row?.menus && row?.menus?.filter((menu)=>menu?.id)?.length>0&&<Badge bg="secondary" className="me-2">{row?.menus?.filter((menu)=>menu?.id)[index]?.item}</Badge>
+                        return row?.menus && row?.menus?.filter((menu) => menu?.id)?.length > 0 && <Badge bg="secondary"
+                                                                                                          className="me-2">{row?.menus?.filter((menu) => menu?.id)[index]?.item}</Badge>
                     }
                 })
                 return data;
@@ -189,26 +206,25 @@ export default function AdminMenuEntryCreateUpdateForm({
     }
 
     function submitMonthlyMenu(data, e) {
-        console.log(data)
-        return;
         if (onSubmitData) onSubmitData(true)
         const newMappingMenuEntry = []
         for (let i = 0; i < data?.mapping_menu_entry?.length; i++) {
             const mme = data?.mapping_menu_entry[i];
-            if (mme?.menus.length > 0 && mme?.menus?.filter((menu) => menu?.id).length > 0) {
-                newMappingMenuEntry.push({...mme, menus: mme?.menus?.filter((menu) => menu?.id)})
+            newMappingMenuEntry.push({...mme, menus: mme?.menus?.filter((menu) => menu?.id).map((m,i)=>({...m,position:i+1}))})
+            /*if (mme?.menus.length > 0 && mme?.menus?.filter((menu) => menu?.id).length > 0) {
+                newMappingMenuEntry.push({...mme, menus: mme?.menus?.filter((menu) => menu?.id).map((m,i)=>({...m,position:i+1}))})
             } else {
                 const index = data?.mapping_menu_entry?.indexOf(v => v.day === mme.day);
                 if (index >= 0) data?.mapping_menu_entry?.splice(i, 1);
-            }
+            }*/
         }
 
         data.mapping_menu_entry = newMappingMenuEntry
         console.log(data)
-        API[method]((single||multiple)?MONTHLY_MENU_ENTRY_UPDATE_API(existingData?.id):MONTHLY_MENU_ENTRY_LIST_CREATE_API, data).then(success => {
+        API[method]((single || multiple) ? MONTHLY_MENU_ENTRY_UPDATE_API(existingData?.id) : MONTHLY_MENU_ENTRY_LIST_CREATE_API, data).then(success => {
             console.log(success?.data)
             success_alert(success?.data?.message)
-        }).then(err => {
+        }).catch(err => {
             console.log(err)
             error_alert(err?.data?.message)
         }).then(() => {
@@ -270,6 +286,7 @@ export default function AdminMenuEntryCreateUpdateForm({
                                                 options={vendorList}
                                                 value={vendorList?.find(v => v.value === value)}
                                                 size="md"
+                                                disabled={(single || multiple) || false}
                                                 className={error ? 'is-invalid' : ''}
                                                 onChange={v => {
                                                     onChange(v.value);
@@ -371,7 +388,7 @@ export default function AdminMenuEntryCreateUpdateForm({
 
             <div className="d-flex justify-content-end mt-3">
                 <Button type="submit" variant="primary">
-                    Create Menu
+                    {(single || multiple) ? 'Update Menu Entry' : 'Create Menu Entry'}
                 </Button>
             </div>
             <Modal

@@ -12,7 +12,7 @@ import {API} from "../../../../../utils/axios/axiosConfig";
 import {Accordion, Badge, Button, Card, Col, Form, Row, useAccordionButton} from "react-bootstrap";
 import {Controller, useForm} from "react-hook-form";
 import Select from "../../../../../components/select/Select";
-import {FaDownload, FaPlus} from "react-icons/fa";
+import {FaDownload, FaEdit, FaPlus} from "react-icons/fa";
 import {generateCalender, monthAndYearList} from "../../../../../utils/helper";
 import CustomTable from "../../../../../components/custom-table/CustomTable";
 import {ADMIN_MENU_ENTRY_TABLE_COLUMNS} from "./table-columns";
@@ -72,7 +72,7 @@ export default function AdminMenuEntryList(props) {
     }, [menuEntryList])
     const addNewField = (mappingMenuEntry) => {
         const menuData = mappingMenuEntry?.map(mme=>mme?.menus?.filter((menu)=>menu?.id).length).filter(v=>v)
-        const maxMenuLength = Math.min(...menuData)
+        const maxMenuLength = Math.max(...menuData)
         const columns = []
         for (let i=0;i<maxMenuLength;i++){
             columns.push({
@@ -102,15 +102,6 @@ export default function AdminMenuEntryList(props) {
         <Layout>
             <PageHeader title="Menu Entry List"/>
             <Content>
-                {/*<Form>
-                    <Card>
-                        <Card.Body>
-
-
-
-                        </Card.Body>
-                    </Card>
-                </Form>*/}
                 <div className="mb-3 d-flex justify-content-end">
                     <Link className="btn btn-primary" to={ADMIN_MENU_ENTRY_CREATE_PAGE}>
                         <FaPlus/> Create Monthly Menu
@@ -238,7 +229,9 @@ export default function AdminMenuEntryList(props) {
                                         <span className="me-2">
                                             {currentMoment.month(entryList?.month).year(entryList?.year).format('MMMM, YYYY')}
                                         </span>
-                                        <Button variant="primary" size="sm" className="me-2"><MdModeEdit/> Edit</Button>
+                                        <Link to={ADMIN_MENU_ENTRY_EDIT_PAGE(entryList?.id)} className="me-2 btn btn-sm btn-primary">
+                                            <MdModeEdit/> Edit
+                                        </Link>
                                         <Button variant="danger" size="sm"><MdDelete/> Delete</Button>
                                     </div>
                                 </CustomToggle>
