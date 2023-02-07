@@ -17,7 +17,6 @@ export const _Encrypt = (txt) => {
     iv,
   });
   const data = CryptoJS.enc.Hex.stringify(CryptoJS.enc.Base64.parse(encrypted.toString()));
-  console.log(CryptoJS.enc.Hex.stringify(key), data, CryptoJS.enc.Hex.stringify(iv));
   return CryptoJS.enc.Hex.stringify(key) + CryptoJS.enc.Hex.stringify(iv) + data;
 };
 

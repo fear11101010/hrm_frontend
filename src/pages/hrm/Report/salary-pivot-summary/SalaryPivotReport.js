@@ -1,5 +1,5 @@
-import { Card, Form } from "react-bootstrap";
-import React, { useRef, useState } from "react";
+import { Card, Form, Modal } from "react-bootstrap";
+import React, { useState } from "react";
 import Layout from "../../../../layout/Layout";
 import PageHeader from "../../../../components/header/PageHeader";
 import Container from "react-bootstrap/Container";
@@ -12,24 +12,25 @@ import { PIVOT_TABLE_COLUMN } from "../table-columns";
 import useFetch from "../../../../hooks/useFetch";
 import { PIVOT_EXCEL_COLUMN } from "../excel-columns";
 import ExcelPdfPrint from "../../../../components/excel-pdf-print/ExcelPdfPrint";
-import CustomTable from "../../../../components/custom-table/CustomTable";
-import TableReport from "../../../../components/table/TableReport";
 import Table from "../../../../components/table/Table";
 import { USER_INFO } from "../../../../utils/session/token";
 import { Navigate } from "react-router-dom";
 import { UNAUTHORIZED } from "../../../../utils/routes/app_routes/APP_ROUTES";
+import SbuDetails from "./sbuDetails";
 export default function SalaryPivotReport(props) {
   const user = USER_INFO();
   // const currentYear = moment().year();
   // const yearList = [currentYear - 2, currentYear - 1, currentYear].map(v => ({label: v, value: v}));
+
   const { data, err } = useFetch(REPORT_GET_YEARS_DROPDOWN);
   const yearList = data?.data?.map((v) => ({ label: v.year, value: v.year }));
   const [selectedYear, setSelectedYear] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const [sbuDetailModal, setSbuDetailModal] = useState(false);
+  const [selected_sbu, setSelectedSbu] = useState("");
+
   const [pivotData, setPivotData] = useState([]);
-  const [tableData, setTableData] = useState([]);
-  const [tableColumn, setTableColumn] = useState([]);
-  const tableRef = useRef();
   const loadData = async (e) => {
     setIsLoading(true);
     try {
@@ -48,8 +49,16 @@ export default function SalaryPivotReport(props) {
       setIsLoading(false);
     }
   };
-  const afterDataSort = (data) => {
-    setPivotData(data);
+
+  const handleSelectedIds = (id) => {
+    setSelectedSbu(id);
+  };
+  const handleModalOpen = () => {
+    setSbuDetailModal(true);
+  };
+  const handleModalClose = () => {
+    setSbuDetailModal(false);
+    setSelectedSbu("");
   };
 
   return user.accessibility.includes("SalaryPivotSummary") ? (
@@ -85,12 +94,11 @@ export default function SalaryPivotReport(props) {
                       header={"Salary Pivot Summary Report For " + selectedYear}
                     />
                   </div>
-
                   <Table
                     dense
                     fixedHeader
                     fixedHeaderScrollHeight="400px"
-                    columns={PIVOT_TABLE_COLUMN(selectedYear)}
+                    columns={PIVOT_TABLE_COLUMN(selectedYear, handleModalOpen, handleSelectedIds)}
                     data={pivotData}
                     pagination={false}
                   />
@@ -110,6 +118,7 @@ export default function SalaryPivotReport(props) {
           </Card>
         </Container>
         {isLoading && <Loader />}
+        <SbuDetails show={sbuDetailModal} onHide={handleModalClose} sbuID={selected_sbu} year={selectedYear} />
       </Layout>
     </>
   ) : (

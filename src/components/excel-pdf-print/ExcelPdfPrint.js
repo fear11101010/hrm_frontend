@@ -8,11 +8,11 @@ import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 function ExcelPdfPrint({ exportExcel, exportPdf, print, data, columns, header }) {
   const { width, height } = useWindowDimensions();
-  console.log(data);
+  //console.log(data);
   const tableData = ((Array.isArray(data) && data) || data).map((pv, i) => {
     return columns.reduce((c, p) => ({ ...c, [p.key]: p.value(pv, i) }), {});
   });
-  console.log(tableData);
+  //console.log(tableData);
   const tableColumns = columns.map((v) => v.key);
   const tableRef = useRef();
   const generateExcel = (e) => {
@@ -23,7 +23,7 @@ function ExcelPdfPrint({ exportExcel, exportPdf, print, data, columns, header })
   };
   const printData = (e) => {
     const tableToPrint = tableRef.current;
-    console.log(ReactDOM.findDOMNode(tableToPrint).outerHTML.replace("display: none;", ""));
+    //console.log(ReactDOM.findDOMNode(tableToPrint).outerHTML.replace("display: none;", ""));
     const newWin = window.open("");
     newWin.document.write(ReactDOM.findDOMNode(tableToPrint).outerHTML.replace("display: none;", ""));
     newWin.print();
@@ -31,23 +31,23 @@ function ExcelPdfPrint({ exportExcel, exportPdf, print, data, columns, header })
   };
   const generatePdf = (e) => {
     const element = tableRef.current;
-    console.log({ width, height });
+    //console.log({ width, height });
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
     canvas.width = width;
     canvas.height = height;
     const tempImg = document.createElement("img");
     tempImg.addEventListener("load", function (event) {
-      console.log(event);
+      //console.log(event);
       ctx.drawImage(event.target, 0, 0);
       const data = canvas.toDataURL();
       const pdf = new jsPDF();
       const imgProperties = pdf.getImageProperties(data);
-      console.log(imgProperties);
+      //console.log(imgProperties);
       const pdfWidth = pdf.internal.pageSize.getWidth();
-      console.log(pdfWidth);
+      //console.log(pdfWidth);
       const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
-      console.log(pdfWidth, pdfHeight);
+      //console.log(pdfWidth, pdfHeight);
 
       pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
       pdf.save("print.pdf");

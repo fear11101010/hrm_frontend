@@ -176,8 +176,7 @@ import ConveyanceAdd from "./pages/bill-management/Conveyance/ConveyanceAdd";
 import UserEdit from "./pages/user/user/UserEdit";
 
 import AdminMenuEntryEdit from "./pages/LunchBillManagement/Admin/Settings/MenuEntry/AdminMenuEntryEdit";
-import LunchOrderTimeConfiguration
-  from "./pages/LunchBillManagement/Admin/Settings/LunchTimeConfiguration/LunchOrderTimeConfiguration";
+import LunchOrderTimeConfiguration from "./pages/LunchBillManagement/Admin/Settings/LunchTimeConfiguration/LunchOrderTimeConfiguration";
 import BillEdit from "./pages/bill-management/Bill/BillEdit";
 import BillApprove from "./pages/bill-management/Bill-approve/BillApprove";
 import ConveyanceApprove from "./pages/bill-management/Conveyance-approve/ConveyanceApprove";
@@ -297,9 +296,9 @@ function App() {
           <Route path={ADMIN_MENU_ENTRY_LIST_PAGE} element={<AdminMenuEntryList />} />
           <Route path={ADMIN_MENU_ENTRY_CREATE_PAGE} element={<AdminMenuEntry />} />
           <Route path={ADMIN_LUNCH_ORDER_TIME_CONFIG_PAGE_URL} element={<LunchOrderTimeConfiguration />} />
-          <Route path={ADMIN_MENU_ENTRY_EDIT_PAGE_URL} >
-            <Route index element={<AdminMenuEntryEdit/>}/>
-            <Route path=":mappingId" element={<AdminMenuEntryEdit/>}/>
+          <Route path={ADMIN_MENU_ENTRY_EDIT_PAGE_URL}>
+            <Route index element={<AdminMenuEntryEdit />} />
+            <Route path=":mappingId" element={<AdminMenuEntryEdit />} />
           </Route>
 
           <Route path={LUNCH_REPORT_EMPLOYEE_PAGE} element={<LunchReportForEmployee />} />

@@ -38,7 +38,7 @@ export default function ConveyanceApprove() {
 
   const EXTENDED_COLUMN = [
     {
-      name: `Edit`,
+      name: `Approve`,
       width: "80px",
       cell: (row, index) => (
         <Link to={CONVEYANCE_EDIT_PAGE_URL(row.id)}>

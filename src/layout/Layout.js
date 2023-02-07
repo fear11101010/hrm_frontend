@@ -182,7 +182,7 @@ export default function Layout({ children }) {
         />
       )}
       <Modal show={idleModal} centered>
-        <Modal.Body>
+        <Modal.Body className="shadow-lg" style={{ border: "1px solid #dddddd" }}>
           <div className="text-center py-4">
             <h2 className="mb-2">You have been idle for 10 minute</h2>
             <h5 className="mb-4 text-danger">Please Logout and login again!</h5>

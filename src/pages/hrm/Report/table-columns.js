@@ -1,8 +1,10 @@
 import moment from "moment";
+import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { _Decode } from "../../../utils/Hash";
 import { getDurations } from "../../../utils/helper";
 
-export const PIVOT_TABLE_COLUMN = (year) => [
+export const PIVOT_TABLE_COLUMN = (year, onOpen, handleSelectedIds) => [
   {
     name: "#",
     width: "80px",
@@ -12,7 +14,21 @@ export const PIVOT_TABLE_COLUMN = (year) => [
     name: "All Employees",
     sortable: true,
     width: "150px",
-    selector: (row, index) => row.sbu ?? "Grand Total",
+    selector: (row, index) => row.sbu,
+    cell: (row, index) => (
+      <>
+        <a
+          href="##"
+          onClick={() => {
+            onOpen();
+            handleSelectedIds(row?.sbu_id);
+          }}
+          style={{ color: "#2c7be5" }}
+        >
+          {row?.sbu ?? "Grand Total"}
+        </a>
+      </>
+    ),
   },
   {
     name: "# Employee",
