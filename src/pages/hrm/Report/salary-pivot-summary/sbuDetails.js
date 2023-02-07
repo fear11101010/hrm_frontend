@@ -5,14 +5,18 @@ import Table from "../../../../components/table/Table";
 import { API } from "../../../../utils/axios/axiosConfig";
 import { _Decode } from "../../../../utils/Hash";
 
-export default function SbuDetails({ show, onHide, sbuID, year }) {
+export default function SbuDetails({ from = "", show, onHide, sbuID, year }) {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
 
   const fetchData = async () => {
     try {
       setLoading(true);
-      const res = await API.post(`report_performance_assessed_data/$/pop_up_by_sbu/`, { year: year, sbu: sbuID });
+      const res = await API.post(`report_performance_assessed_data/$/pop_up_by_sbu/`, {
+        year: from === "increment_eligible" ? year : year - 1,
+        sbu: sbuID,
+        pivot: from === "" ? true : false,
+      });
       if (res.data.statuscode === 200) {
         setData(res?.data?.data);
       }
@@ -31,7 +35,15 @@ export default function SbuDetails({ show, onHide, sbuID, year }) {
 
   return (
     <>
-      <Modal size="xl" show={show} onHide={onHide} centered>
+      <Modal
+        size="xl"
+        show={show}
+        onHide={() => {
+          onHide();
+          setData([]);
+        }}
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title className="mb-0">
             <h2 className="mb-0">SBU Assestment Details</h2>
@@ -99,7 +111,7 @@ let DETAILED_SBU_ASSESTMENT_REPORT_TABLE_COLUMN = [
   {
     name: "Supervisor",
     selector: (row) => row?.employee?.supervisor?.name,
-    width: "180px",
+    width: "250px",
     sortable: true,
   },
   {

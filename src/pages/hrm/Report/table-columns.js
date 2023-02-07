@@ -78,7 +78,7 @@ export const PIVOT_TABLE_COLUMN = (year, onOpen, handleSelectedIds) => [
   },
 ];
 
-export const ELIGIBLE_TABLE_COLUMN = (year) => [
+export const ELIGIBLE_TABLE_COLUMN = (year, onOpen, handleSelectedIds) => [
   {
     name: "#",
     sortable: true,
@@ -86,9 +86,23 @@ export const ELIGIBLE_TABLE_COLUMN = (year) => [
     selector: (row, index) => index + 1,
   },
   {
-    name: "Increment Eligible Employees Only",
+    name: <div> Increment Eligible Employees Only</div>,
     sortable: true,
     selector: (row, index) => row.sbu ?? "Grand Total",
+    cell: (row, index) => (
+      <>
+        <a
+          href="##"
+          onClick={() => {
+            onOpen();
+            handleSelectedIds(row?.sbu_id);
+          }}
+          style={{ color: "#2c7be5" }}
+        >
+          {row?.sbu ?? "Grand Total"}
+        </a>
+      </>
+    ),
   },
   {
     name: "# Employee",

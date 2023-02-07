@@ -20,6 +20,7 @@ import TableReport from "../../../../components/table/TableReport";
 import { Navigate } from "react-router-dom";
 import { USER_INFO } from "../../../../utils/session/token";
 import { UNAUTHORIZED } from "../../../../utils/routes/app_routes/APP_ROUTES";
+import SbuDetails from "../salary-pivot-summary/sbuDetails";
 
 export default function SalaryIncrementEligibleReport(props) {
   const user = USER_INFO();
@@ -28,6 +29,20 @@ export default function SalaryIncrementEligibleReport(props) {
   const [selectedYear, setSelectedYear] = useState("");
   const [loading, setLoading] = useState(false);
   const [eligibleData, setEligibleData] = useState([]);
+
+  const [sbuDetailModal, setSbuDetailModal] = useState(false);
+  const [selected_sbu, setSelectedSbu] = useState("");
+  const handleSelectedIds = (id) => {
+    setSelectedSbu(id);
+  };
+  const handleModalOpen = () => {
+    setSbuDetailModal(true);
+  };
+  const handleModalClose = () => {
+    setSbuDetailModal(false);
+    setSelectedSbu("");
+  };
+
   const loadData = async (e) => {
     setLoading(true);
     try {
@@ -81,7 +96,7 @@ export default function SalaryIncrementEligibleReport(props) {
                   dense
                   fixedHeader
                   fixedHeaderScrollHeight="400px"
-                  columns={ELIGIBLE_TABLE_COLUMN(selectedYear)}
+                  columns={ELIGIBLE_TABLE_COLUMN(selectedYear, handleModalOpen, handleSelectedIds)}
                   data={eligibleData}
                 />
               </>
@@ -90,6 +105,13 @@ export default function SalaryIncrementEligibleReport(props) {
         </Card>
       </Container>
       {loading && <Loader />}
+      <SbuDetails
+        from="increment_eligible"
+        show={sbuDetailModal}
+        onHide={handleModalClose}
+        sbuID={selected_sbu}
+        year={selectedYear}
+      />
     </Layout>
   ) : (
     <Navigate to={UNAUTHORIZED} />
