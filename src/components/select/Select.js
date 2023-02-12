@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 
 function Select(props) {
-  const { options, onChange, placeholder, size, type, value,disabled } = props;
+  const { options, onChange, placeholder, size, type, value, disabled } = props;
   const [selectedOption, setSelectedOption] = useState(value ?? "");
   const [isOpen, setIsOpen] = useState(false);
   const dropDownContainerRef = useRef(null);
@@ -71,11 +71,11 @@ function Select(props) {
   };
   const openOrCloseDropdown = () => {
     if (ReactDOM.findDOMNode(dropDownContainerRef.current).getAttribute("aria-expanded") === "false") {
-      console.log("equal: 1", ReactDOM.findDOMNode(dropDownContainerRef.current).getAttribute("aria-expanded"));
+      // console.log("equal: 1", ReactDOM.findDOMNode(dropDownContainerRef.current).getAttribute("aria-expanded"));
       ReactDOM.findDOMNode(dropDownContainerRef.current).setAttribute("aria-expanded", "true");
       ReactDOM.findDOMNode(dropDownRef.current).setAttribute("aria-expanded", "true");
       ReactDOM.findDOMNode(dropDownRef.current).classList.add("show");
-      console.log("equal: 1", ReactDOM.findDOMNode(dropDownContainerRef.current).getAttribute("aria-expanded"));
+      // console.log("equal: 1", ReactDOM.findDOMNode(dropDownContainerRef.current).getAttribute("aria-expanded"));
     } else {
       ReactDOM.findDOMNode(dropDownContainerRef.current).setAttribute("aria-expanded", "false");
       ReactDOM.findDOMNode(dropDownRef.current).setAttribute("aria-expanded", "false");
@@ -85,7 +85,7 @@ function Select(props) {
   const onHandleChange = (e, v) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log(v);
+    // console.log(v);
     setSelectedOption(v);
     // setIsOpen(!isOpen);
     openOrCloseDropdown();
@@ -98,21 +98,32 @@ function Select(props) {
       className={"custom-dropdown " + props.className}
       ref={dropDownContainerRef}
       aria-expanded="false"
-      onClick={disabled?undefined:showHideDropDown}
-      style={{cursor:disabled?'not-allowed':'pointer'}}
+      onClick={disabled ? undefined : showHideDropDown}
+      style={{ cursor: disabled ? "not-allowed" : "pointer" }}
     >
-      <div style={{cursor:disabled?'not-allowed':'pointer'}}
+      <div
+        style={{ cursor: disabled ? "not-allowed" : "pointer" }}
         className={`form-select ${size ? "form-select-" + size : ""} ${type ? " form-control-" + type : " form-control"}`}
       >
         <Form.Select value={selectedOption?.value} className={`form-select form-select-sm form-control-flush`}>
           <option value={selectedOption?.value}>{selectedOption?.label}</option>
         </Form.Select>
-        <div style={{cursor:disabled?'not-allowed':'pointer'}} className={`selected-option ${disabled?'text-secondary':''}`}>{selectedOption?.label ?? placeholder}</div>
+        <div
+          style={{ cursor: disabled ? "not-allowed" : "pointer" }}
+          className={`selected-option ${disabled ? "text-secondary" : ""}`}
+        >
+          {selectedOption?.label ?? placeholder}
+        </div>
         <div ref={dropDownRef} className={`custom-dropdown-list ${isOpen ? "show" : ""}`} aria-expanded="false">
           <ul>
             {options?.map((option, i) => (
               <li key={`${option.value}_${option.label}_${i}`}>
-                <a href="#" className={option.disabled?'text-secondary':''} style={{ whiteSpace: "nowrap" }} onClick={(e) => !option.disabled?onHandleChange(e, option):{}}>
+                <a
+                  href="#"
+                  className={option.disabled ? "text-secondary" : ""}
+                  style={{ whiteSpace: "nowrap" }}
+                  onClick={(e) => (!option.disabled ? onHandleChange(e, option) : {})}
+                >
                   {option.label}
                 </a>
               </li>

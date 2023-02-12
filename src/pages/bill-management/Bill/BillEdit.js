@@ -7,22 +7,23 @@ import { USER_INFO } from "../../../utils/session/token";
 import DatePicker from "../../../components/date-picker/DatePicker";
 import useProjects from "../../../hooks/useProjects";
 import ReactSelect from "react-select";
-import useEmployee from "../../../hooks/useEmployee";
 import "./style.css";
 import { RiAddFill, RiDeleteBin5Fill } from "react-icons/ri";
 import moment from "moment";
 import FileDropZone from "../../../components/FileDropZone";
 import { FaFileExcel, FaFilePdf, FaFileWord, FaTrash } from "react-icons/fa";
 import { API } from "../../../utils/axios/axiosConfig";
-import { BILL_EACH_GET, BILL_POST } from "../../../utils/routes/api_routes/BILL_API_ROUTES";
+import { BILL_EACH_GET, BILL_EDIT } from "../../../utils/routes/api_routes/BILL_API_ROUTES";
 import Loader from "../../../components/loader/Loader";
-import { useParams } from "react-router-dom";
-import { error_alert } from "../../../components/alert/Alert";
+import { useNavigate, useParams } from "react-router-dom";
+import { error_alert, success_alert } from "../../../components/alert/Alert";
 import useEmployeeDropdown from "../../../hooks/useEmployeeDropdown";
+import { BASE_URL_FOR_MEDIA_FILE } from "../../../utils/CONSTANT";
 
 export default function BillEdit() {
   const { id } = useParams();
   const user = USER_INFO();
+  let navigate = useNavigate();
   const projectList = useProjects();
   //   const employeeDropdownList = useEmployee();
   let { employeeDropdownLoading, employeeDropdownList } = useEmployeeDropdown();
@@ -34,6 +35,7 @@ export default function BillEdit() {
   const [project_name, setProject_name] = useState("");
   const [employee_name, setEmployee_name] = useState("");
   const [files, setFiles] = useState([]);
+  const [existing_files, setExisting_files] = useState([]);
   const [uploadedFile, setUploadedFile] = useState([]);
   const [deletedFile, setDeletedFile] = useState([]);
   const [subtotal, setSubTotal] = useState(0);
@@ -43,7 +45,7 @@ export default function BillEdit() {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   //Mapping template which is object. Which will be act as a template
-  const useInvoiceTemplate = { date: "", description: "", qty: "", cost: "", total: 0 };
+  const useInvoiceTemplate = { date: "", description: "", qty: "", cost: "", total_am: 0, id: "", invoice: "" };
 
   // The mapping template will be state as a array of obj
   const [invoiceItems, setInvoiceItems] = useState([useInvoiceTemplate]);
@@ -58,10 +60,12 @@ export default function BillEdit() {
     const updateMapping = invoiceItems.map((map, i) =>
       i === index ? Object.assign(map, { [e.target.name]: e.target.value }) : map
     );
-    const x = updateMapping?.map((d, i) => (i === index ? Object.assign(d, { ["total"]: (d.qty * d.cost).toFixed(2) }) : d));
+    const x = updateMapping?.map((d, i) =>
+      i === index ? Object.assign(d, { ["total_am"]: (d.qty * d.cost).toFixed(2) }) : d
+    );
     setInvoiceItems(x);
 
-    const filter_total = x?.map((d, i) => parseFloat(d.total));
+    const filter_total = x?.map((d, i) => parseFloat(d.total_am));
     const st = filter_total.reduce((partialSum, a) => partialSum + a, 0);
     setSubTotal(st);
   };
@@ -89,9 +93,11 @@ export default function BillEdit() {
         if (res.data.statuscode === 200) {
           setSelected_date(res?.data?.invoice[0]?.invoice_date);
           setProject_name(res?.data?.invoice[0]?.project);
-          setEmployee_name(res?.data?.invoice[0]?.employee);
-          setFiles(res?.data?.files);
+          setEmployee_name(res?.data?.invoice[0]?.employee?.id);
+          // setFiles(res?.data?.files);
+          setExisting_files(res?.data?.files);
           setInvoiceItems(res?.data?.invoice_items);
+          setSubTotal(res?.data?.invoice[0]?.totalamount);
         } else {
           error_alert("Error!!" + res.data.message);
         }
@@ -99,6 +105,7 @@ export default function BillEdit() {
       .catch((err) => console.log(err))
       .finally(() => setLoading(false));
   };
+
   useEffect(() => {
     fetchBill();
   }, []);
@@ -145,28 +152,52 @@ export default function BillEdit() {
       employee: employee_name,
       totalamount: subtotal,
     };
-
     const formData = new FormData();
-    formData.append("invoice_post", invoice_post);
-    formData.append("particulars", invoiceItems);
-    files.forEach((v, i) => {
-      formData.append(`files`, v);
-    });
+    formData.append("invoice_post", JSON.stringify(invoice_post));
+    formData.append("particulars", JSON.stringify(invoiceItems));
+
+    // Existing file will not be effected as it is already there. Only New files needs to add into payload.
 
     setLoading(true);
-    API.post(BILL_POST, formData, {
+    API.put(BILL_EDIT(id), formData, {
       headers: {
         "content-type": "multipart/form-data",
       },
     })
-      .then((res) => {})
+      .then((res) => {
+        if (res.data.statuscode === 200) {
+          success_alert(res.data.message);
+          setFiles([]);
+          navigate(-1, { replace: true });
+        } else {
+          error_alert("ERROR! Please try again");
+        }
+      })
       .catch((err) => console.log(err))
       .finally(() => setLoading(false));
+  };
+
+  const deleteImg = async (imgId) => {
+    try {
+      setLoading(true);
+      const res = await API.delete(`file_upload/${imgId}/`);
+      if (res?.data?.statuscode === 200) {
+        success_alert(res?.data?.message);
+        fetchBill();
+      } else {
+        error_alert(res?.data?.message);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(true);
+    }
   };
 
   return (
     <Layout>
       {loading && <Loader />}
+      {employeeDropdownLoading && <Loader />}
       <PageHeader title="Edit Bill" onBack />
       <Content>
         <Form onSubmit={handleSubmit}>
@@ -270,7 +301,13 @@ export default function BillEdit() {
                       />
                     </td>
                     <td style={{ minWidth: "50px" }}>
-                      <Form.Control placeholder="Total Price" name="total" value={d.total} className="bg-light" disabled />
+                      <Form.Control
+                        placeholder="Total Price"
+                        name="total_am"
+                        value={d.total_am}
+                        className="bg-light"
+                        disabled
+                      />
                     </td>
                     <td>
                       {invoiceItems?.length > 1 && (
@@ -307,6 +344,38 @@ export default function BillEdit() {
           <div>
             <FileDropZone multiple onFileSelect={onDropFile} />
             <ul className="dz-preview dz-preview-multiple list-group list-group-lg list-group-flush">
+              {/* Existing IMAGE list */}
+              {existing_files.map((file, i) => (
+                <li key={`pre-${i}`} className="list-group-item dz-processing">
+                  <div className="row align-items-center">
+                    <div className="col-auto">
+                      {file?.main_img.split(".")[1] === "pdf" ? (
+                        <FaFilePdf size={32} />
+                      ) : file?.main_img?.split(".")[1] === "docx" || file?.main_img?.split(".")[1] === "doc" ? (
+                        <FaFileWord size={32} />
+                      ) : file?.main_img?.split(".")[1] === "xlsx" || file?.main_img?.split(".")[1] === "xls" ? (
+                        <FaFileExcel size={32} />
+                      ) : (
+                        <>
+                          <a href={BASE_URL_FOR_MEDIA_FILE + file?.main_img} target="#" download>
+                            <Image src={BASE_URL_FOR_MEDIA_FILE + file?.main_img} target="#" height={48} />
+                          </a>
+                        </>
+                      )}
+                    </div>
+                    <div className="col ms-n3">
+                      <h4 className="mb-1" data-dz-name="">
+                        {file?.main_img?.split("/")[1]}
+                      </h4>
+                    </div>
+                    <div className="col-auto">
+                      <button className="btn btn-light btn-sm" onClick={(e) => deleteImg(file?.id)}>
+                        <FaTrash />
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              ))}
               {files.map((file, i) => (
                 <li key={`pre-${i}`} className="list-group-item dz-processing">
                   <div className="row align-items-center">

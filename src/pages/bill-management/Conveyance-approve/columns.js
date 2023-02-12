@@ -36,6 +36,29 @@ export const CONVEYANCE_LIST_TABLE = [
     name: `Status`,
     sortable: true,
     selector: (row, index) => row?.status,
-    cell: (row) => <>{row?.status}</>,
+    cell: (row) => (
+      <>
+        {row?.status === 1 ? (
+          <span className="px-2 py-1 bg-primary rounded text-white" style={{ fontSize: "12px" }}>
+            In Progress
+          </span>
+        ) : row?.status === 2 ? (
+          <span className="px-2 py-1 bg-success rounded text-white" style={{ fontSize: "12px" }}>
+            Approved
+          </span>
+        ) : row?.status === 3 ? (
+          <span className="px-2 py-1 bg-warning rounded text-dark" style={{ fontSize: "12px" }}>
+            Under Review
+          </span>
+        ) : row?.status === 4 ? (
+          <span className="px-2 py-1 bg-danger rounded text-white" style={{ fontSize: "12px" }}>
+            Rejected
+          </span>
+        ) : (
+          ""
+        )}
+      </>
+    ),
+    width: "120px",
   },
 ];

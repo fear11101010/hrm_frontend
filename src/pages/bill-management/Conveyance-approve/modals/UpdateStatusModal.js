@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button, Card, Form, Modal } from "react-bootstrap";
 import ReactSelect from "react-select";
 import { error_alert, success_alert } from "../../../../components/alert/Alert";
+import Select from "../../../../components/select/Select";
 import { API } from "../../../../utils/axios/axiosConfig";
 import { EMPLOYEE_LIST_DROPDOWN } from "../../../../utils/routes/api_routes/API_ROUTES";
 import { STATUS_CHANGE_API } from "../../../../utils/routes/api_routes/BILL_API_ROUTES";
 import { BILL_STATUS } from "../../BILL_STATUS";
 
-export default function BillApproveModal({ show, onHide, bill_id, forwaredTo, status }) {
+export default function UpdateStatusModal({ show, onHide, id, forwaredTo, status }) {
   const [loading, setLoading] = useState(false);
   const [statusTo, setStatusTo] = useState(status);
   const [employee_list, setEmployee_list] = useState([]);
   const [employee_name, setEmployee_name] = useState(forwaredTo);
   const [comment, setComment] = useState("");
-
   const fetchEmployee = async () => {
     try {
       setLoading(true);
@@ -28,7 +28,6 @@ export default function BillApproveModal({ show, onHide, bill_id, forwaredTo, st
     } finally {
       setLoading(false);
     }
-    setLoading(true);
   };
 
   useEffect(() => {
@@ -43,10 +42,9 @@ export default function BillApproveModal({ show, onHide, bill_id, forwaredTo, st
   }, [statusTo === 3]);
 
   const submit = async (e) => {
-    setLoading(true);
     e.preventDefault();
     const payload = {
-      invoice_id: bill_id,
+      conveyance_id: id,
       status_id: statusTo === "" ? status : statusTo,
       comments: comment,
     };
@@ -55,6 +53,7 @@ export default function BillApproveModal({ show, onHide, bill_id, forwaredTo, st
     };
 
     try {
+      setLoading(true);
       let res = await API.post(STATUS_CHANGE_API, statusTo === 3 ? { ...forwardPayload, ...payload } : payload);
       if (res?.data?.statuscode === 200) {
         success_alert(res?.data?.message);
@@ -83,7 +82,7 @@ export default function BillApproveModal({ show, onHide, bill_id, forwaredTo, st
       }}
     >
       <Modal.Header closeButton>
-        <Modal.Title className="mb-0">Approve Bill</Modal.Title>
+        <Modal.Title className="mb-0">Update Conveyance Status</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={submit}>

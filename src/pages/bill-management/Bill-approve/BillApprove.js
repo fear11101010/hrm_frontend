@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Container, Dropdown, Modal } from "react-bootstrap";
-import { FaFile, FaFileAlt, FaPlus, FaRegEdit } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Card, Container, Dropdown, Modal } from "react-bootstrap";
 import PageHeader from "../../../components/header/PageHeader";
 import Loader from "../../../components/loader/Loader";
 import Table from "../../../components/table/Table";
 import Layout from "../../../layout/Layout";
 import { API } from "../../../utils/axios/axiosConfig";
 import { BILL_LIST_GET } from "../../../utils/routes/api_routes/BILL_API_ROUTES";
-import { BILL_ADD_URL, BILL_EDIT_PAGE_URL } from "../../../utils/routes/app_routes/BILL_APP_ROUTE";
 import BillApproveModal from "./bill-approve-modal/BillApproveModal";
+import BillDetails from "./bill-approve-modal/BillDetails";
 import { columns } from "./columns";
+
 export default function BillApprove() {
   const [isLoading, setIsLoading] = useState(false);
   const [billData, setBillData] = useState([]);
-  const [, setSelected_id] = useState("");
+  const [selected_id, setSelected_id] = useState("");
+  const [forwaredTo, setForwardTo] = useState("");
+  const [status, setStatus] = useState("");
+  const [detail_modal, setDetail_modal] = useState(false);
   const [approve_modal, setApprove_modal] = useState(false);
 
-  useEffect(() => {
+  const getData = () => {
     setIsLoading(true);
     API.get(BILL_LIST_GET)
       .then((res) => {
@@ -29,20 +31,38 @@ export default function BillApprove() {
       .finally(() => {
         setIsLoading(false);
       });
+  };
+  useEffect(() => {
+    getData();
   }, []);
 
   const EXTENDED_COLUMN = [
     {
       name: "Approve",
       cell: (row) => (
-        <Dropdown>
-          <Dropdown.Toggle size="sm" variant="light" id="dropdown-basic">
+        <Dropdown drop={billData?.length < 2 && "start"}>
+          <Dropdown.Toggle size="sm" variant="light" id="dropdown-basic" className="fw-bold border">
             Actions
           </Dropdown.Toggle>
-
           <Dropdown.Menu>
-            <Dropdown.Item href="#/action-1">View Details</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Update Status</Dropdown.Item>
+            <Dropdown.Item
+              onClick={() => {
+                setDetail_modal(true);
+                setSelected_id(row?.id);
+              }}
+            >
+              <i className="fe fe-file-text"></i> View Details
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={() => {
+                setApprove_modal(true);
+                setSelected_id(row?.id);
+                setForwardTo(row?.forwarded_to);
+                setStatus(row?.status);
+              }}
+            >
+              <i className="fe fe-edit-3"></i> Update Status
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       ),
@@ -51,8 +71,10 @@ export default function BillApprove() {
       center: true,
     },
   ];
+
   return (
     <Layout>
+      {isLoading && <Loader />}
       <PageHeader title={"Bill Approve List"} />
       <Container fluid>
         <Card>
@@ -61,16 +83,35 @@ export default function BillApprove() {
           </Card.Body>
         </Card>
       </Container>
+
       <BillApproveModal
         show={approve_modal}
         onHide={() => {
           setApprove_modal(false);
           setSelected_id("");
+          getData();
         }}
+        bill_id={selected_id}
+        forwaredTo={forwaredTo}
+        status={status}
       />
+
+      {/* Problem occuring while calling modal component, so calling it manually */}
+      <Modal
+        size="xl"
+        show={detail_modal}
+        onHide={() => {
+          setDetail_modal(false);
+          setSelected_id("");
+        }}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title className="mb-0">Bill Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <BillDetails bill_id={selected_id} />
+        </Modal.Body>
+      </Modal>
     </Layout>
   );
-  {
-    isLoading && <Loader />;
-  }
 }

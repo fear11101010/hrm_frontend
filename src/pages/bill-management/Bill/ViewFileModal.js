@@ -4,6 +4,7 @@ import { FaDownload, FaFileExcel, FaFilePdf } from "react-icons/fa";
 import { BASE_URL_FOR_MEDIA_FILE } from "../../../utils/CONSTANT";
 
 export default function ViewFileModal({ data, show, onHide }) {
+  console.log(data);
   return (
     <Modal show={show} onHide={onHide} aria-labelledby="file-modal">
       <Modal.Header closeButton>
@@ -15,7 +16,7 @@ export default function ViewFileModal({ data, show, onHide }) {
         <div className="d-flex justify-content-between mb-5">
           <div>
             <h4 className="mb-1 text-secondary">Employee Name:</h4>
-            <h4 className="mb-0">{data?.employee_name}</h4>
+            <h4 className="mb-0">{data?.employee?.name}</h4>
           </div>
           <div>
             <h4 className="mb-1 text-secondary">Invoice Code:</h4>

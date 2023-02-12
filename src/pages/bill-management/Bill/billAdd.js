@@ -7,7 +7,6 @@ import { USER_INFO } from "../../../utils/session/token";
 import DatePicker from "../../../components/date-picker/DatePicker";
 import useProjects from "../../../hooks/useProjects";
 import ReactSelect from "react-select";
-import useEmployee from "../../../hooks/useEmployee";
 import "./style.css";
 import { RiAddFill, RiDeleteBin5Fill } from "react-icons/ri";
 import moment from "moment";
@@ -43,7 +42,7 @@ export default function BillAdd() {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   //Mapping template which is object. Which will be act as a template
-  const useInvoiceTemplate = { date: "", description: "", qty: "", cost: "", total: 0 };
+  const useInvoiceTemplate = { date: "", description: "", qty: "", cost: "", total_am: 0 };
 
   // The mapping template will be state as a array of obj
   const [invoiceItems, setInvoiceItems] = useState([useInvoiceTemplate]);
@@ -58,10 +57,12 @@ export default function BillAdd() {
     const updateMapping = invoiceItems.map((map, i) =>
       i === index ? Object.assign(map, { [e.target.name]: e.target.value }) : map
     );
-    const x = updateMapping?.map((d, i) => (i === index ? Object.assign(d, { ["total"]: (d.qty * d.cost).toFixed(2) }) : d));
+    const x = updateMapping?.map((d, i) =>
+      i === index ? Object.assign(d, { ["total_am"]: (d.qty * d.cost).toFixed(2) }) : d
+    );
     setInvoiceItems(x);
 
-    const filter_total = x?.map((d, i) => parseFloat(d.total));
+    const filter_total = x?.map((d, i) => parseFloat(d.total_am));
     const st = filter_total.reduce((partialSum, a) => partialSum + a, 0);
     setSubTotal(st);
   };
@@ -126,23 +127,27 @@ export default function BillAdd() {
     files.forEach((v, i) => {
       formData.append(`main_img`, v);
     });
-    setLoading(true);
-    API.post(BILL_POST, formData, {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    })
-      .then((res) => {
-        if (res.data.statuscode === 200) {
-          success_alert(res.data.message);
-          setFiles([]);
-          navigate(-1, { replace: true });
-        } else {
-          error_alert("ERROR! Please try again");
-        }
+    if (files.length === 0) {
+      error_alert("Please upload files");
+    } else {
+      setLoading(true);
+      API.post(BILL_POST, formData, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
       })
-      .catch((err) => console.log(err))
-      .finally(() => setLoading(false));
+        .then((res) => {
+          if (res.data.statuscode === 200) {
+            success_alert(res.data.message);
+            setFiles([]);
+            navigate(-1, { replace: true });
+          } else {
+            error_alert("ERROR! Please try again");
+          }
+        })
+        .catch((err) => console.log(err))
+        .finally(() => setLoading(false));
+    }
   };
   return (
     <Layout>
@@ -247,7 +252,13 @@ export default function BillAdd() {
                       />
                     </td>
                     <td style={{ minWidth: "50px" }}>
-                      <Form.Control placeholder="Total Price" name="total" value={d.total} className="bg-light" disabled />
+                      <Form.Control
+                        placeholder="Total Price"
+                        name="total_am"
+                        value={d.total_am}
+                        className="bg-light"
+                        disabled
+                      />
                     </td>
                     <td>
                       {invoiceItems?.length > 1 && (

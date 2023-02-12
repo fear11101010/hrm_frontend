@@ -149,6 +149,7 @@ export default function InvoiceTemplate({ invoice_id }) {
           </tbody>
         </Table>
       </div>
+
       <div className="px-5">
         <div className="d-flex">
           <h3 className="mb-0 me-1"> Amount in words: </h3>
