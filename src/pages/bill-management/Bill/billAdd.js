@@ -124,9 +124,11 @@ export default function BillAdd() {
     const formData = new FormData();
     formData.append("invoice_post", JSON.stringify(invoice_post));
     formData.append("particulars", JSON.stringify(invoiceItems));
+
     files.forEach((v, i) => {
       formData.append(`main_img`, v);
     });
+
     if (files.length === 0) {
       error_alert("Please upload files");
     } else {
@@ -149,6 +151,7 @@ export default function BillAdd() {
         .finally(() => setLoading(false));
     }
   };
+
   return (
     <Layout>
       {loading && <Loader />}

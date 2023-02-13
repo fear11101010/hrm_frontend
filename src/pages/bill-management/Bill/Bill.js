@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Container, Modal } from "react-bootstrap";
+import { Button, Card, Container, Dropdown, Modal } from "react-bootstrap";
 import { FaFile, FaFileAlt, FaPlus, FaRegEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import PageHeader from "../../../components/header/PageHeader";
@@ -10,6 +10,7 @@ import { API } from "../../../utils/axios/axiosConfig";
 import { BILL_LIST_GET } from "../../../utils/routes/api_routes/BILL_API_ROUTES";
 import { BILL_ADD_URL, BILL_EDIT_PAGE_URL } from "../../../utils/routes/app_routes/BILL_APP_ROUTE";
 import { columns } from "./colums";
+import InspectModal from "./InspectModal";
 import Invoice from "./invoice/Invoice";
 import ViewFileModal from "./ViewFileModal";
 
@@ -20,6 +21,7 @@ function Bill(props) {
   const [invoiceModal, setInvoiceModal] = useState(false);
   const [selected_id, setSelected_id] = useState("");
   const [seleced_file, setSelectedFile] = useState([]);
+  const [inspect_modal, setInspect_modal] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -37,42 +39,41 @@ function Bill(props) {
 
   const EXTENDED_COLUMN = [
     {
-      name: "Invoice",
+      name: "Actions",
       cell: (row) => (
-        <>
-          <Button
-            variant="primary"
-            size="sm"
-            className="d-flex align-items-center"
-            onClick={() => {
-              setInvoiceModal(true);
-              setSelected_id(row?.id);
-            }}
-          >
-            <FaFileAlt style={{ marginRight: "4px" }} /> Invoice
-          </Button>
-        </>
+        <Dropdown drop={billData?.length < 2 && "start"}>
+          <Dropdown.Toggle size="sm" variant="light" id="dropdown-basic" className="fw-bold border">
+            Actions
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item
+              onClick={() => {
+                setInvoiceModal(true);
+                setSelected_id(row?.id);
+              }}
+            >
+              <i className="fe fe-file-text"></i> View Invoice
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={() => {
+                setFileModal(true);
+                setSelectedFile(row);
+              }}
+            >
+              <i className="fe fe-edit-3"></i> View Files
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={() => {
+                setInspect_modal(true);
+                setSelected_id(row?.id);
+              }}
+            >
+              <i className="fe fe-eye"></i> Inspect Bill
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       ),
-      minWidth: "120px",
-      wrap: true,
-      center: true,
-    },
-    {
-      name: "Files",
-      cell: (row) => (
-        <Button
-          size="sm"
-          variant="info"
-          className="d-flex justify-content-between align-items-center"
-          onClick={() => {
-            setFileModal(true);
-            setSelectedFile(row);
-          }}
-        >
-          <FaFile style={{ marginRight: "4px" }} /> View files
-        </Button>
-      ),
-      minWidth: "125px",
+      width: "100px",
       wrap: true,
       center: true,
     },
@@ -103,7 +104,7 @@ function Bill(props) {
                   <FaPlus /> Add New Bill
                 </Link>
               </div>
-              <Table dense columns={columns.concat(EXTENDED_COLUMN)} data={billData} />
+              <Table columns={columns.concat(EXTENDED_COLUMN)} data={billData} />
             </Card.Body>
           </Card>
         </Container>
@@ -124,6 +125,16 @@ function Bill(props) {
           setSelected_id("");
         }}
         data={selected_id}
+      />
+
+      {/* Inspect Modal */}
+      <InspectModal
+        show={inspect_modal}
+        onHide={() => {
+          setInspect_modal(false);
+          setSelected_id("");
+        }}
+        id={selected_id}
       />
     </>
   );

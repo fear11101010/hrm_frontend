@@ -155,8 +155,10 @@ export default function BillEdit() {
     const formData = new FormData();
     formData.append("invoice_post", JSON.stringify(invoice_post));
     formData.append("particulars", JSON.stringify(invoiceItems));
-
     // Existing file will not be effected as it is already there. Only New files needs to add into payload.
+    files.forEach((v, i) => {
+      formData.append(`main_img`, v);
+    });
 
     setLoading(true);
     API.put(BILL_EDIT(id), formData, {

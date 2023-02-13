@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { API } from "../../../utils/axios/axiosConfig";
 import Layout from "../../../layout/Layout";
@@ -16,12 +16,17 @@ import Table from "../../../components/table/Table";
 import InvoiceCon from "./invoice/Invoice";
 import { CONVEYANCE_LIST_API } from "../../../utils/routes/api_routes/BILL_API_ROUTES";
 import { CONVEYANCE_LIST_TABLE } from "./Columns";
+import ConViewFileModal from "./ViewFileModal";
+import InspectConModal from "./InspectModal";
 
 function Conveyance(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [conveyance, setConveyance] = useState([]);
   const [invoiceModal, setInvoiceModal] = useState(false);
   const [selected_id, setSelected_id] = useState("");
+  const [seleced_file, setSelectedFile] = useState([]);
+  const [fileModal, setFileModal] = useState(false);
+  const [inspect_modal, setInspect_modal] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -39,23 +44,41 @@ function Conveyance(props) {
 
   const EXTENDED_COLUMN = [
     {
-      name: "Invoice",
+      name: "Actions",
       cell: (row) => (
-        <>
-          <Button
-            variant="primary"
-            size="sm"
-            className="d-flex align-items-center"
-            onClick={() => {
-              setInvoiceModal(true);
-              setSelected_id(row?.id);
-            }}
-          >
-            <FaFileAlt style={{ marginRight: "4px" }} /> Invoice
-          </Button>
-        </>
+        <Dropdown drop={conveyance?.length < 3 && "start"}>
+          <Dropdown.Toggle size="sm" variant="light" id="dropdown-basic" className="fw-bold border">
+            Actions
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item
+              onClick={() => {
+                setInvoiceModal(true);
+                setSelected_id(row?.id);
+              }}
+            >
+              <i className="fe fe-file-text"></i> View Invoice
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={() => {
+                setFileModal(true);
+                setSelectedFile(row);
+              }}
+            >
+              <i className="fe fe-edit-3"></i> View Files
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={() => {
+                setInspect_modal(true);
+                setSelected_id(row?.id);
+              }}
+            >
+              <i className="fe fe-eye"></i> Inspect Bill
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       ),
-      minWidth: "120px",
+      width: "100px",
       wrap: true,
       center: true,
     },
@@ -85,12 +108,13 @@ function Conveyance(props) {
                   <FaPlus /> Add New Conveyance
                 </Link>
               </div>
-              <Table dense data={conveyance} columns={CONVEYANCE_LIST_TABLE.concat(EXTENDED_COLUMN)} />
+              <Table data={conveyance} columns={CONVEYANCE_LIST_TABLE.concat(EXTENDED_COLUMN)} />
             </Card.Body>
           </Card>
         </Container>
       </Layout>
       {isLoading && <Loader />}
+
       <InvoiceCon
         onShow={invoiceModal}
         onHide={() => {
@@ -98,6 +122,24 @@ function Conveyance(props) {
           setSelected_id("");
         }}
         data={selected_id}
+      />
+      <ConViewFileModal
+        data={seleced_file}
+        show={fileModal}
+        onHide={() => {
+          setFileModal(false);
+          setSelectedFile([]);
+        }}
+      />
+
+      {/* Inspect Modal */}
+      <InspectConModal
+        show={inspect_modal}
+        onHide={() => {
+          setInspect_modal(false);
+          setSelected_id("");
+        }}
+        id={selected_id}
       />
     </>
   );

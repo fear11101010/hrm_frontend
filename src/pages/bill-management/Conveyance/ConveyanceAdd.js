@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, FormControl, Row, Table } from "react-bootstrap";
+import { Button, Col, Form, FormControl, Image, Row, Table } from "react-bootstrap";
 import Content from "../../../components/content/Content";
 import PageHeader from "../../../components/header/PageHeader";
 import Layout from "../../../layout/Layout";
@@ -21,6 +21,9 @@ import { error_alert, success_alert } from "../../../components/alert/Alert";
 import { useNavigate, useParams } from "react-router-dom";
 import useEmployeeDropdown from "../../../hooks/useEmployeeDropdown";
 import Loader from "../../../components/loader/Loader";
+import { FaFileExcel, FaFilePdf, FaFileWord, FaTrash } from "react-icons/fa";
+import FileDropZone from "../../../components/FileDropZone";
+import { BASE_URL_FOR_MEDIA_FILE } from "../../../utils/CONSTANT";
 
 export default function ConveyanceAdd() {
   const { id } = useParams();
@@ -37,6 +40,10 @@ export default function ConveyanceAdd() {
   const [employee_name, setEmployee_name] = useState("");
   const [invoice_code, setInvoice_code] = useState("");
   const [subtotal, setSubTotal] = useState(0);
+  const [files, setFiles] = useState([]);
+  const [uploadedFile, setUploadedFile] = useState([]);
+  const [existing_files, setExisting_files] = useState([]);
+  const [deletedFile, setDeletedFile] = useState([]);
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /////////// INVOICE ITEMS
@@ -101,6 +108,7 @@ export default function ConveyanceAdd() {
         setEmployee_name(res?.data?.conveyance[0]?.employee?.id);
         setSubTotal(res?.data?.conveyance[0]?.totalamount);
         setInvoiceItems(res?.data?.conveyance_items);
+        setExisting_files(res?.data?.files);
       } else {
         error_alert("ERROR! please try again later");
       }
@@ -115,65 +123,128 @@ export default function ConveyanceAdd() {
       fetchConveyance();
     }
   }, []);
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // File Submit
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const onDropFile = (acceptedFiles) => {
+    console.log("acceptedFiles", acceptedFiles);
+    setFiles((files) => [...files, ...acceptedFiles]);
+  };
+  const removeFile = (e, i) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setFiles((files) => {
+      const f = [...files];
+      f.splice(i, 1);
+      return f;
+    });
+  };
+  const removeUploadedFile = (e, i) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const f = uploadedFile[i];
+    setDeletedFile((df) => [...df, f.id]);
+    setUploadedFile((files) => {
+      const f = [...files];
+      f.splice(i, 1);
+      console.log(f);
+      return f;
+    });
+  };
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // SUBMIT FUNC
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
   const handleSubmit = (e) => {
     e.preventDefault();
     let payload = {
-      invoice_post: {
-        conveyance_date: selected_date,
-        project: project_name,
-        employee: employee_name,
-        totalamount: subtotal,
-      },
-      particulars: invoiceItems,
-      files: "",
+      conveyance_date: selected_date,
+      project: project_name,
+      employee: employee_name,
+      totalamount: subtotal,
     };
 
+    const formData = new FormData();
+    formData.append("invoice_post", JSON.stringify(payload));
+    formData.append("particulars", JSON.stringify(invoiceItems));
+    files.forEach((v, i) => {
+      formData.append(`main_img`, v);
+    });
+    if (project_name === "" || employee_name === "") {
+      error_alert("Please select all fields");
+    } else {
+      setLoading(true);
+      API.post(CONVEYANCE_POST, formData, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      })
+        .then((res) => {
+          if (res.data.statuscode === 200) {
+            success_alert(res.data.message);
+            navigate(-1, { replace: true });
+          } else {
+            error_alert("Error! please try again");
+          }
+        })
+        .catch((err) => console.log(err))
+        .finally(() => setLoading(false));
+    }
+  };
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    console.log("handleUpdate");
     let payload_when_update = {
-      invoice_post: {
-        conveyance_date: selected_date,
-        project: project_name,
-        employee: employee_name,
-        totalamount: subtotal,
-        invoice_code: invoice_code,
-      },
-      particulars: invoiceItems,
-      files: "",
+      conveyance_date: selected_date,
+      project: project_name,
+      employee: employee_name,
+      totalamount: subtotal,
+      invoice_code: invoice_code,
     };
+
+    const formData = new FormData();
+    formData.append("invoice_post", JSON.stringify(payload_when_update));
+    formData.append("particulars", JSON.stringify(invoiceItems));
+    files.forEach((v, i) => {
+      formData.append(`main_img`, v);
+    });
 
     if (project_name === "" || employee_name === "") {
       error_alert("Please select all fields");
     } else {
-      // WHILE PUT
-      if (id !== undefined) {
-        API.put(CONVEYANCE_EACH_PUT_API(id), payload_when_update)
-          .then((res) => {
-            if (res.data.statuscode === 200) {
-              success_alert(res.data.message);
-              navigate(-1, { replace: true });
-            } else {
-              error_alert("Error! please try again");
-            }
-          })
-          .catch((err) => console.log(err))
-          .finally(() => setLoading(false));
+      API.put(CONVEYANCE_EACH_PUT_API(id), formData, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      })
+        .then((res) => {
+          if (res.data.statuscode === 200) {
+            success_alert(res.data.message);
+            navigate(-1, { replace: true });
+          } else {
+            error_alert("Error! please try again");
+          }
+        })
+        .catch((err) => console.log(err))
+        .finally(() => setLoading(false));
+    }
+  };
+
+  const deleteImg = async (imgId) => {
+    try {
+      setLoading(true);
+      const res = await API.delete(`file_upload/${imgId}/`);
+      if (res?.data?.statuscode === 200) {
+        success_alert(res?.data?.message);
+        fetchConveyance();
       } else {
-        setLoading(true);
-        API.post(CONVEYANCE_POST, payload)
-          .then((res) => {
-            if (res.data.statuscode === 200) {
-              success_alert(res.data.message);
-              navigate(-1, { replace: true });
-            } else {
-              error_alert("Error! please try again");
-            }
-          })
-          .catch((err) => console.log(err))
-          .finally(() => setLoading(false));
+        error_alert(res?.data?.message);
       }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(true);
     }
   };
   return (
@@ -182,7 +253,7 @@ export default function ConveyanceAdd() {
       {employeeDropdownLoading && <Loader />}
       <PageHeader title={id === undefined ? "Add New Conveyance " : "Update Conveyance "} onBack />
       <Content>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={id === undefined ? handleSubmit : handleUpdate}>
           <Row>
             <Col sm="12" md="3" className="mb-4">
               <Form.Group>
@@ -338,6 +409,102 @@ export default function ConveyanceAdd() {
             </div>
           </div>
           <hr />
+
+          {/* Upload File */}
+          <div>
+            <FileDropZone multiple onFileSelect={onDropFile} />
+            <ul className="dz-preview dz-preview-multiple list-group list-group-lg list-group-flush">
+              {/* Existing IMAGE list */}
+              {existing_files &&
+                existing_files.map((file, i) => (
+                  <li key={`pre-${i}`} className="list-group-item dz-processing">
+                    <div className="row align-items-center">
+                      <div className="col-auto">
+                        {file?.main_img.split(".")[1] === "pdf" ? (
+                          <FaFilePdf size={32} />
+                        ) : file?.main_img?.split(".")[1] === "docx" || file?.main_img?.split(".")[1] === "doc" ? (
+                          <FaFileWord size={32} />
+                        ) : file?.main_img?.split(".")[1] === "xlsx" || file?.main_img?.split(".")[1] === "xls" ? (
+                          <FaFileExcel size={32} />
+                        ) : (
+                          <>
+                            <a href={BASE_URL_FOR_MEDIA_FILE + file?.main_img} target="#" download>
+                              <Image src={BASE_URL_FOR_MEDIA_FILE + file?.main_img} target="#" height={48} />
+                            </a>
+                          </>
+                        )}
+                      </div>
+                      <div className="col ms-n3">
+                        <h4 className="mb-1" data-dz-name="">
+                          {file?.main_img?.split("/")[1]}
+                        </h4>
+                      </div>
+                      <div className="col-auto">
+                        <button className="btn btn-light btn-sm" onClick={(e) => deleteImg(file?.id)}>
+                          <FaTrash />
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              {files.map((file, i) => (
+                <li key={`pre-${i}`} className="list-group-item dz-processing">
+                  <div className="row align-items-center">
+                    <div className="col-auto">
+                      {file?.type === "application/pdf" ? (
+                        <FaFilePdf size={32} />
+                      ) : file?.name.split(".")[1] === "docx" || file?.name.split(".")[1] === "doc" ? (
+                        <FaFileWord size={32} />
+                      ) : file?.name.split(".")[1] === "xlsx" || file?.name.split(".")[1] === "xls" ? (
+                        <FaFileExcel size={32} />
+                      ) : file?.type.startsWith("image") ? (
+                        <>
+                          <a href={URL.createObjectURL(file)} target="#">
+                            <Image src={URL.createObjectURL(file)} href={URL.createObjectURL(file)} target="#" height={48} />
+                          </a>
+                        </>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                    <div className="col ms-n3">
+                      <h4 className="mb-1" data-dz-name="">
+                        {file.name}
+                      </h4>
+                      <small className="text-muted" data-dz-size="">
+                        <strong>{Math.ceil(file.size / 1024)}</strong>KB
+                      </small>
+                    </div>
+                    <div className="col-auto">
+                      <button className="btn btn-light btn-sm" onClick={(e) => removeFile(e, i)}>
+                        <FaTrash />
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              ))}
+              {uploadedFile.map((file, i) => (
+                <li key={`pre-del-${i}`} className="list-group-item dz-processing">
+                  <div className="row align-items-center">
+                    <div className="col-auto"></div>
+                    <div className="col ms-n3">
+                      <h4 className="mb-1" data-dz-name="">
+                        {file.fileName}
+                      </h4>
+                      <small className="text-muted" data-dz-size="">
+                        <strong>{file.size}</strong>
+                      </small>
+                    </div>
+                    <div className="col-auto">
+                      <button className="btn btn-light btn-sm" onClick={(e) => removeUploadedFile(e, i)}>
+                        <FaTrash />
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
 
           <Button type="submit" className="mt-5">
             Submit
