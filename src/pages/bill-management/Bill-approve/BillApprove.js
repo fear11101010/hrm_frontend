@@ -9,6 +9,7 @@ import { BILL_LIST_GET } from "../../../utils/routes/api_routes/BILL_API_ROUTES"
 import BillApproveModal from "./bill-approve-modal/BillApproveModal";
 import BillDetails from "./bill-approve-modal/BillDetails";
 import { columns } from "./columns";
+import InspectModal from "./inspect-modal/InspectModal";
 
 export default function BillApprove() {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,8 +17,10 @@ export default function BillApprove() {
   const [selected_id, setSelected_id] = useState("");
   const [forwaredTo, setForwardTo] = useState("");
   const [status, setStatus] = useState("");
+  const [remarks, setRemarks] = useState("");
   const [detail_modal, setDetail_modal] = useState(false);
   const [approve_modal, setApprove_modal] = useState(false);
+  const [inspect_modal, setInspect_modal] = useState(false);
 
   const getData = () => {
     setIsLoading(true);
@@ -51,7 +54,7 @@ export default function BillApprove() {
                 setSelected_id(row?.id);
               }}
             >
-              <i className="fe fe-file-text"></i> View Details
+              <i className="fe fe-file-text"></i> View Invoice
             </Dropdown.Item>
             <Dropdown.Item
               onClick={() => {
@@ -59,9 +62,18 @@ export default function BillApprove() {
                 setSelected_id(row?.id);
                 setForwardTo(row?.forwarded_to);
                 setStatus(row?.status);
+                setRemarks(row?.remark);
               }}
             >
               <i className="fe fe-edit-3"></i> Update Status
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={() => {
+                setInspect_modal(true);
+                setSelected_id(row?.id);
+              }}
+            >
+              <i className="fe fe-eye"></i> Inspect Bill
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
@@ -94,6 +106,7 @@ export default function BillApprove() {
         bill_id={selected_id}
         forwaredTo={forwaredTo}
         status={status}
+        remarks={remarks}
       />
 
       {/* Problem occuring while calling modal component, so calling it manually */}
@@ -112,6 +125,16 @@ export default function BillApprove() {
           <BillDetails bill_id={selected_id} />
         </Modal.Body>
       </Modal>
+
+      {/* Inspect Modal */}
+      <InspectModal
+        show={inspect_modal}
+        onHide={() => {
+          setInspect_modal(false);
+          setSelected_id("");
+        }}
+        id={selected_id}
+      />
     </Layout>
   );
 }

@@ -10,6 +10,7 @@ import { CONVEYANCE_LIST_API } from "../../../utils/routes/api_routes/BILL_API_R
 import { CONVEYANCE_LIST_TABLE } from "./columns";
 import DetailsModal from "./modals/DetailsModal";
 import UpdateStatusModal from "./modals/UpdateStatusModal";
+import InspectModal from "./inspect-modal/InspectModal";
 
 export default function ConveyanceApprove() {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,6 +20,8 @@ export default function ConveyanceApprove() {
   const [status, setStatus] = useState("");
   const [detail_modal, setDetail_modal] = useState(false);
   const [selected_id, setSelected_id] = useState("");
+  const [inspect_modal, setInspect_modal] = useState(false);
+  const [remarks, setRemarks] = useState("");
 
   const getData = () => {
     setIsLoading(true);
@@ -53,7 +56,7 @@ export default function ConveyanceApprove() {
                 setSelected_id(row?.id);
               }}
             >
-              <i className="fe fe-file-text"></i> View Details
+              <i className="fe fe-file-text"></i> View Invoice
             </Dropdown.Item>
             <Dropdown.Item
               onClick={() => {
@@ -61,9 +64,18 @@ export default function ConveyanceApprove() {
                 setSelected_id(row?.id);
                 setForwardTo(row?.forwarded_to);
                 setStatus(row?.status);
+                setRemarks(row?.remark);
               }}
             >
               <i className="fe fe-edit-3"></i> Update Status
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={() => {
+                setInspect_modal(true);
+                setSelected_id(row?.id);
+              }}
+            >
+              <i className="fe fe-eye"></i> Messages
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
@@ -104,6 +116,17 @@ export default function ConveyanceApprove() {
           id={selected_id}
           forwaredTo={forwaredTo}
           status={status}
+          remarks={remarks}
+        />
+
+        {/* Inspect Modal */}
+        <InspectModal
+          show={inspect_modal}
+          onHide={() => {
+            setInspect_modal(false);
+            setSelected_id("");
+          }}
+          id={selected_id}
         />
       </Container>
     </Layout>

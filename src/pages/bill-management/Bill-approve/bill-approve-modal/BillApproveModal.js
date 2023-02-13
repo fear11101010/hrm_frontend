@@ -3,11 +3,10 @@ import { Button, Form, Modal } from "react-bootstrap";
 import ReactSelect from "react-select";
 import { error_alert, success_alert } from "../../../../components/alert/Alert";
 import { API } from "../../../../utils/axios/axiosConfig";
-import { EMPLOYEE_LIST_DROPDOWN } from "../../../../utils/routes/api_routes/API_ROUTES";
 import { STATUS_CHANGE_API } from "../../../../utils/routes/api_routes/BILL_API_ROUTES";
 import { BILL_STATUS } from "../../BILL_STATUS";
 
-export default function BillApproveModal({ show, onHide, bill_id, forwaredTo, status }) {
+export default function BillApproveModal({ show, onHide, remarks, bill_id, forwaredTo, status }) {
   const [loading, setLoading] = useState(false);
   const [statusTo, setStatusTo] = useState(status);
   const [employee_list, setEmployee_list] = useState([]);
@@ -17,9 +16,10 @@ export default function BillApproveModal({ show, onHide, bill_id, forwaredTo, st
   const fetchEmployee = async () => {
     try {
       setLoading(true);
-      const res = await API.get(EMPLOYEE_LIST_DROPDOWN);
-      let formattedEmployeeList = res?.data?.data?.map((d) => ({
-        label: d?.name + " (" + d?.employee_id + ")",
+      const res = await API.get("user_dropdown/");
+      let filtered = res?.data?.data?.filter((d) => d?.group.includes("13") || d?.group.includes("11"));
+      let formattedEmployeeList = filtered?.map((d) => ({
+        label: d?.username,
         value: d?.id,
       }));
       setEmployee_list(formattedEmployeeList);
@@ -34,7 +34,8 @@ export default function BillApproveModal({ show, onHide, bill_id, forwaredTo, st
   useEffect(() => {
     setStatusTo(status);
     setEmployee_name(forwaredTo);
-  }, [forwaredTo, status]);
+    setComment(remarks);
+  }, [forwaredTo, status, remarks]);
 
   useEffect(() => {
     if (statusTo === 3) {
@@ -49,6 +50,7 @@ export default function BillApproveModal({ show, onHide, bill_id, forwaredTo, st
       invoice_id: bill_id,
       status_id: statusTo === "" ? status : statusTo,
       comments: comment,
+      invoice_message: comment,
     };
     const forwardPayload = {
       forward_to: employee_name,
@@ -114,7 +116,7 @@ export default function BillApproveModal({ show, onHide, bill_id, forwaredTo, st
             <Form.Label>Comment</Form.Label>
             <Form.Control
               as="textarea"
-              rows={5}
+              rows={2}
               value={comment}
               onChange={(e) => {
                 setComment(e.target.value);
@@ -122,6 +124,7 @@ export default function BillApproveModal({ show, onHide, bill_id, forwaredTo, st
             />
           </Form.Group>
 
+          <hr />
           <Button type="submit">Submit</Button>
         </Form>
       </Modal.Body>
