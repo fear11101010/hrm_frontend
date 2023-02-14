@@ -160,13 +160,16 @@ export default function InvoiceTemplate({ invoice_id }) {
       <div className="px-5" style={{ marginTop: "72px" }}>
         <Row className="text-center">
           <Col md={4}>
-            <h5>Submitted By</h5>
+            <h5 className="mb-1">{data?.invoice?.map((d) => d?.employee?.name)}</h5>
+            <h5 className="text-secondary">Submitted By</h5>
           </Col>
           <Col md={4}>
-            <h5>Checked By</h5>
+            <h5 className="mb-1">{/* {data?.invoice?.map((d) => d?.employee?.name)} */}</h5>
+            <h5 className="text-secondary">Checked By</h5>
           </Col>
           <Col md={4}>
-            <h5>Approved By</h5>
+            <h5 className="mb-1">{data?.invoice?.map((d) => d?.approved_by?.first_name)}</h5>
+            <h5 className="text-secondary">Approved By</h5>
           </Col>
         </Row>
       </div>

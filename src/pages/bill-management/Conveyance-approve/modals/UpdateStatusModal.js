@@ -12,7 +12,6 @@ export default function UpdateStatusModal({ show, onHide, remarks, id, forwaredT
   const [employee_list, setEmployee_list] = useState([]);
   const [employee_name, setEmployee_name] = useState(forwaredTo);
   const [comment, setComment] = useState("");
-  const [message, setMessage] = useState("");
 
   const fetchEmployee = async () => {
     try {
@@ -41,7 +40,7 @@ export default function UpdateStatusModal({ show, onHide, remarks, id, forwaredT
     if (statusTo === 3) {
       fetchEmployee();
     }
-  }, [statusTo === 3]);
+  }, [statusTo === 3, statusTo === 5]);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -58,7 +57,10 @@ export default function UpdateStatusModal({ show, onHide, remarks, id, forwaredT
 
     try {
       setLoading(true);
-      let res = await API.post(STATUS_CHANGE_API, statusTo === 3 ? { ...forwardPayload, ...payload } : payload);
+      let res = await API.post(
+        STATUS_CHANGE_API,
+        statusTo === 3 || statusTo === 5 ? { ...forwardPayload, ...payload } : payload
+      );
       if (res?.data?.statuscode === 200) {
         success_alert(res?.data?.message);
         onHide();
@@ -109,7 +111,19 @@ export default function UpdateStatusModal({ show, onHide, remarks, id, forwaredT
                 onChange={(e) => {
                   setEmployee_name(e.value);
                 }}
-                placeholder={employee_list?.map((d) => d?.value === forwaredTo && d?.label)}
+                placeholder={employee_list?.map((d) => d?.value === employee_name && d?.label)}
+              />
+            </Form.Group>
+          )}
+          {statusTo === 5 && (
+            <Form.Group className="mb-3">
+              <Form.Label>Forward To</Form.Label>
+              <ReactSelect
+                options={employee_list}
+                onChange={(e) => {
+                  setEmployee_name(e.value);
+                }}
+                placeholder={employee_list?.map((d) => d?.value === employee_name && d?.label)}
               />
             </Form.Group>
           )}

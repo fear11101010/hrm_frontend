@@ -41,7 +41,7 @@ export default function BillApproveModal({ show, onHide, remarks, bill_id, forwa
     if (statusTo === 3) {
       fetchEmployee();
     }
-  }, [statusTo === 3]);
+  }, [statusTo === 3, statusTo === 5]);
 
   const submit = async (e) => {
     setLoading(true);
@@ -57,7 +57,10 @@ export default function BillApproveModal({ show, onHide, remarks, bill_id, forwa
     };
 
     try {
-      let res = await API.post(STATUS_CHANGE_API, statusTo === 3 ? { ...forwardPayload, ...payload } : payload);
+      let res = await API.post(
+        STATUS_CHANGE_API,
+        statusTo === 3 || statusTo === 5 ? { ...forwardPayload, ...payload } : payload
+      );
       if (res?.data?.statuscode === 200) {
         success_alert(res?.data?.message);
         onHide();
@@ -108,7 +111,19 @@ export default function BillApproveModal({ show, onHide, remarks, bill_id, forwa
                 onChange={(e) => {
                   setEmployee_name(e.value);
                 }}
-                placeholder={employee_list?.map((d) => d?.value === forwaredTo && d?.label)}
+                placeholder={employee_list?.map((d) => d?.value === employee_name && d?.label)}
+              />
+            </Form.Group>
+          )}
+          {statusTo === 5 && (
+            <Form.Group className="mb-3">
+              <Form.Label>Forward To</Form.Label>
+              <ReactSelect
+                options={employee_list}
+                onChange={(e) => {
+                  setEmployee_name(e.value);
+                }}
+                placeholder={employee_list?.map((d) => d?.value === employee_name && d?.label)}
               />
             </Form.Group>
           )}

@@ -44,6 +44,11 @@ export default function ConveyanceAdd() {
   const [uploadedFile, setUploadedFile] = useState([]);
   const [existing_files, setExisting_files] = useState([]);
   const [deletedFile, setDeletedFile] = useState([]);
+  const [elmployee_list, setEmployeeList] = useState([]);
+  useEffect(() => {
+    let a = employeeDropdownList?.filter((d) => d?.sub_sbu?.id === project_name);
+    setEmployeeList(a);
+  }, [project_name]);
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /////////// INVOICE ITEMS
@@ -284,13 +289,21 @@ export default function ConveyanceAdd() {
             <Col sm="12" md="6">
               <Form.Group>
                 <Form.Label>Employee Name</Form.Label>
-                <ReactSelect
-                  options={employeeDropdownList?.map((d) => ({ label: d.name + " (" + d.employee_id + ")", value: d.id }))}
-                  onChange={(e) => setEmployee_name(e.value)}
-                  placeholder={employeeDropdownList?.map(
-                    (d) => d.id === employee_name && d?.name + " (" + d?.employee_id + ")"
-                  )}
-                />
+                {id === undefined && (
+                  <ReactSelect
+                    options={elmployee_list?.map((d) => ({ label: d.name + " (" + d.employee_id + ")", value: d.id }))}
+                    onChange={(e) => setEmployee_name(e.value)}
+                  />
+                )}
+                {id !== undefined && (
+                  <ReactSelect
+                    options={employeeDropdownList?.map((d) => ({ label: d.name + " (" + d.employee_id + ")", value: d.id }))}
+                    placeholder={employeeDropdownList?.map(
+                      (d) => d.id === employee_name && d?.name + " (" + d?.employee_id + ")"
+                    )}
+                    onChange={(e) => setEmployee_name(e.value)}
+                  />
+                )}
               </Form.Group>
             </Col>
           </Row>

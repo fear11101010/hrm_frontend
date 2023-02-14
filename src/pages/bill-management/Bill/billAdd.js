@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Form, FormControl, Image, Row, Table } from "react-bootstrap";
 import Content from "../../../components/content/Content";
 import PageHeader from "../../../components/header/PageHeader";
@@ -36,6 +36,11 @@ export default function BillAdd() {
   const [uploadedFile, setUploadedFile] = useState([]);
   const [deletedFile, setDeletedFile] = useState([]);
   const [subtotal, setSubTotal] = useState(0);
+  const [elmployee_list, setEmployeeList] = useState([]);
+  useEffect(() => {
+    let a = employeeDropdownList?.filter((d) => d?.sub_sbu?.id === project_name);
+    setEmployeeList(a);
+  }, [project_name]);
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /////////// INVOICE ITEMS
@@ -187,7 +192,7 @@ export default function BillAdd() {
               <Form.Group>
                 <Form.Label>Employee Name</Form.Label>
                 <ReactSelect
-                  options={employeeDropdownList?.map((d) => ({ label: d.name + " (" + d.employee_id + ")", value: d.id }))}
+                  options={elmployee_list?.map((d) => ({ label: d.name + " (" + d.employee_id + ")", value: d.id }))}
                   onChange={(e) => setEmployee_name(e.value)}
                 />
               </Form.Group>

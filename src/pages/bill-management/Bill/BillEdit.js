@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Button, Col, Form, FormControl, Image, Row, Table } from "react-bootstrap";
 import Content from "../../../components/content/Content";
 import PageHeader from "../../../components/header/PageHeader";
@@ -39,6 +39,7 @@ export default function BillEdit() {
   const [uploadedFile, setUploadedFile] = useState([]);
   const [deletedFile, setDeletedFile] = useState([]);
   const [subtotal, setSubTotal] = useState(0);
+  const [elmployee_list, setEmployeeList] = useState([]);
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /////////// INVOICE ITEMS
@@ -86,6 +87,7 @@ export default function BillEdit() {
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Fetch Func
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   const fetchBill = () => {
     setLoading(true);
     API.get(BILL_EACH_GET(id))
@@ -98,6 +100,8 @@ export default function BillEdit() {
           setExisting_files(res?.data?.files);
           setInvoiceItems(res?.data?.invoice_items);
           setSubTotal(res?.data?.invoice[0]?.totalamount);
+          let a = employeeDropdownList?.filter((d) => d?.sub_sbu?.id === res?.data?.invoice[0]?.project);
+          setEmployeeList(a);
         } else {
           error_alert("Error!!" + res.data.message);
         }
@@ -109,6 +113,13 @@ export default function BillEdit() {
   useEffect(() => {
     fetchBill();
   }, []);
+
+  useEffect(() => {
+    if (project_name !== "") {
+      let a = employeeDropdownList?.filter((d) => d?.sub_sbu?.id === project_name);
+      setEmployeeList(a);
+    }
+  }, [project_name]);
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // File Submit

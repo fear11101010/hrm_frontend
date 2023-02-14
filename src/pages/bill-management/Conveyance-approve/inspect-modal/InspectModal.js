@@ -66,6 +66,7 @@ export default function InspectModal({ show, onHide, id }) {
       onHide={() => {
         onHide();
         setShowMsgBox(false);
+        setMsg("");
       }}
     >
       {loading && <Loader />}

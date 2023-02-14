@@ -15,4 +15,8 @@ export const BILL_STATUS = [
     label: "Rejected",
     value: 4,
   },
+  {
+    label: "Checker Forward",
+    value: 5,
+  },
 ];
