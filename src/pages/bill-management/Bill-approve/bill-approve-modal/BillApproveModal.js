@@ -112,7 +112,7 @@ export default function BillApproveModal({ show, onHide, remarks, bill_id, forwa
               />
             </Form.Group>
           )}
-          <Form.Group className="mb-3">
+          {/* <Form.Group className="mb-3">
             <Form.Label>Comment</Form.Label>
             <Form.Control
               as="textarea"
@@ -122,7 +122,7 @@ export default function BillApproveModal({ show, onHide, remarks, bill_id, forwa
                 setComment(e.target.value);
               }}
             />
-          </Form.Group>
+          </Form.Group> */}
 
           <hr />
           <Button type="submit">Submit</Button>

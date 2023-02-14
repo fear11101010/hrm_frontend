@@ -48,7 +48,8 @@ export default function UpdateStatusModal({ show, onHide, remarks, id, forwaredT
     const payload = {
       conveyance_id: id,
       status_id: statusTo === "" ? status : statusTo,
-      comments: comment,
+      // comments: comment,
+      comments: "",
       convyance_message: comment,
     };
     const forwardPayload = {
@@ -112,7 +113,7 @@ export default function UpdateStatusModal({ show, onHide, remarks, id, forwaredT
               />
             </Form.Group>
           )}
-          <Form.Group className="mb-3">
+          {/* <Form.Group className="mb-3">
             <Form.Label>Comment</Form.Label>
             <Form.Control
               as="textarea"
@@ -122,7 +123,7 @@ export default function UpdateStatusModal({ show, onHide, remarks, id, forwaredT
                 setComment(e.target.value);
               }}
             />
-          </Form.Group>
+          </Form.Group> */}
           <Button type="submit">Submit</Button>
         </Form>
       </Modal.Body>

@@ -194,7 +194,6 @@ export default function ConveyanceAdd() {
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    console.log("handleUpdate");
     let payload_when_update = {
       conveyance_date: selected_date,
       project: project_name,
@@ -206,9 +205,12 @@ export default function ConveyanceAdd() {
     const formData = new FormData();
     formData.append("invoice_post", JSON.stringify(payload_when_update));
     formData.append("particulars", JSON.stringify(invoiceItems));
-    files.forEach((v, i) => {
-      formData.append(`main_img`, v);
-    });
+    if (files?.length > 0) {
+      formData.append(`files`, true);
+      files.forEach((v, i) => {
+        formData.append(`main_img`, v);
+      });
+    }
 
     if (project_name === "" || employee_name === "") {
       error_alert("Please select all fields");
