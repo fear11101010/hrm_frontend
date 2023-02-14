@@ -58,17 +58,19 @@ export default function ConveyanceApprove() {
             >
               <i className="fe fe-file-text"></i> View Invoice
             </Dropdown.Item>
-            <Dropdown.Item
-              onClick={() => {
-                setApprove_modal(true);
-                setSelected_id(row?.id);
-                setForwardTo(row?.forwarded_to);
-                setStatus(row?.status);
-                setRemarks(row?.remark);
-              }}
-            >
-              <i className="fe fe-edit-3"></i> Update Status
-            </Dropdown.Item>
+            {row?.status !== 2 && (
+              <Dropdown.Item
+                onClick={() => {
+                  setApprove_modal(true);
+                  setSelected_id(row?.id);
+                  setForwardTo(row?.forwarded_to);
+                  setStatus(row?.status);
+                  setRemarks(row?.remark);
+                }}
+              >
+                <i className="fe fe-edit-3"></i> Update Status
+              </Dropdown.Item>
+            )}
             <Dropdown.Item
               onClick={() => {
                 setInspect_modal(true);

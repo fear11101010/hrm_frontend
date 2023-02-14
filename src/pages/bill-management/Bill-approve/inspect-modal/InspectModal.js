@@ -13,6 +13,8 @@ export default function InspectModal({ show, onHide, id }) {
   const [msgData, setMsgData] = useState([]);
   const [showMsgBox, setShowMsgBox] = useState(false);
   const [msg, setMsg] = useState("");
+  const [status, setStatus] = useState("");
+  console.log(status);
 
   useEffect(() => {
     if (id !== "") {
@@ -21,6 +23,8 @@ export default function InspectModal({ show, onHide, id }) {
         .then((res) => {
           if (res.data.statuscode === 200) {
             setData(res?.data);
+            let a = res?.data?.invoice?.map((d) => d?.status);
+            setStatus(a[0]);
           }
         })
         .catch((err) => console.log(err))
@@ -75,8 +79,13 @@ export default function InspectModal({ show, onHide, id }) {
           <Modal.Title className="mb-0">Inspect Bill</Modal.Title>
         </Modal.Header>
         <Modal.Body className="bg-light">
+          {status === 2 && (
+            <div className="py-2 text-center">
+              <h3>This bill has been approved</h3>
+            </div>
+          )}
           {/* Latest MSG */}
-          {msgData.length === 0 && (
+          {msgData.length === 0 && status !== 2 && (
             <>
               <Card className="border">
                 <Card.Body>
@@ -106,14 +115,16 @@ export default function InspectModal({ show, onHide, id }) {
                 {i === 0 && (
                   <>
                     <div className="mb-3 text-end">
-                      <Button
-                        size="sm"
-                        onClick={() => {
-                          setShowMsgBox(true);
-                        }}
-                      >
-                        <FaReply /> Reply
-                      </Button>
+                      {status !== 2 && (
+                        <Button
+                          size="sm"
+                          onClick={() => {
+                            setShowMsgBox(true);
+                          }}
+                        >
+                          <FaReply /> Reply
+                        </Button>
+                      )}
                     </div>
                     {showMsgBox && (
                       <Form.Group>
@@ -150,9 +161,7 @@ export default function InspectModal({ show, onHide, id }) {
             </Card.Body>
           </Card>
         </Modal.Body>
-        <Modal.Footer>
-          <Button type="submit">Submit</Button>
-        </Modal.Footer>
+        <Modal.Footer>{status !== 2 && <Button type="submit">Submit</Button>}</Modal.Footer>
       </Form>
     </Modal>
   );
