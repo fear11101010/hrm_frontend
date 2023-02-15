@@ -13,6 +13,7 @@ export default function InspectModal({ show, onHide, id }) {
   const [msgData, setMsgData] = useState([]);
   const [showMsgBox, setShowMsgBox] = useState(false);
   const [msg, setMsg] = useState("");
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     if (id !== "") {
@@ -21,6 +22,8 @@ export default function InspectModal({ show, onHide, id }) {
         .then((res) => {
           if (res.data.statuscode === 200) {
             setData(res?.data);
+            let a = res?.data?.invoice?.map((d) => d?.status);
+            setStatus(a[0]);
           }
         })
         .catch((err) => console.log(err))
@@ -74,17 +77,34 @@ export default function InspectModal({ show, onHide, id }) {
           <Modal.Title className="mb-0">Inspect Bill</Modal.Title>
         </Modal.Header>
         <Modal.Body className="bg-light">
+          {status === 2 && (
+            <div className="py-2 text-center">
+              <h3>This bill has been Approved </h3>
+            </div>
+          )}
+          {status === 4 && (
+            <div className="py-2 text-center">
+              <h3>This bill has been Rejected </h3>
+            </div>
+          )}
+
           {/* Latest MSG */}
           {msgData.length === 0 && (
             <>
-              <Card className="border">
-                <Card.Body>
-                  <Form.Group>
-                    <Form.Label className="mb-2">Message</Form.Label>
-                    <Form.Control as="textarea" rows={3} onChange={(e) => setMsg(e.target.value)} value={msg} />
-                  </Form.Group>
-                </Card.Body>
-              </Card>
+              {status === 2 || status === 4 ? (
+                ""
+              ) : (
+                <Card className="border">
+                  <Card.Body>
+                    <Form.Group>
+                      <>
+                        <Form.Label className="mb-2">Message</Form.Label>
+                        <Form.Control as="textarea" rows={3} onChange={(e) => setMsg(e.target.value)} value={msg} />
+                      </>
+                    </Form.Group>
+                  </Card.Body>
+                </Card>
+              )}
             </>
           )}
 

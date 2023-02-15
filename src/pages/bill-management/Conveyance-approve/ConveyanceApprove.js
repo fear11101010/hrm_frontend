@@ -58,7 +58,9 @@ export default function ConveyanceApprove() {
             >
               <i className="fe fe-file-text"></i> View Invoice
             </Dropdown.Item>
-            {row?.status !== 2 && (
+            {row?.status === 2 || row?.status === 4 ? (
+              ""
+            ) : (
               <Dropdown.Item
                 onClick={() => {
                   setApprove_modal(true);
@@ -77,7 +79,7 @@ export default function ConveyanceApprove() {
                 setSelected_id(row?.id);
               }}
             >
-              <i className="fe fe-eye"></i> Messages
+              <i className="fe fe-eye"></i> Inspect Conveyance
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>

@@ -41,7 +41,7 @@ function Bill(props) {
     {
       name: "Actions",
       cell: (row) => (
-        <Dropdown drop={billData?.length < 2 && "start"}>
+        <Dropdown drop={billData?.length <= 3 && "start"}>
           <Dropdown.Toggle size="sm" variant="light" id="dropdown-basic" className="fw-bold border">
             Actions
           </Dropdown.Toggle>

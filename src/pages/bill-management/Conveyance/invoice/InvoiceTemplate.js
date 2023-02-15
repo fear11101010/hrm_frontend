@@ -159,7 +159,9 @@ export default function InvoiceConTemplate({ invoice_id }) {
         <div className="d-flex">
           <h3 className="mb-0 me-1"> Amount in words: </h3>
           <h3>{totalAmount !== "" && toWords(totalAmount)}</h3>
-          {/* <h3 className="mb-0 text-end">{data?.invoice?.map((d) => d?.totalamount)}</h3> */}
+          <h3 className="mb-0 text-end">
+            {data?.conveyance?.map((d) => (d?.status === 2 ? d?.approved_by?.first_name : ""))}
+          </h3>
         </div>
       </div>
       <div className="px-5" style={{ marginTop: "72px" }}>
@@ -169,7 +171,7 @@ export default function InvoiceConTemplate({ invoice_id }) {
             <h5 className="text-secondary">Submitted By</h5>
           </Col>
           <Col md={4}>
-            <h5 className="mb-1">{/* {data?.conveyance?.map((d) => d?.employee?.name)} */}</h5>
+            <h5 className="mb-1">{data?.conveyance?.map((d) => (d?.status === 2 ? d?.approved_by?.first_name : ""))} </h5>
             <h5 className="text-secondary">Checked By</h5>
           </Col>
           <Col md={4}>
