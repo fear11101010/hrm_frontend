@@ -5,7 +5,7 @@ import Loader from "../../../components/loader/Loader";
 import Table from "../../../components/table/Table";
 import Layout from "../../../layout/Layout";
 import { API } from "../../../utils/axios/axiosConfig";
-import { BILL_LIST_GET } from "../../../utils/routes/api_routes/BILL_API_ROUTES";
+import { BILL_APPROVE_LIST_GET, BILL_LIST_GET } from "../../../utils/routes/api_routes/BILL_API_ROUTES";
 import BillApproveModal from "./bill-approve-modal/BillApproveModal";
 import BillDetails from "./bill-approve-modal/BillDetails";
 import { columns } from "./columns";
@@ -24,7 +24,7 @@ export default function BillApprove() {
 
   const getData = () => {
     setIsLoading(true);
-    API.get(BILL_LIST_GET)
+    API.get(BILL_APPROVE_LIST_GET)
       .then((res) => {
         setBillData(res?.data?.data);
       })
@@ -43,7 +43,7 @@ export default function BillApprove() {
     {
       name: "Approve",
       cell: (row) => (
-        <Dropdown drop={billData?.length < 2 && "start"}>
+        <Dropdown drop={billData?.length <= 2 && "start"}>
           <Dropdown.Toggle size="sm" variant="light" id="dropdown-basic" className="fw-bold border">
             Actions
           </Dropdown.Toggle>
@@ -56,7 +56,9 @@ export default function BillApprove() {
             >
               <i className="fe fe-file-text"></i> View Invoice
             </Dropdown.Item>
-            {row?.status !== 2 && (
+            {row?.status === 2 || row?.status === 4 ? (
+              ""
+            ) : (
               <Dropdown.Item
                 onClick={() => {
                   setApprove_modal(true);

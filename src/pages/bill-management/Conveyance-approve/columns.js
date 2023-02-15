@@ -65,4 +65,10 @@ export const CONVEYANCE_LIST_TABLE = [
     ),
     width: "140px",
   },
+  {
+    name: "Forwarded To",
+    selector: (row) => row?.forward_to_name,
+    minWidth: "150px",
+    wrap: true,
+  },
 ];

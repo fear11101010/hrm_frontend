@@ -79,13 +79,14 @@ function Bill(props) {
     },
     {
       name: "Edit",
-      cell: (row) => (
-        <Link to={BILL_EDIT_PAGE_URL(row?.id)}>
-          <Button size="sm" variant="primary" className="btn-circle ">
-            <i className="fe fe-edit" />
-          </Button>
-        </Link>
-      ),
+      cell: (row) =>
+        row?.status !== 2 && (
+          <Link to={BILL_EDIT_PAGE_URL(row?.id)}>
+            <Button size="sm" variant="primary" className="btn-circle ">
+              <i className="fe fe-edit" />
+            </Button>
+          </Link>
+        ),
       width: "70px",
       wrap: true,
       center: true,

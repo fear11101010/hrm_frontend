@@ -46,7 +46,7 @@ function Conveyance(props) {
     {
       name: "Actions",
       cell: (row) => (
-        <Dropdown drop={conveyance?.length < 3 && "start"}>
+        <Dropdown drop={conveyance?.length <= 3 && "start"}>
           <Dropdown.Toggle size="sm" variant="light" id="dropdown-basic" className="fw-bold border">
             Actions
           </Dropdown.Toggle>
@@ -85,13 +85,16 @@ function Conveyance(props) {
     {
       name: `Edit`,
       width: "80px",
-      cell: (row, index) => (
-        <Link to={CONVEYANCE_EDIT_PAGE_URL(row.id)}>
-          <Button size="sm">
-            <FaEdit />
-          </Button>
-        </Link>
-      ),
+      cell: (row, index) =>
+        row?.status === 2 || row?.status === 4 ? (
+          ""
+        ) : (
+          <Link to={CONVEYANCE_EDIT_PAGE_URL(row.id)}>
+            <Button size="sm">
+              <FaEdit />
+            </Button>
+          </Link>
+        ),
       center: true,
     },
   ];

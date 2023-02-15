@@ -38,7 +38,7 @@ export default function BillAdd() {
   const [subtotal, setSubTotal] = useState(0);
   const [elmployee_list, setEmployeeList] = useState([]);
   useEffect(() => {
-    let a = employeeDropdownList?.filter((d) => d?.sub_sbu?.id === project_name);
+    let a = employeeDropdownList?.filter((d) => d?.sub_sbu?.sbu === project_name);
     setEmployeeList(a);
   }, [project_name]);
 

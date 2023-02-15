@@ -14,7 +14,6 @@ export default function InspectModal({ show, onHide, id }) {
   const [showMsgBox, setShowMsgBox] = useState(false);
   const [msg, setMsg] = useState("");
   const [status, setStatus] = useState("");
-  console.log(status);
 
   useEffect(() => {
     if (id !== "") {
@@ -81,20 +80,32 @@ export default function InspectModal({ show, onHide, id }) {
         <Modal.Body className="bg-light">
           {status === 2 && (
             <div className="py-2 text-center">
-              <h3>This bill has been approved</h3>
+              <h3>This bill has been Approved </h3>
             </div>
           )}
+          {status === 4 && (
+            <div className="py-2 text-center">
+              <h3>This bill has been Rejected </h3>
+            </div>
+          )}
+
           {/* Latest MSG */}
-          {msgData.length === 0 && status !== 2 && (
+          {msgData.length === 0 && (
             <>
-              <Card className="border">
-                <Card.Body>
-                  <Form.Group>
-                    <Form.Label className="mb-2">Message</Form.Label>
-                    <Form.Control as="textarea" rows={3} onChange={(e) => setMsg(e.target.value)} value={msg} />
-                  </Form.Group>
-                </Card.Body>
-              </Card>
+              {status === 2 || status === 4 ? (
+                ""
+              ) : (
+                <Card className="border">
+                  <Card.Body>
+                    <Form.Group>
+                      <>
+                        <Form.Label className="mb-2">Message</Form.Label>
+                        <Form.Control as="textarea" rows={3} onChange={(e) => setMsg(e.target.value)} value={msg} />
+                      </>
+                    </Form.Group>
+                  </Card.Body>
+                </Card>
+              )}
             </>
           )}
 

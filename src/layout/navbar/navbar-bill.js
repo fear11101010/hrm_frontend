@@ -60,40 +60,41 @@ export default function NavbarBill() {
         <Navbar.Collapse id="sidebarCollapse">
           <Nav as="ul">
             {/* Dashboard */}
-            {user.module.includes("Support Dashboard") && (
-              <Nav.Item as={"li"}>
-                <Link to={BILLING_DASHBOARD} className="nav-link">
-                  <i className="fe fe-grid"></i> Dashboard
-                </Link>
-              </Nav.Item>
-            )}
-            {user.module.includes("Support Dashboard") && (
-              <Nav.Item as={"li"}>
-                <Link to={BILL_LIST_URL} className="nav-link">
-                  <i className="fe fe-clipboard"></i> Bill
-                </Link>
-              </Nav.Item>
-            )}
-            {user.module.includes("Support Dashboard") && (
+            <Nav.Item as={"li"}>
+              <Link to={BILLING_DASHBOARD} className="nav-link">
+                <i className="fe fe-grid"></i> Dashboard
+              </Link>
+            </Nav.Item>
+
+            <Nav.Item as={"li"}>
+              <Link to={BILL_LIST_URL} className="nav-link">
+                <i className="fe fe-clipboard"></i> Bill
+              </Link>
+            </Nav.Item>
+
+            {user?.group_id?.includes("13") || user?.group_id?.includes("11") ? (
               <Nav.Item as={"li"}>
                 <Link to={BILL_APPROVE_LIST} className="nav-link">
                   <i className="fe fe-clipboard"></i> Bill Approve
                 </Link>
               </Nav.Item>
+            ) : (
+              ""
             )}
-            {user.module.includes("Support Dashboard") && (
-              <Nav.Item as={"li"}>
-                <Link to={CONVEYANCE_LIST_URL} className="nav-link">
-                  <i className="fe fe-file-text"></i> Conveyance
-                </Link>
-              </Nav.Item>
-            )}
-            {user.module.includes("Support Dashboard") && (
+
+            <Nav.Item as={"li"}>
+              <Link to={CONVEYANCE_LIST_URL} className="nav-link">
+                <i className="fe fe-file-text"></i> Conveyance
+              </Link>
+            </Nav.Item>
+            {user?.group_id?.includes("13") || user?.group_id?.includes("11") ? (
               <Nav.Item as={"li"}>
                 <Link to={CONVEYANCE_APPROVE_LIST} className="nav-link">
                   <i className="fe fe-file-text"></i> Conveyance Approve
                 </Link>
               </Nav.Item>
+            ) : (
+              ""
             )}
           </Nav>
         </Navbar.Collapse>

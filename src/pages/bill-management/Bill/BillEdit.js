@@ -116,7 +116,7 @@ export default function BillEdit() {
 
   useEffect(() => {
     if (project_name !== "") {
-      let a = employeeDropdownList?.filter((d) => d?.sub_sbu?.id === project_name);
+      let a = employeeDropdownList?.filter((d) => d?.sub_sbu?.sbu === project_name);
       setEmployeeList(a);
     }
   }, [project_name]);

@@ -27,7 +27,7 @@ export default function InspectConModal({ show, onHide, id }) {
         .finally(() => setLoading(false));
 
       setLoading(true);
-      API.get(`invoice/${id}/bill_message_invoice/`)
+      API.get(`invoice/${id}/bill_message_conveyance/`)
         .then((res) => {
           if (res.data.statuscode === 200) {
             setMsgData(res?.data?.data);
@@ -42,7 +42,7 @@ export default function InspectConModal({ show, onHide, id }) {
   const submit = (e) => {
     e.preventDefault();
     let payload = {
-      invoice_message: true,
+      conveyance_message: true,
       message: msg,
     };
     setLoading(true);

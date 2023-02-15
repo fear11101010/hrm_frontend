@@ -10,6 +10,7 @@ export default function BillApproveModal({ show, onHide, remarks, bill_id, forwa
   const [loading, setLoading] = useState(false);
   const [statusTo, setStatusTo] = useState(status);
   const [employee_list, setEmployee_list] = useState([]);
+  const [checker_forward_list, setChecker_forward_list] = useState([]);
   const [employee_name, setEmployee_name] = useState(forwaredTo);
   const [comment, setComment] = useState("");
 
@@ -17,12 +18,18 @@ export default function BillApproveModal({ show, onHide, remarks, bill_id, forwa
     try {
       setLoading(true);
       const res = await API.get("user_dropdown/");
-      let filtered = res?.data?.data?.filter((d) => d?.group.includes("13") || d?.group.includes("11"));
+      let filtered = res?.data?.data?.filter((d) => d?.group.includes("11"));
+      let checker_filtered = res?.data?.data?.filter((d) => d?.group.includes("6"));
       let formattedEmployeeList = filtered?.map((d) => ({
         label: d?.username,
         value: d?.id,
       }));
+      let formattedCheckerList = checker_filtered?.map((d) => ({
+        label: d?.username,
+        value: d?.id,
+      }));
       setEmployee_list(formattedEmployeeList);
+      setChecker_forward_list(formattedCheckerList);
     } catch (error) {
       console.log(error);
     } finally {
@@ -38,7 +45,7 @@ export default function BillApproveModal({ show, onHide, remarks, bill_id, forwa
   }, [forwaredTo, status, remarks]);
 
   useEffect(() => {
-    if (statusTo === 3) {
+    if (statusTo === 3 || statusTo === 5) {
       fetchEmployee();
     }
   }, [statusTo === 3, statusTo === 5]);
@@ -49,8 +56,8 @@ export default function BillApproveModal({ show, onHide, remarks, bill_id, forwa
     const payload = {
       invoice_id: bill_id,
       status_id: statusTo === "" ? status : statusTo,
-      comments: comment,
-      invoice_message: comment,
+      comments: "",
+      invoice_message: "",
     };
     const forwardPayload = {
       forward_to: employee_name,
@@ -119,11 +126,11 @@ export default function BillApproveModal({ show, onHide, remarks, bill_id, forwa
             <Form.Group className="mb-3">
               <Form.Label>Forward To</Form.Label>
               <ReactSelect
-                options={employee_list}
+                options={checker_forward_list}
                 onChange={(e) => {
                   setEmployee_name(e.value);
                 }}
-                placeholder={employee_list?.map((d) => d?.value === employee_name && d?.label)}
+                placeholder={checker_forward_list?.map((d) => d?.value === employee_name && d?.label)}
               />
             </Form.Group>
           )}

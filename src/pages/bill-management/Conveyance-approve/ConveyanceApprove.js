@@ -6,7 +6,7 @@ import Layout from "../../../layout/Layout";
 import PageHeader from "../../../components/header/PageHeader";
 import Loader from "../../../components/loader/Loader";
 import Table from "../../../components/table/Table";
-import { CONVEYANCE_LIST_API } from "../../../utils/routes/api_routes/BILL_API_ROUTES";
+import { CONVEYANCE_APPROVE_LIST_GET, CONVEYANCE_LIST_API } from "../../../utils/routes/api_routes/BILL_API_ROUTES";
 import { CONVEYANCE_LIST_TABLE } from "./columns";
 import DetailsModal from "./modals/DetailsModal";
 import UpdateStatusModal from "./modals/UpdateStatusModal";
@@ -25,7 +25,7 @@ export default function ConveyanceApprove() {
 
   const getData = () => {
     setIsLoading(true);
-    API.get(CONVEYANCE_LIST_API)
+    API.get(CONVEYANCE_APPROVE_LIST_GET)
       .then((res) => {
         setConveyance(res.data.data);
       })
@@ -45,7 +45,7 @@ export default function ConveyanceApprove() {
     {
       name: "Approve",
       cell: (row) => (
-        <Dropdown drop={conveyance?.length < 3 && "start"}>
+        <Dropdown drop={conveyance?.length <= 3 && "start"}>
           <Dropdown.Toggle size="sm" variant="light" id="dropdown-Conveyance " className="fw-bold border">
             Actions
           </Dropdown.Toggle>

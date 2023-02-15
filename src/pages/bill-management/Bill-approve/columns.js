@@ -49,4 +49,10 @@ export const columns = [
     width: "140px",
     wrap: true,
   },
+  {
+    name: "Forwarded To",
+    selector: (row) => row?.forward_to_name,
+    minWidth: "150px",
+    wrap: true,
+  },
 ];
