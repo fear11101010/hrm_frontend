@@ -169,9 +169,7 @@ export default function InspectConModal({ show, onHide, id }) {
             </Card.Body>
           </Card>
         </Modal.Body>
-        <Modal.Footer>
-          <Button type="submit">Submit</Button>
-        </Modal.Footer>
+        <Modal.Footer>{status === 2 || status === 4 ? "" : <Button type="submit">Submit</Button>}</Modal.Footer>
       </Form>
     </Modal>
   );
