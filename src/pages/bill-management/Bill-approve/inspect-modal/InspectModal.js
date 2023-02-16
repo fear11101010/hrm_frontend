@@ -55,6 +55,7 @@ export default function InspectModal({ show, onHide, id }) {
           success_alert(res?.data?.message);
           onHide();
           setMsg("");
+          setShowMsgBox(false);
         } else {
           error_alert(res?.data?.message);
         }
@@ -140,7 +141,7 @@ export default function InspectModal({ show, onHide, id }) {
                     {showMsgBox && (
                       <Form.Group>
                         <Form.Label className="mb-2">Message</Form.Label>
-                        <Form.Control as="textarea" rows={3} onChange={(e) => setMsg(e.target.value)} value={msg} />
+                        <Form.Control as="textarea" rows={3} onChange={(e) => setMsg(e.target.value)} value={msg} required />
                       </Form.Group>
                     )}
                   </>
@@ -172,7 +173,10 @@ export default function InspectModal({ show, onHide, id }) {
             </Card.Body>
           </Card>
         </Modal.Body>
-        <Modal.Footer>{status !== 2 && <Button type="submit">Submit</Button>}</Modal.Footer>
+        <Modal.Footer>
+          {" "}
+          {status === 2 || status === 4 || showMsgBox === false ? "" : <Button type="submit">Submit</Button>}
+        </Modal.Footer>
       </Form>
     </Modal>
   );

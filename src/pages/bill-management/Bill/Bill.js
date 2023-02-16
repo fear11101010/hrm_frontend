@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Container, Dropdown, Modal } from "react-bootstrap";
 import { FaFile, FaFileAlt, FaPlus, FaRegEdit } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import PageHeader from "../../../components/header/PageHeader";
 import Loader from "../../../components/loader/Loader";
 import Table from "../../../components/table/Table";
 import Layout from "../../../layout/Layout";
 import { API } from "../../../utils/axios/axiosConfig";
 import { BILL_LIST_GET } from "../../../utils/routes/api_routes/BILL_API_ROUTES";
+import { UNAUTHORIZED } from "../../../utils/routes/app_routes/APP_ROUTES";
 import { BILL_ADD_URL, BILL_EDIT_PAGE_URL } from "../../../utils/routes/app_routes/BILL_APP_ROUTE";
+import { USER_INFO } from "../../../utils/session/token";
 import { columns } from "./colums";
 import InspectModal from "./InspectModal";
 import Invoice from "./invoice/Invoice";
 import ViewFileModal from "./ViewFileModal";
 
 function Bill(props) {
+  const user = USER_INFO();
   const [isLoading, setIsLoading] = useState(false);
   const [billData, setBillData] = useState([]);
   const [fileModal, setFileModal] = useState(false);
@@ -62,14 +65,16 @@ function Bill(props) {
             >
               <i className="fe fe-edit-3"></i> View Files
             </Dropdown.Item>
-            <Dropdown.Item
-              onClick={() => {
-                setInspect_modal(true);
-                setSelected_id(row?.id);
-              }}
-            >
-              <i className="fe fe-eye"></i> Inspect Bill
-            </Dropdown.Item>
+            {user?.accessibility?.includes("invoice.bill_message_invoice") && (
+              <Dropdown.Item
+                onClick={() => {
+                  setInspect_modal(true);
+                  setSelected_id(row?.id);
+                }}
+              >
+                <i className="fe fe-eye"></i> Inspect Bill
+              </Dropdown.Item>
+            )}
           </Dropdown.Menu>
         </Dropdown>
       ),
@@ -95,21 +100,28 @@ function Bill(props) {
 
   return (
     <>
-      <Layout>
-        <PageHeader title={"Bill List"} />
-        <Container fluid>
-          <Card>
-            <Card.Body>
-              <div className="d-flex justify-content-end align-items-end mb-3">
-                <Link to={BILL_ADD_URL} className="btn btn-primary">
-                  <FaPlus /> Add New Bill
-                </Link>
-              </div>
-              <Table columns={columns.concat(EXTENDED_COLUMN)} data={billData} />
-            </Card.Body>
-          </Card>
-        </Container>
-      </Layout>
+      {user?.accessibility?.includes("invoice.list") ? (
+        <Layout>
+          <PageHeader title={"Bill List"} />
+          <Container fluid>
+            <Card>
+              <Card.Body>
+                {user?.accessibility?.includes("invoice.create") && (
+                  <div className="d-flex justify-content-end align-items-end mb-3">
+                    <Link to={BILL_ADD_URL} className="btn btn-primary">
+                      <FaPlus /> Add New Bill
+                    </Link>
+                  </div>
+                )}
+                <Table columns={columns.concat(EXTENDED_COLUMN)} data={billData} />
+              </Card.Body>
+            </Card>
+          </Container>
+        </Layout>
+      ) : (
+        <Navigate to={UNAUTHORIZED} />
+      )}
+
       {isLoading && <Loader />}
       <ViewFileModal
         data={seleced_file}
@@ -119,6 +131,7 @@ function Bill(props) {
           setSelectedFile([]);
         }}
       />
+
       <Invoice
         onShow={invoiceModal}
         onHide={() => {

@@ -11,8 +11,10 @@ import { CONVEYANCE_LIST_TABLE } from "./columns";
 import DetailsModal from "./modals/DetailsModal";
 import UpdateStatusModal from "./modals/UpdateStatusModal";
 import InspectModal from "./inspect-modal/InspectModal";
+import { USER_INFO } from "../../../utils/session/token";
 
 export default function ConveyanceApprove() {
+  const user = USER_INFO();
   const [isLoading, setIsLoading] = useState(false);
   const [conveyance, setConveyance] = useState([]);
   const [approve_modal, setApprove_modal] = useState(false);
@@ -58,7 +60,7 @@ export default function ConveyanceApprove() {
             >
               <i className="fe fe-file-text"></i> View Invoice
             </Dropdown.Item>
-            {row?.status === 2 || row?.status === 4 ? (
+            {row?.status === 2 || row?.status === 4 || !user?.accessibility?.includes("bill_status.POST") ? (
               ""
             ) : (
               <Dropdown.Item

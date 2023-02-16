@@ -65,36 +65,36 @@ export default function NavbarBill() {
                 <i className="fe fe-grid"></i> Dashboard
               </Link>
             </Nav.Item>
+            {user?.module?.includes("Bill") && (
+              <Nav.Item as={"li"}>
+                <Link to={BILL_LIST_URL} className="nav-link">
+                  <i className="fe fe-clipboard"></i> Bill
+                </Link>
+              </Nav.Item>
+            )}
 
-            <Nav.Item as={"li"}>
-              <Link to={BILL_LIST_URL} className="nav-link">
-                <i className="fe fe-clipboard"></i> Bill
-              </Link>
-            </Nav.Item>
-
-            {user?.group_id?.includes("13") || user?.group_id?.includes("11") ? (
+            {user?.module?.includes("Bill Approve") && (
               <Nav.Item as={"li"}>
                 <Link to={BILL_APPROVE_LIST} className="nav-link">
                   <i className="fe fe-clipboard"></i> Bill Approve
                 </Link>
               </Nav.Item>
-            ) : (
-              ""
             )}
 
-            <Nav.Item as={"li"}>
-              <Link to={CONVEYANCE_LIST_URL} className="nav-link">
-                <i className="fe fe-file-text"></i> Conveyance
-              </Link>
-            </Nav.Item>
-            {user?.group_id?.includes("13") || user?.group_id?.includes("11") ? (
+            {user?.module?.includes("Conveyance") && (
+              <Nav.Item as={"li"}>
+                <Link to={CONVEYANCE_LIST_URL} className="nav-link">
+                  <i className="fe fe-file-text"></i> Conveyance
+                </Link>
+              </Nav.Item>
+            )}
+
+            {user?.module?.includes("Conveyance Approve") && (
               <Nav.Item as={"li"}>
                 <Link to={CONVEYANCE_APPROVE_LIST} className="nav-link">
                   <i className="fe fe-file-text"></i> Conveyance Approve
                 </Link>
               </Nav.Item>
-            ) : (
-              ""
             )}
           </Nav>
         </Navbar.Collapse>

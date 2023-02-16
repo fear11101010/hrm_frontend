@@ -18,8 +18,10 @@ import { CONVEYANCE_LIST_API } from "../../../utils/routes/api_routes/BILL_API_R
 import { CONVEYANCE_LIST_TABLE } from "./Columns";
 import ConViewFileModal from "./ViewFileModal";
 import InspectConModal from "./InspectModal";
+import { USER_INFO } from "../../../utils/session/token";
 
 function Conveyance(props) {
+  const user = USER_INFO();
   const [isLoading, setIsLoading] = useState(false);
   const [conveyance, setConveyance] = useState([]);
   const [invoiceModal, setInvoiceModal] = useState(false);
@@ -67,14 +69,16 @@ function Conveyance(props) {
             >
               <i className="fe fe-edit-3"></i> View Files
             </Dropdown.Item>
-            <Dropdown.Item
-              onClick={() => {
-                setInspect_modal(true);
-                setSelected_id(row?.id);
-              }}
-            >
-              <i className="fe fe-eye"></i> Inspect Bill
-            </Dropdown.Item>
+            {user?.accessibility?.includes("invoice.bill_message_conveyance") && (
+              <Dropdown.Item
+                onClick={() => {
+                  setInspect_modal(true);
+                  setSelected_id(row?.id);
+                }}
+              >
+                <i className="fe fe-eye"></i> Inspect Bill
+              </Dropdown.Item>
+            )}
           </Dropdown.Menu>
         </Dropdown>
       ),
@@ -106,11 +110,13 @@ function Conveyance(props) {
         <Container fluid>
           <Card>
             <Card.Body>
-              <div className="d-flex justify-content-end align-items-end mb-3">
-                <Link to={CONVEYANCE_ADD_URL} className="btn btn-primary">
-                  <FaPlus /> Add New Conveyance
-                </Link>
-              </div>
+              {user?.accessibility?.includes("conveyance.create") && (
+                <div className="d-flex justify-content-end align-items-end mb-3">
+                  <Link to={CONVEYANCE_ADD_URL} className="btn btn-primary">
+                    <FaPlus /> Add New Conveyance
+                  </Link>
+                </div>
+              )}
               <Table data={conveyance} columns={CONVEYANCE_LIST_TABLE.concat(EXTENDED_COLUMN)} />
             </Card.Body>
           </Card>

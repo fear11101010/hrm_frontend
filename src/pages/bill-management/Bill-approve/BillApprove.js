@@ -6,12 +6,14 @@ import Table from "../../../components/table/Table";
 import Layout from "../../../layout/Layout";
 import { API } from "../../../utils/axios/axiosConfig";
 import { BILL_APPROVE_LIST_GET, BILL_LIST_GET } from "../../../utils/routes/api_routes/BILL_API_ROUTES";
+import { USER_INFO } from "../../../utils/session/token";
 import BillApproveModal from "./bill-approve-modal/BillApproveModal";
 import BillDetails from "./bill-approve-modal/BillDetails";
 import { columns } from "./columns";
 import InspectModal from "./inspect-modal/InspectModal";
 
 export default function BillApprove() {
+  const user = USER_INFO();
   const [isLoading, setIsLoading] = useState(false);
   const [billData, setBillData] = useState([]);
   const [selected_id, setSelected_id] = useState("");
@@ -56,7 +58,7 @@ export default function BillApprove() {
             >
               <i className="fe fe-file-text"></i> View Invoice
             </Dropdown.Item>
-            {row?.status === 2 || row?.status === 4 ? (
+            {row?.status === 2 || row?.status === 4 || !user?.accessibility?.includes("bill_status.POST") ? (
               ""
             ) : (
               <Dropdown.Item
@@ -71,14 +73,17 @@ export default function BillApprove() {
                 <i className="fe fe-edit-3"></i> Update Status
               </Dropdown.Item>
             )}
-            <Dropdown.Item
-              onClick={() => {
-                setInspect_modal(true);
-                setSelected_id(row?.id);
-              }}
-            >
-              <i className="fe fe-eye"></i> Inspect Bill
-            </Dropdown.Item>
+
+            {user?.accessibility?.includes("invoice.bill_message_conveyance") && (
+              <Dropdown.Item
+                onClick={() => {
+                  setInspect_modal(true);
+                  setSelected_id(row?.id);
+                }}
+              >
+                <i className="fe fe-eye"></i> Inspect Bill
+              </Dropdown.Item>
+            )}
           </Dropdown.Menu>
         </Dropdown>
       ),
