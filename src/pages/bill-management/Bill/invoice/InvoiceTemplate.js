@@ -164,7 +164,7 @@ export default function InvoiceTemplate({ invoice_id }) {
             <h5 className="text-secondary">Submitted By</h5>
           </Col>
           <Col md={4}>
-            <h5 className="mb-1">{data?.invoice?.map((d) => (d?.status === 2 ? d?.forward_to_name : ""))}</h5>
+            <h5 className="mb-1">{data?.invoice?.map((d) => (d?.status === 2 ? d?.forwarded_to?.first_name : ""))}</h5>
             <h5 className="text-secondary">Checked By</h5>
           </Col>
           <Col md={4}>

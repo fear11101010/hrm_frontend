@@ -71,7 +71,7 @@ export const CONVEYANCE_LIST_TABLE = [
   },
   {
     name: "Forwarded To",
-    selector: (row) => row?.forward_to_name,
+    selector: (row) => row?.forwarded_to?.first_name,
     minWidth: "150px",
     wrap: true,
   },

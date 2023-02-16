@@ -35,7 +35,6 @@ export default function BillApproveModal({ show, onHide, remarks, bill_id, forwa
     } finally {
       setLoading(false);
     }
-    setLoading(true);
   };
 
   useEffect(() => {
