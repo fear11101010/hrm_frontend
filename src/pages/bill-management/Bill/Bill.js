@@ -26,18 +26,43 @@ function Bill(props) {
   const [seleced_file, setSelectedFile] = useState([]);
   const [inspect_modal, setInspect_modal] = useState(false);
 
-  useEffect(() => {
+  const [totalRows, setTotalRows] = useState(0);
+  const [perPage, setPerPage] = useState(10);
+
+  const getData = async (page) => {
     setIsLoading(true);
-    API.get(BILL_LIST_GET)
-      .then((res) => {
+    try {
+      const res = await API.get(`/invoice/?offset=${page}&limit=${perPage}`);
+      if (res?.data?.statuscode === 200) {
         setBillData(res?.data?.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+        setTotalRows(res?.data?.count);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const handlePageChange = (page) => {
+    getData(page);
+  };
+
+  const handlePerRowsChange = async (newPerPage, page) => {
+    try {
+      const res = await API.get(`/invoice/?offset=${page}&limit=${newPerPage}`);
+      if (res?.data?.statuscode === 200) {
+        setBillData(res?.data?.data);
+        setPerPage(newPerPage);
+        setTotalRows(res.data.count);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    getData(1);
   }, []);
 
   const EXTENDED_COLUMN = [
@@ -113,7 +138,14 @@ function Bill(props) {
                     </Link>
                   </div>
                 )}
-                <Table columns={columns.concat(EXTENDED_COLUMN)} data={billData} />
+                <Table
+                  paginationServer
+                  paginationTotalRows={totalRows}
+                  onChangePage={handlePageChange}
+                  onChangeRowsPerPage={handlePerRowsChange}
+                  columns={columns.concat(EXTENDED_COLUMN)}
+                  data={billData}
+                />
               </Card.Body>
             </Card>
           </Container>

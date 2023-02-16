@@ -6,14 +6,13 @@ import Layout from "../../../layout/Layout";
 import PageHeader from "../../../components/header/PageHeader";
 import Loader from "../../../components/loader/Loader";
 import Table from "../../../components/table/Table";
-import { CONVEYANCE_APPROVE_LIST_GET, CONVEYANCE_LIST_API } from "../../../utils/routes/api_routes/BILL_API_ROUTES";
-import { CONVEYANCE_LIST_TABLE } from "./columns";
-import DetailsModal from "./modals/DetailsModal";
-import UpdateStatusModal from "./modals/UpdateStatusModal";
-import InspectModal from "./inspect-modal/InspectModal";
 import { USER_INFO } from "../../../utils/session/token";
+import { CONVEYANCE_LIST_TABLE } from "../Conveyance-approve/columns";
+import DetailsModal from "../Conveyance-approve/modals/DetailsModal";
+import UpdateStatusModal from "../Conveyance-approve/modals/UpdateStatusModal";
+import InspectModal from "../Conveyance-approve/inspect-modal/InspectModal";
 
-export default function ConveyanceApprove() {
+export default function ConveyanceReviewList() {
   const user = USER_INFO();
   const [isLoading, setIsLoading] = useState(false);
   const [conveyance, setConveyance] = useState([]);
@@ -24,14 +23,13 @@ export default function ConveyanceApprove() {
   const [selected_id, setSelected_id] = useState("");
   const [inspect_modal, setInspect_modal] = useState(false);
   const [remarks, setRemarks] = useState("");
-
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(10);
 
   const getData = async (page) => {
     setIsLoading(true);
     try {
-      const res = await API.get(`/conveyance/$/bill_approve_list/?offset=${page}&limit=${perPage}`);
+      const res = await API.get(`conveyance/$/bill_approve_list_for_accnts/?offset=${page}&limit=${perPage}`);
       if (res?.data?.statuscode === 200) {
         setConveyance(res?.data?.data);
         setTotalRows(res?.data?.count);
@@ -48,7 +46,7 @@ export default function ConveyanceApprove() {
 
   const handlePerRowsChange = async (newPerPage, page) => {
     try {
-      const res = await API.get(`/conveyance/$/bill_approve_list/?offset=${page}&limit=${newPerPage}`);
+      const res = await API.get(`conveyance/$/bill_approve_list_for_accnts/?offset=${page}&limit=${newPerPage}`);
       if (res?.data?.statuscode === 200) {
         setConveyance(res?.data?.data);
         setPerPage(newPerPage);
@@ -116,7 +114,7 @@ export default function ConveyanceApprove() {
   return (
     <Layout>
       {isLoading && <Loader />}
-      <PageHeader title={"Conveyance Approve List"} />
+      <PageHeader title={"Conveyance Review List"} />
       <Container fluid>
         <Card>
           <Card.Body>

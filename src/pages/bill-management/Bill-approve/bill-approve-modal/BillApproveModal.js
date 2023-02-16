@@ -18,7 +18,7 @@ export default function BillApproveModal({ show, onHide, remarks, bill_id, forwa
     try {
       setLoading(true);
       const res = await API.get("user_dropdown/");
-      let filtered = res?.data?.data?.filter((d) => d?.group.includes("11"));
+      let filtered = res?.data?.data?.filter((d) => d?.group.includes("11") || d?.group.includes("13"));
       let checker_filtered = res?.data?.data?.filter((d) => d?.group.includes("6"));
       let formattedEmployeeList = filtered?.map((d) => ({
         label: d?.username,

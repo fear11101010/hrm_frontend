@@ -24,21 +24,43 @@ export default function BillApprove() {
   const [approve_modal, setApprove_modal] = useState(false);
   const [inspect_modal, setInspect_modal] = useState(false);
 
-  const getData = () => {
+  const [totalRows, setTotalRows] = useState(0);
+  const [perPage, setPerPage] = useState(10);
+
+  const getData = async (page) => {
     setIsLoading(true);
-    API.get(BILL_APPROVE_LIST_GET)
-      .then((res) => {
+    try {
+      const res = await API.get(`/invoice/$/bill_approve_list/?offset=${page}&limit=${perPage}`);
+      if (res?.data?.statuscode === 200) {
         setBillData(res?.data?.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+        setTotalRows(res?.data?.count);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const handlePageChange = (page) => {
+    getData(page);
+  };
+
+  const handlePerRowsChange = async (newPerPage, page) => {
+    try {
+      const res = await API.get(`/invoice/$/bill_approve_list/?offset=${page}&limit=${newPerPage}`);
+      if (res?.data?.statuscode === 200) {
+        setBillData(res?.data?.data);
+        setPerPage(newPerPage);
+        setTotalRows(res.data.count);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
   useEffect(() => {
-    getData();
+    getData(1);
   }, []);
 
   const EXTENDED_COLUMN = [
@@ -100,7 +122,14 @@ export default function BillApprove() {
       <Container fluid>
         <Card>
           <Card.Body>
-            <Table columns={columns.concat(EXTENDED_COLUMN)} data={billData} />
+            <Table
+              paginationServer
+              paginationTotalRows={totalRows}
+              onChangePage={handlePageChange}
+              onChangeRowsPerPage={handlePerRowsChange}
+              columns={columns.concat(EXTENDED_COLUMN)}
+              data={billData}
+            />
           </Card.Body>
         </Card>
       </Container>

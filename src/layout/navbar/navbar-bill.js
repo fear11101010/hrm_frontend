@@ -14,8 +14,10 @@ import {
   BILLING_DASHBOARD,
   BILL_APPROVE_LIST,
   BILL_LIST_URL,
+  BILL_REVIEW_LIST,
   CONVEYANCE_APPROVE_LIST,
   CONVEYANCE_LIST_URL,
+  CONVEYANCE_REVIEW_LIST,
 } from "../../utils/routes/app_routes/BILL_APP_ROUTE";
 
 export default function NavbarBill() {
@@ -80,6 +82,13 @@ export default function NavbarBill() {
                 </Link>
               </Nav.Item>
             )}
+            {user?.module?.includes("Bill Review") && (
+              <Nav.Item as={"li"}>
+                <Link to={BILL_REVIEW_LIST} className="nav-link">
+                  <i className="fe fe-clipboard"></i> Bill Review
+                </Link>
+              </Nav.Item>
+            )}
 
             {user?.module?.includes("Conveyance") && (
               <Nav.Item as={"li"}>
@@ -93,6 +102,13 @@ export default function NavbarBill() {
               <Nav.Item as={"li"}>
                 <Link to={CONVEYANCE_APPROVE_LIST} className="nav-link">
                   <i className="fe fe-file-text"></i> Conveyance Approve
+                </Link>
+              </Nav.Item>
+            )}
+            {user?.module?.includes("Conveyance Review") && (
+              <Nav.Item as={"li"}>
+                <Link to={CONVEYANCE_REVIEW_LIST} className="nav-link">
+                  <i className="fe fe-file-text"></i> Conveyance Review
                 </Link>
               </Nav.Item>
             )}

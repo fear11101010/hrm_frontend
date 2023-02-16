@@ -37,6 +37,10 @@ export const columns = [
           <span className="px-2 py-1 bg-warning rounded text-dark" style={{ fontSize: "12px" }}>
             Checker Forward
           </span>
+        ) : row?.status === 6 ? (
+          <span className="px-2 py-1 bg-success rounded text-whited" style={{ fontSize: "12px" }}>
+            Checked
+          </span>
         ) : (
           ""
         )}

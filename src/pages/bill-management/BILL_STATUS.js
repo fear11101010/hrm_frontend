@@ -19,4 +19,8 @@ export const BILL_STATUS = [
     label: "Checker Forward",
     value: 5,
   },
+  {
+    label: "Checked",
+    value: 6,
+  },
 ];

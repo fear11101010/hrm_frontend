@@ -163,10 +163,12 @@ import {
   BILL_APPROVE_LIST,
   BILL_EDIT_URL,
   BILL_LIST_URL,
+  BILL_REVIEW_LIST,
   CONVEYANCE_ADD_URL,
   CONVEYANCE_APPROVE_LIST,
   CONVEYANCE_EDIT_URL,
   CONVEYANCE_LIST_URL,
+  CONVEYANCE_REVIEW_LIST,
 } from "./utils/routes/app_routes/BILL_APP_ROUTE";
 import BillingBashboard from "./pages/bill-management/dashboard/BillingBashboard";
 import Bill from "./pages/bill-management/Bill/Bill";
@@ -180,6 +182,8 @@ import LunchOrderTimeConfiguration from "./pages/LunchBillManagement/Admin/Setti
 import BillEdit from "./pages/bill-management/Bill/BillEdit";
 import BillApprove from "./pages/bill-management/Bill-approve/BillApprove";
 import ConveyanceApprove from "./pages/bill-management/Conveyance-approve/ConveyanceApprove";
+import BillReviewList from "./pages/bill-management/Bill-review/BillReviewList";
+import ConveyanceReviewList from "./pages/bill-management/conveneyance-review/ConveyanceReviewList";
 
 // import BillList from "./pages/bill-management/bill/List";
 // import BillAdd from "./pages/bill-management/bill/billAdd";
@@ -242,10 +246,12 @@ function App() {
           <Route path={BILL_ADD_URL} element={<BillAdd />} />
           <Route path={BILL_EDIT_URL} element={<BillEdit />} />
           <Route path={BILL_APPROVE_LIST} element={<BillApprove />} />
+          <Route path={BILL_REVIEW_LIST} element={<BillReviewList />} />
           <Route path={CONVEYANCE_LIST_URL} element={<Conveyance />} />
           <Route path={CONVEYANCE_ADD_URL} element={<ConveyanceAdd />} />
           <Route path={CONVEYANCE_EDIT_URL} element={<ConveyanceAdd />} />
           <Route path={CONVEYANCE_APPROVE_LIST} element={<ConveyanceApprove />} />
+          <Route path={CONVEYANCE_REVIEW_LIST} element={<ConveyanceReviewList />} />
         </Route>
 
         {/* REQUISITION */}

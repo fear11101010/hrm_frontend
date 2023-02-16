@@ -30,18 +30,43 @@ function Conveyance(props) {
   const [fileModal, setFileModal] = useState(false);
   const [inspect_modal, setInspect_modal] = useState(false);
 
-  useEffect(() => {
+  const [totalRows, setTotalRows] = useState(0);
+  const [perPage, setPerPage] = useState(10);
+
+  const getData = async (page) => {
     setIsLoading(true);
-    API.get(CONVEYANCE_LIST_API)
-      .then((res) => {
-        setConveyance(res.data.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    try {
+      const res = await API.get(`/conveyance/?offset=${page}&limit=${perPage}`);
+      if (res?.data?.statuscode === 200) {
+        setConveyance(res?.data?.data);
+        setTotalRows(res?.data?.count);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const handlePageChange = (page) => {
+    getData(page);
+  };
+
+  const handlePerRowsChange = async (newPerPage, page) => {
+    try {
+      const res = await API.get(`/conveyance/?offset=${page}&limit=${newPerPage}`);
+      if (res?.data?.statuscode === 200) {
+        setConveyance(res?.data?.data);
+        setPerPage(newPerPage);
+        setTotalRows(res.data.count);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    getData(1);
   }, []);
 
   const EXTENDED_COLUMN = [
@@ -117,7 +142,14 @@ function Conveyance(props) {
                   </Link>
                 </div>
               )}
-              <Table data={conveyance} columns={CONVEYANCE_LIST_TABLE.concat(EXTENDED_COLUMN)} />
+              <Table
+                paginationServer
+                paginationTotalRows={totalRows}
+                onChangePage={handlePageChange}
+                onChangeRowsPerPage={handlePerRowsChange}
+                data={conveyance}
+                columns={CONVEYANCE_LIST_TABLE.concat(EXTENDED_COLUMN)}
+              />
             </Card.Body>
           </Card>
         </Container>

@@ -14,7 +14,7 @@ export const columns = [
     wrap: true,
   },
   { name: "Invoice Code", selector: (row) => row?.invoice_code, minWidth: "200px", wrap: true },
-  { name: "Project", selector: (row) => row?.project?.name, minWidth: "200px", wrap: true },
+  { name: "Project", selector: (row) => row?.project_name, minWidth: "200px", wrap: true },
   { name: "Employee", selector: (row) => row?.employee?.name, minWidth: "200px", wrap: true },
   {
     name: "Status",

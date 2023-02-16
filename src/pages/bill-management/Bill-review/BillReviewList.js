@@ -1,39 +1,36 @@
 import React, { useEffect, useState } from "react";
-import Container from "react-bootstrap/Container";
-import { Card, Dropdown } from "react-bootstrap";
-import { API } from "../../../utils/axios/axiosConfig";
-import Layout from "../../../layout/Layout";
+import { Card, Container, Dropdown, Modal } from "react-bootstrap";
 import PageHeader from "../../../components/header/PageHeader";
 import Loader from "../../../components/loader/Loader";
 import Table from "../../../components/table/Table";
-import { CONVEYANCE_APPROVE_LIST_GET, CONVEYANCE_LIST_API } from "../../../utils/routes/api_routes/BILL_API_ROUTES";
-import { CONVEYANCE_LIST_TABLE } from "./columns";
-import DetailsModal from "./modals/DetailsModal";
-import UpdateStatusModal from "./modals/UpdateStatusModal";
-import InspectModal from "./inspect-modal/InspectModal";
+import Layout from "../../../layout/Layout";
+import { API } from "../../../utils/axios/axiosConfig";
 import { USER_INFO } from "../../../utils/session/token";
+import BillApproveModal from "../Bill-approve/bill-approve-modal/BillApproveModal";
+import BillDetails from "../Bill-approve/bill-approve-modal/BillDetails";
+import { columns } from "../Bill-approve/columns";
+import InspectModal from "../Bill/InspectModal";
 
-export default function ConveyanceApprove() {
+export default function BillReviewList() {
   const user = USER_INFO();
   const [isLoading, setIsLoading] = useState(false);
-  const [conveyance, setConveyance] = useState([]);
-  const [approve_modal, setApprove_modal] = useState(false);
+  const [billData, setBillData] = useState([]);
+  const [selected_id, setSelected_id] = useState("");
   const [forwaredTo, setForwardTo] = useState("");
   const [status, setStatus] = useState("");
-  const [detail_modal, setDetail_modal] = useState(false);
-  const [selected_id, setSelected_id] = useState("");
-  const [inspect_modal, setInspect_modal] = useState(false);
   const [remarks, setRemarks] = useState("");
+  const [detail_modal, setDetail_modal] = useState(false);
+  const [approve_modal, setApprove_modal] = useState(false);
+  const [inspect_modal, setInspect_modal] = useState(false);
 
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(10);
-
   const getData = async (page) => {
     setIsLoading(true);
     try {
-      const res = await API.get(`/conveyance/$/bill_approve_list/?offset=${page}&limit=${perPage}`);
+      const res = await API.get(`invoice/$/bill_approve_list_for_accnts/?offset=${page}&limit=${perPage}`);
       if (res?.data?.statuscode === 200) {
-        setConveyance(res?.data?.data);
+        setBillData(res?.data?.data);
         setTotalRows(res?.data?.count);
       }
     } catch (error) {
@@ -48,9 +45,9 @@ export default function ConveyanceApprove() {
 
   const handlePerRowsChange = async (newPerPage, page) => {
     try {
-      const res = await API.get(`/conveyance/$/bill_approve_list/?offset=${page}&limit=${newPerPage}`);
+      const res = await API.get(`/invoice/$/bill_approve_list/?offset=${page}&limit=${newPerPage}`);
       if (res?.data?.statuscode === 200) {
-        setConveyance(res?.data?.data);
+        setBillData(res?.data?.data);
         setPerPage(newPerPage);
         setTotalRows(res.data.count);
       }
@@ -68,8 +65,8 @@ export default function ConveyanceApprove() {
     {
       name: "Approve",
       cell: (row) => (
-        <Dropdown drop={conveyance?.length <= 3 && "start"}>
-          <Dropdown.Toggle size="sm" variant="light" id="dropdown-Conveyance " className="fw-bold border">
+        <Dropdown drop={billData?.length <= 2 && "start"}>
+          <Dropdown.Toggle size="sm" variant="light" id="dropdown-basic" className="fw-bold border">
             Actions
           </Dropdown.Toggle>
           <Dropdown.Menu>
@@ -96,14 +93,17 @@ export default function ConveyanceApprove() {
                 <i className="fe fe-edit-3"></i> Update Status
               </Dropdown.Item>
             )}
-            <Dropdown.Item
-              onClick={() => {
-                setInspect_modal(true);
-                setSelected_id(row?.id);
-              }}
-            >
-              <i className="fe fe-eye"></i> Inspect Conveyance
-            </Dropdown.Item>
+
+            {user?.accessibility?.includes("invoice.bill_message_conveyance") && (
+              <Dropdown.Item
+                onClick={() => {
+                  setInspect_modal(true);
+                  setSelected_id(row?.id);
+                }}
+              >
+                <i className="fe fe-eye"></i> Inspect Bill
+              </Dropdown.Item>
+            )}
           </Dropdown.Menu>
         </Dropdown>
       ),
@@ -116,7 +116,7 @@ export default function ConveyanceApprove() {
   return (
     <Layout>
       {isLoading && <Loader />}
-      <PageHeader title={"Conveyance Approve List"} />
+      <PageHeader title={"Bill Review List"} />
       <Container fluid>
         <Card>
           <Card.Body>
@@ -125,44 +125,52 @@ export default function ConveyanceApprove() {
               paginationTotalRows={totalRows}
               onChangePage={handlePageChange}
               onChangeRowsPerPage={handlePerRowsChange}
-              data={conveyance}
-              columns={CONVEYANCE_LIST_TABLE.concat(EXTENDED_COLUMN)}
+              columns={columns.concat(EXTENDED_COLUMN)}
+              data={billData}
             />
           </Card.Body>
         </Card>
-
-        <DetailsModal
-          show={detail_modal}
-          onHide={() => {
-            setDetail_modal(false);
-            setSelected_id("");
-          }}
-          id={selected_id}
-        />
-
-        <UpdateStatusModal
-          show={approve_modal}
-          onHide={() => {
-            setApprove_modal(false);
-            setSelected_id("");
-            getData();
-          }}
-          id={selected_id}
-          forwaredTo={forwaredTo}
-          status={status}
-          remarks={remarks}
-        />
-
-        {/* Inspect Modal */}
-        <InspectModal
-          show={inspect_modal}
-          onHide={() => {
-            setInspect_modal(false);
-            setSelected_id("");
-          }}
-          id={selected_id}
-        />
       </Container>
+
+      <BillApproveModal
+        show={approve_modal}
+        onHide={() => {
+          setApprove_modal(false);
+          setSelected_id("");
+          getData();
+        }}
+        bill_id={selected_id}
+        forwaredTo={forwaredTo}
+        status={status}
+        remarks={remarks}
+      />
+
+      {/* Problem occuring while calling modal component, so calling it manually */}
+      <Modal
+        size="xl"
+        show={detail_modal}
+        onHide={() => {
+          setDetail_modal(false);
+          setSelected_id("");
+        }}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title className="mb-0">Bill Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <BillDetails bill_id={selected_id} />
+        </Modal.Body>
+      </Modal>
+
+      {/* Inspect Modal */}
+      <InspectModal
+        show={inspect_modal}
+        onHide={() => {
+          setInspect_modal(false);
+          setSelected_id("");
+        }}
+        id={selected_id}
+      />
     </Layout>
   );
 }
