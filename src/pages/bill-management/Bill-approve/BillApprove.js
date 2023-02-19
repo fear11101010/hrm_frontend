@@ -187,6 +187,10 @@ export default function BillApprove() {
       model_name: "invoice",
       invoice_code,
       data_range: { created_date: [date_from, date_to] },
+      project_id,
+      employee_id,
+      status_id,
+      forwarded_to_id,
     };
     try {
       setIsLoading(true);

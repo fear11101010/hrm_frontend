@@ -90,8 +90,32 @@ export default function ConveyanceApprove() {
     }
   };
 
+  const fetchEmployee = async () => {
+    try {
+      setIsLoading(true);
+      const res = await API.get("user_dropdown/");
+      let filtered = res?.data?.data?.filter((d) => d?.group.includes("11") || d?.group.includes("13"));
+      let checker_filtered = res?.data?.data?.filter((d) => d?.group.includes("6"));
+      let formattedEmployeeList = filtered?.map((d) => ({
+        label: d?.username,
+        value: d?.id,
+      }));
+      let formattedCheckerList = checker_filtered?.map((d) => ({
+        label: d?.username,
+        value: d?.id,
+      }));
+      setEmployee_list(formattedEmployeeList);
+      setChecker_forward_list(formattedCheckerList);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     getData(1);
+    fetchEmployee();
   }, []);
 
   const EXTENDED_COLUMN = [
@@ -161,6 +185,10 @@ export default function ConveyanceApprove() {
       model_name: "conveyance",
       invoice_code,
       data_range: { created_date: [date_from, date_to] },
+      project_id,
+      employee_id,
+      status_id,
+      forwarded_to_id,
     };
     try {
       setIsLoading(true);
