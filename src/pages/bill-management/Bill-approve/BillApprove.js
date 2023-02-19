@@ -57,7 +57,8 @@ export default function BillApprove() {
     setIsLoading(true);
     setFilterData([]);
     try {
-      const res = await API.get(`/invoice/$/bill_approve_list/?offset=${page}&limit=${perPage}`);
+      // const res = await API.get(`/invoice/$/bill_approve_list/?offset=${page}&limit=${perPage}`);
+      const res = await API.get(`invoice/$/bill_approve_list_for_accnts/?offset=${page}&limit=${perPage}`);
       if (res?.data?.statuscode === 200) {
         setBillData(res?.data?.data);
         setTotalRows(res?.data?.count);
@@ -76,7 +77,8 @@ export default function BillApprove() {
   const handlePerRowsChange = async (newPerPage, page) => {
     setFilterData([]);
     try {
-      const res = await API.get(`/invoice/$/bill_approve_list/?offset=${page}&limit=${newPerPage}`);
+      // const res = await API.get(`/invoice/$/bill_approve_list/?offset=${page}&limit=${newPerPage}`);
+      const res = await API.get(`invoice/$/bill_approve_list_for_accnts/?offset=${page}&limit=${newPerPage}`);
       if (res?.data?.statuscode === 200) {
         setBillData(res?.data?.data);
         setPerPage(newPerPage);

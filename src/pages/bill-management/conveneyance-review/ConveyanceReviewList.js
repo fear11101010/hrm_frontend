@@ -29,7 +29,8 @@ export default function ConveyanceReviewList() {
   const getData = async (page) => {
     setIsLoading(true);
     try {
-      const res = await API.get(`conveyance/$/bill_approve_list_for_accnts/?offset=${page}&limit=${perPage}`);
+      // const res = await API.get(`conveyance/$/bill_approve_list_for_accnts/?offset=${page}&limit=${perPage}`);
+      const res = await API.get(`/conveyance/$/bill_approve_list/?offset=${page}&limit=${perPage}`);
       if (res?.data?.statuscode === 200) {
         setConveyance(res?.data?.data);
         setTotalRows(res?.data?.count);
@@ -46,7 +47,8 @@ export default function ConveyanceReviewList() {
 
   const handlePerRowsChange = async (newPerPage, page) => {
     try {
-      const res = await API.get(`conveyance/$/bill_approve_list_for_accnts/?offset=${page}&limit=${newPerPage}`);
+      // const res = await API.get(`conveyance/$/bill_approve_list_for_accnts/?offset=${page}&limit=${newPerPage}`);
+      const res = await API.get(`/conveyance/$/bill_approve_list/?offset=${page}&limit=${newPerPage}`);
       if (res?.data?.statuscode === 200) {
         setConveyance(res?.data?.data);
         setPerPage(newPerPage);
