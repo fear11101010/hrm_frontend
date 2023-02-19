@@ -114,7 +114,7 @@ export default function ConveyanceApprove() {
   };
 
   useEffect(() => {
-    getData(1);
+    getData(0);
     fetchEmployee();
   }, []);
 
@@ -223,7 +223,7 @@ export default function ConveyanceApprove() {
                   variant="light"
                   className="fw-bold me-2"
                   onClick={() => {
-                    getData(1);
+                    getData(0);
                     reset();
                   }}
                 >

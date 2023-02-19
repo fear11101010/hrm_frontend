@@ -66,7 +66,7 @@ function Conveyance(props) {
     }
   };
   useEffect(() => {
-    getData(1);
+    getData(0);
   }, []);
 
   const EXTENDED_COLUMN = [

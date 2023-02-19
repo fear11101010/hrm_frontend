@@ -113,7 +113,7 @@ export default function BillApprove() {
   };
 
   useEffect(() => {
-    getData(1);
+    getData(0);
     fetchEmployee();
   }, []);
 
@@ -225,7 +225,7 @@ export default function BillApprove() {
                   variant="light"
                   className="fw-bold me-2"
                   onClick={() => {
-                    getData(1);
+                    getData(0);
                     reset();
                   }}
                 >
