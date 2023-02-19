@@ -171,7 +171,7 @@ export default function InspectModal({ show, onHide, id }) {
           </Card>
         </Modal.Body>
         <Modal.Footer>
-          {status === 2 || status === 4 || showMsgBox === false ? "" : <Button type="submit">Submit</Button>}
+          {status === 2 || status === 4 || msgData.length !== 0 ? "" : <Button type="submit">Submit</Button>}
         </Modal.Footer>
       </Form>
     </Modal>

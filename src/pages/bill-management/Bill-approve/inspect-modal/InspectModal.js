@@ -142,6 +142,9 @@ export default function InspectModal({ show, onHide, id }) {
                       <Form.Group>
                         <Form.Label className="mb-2">Message</Form.Label>
                         <Form.Control as="textarea" rows={3} onChange={(e) => setMsg(e.target.value)} value={msg} required />
+                        <Button size="sm" className="mt-2" type="submit">
+                          Submit
+                        </Button>
                       </Form.Group>
                     )}
                   </>
@@ -174,8 +177,7 @@ export default function InspectModal({ show, onHide, id }) {
           </Card>
         </Modal.Body>
         <Modal.Footer>
-          {" "}
-          {status === 2 || status === 4 || showMsgBox === false ? "" : <Button type="submit">Submit</Button>}
+          {status === 2 || status === 4 || msgData.length !== 0 ? "" : <Button type="submit">Submit</Button>}
         </Modal.Footer>
       </Form>
     </Modal>
