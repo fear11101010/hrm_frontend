@@ -42,8 +42,8 @@ export const columns = [
             Checker Forward
           </span>
         ) : row?.status === 6 ? (
-          <span className="px-2 py-1 bg-success rounded text-whited" style={{ fontSize: "12px" }}>
-            Checked
+          <span className="px-2 py-1 bg-success rounded text-white" style={{ fontSize: "12px" }}>
+            Check Approved
           </span>
         ) : (
           ""

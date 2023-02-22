@@ -40,7 +40,7 @@ export default function BillAdd() {
   const [elmployee_list, setEmployeeList] = useState([]);
 
   useEffect(() => {
-    let a = employeeDropdownList?.filter((d) => d?.sub_sbu?.sbu === project_name);
+    let a = employeeDropdownList?.filter((d) => d?.sub_sbu?.id === project_name);
     setEmployeeList(a);
   }, [project_name]);
 
@@ -136,8 +136,8 @@ export default function BillAdd() {
       formData.append(`main_img`, v);
     });
 
-    if (files.length === 0) {
-      error_alert("Please upload files");
+    if (project_name === "" || employee_name === "") {
+      error_alert("Please select all fields");
     } else {
       setLoading(true);
       API.post(BILL_POST, formData, {
@@ -229,6 +229,7 @@ export default function BillAdd() {
                               onItemChange(e, i);
                             }}
                             value={d.date}
+                            required
                           />
                         </td>
                         <td style={{ minWidth: "50px" }}>
@@ -239,6 +240,7 @@ export default function BillAdd() {
                               onItemChange(e, i);
                             }}
                             value={d.description}
+                            required
                           />
                         </td>
                         <td style={{ minWidth: "50px" }}>
@@ -250,6 +252,7 @@ export default function BillAdd() {
                               onItemChange(e, i);
                             }}
                             value={d.qty}
+                            required
                           />
                         </td>
                         <td style={{ minWidth: "50px" }}>
@@ -261,6 +264,7 @@ export default function BillAdd() {
                               onItemChange(e, i);
                             }}
                             value={d.cost}
+                            required
                           />
                         </td>
                         <td style={{ minWidth: "50px" }}>

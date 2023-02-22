@@ -1,9 +1,18 @@
+import moment from "moment";
 import { Button } from "react-bootstrap";
 import { FaEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { DATE_FORMAT } from "../../../utils/CONSTANT";
 import { CONVEYANCE_EDIT_PAGE_URL } from "../../../utils/routes/app_routes/BILL_APP_ROUTE";
 
 export const CONVEYANCE_LIST_TABLE = [
+  {
+    name: "Date",
+    selector: (row) => row?.conveyance_date,
+    cell: (row) => moment(row?.conveyance_date).format(DATE_FORMAT),
+    width: "120px",
+    wrap: true,
+  },
   {
     name: `Employee`,
     width: "250px",
@@ -59,8 +68,8 @@ export const CONVEYANCE_LIST_TABLE = [
             Checker Forward
           </span>
         ) : row?.status === 6 ? (
-          <span className="px-2 py-1 bg-success rounded text-whited" style={{ fontSize: "12px" }}>
-            Checked
+          <span className="px-2 py-1 bg-success rounded text-white" style={{ fontSize: "12px" }}>
+            Check Approved
           </span>
         ) : (
           ""

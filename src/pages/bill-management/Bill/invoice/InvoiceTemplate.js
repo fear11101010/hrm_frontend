@@ -29,6 +29,9 @@ export default function InvoiceTemplate({ invoice_id }) {
     var inv = document.getElementById("report");
     var date = new Date();
     var hide_download_btn = document.getElementById("invoice_download_btn").setAttribute("style", "display:none");
+    var align_header_without_download_btn = document
+      .getElementById("invoive_header")
+      .setAttribute("style", "display:flex, justify-content:center, align-items:center");
 
     html2canvas(inv).then((canvas) => {
       var imgWidth = 210;
@@ -55,16 +58,16 @@ export default function InvoiceTemplate({ invoice_id }) {
     var show_download_btn = document.getElementById("invoice_download_btn").setAttribute("style", "display:block");
   };
   return (
-    <div id="report">
+    <div id="report" style={{ marginTop: "69px" }}>
       <Row className="px-5 py-4">
         <Col sm={12} md={12}>
-          <div className="d-flex justify-content-between align-items-baseline ">
+          <div className="d-flex justify-content-between align-items-baseline" id="invoive_header">
             <div className="d-flex align-items-center mb-0">
               <div className="me-3">
-                <Image src={DS_Logo} width="130px" />
+                <Image src={DS_Logo} width="140px" />
               </div>
               <div>
-                <h2 className="mb-2">Datasoft Systems Bangladesh Limited</h2>
+                <h1 className="mb-2">Datasoft Systems Bangladesh Limited</h1>
                 <h4 className="mb-0"> Rupayan Shelford, 20th Floor, 23/6 Mirpur Rd, Dhaka 1207</h4>
               </div>
             </div>
@@ -87,7 +90,7 @@ export default function InvoiceTemplate({ invoice_id }) {
               <Col md={6} className="mb-3">
                 <div>
                   <h4 className="mb-1 text-secondary">Project Name: </h4>
-                  <h4 className="mb-1">{data?.invoice?.map((d) => d?.project_name)}</h4>
+                  <h4 className="mb-1">{data?.invoice?.map((d) => d?.project?.name)}</h4>
                 </div>
               </Col>
               <Col md={6} className="mb-3">
@@ -121,11 +124,14 @@ export default function InvoiceTemplate({ invoice_id }) {
         <Table bordered>
           <thead>
             <tr>
-              <th style={{ width: "15%" }}>Date</th>
-              <th className="text-center" style={{ width: "70%" }}>
+              <th style={{ width: "15%", borderColor: "#222" }}>Date</th>
+              <th className="text-center" style={{ width: "70%", borderColor: "#222" }}>
                 Particulars
               </th>
-              <th style={{ width: "15%" }} className="text-end">
+              <th className="text-center" style={{ width: "70%", borderColor: "#222" }}>
+                Qty
+              </th>
+              <th style={{ width: "15%", borderColor: "#222" }} className="text-end">
                 Amount
               </th>
             </tr>
@@ -133,16 +139,21 @@ export default function InvoiceTemplate({ invoice_id }) {
           <tbody>
             {data?.invoice_items?.map((d) => (
               <tr>
-                <td>{moment(d?.date).format("DD-MM-YYYY")}</td>
-                <td>{d?.description}</td>
-                <td className="text-end">{d?.cost}</td>
+                <td style={{ borderColor: "#222" }}>{moment(d?.date).format("DD-MM-YYYY")}</td>
+                <td style={{ borderColor: "#222" }}>{d?.description}</td>
+                <td className="text-center" style={{ borderColor: "#222" }}>
+                  {d?.qty}
+                </td>
+                <td style={{ borderColor: "#222" }} className="text-end">
+                  {d?.cost}
+                </td>
               </tr>
             ))}
             <tr>
-              <td colSpan={2} className="text-end">
+              <td style={{ borderColor: "#222" }} colSpan={3} className="text-end">
                 <h4 className="mb-0">Total Amount: </h4>
               </td>
-              <td>
+              <td style={{ borderColor: "#222" }}>
                 <h4 className="mb-0 text-end">{data?.invoice?.map((d) => d?.totalamount)}</h4>
               </td>
             </tr>

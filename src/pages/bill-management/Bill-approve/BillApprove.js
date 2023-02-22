@@ -188,7 +188,7 @@ export default function BillApprove() {
       table_name: "bill_invoice",
       model_name: "invoice",
       invoice_code,
-      data_range: { created_date: [date_from, date_to] },
+      data_range: { invoice_date: [date_from, date_to] },
       project_id,
       employee_id,
       status_id,
@@ -266,7 +266,7 @@ export default function BillApprove() {
         onHide={() => {
           setApprove_modal(false);
           setSelected_id("");
-          getData();
+          getData(0);
         }}
         bill_id={selected_id}
         forwaredTo={forwaredTo}
@@ -323,6 +323,7 @@ export default function BillApprove() {
                   dateFormat={"dd-mm-yyyy"}
                   value={date_from}
                   onChange={(e) => setDate_from(moment(e?._d).format("YYYY-MM-DD"))}
+                  required={date_to !== ""}
                 />
               </Form.Group>
             </Col>
@@ -333,6 +334,7 @@ export default function BillApprove() {
                   dateFormat={"dd-mm-yyyy"}
                   value={date_to}
                   onChange={(e) => setDate_to(moment(e?._d).format("YYYY-MM-DD"))}
+                  required={date_from !== ""}
                 />
               </Form.Group>
             </Col>
@@ -390,7 +392,20 @@ export default function BillApprove() {
             <Button variant="light" className="me-2 fw-bold border" onClick={reset}>
               Reset
             </Button>
-            <Button type={"submit"}>Filter</Button>
+            <Button
+              type={"submit"}
+              disabled={
+                invoice_code === "" &&
+                date_to === "" &&
+                date_from === "" &&
+                project_id === "" &&
+                employee_id === "" &&
+                status_id === "" &&
+                forwarded_to_id === ""
+              }
+            >
+              Filter
+            </Button>
           </div>
         </Form>
       </FilterModal>

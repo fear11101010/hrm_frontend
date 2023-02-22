@@ -20,7 +20,7 @@ export const BILL_STATUS = [
     value: 5,
   },
   {
-    label: "Checked",
+    label: "Check Approved",
     value: 6,
   },
 ];

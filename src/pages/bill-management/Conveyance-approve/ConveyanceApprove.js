@@ -119,7 +119,7 @@ export default function ConveyanceApprove() {
     getData(0);
     fetchEmployee();
   }, []);
-
+  console.log(user);
   const EXTENDED_COLUMN = [
     {
       name: "Approve",
@@ -186,7 +186,7 @@ export default function ConveyanceApprove() {
       table_name: "bill_conveyance",
       model_name: "conveyance",
       invoice_code,
-      data_range: { created_date: [date_from, date_to] },
+      data_range: { conveyance_date: [date_from, date_to] },
       project_id,
       employee_id,
       status_id,
@@ -272,7 +272,7 @@ export default function ConveyanceApprove() {
           onHide={() => {
             setApprove_modal(false);
             setSelected_id("");
-            getData();
+            getData(0);
           }}
           id={selected_id}
           forwaredTo={forwaredTo}
@@ -312,6 +312,7 @@ export default function ConveyanceApprove() {
                     dateFormat={"dd-mm-yyyy"}
                     value={date_from}
                     onChange={(e) => setDate_from(moment(e?._d).format("YYYY-MM-DD"))}
+                    required={date_to !== ""}
                   />
                 </Form.Group>
               </Col>
@@ -322,6 +323,7 @@ export default function ConveyanceApprove() {
                     dateFormat={"dd-mm-yyyy"}
                     value={date_to}
                     onChange={(e) => setDate_to(moment(e?._d).format("YYYY-MM-DD"))}
+                    required={date_from !== ""}
                   />
                 </Form.Group>
               </Col>
@@ -379,7 +381,20 @@ export default function ConveyanceApprove() {
               <Button variant="light" className="me-2 fw-bold border" onClick={reset}>
                 Reset
               </Button>
-              <Button type={"submit"}>Filter</Button>
+              <Button
+                type={"submit"}
+                disabled={
+                  invoice_code === "" &&
+                  date_from === "" &&
+                  date_to === "" &&
+                  project_id === "" &&
+                  employee_id === "" &&
+                  status_id === "" &&
+                  forwarded_to_id === ""
+                }
+              >
+                Filter
+              </Button>
             </div>
           </Form>
         </FilterModal>

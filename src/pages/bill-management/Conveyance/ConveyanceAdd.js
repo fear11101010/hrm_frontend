@@ -48,7 +48,7 @@ export default function ConveyanceAdd() {
   const [elmployee_list, setEmployeeList] = useState([]);
 
   useEffect(() => {
-    let a = employeeDropdownList?.filter((d) => d?.sub_sbu?.sbu === project_name);
+    let a = employeeDropdownList?.filter((d) => d?.sub_sbu?.id === project_name);
     setEmployeeList(a);
   }, [project_name]);
 
@@ -63,7 +63,7 @@ export default function ConveyanceAdd() {
     purposeto: "",
     purposevisit: "",
     modetransport: "",
-    amount: 0,
+    amount: "",
   };
 
   // The mapping template will be state as a array of obj

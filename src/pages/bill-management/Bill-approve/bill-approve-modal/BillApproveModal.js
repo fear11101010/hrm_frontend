@@ -4,9 +4,11 @@ import ReactSelect from "react-select";
 import { error_alert, success_alert } from "../../../../components/alert/Alert";
 import { API } from "../../../../utils/axios/axiosConfig";
 import { STATUS_CHANGE_API } from "../../../../utils/routes/api_routes/BILL_API_ROUTES";
+import { USER_INFO } from "../../../../utils/session/token";
 import { BILL_STATUS } from "../../BILL_STATUS";
 
 export default function BillApproveModal({ show, onHide, remarks, bill_id, forwaredTo, status }) {
+  const user = USER_INFO();
   const [loading, setLoading] = useState(false);
   const [statusTo, setStatusTo] = useState(status);
   const [employee_list, setEmployee_list] = useState([]);
@@ -109,11 +111,25 @@ export default function BillApproveModal({ show, onHide, remarks, bill_id, forwa
               placeholder={BILL_STATUS?.map((d) => d.value === statusTo && d.label)}
             />
           </Form.Group>
+          {console.log(statusTo)}
           {statusTo === 3 && (
             <Form.Group className="mb-3">
               <Form.Label>Forward To</Form.Label>
               <ReactSelect
-                options={employee_list}
+                options={
+                  user?.user_id === forwaredTo?.id
+                    ? [
+                        {
+                          label: "Approved",
+                          value: 2,
+                        },
+                        {
+                          label: "Rejected",
+                          value: 4,
+                        },
+                      ]
+                    : employee_list
+                }
                 onChange={(e) => {
                   setEmployee_name(e.value);
                 }}
@@ -125,7 +141,16 @@ export default function BillApproveModal({ show, onHide, remarks, bill_id, forwa
             <Form.Group className="mb-3">
               <Form.Label>Forward To</Form.Label>
               <ReactSelect
-                options={checker_forward_list}
+                options={
+                  user?.user_id === forwaredTo?.id
+                    ? [
+                        {
+                          label: "Check Approved",
+                          value: 6,
+                        },
+                      ]
+                    : checker_forward_list
+                }
                 onChange={(e) => {
                   setEmployee_name(e.value);
                 }}

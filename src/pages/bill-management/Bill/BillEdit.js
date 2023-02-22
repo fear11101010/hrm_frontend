@@ -95,7 +95,7 @@ export default function BillEdit() {
       .then((res) => {
         if (res.data.statuscode === 200) {
           setSelected_date(res?.data?.invoice[0]?.invoice_date);
-          setProject_name(res?.data?.invoice[0]?.project);
+          setProject_name(res?.data?.invoice[0]?.project?.id);
           setEmployee_name(res?.data?.invoice[0]?.employee?.id);
           // setFiles(res?.data?.files);
           setExisting_files(res?.data?.files);
@@ -288,6 +288,7 @@ export default function BillEdit() {
                               onItemChange(e, i);
                             }}
                             value={d.date}
+                            required
                           />
                         </td>
                         <td style={{ minWidth: "50px" }}>
@@ -298,6 +299,7 @@ export default function BillEdit() {
                               onItemChange(e, i);
                             }}
                             value={d.description}
+                            required
                           />
                         </td>
                         <td style={{ minWidth: "50px" }}>
@@ -309,6 +311,7 @@ export default function BillEdit() {
                               onItemChange(e, i);
                             }}
                             value={d.qty}
+                            required
                           />
                         </td>
                         <td style={{ minWidth: "50px" }}>
@@ -320,6 +323,7 @@ export default function BillEdit() {
                               onItemChange(e, i);
                             }}
                             value={d.cost}
+                            required
                           />
                         </td>
                         <td style={{ minWidth: "50px" }}>
