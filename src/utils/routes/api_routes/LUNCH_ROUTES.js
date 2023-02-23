@@ -12,8 +12,9 @@ export const VENDOR_MENU_LIST_CREATE_API = "/menu/";
 export const HOLIDAY_LIST_CREATE_API = "/holiday/";
 export const VENDOR_MENU_DROPDOWN_LIST_API =(id='')=> id?`/menu/${id}/dropdown/`:`/menu/$/dropdown/`;
 export const MONTHLY_MENU_ENTRY_LIST_CREATE_API = "/menu_entry/";
-export const MONTHLY_MENU_ENTRY_RETRIEVE_API =(id,mappingId=undefined)=> mappingId?`/menu_entry/${id}/${mappingId}/`:`/menu_entry/${id}/`;
-export const MONTHLY_MENU_ENTRY_UPDATE_API =(id)=> `/menu_entry/${id}/`;
+export const MONTHLY_MENU_ENTRY_RETRIEVE_API = (id, mappingId = undefined) =>
+  mappingId ? `/menu_entry/${id}/${mappingId}/` : `/menu_entry/${id}/`;
+export const MONTHLY_MENU_ENTRY_UPDATE_API = (id) => `/menu_entry/${id}/`;
 export const SUBSIDY_UPDATE_DELETE_API = (id) => `/subsidy/${id}/`;
 export const BRANCH_UPDATE_DELETE_API = (id) => `/office_branch/${id}/`;
 export const VENDOR_UPDATE_DELETE_API = (id) => `/vendor/${id}/`;
@@ -21,6 +22,7 @@ export const VENDOR_LIST_BY_BRANCH_API = (id) => `/vendor/${id}/get_by_branch/`;
 export const VENDOR_MENU_UPDATE_DELETE_API = (id) => `/menu/${id}/`;
 export const VENDOR_MENU_LIST_BY_VENDOR_API = (id) => `/menu/${id}/get_menu_list_by_vendor/`;
 export const SUBSIDY_COST_LIST_CREATE_API = "/subsidy_cost/";
+export const SUBSIDY_COST_RETRIVE_GET_API = (id) => `/subsidy_cost/${id}/`;
 export const LUNCH_TIME_CONFIG_LIST_CREATE_API = "/lunch_time/";
 export const LUNCH_TIME_CONFIG_LIST_UPDATE_API = "/lunch_time/$/";
 
