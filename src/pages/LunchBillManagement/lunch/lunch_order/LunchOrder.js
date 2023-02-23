@@ -229,7 +229,7 @@ export default function LunchOrder() {
             : month === "December"
             ? 12
             : "",
-        vendor: selected_vendor,
+        branch: selected_brach,
       };
       setLoading(true);
       API.post(MONTH_MAPPING, payload)

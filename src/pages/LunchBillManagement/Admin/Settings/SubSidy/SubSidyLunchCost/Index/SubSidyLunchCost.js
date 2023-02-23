@@ -18,6 +18,8 @@ import { SUBSIDY_TABLE_COLUMNS } from "../../../../table-columns";
 import { FaPlus } from "react-icons/fa";
 import confirmDialog from "../../../../../../../components/confirm-dialog/ConfirmDialog";
 import ConfirmDialog from "../../../../../../../components/confirm-dialog/ConfirmDialog";
+import {Link} from "react-router-dom";
+import {SUBSIDY_COST_CREATE_PAGE} from "../../../../../../../utils/routes/app_routes/LUNCH_ROUTES";
 
 function SubSidyLunchCost(props) {
   const {
@@ -36,36 +38,6 @@ function SubSidyLunchCost(props) {
   const editSubSidy = (e, i) => {
     reset({ name: data?.data[i]?.name, id: data?.data[i]?.id });
     setUpdateSubSidyModal(true);
-  };
-  const updateSubSidy = (data, e) => {
-    setLoading(true);
-    API.put(SUBSIDY_UPDATE_DELETE_API(data.id), data)
-      .then((success) => {
-        success_alert(success?.data?.message);
-        setRefresh(!refresh);
-      })
-      .catch((error) => {
-        error_alert(error.data.message);
-      })
-      .finally(() => {
-        setLoading(false);
-        setUpdateSubSidyModal(false);
-      });
-  };
-  const createSubSidy = (data, e) => {
-    setLoading(true);
-    API.post(SUBSIDY_LIST_CREATE_API, data)
-      .then((success) => {
-        success_alert(success?.data?.message);
-        setRefresh(!refresh);
-      })
-      .catch((error) => {
-        error_alert(error.data.message);
-      })
-      .finally(() => {
-        setLoading(false);
-        setAddSubSidyModal(false);
-      });
   };
   const deleteSubSidy = (e) => {
     setLoading(true);
@@ -93,16 +65,9 @@ function SubSidyLunchCost(props) {
         <Card>
           <Card.Body>
             <div className="d-flex justify-content-end mb-3">
-              <Button
-                variant="primary"
-                size="sm"
-                onClick={(e) => {
-                  setAddSubSidyModal(true);
-                  reset({ name: "" });
-                }}
-              >
+              <Link className="btn btn-primary btn-sm" to={SUBSIDY_COST_CREATE_PAGE}>
                 <FaPlus /> Create
-              </Button>
+              </Link>
             </div>
             <CustomTable
               pagination={{ show: false }}
@@ -113,39 +78,6 @@ function SubSidyLunchCost(props) {
           </Card.Body>
         </Card>
       </Container>
-      {/* ADD MODAL */}
-      <Modal show={updateSubSidyModal} onHide={() => setUpdateSubSidyModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Update Subsidy</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit(updateSubSidy)}>
-            <Form.Group className="mb-3">
-              <Form.Label>Subsidy Name</Form.Label>
-              <Form.Control placeholder="Enter SubSidy name" type="text" {...register("name", { required: true })} />
-            </Form.Group>
-            <Button type="submit" variant="primary">
-              Update Subsidy
-            </Button>
-          </Form>
-        </Modal.Body>
-      </Modal>
-      <Modal show={addSubSidyModal} onHide={() => setAddSubSidyModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add Subsidy</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit(createSubSidy)}>
-            <Form.Group className="mb-3">
-              <Form.Label>Subsidy Name</Form.Label>
-              <Form.Control placeholder="Enter SubSidy name" type="text" {...register("name", { required: true })} />
-            </Form.Group>
-            <Button type="submit" variant="primary">
-              Create Subsidy
-            </Button>
-          </Form>
-        </Modal.Body>
-      </Modal>
       {(loading || isLoading) && <Loader />}
       {showConfirmDialog && (
         <ConfirmDialog
