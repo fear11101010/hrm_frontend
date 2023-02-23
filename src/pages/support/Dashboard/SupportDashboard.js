@@ -39,6 +39,7 @@ export default function SupportDashboard() {
   const [requestStatusData, setRequestStatusData] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+
   useEffect(() => {
     if (data) {
       console.log(data);

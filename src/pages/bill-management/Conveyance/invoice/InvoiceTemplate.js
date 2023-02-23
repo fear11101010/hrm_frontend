@@ -56,11 +56,11 @@ export default function InvoiceConTemplate({ invoice_id }) {
     var show_download_btn = document.getElementById("invoice_download_btn").setAttribute("style", "display:block");
   };
   return (
-    <div id="report">
+    <div id="report" style={{ marginTop: "69px" }}>
       {loading && <Loader />}
       <Row className="px-5 py-4">
         <Col sm={12} md={12}>
-          <div className="d-flex justify-content-between align-items-baseline ">
+          <div className="d-flex justify-content-between align-items-baseline">
             <div className="d-flex align-items-center mb-0">
               <div className="me-3">
                 <Image src={DS_Logo} width="130px" />
@@ -123,12 +123,12 @@ export default function InvoiceConTemplate({ invoice_id }) {
         <Table bordered>
           <thead>
             <tr>
-              <th style={{ width: "12%" }}>Date</th>
-              <th style={{ width: "15%" }}>From</th>
-              <th style={{ width: "15%" }}>To</th>
-              <th style={{ width: "25%" }}>Purpose of visit</th>
-              <th style={{ width: "25%" }}>Mode of Transport</th>
-              <th style={{ width: "8%" }} className="text-end">
+              <th style={{ width: "12%", borderColor: "#222" }}>Date</th>
+              <th style={{ width: "15%", borderColor: "#222" }}>From</th>
+              <th style={{ width: "15%", borderColor: "#222" }}>To</th>
+              <th style={{ width: "25%", borderColor: "#222" }}>Purpose of visit</th>
+              <th style={{ width: "25%", borderColor: "#222" }}>Mode of Transport</th>
+              <th style={{ width: "8%", borderColor: "#222" }} className="text-end">
                 Amount
               </th>
             </tr>
@@ -136,19 +136,21 @@ export default function InvoiceConTemplate({ invoice_id }) {
           <tbody>
             {data?.conveyance_items?.map((d) => (
               <tr>
-                <td>{moment(d?.date).format("DD-MM-YYYY")}</td>
-                <td>{d?.purposefrom}</td>
-                <td>{d?.purposeto}</td>
-                <td>{d?.purposevisit}</td>
-                <td>{d?.modetransport}</td>
-                <td className="text-end">{d?.amount}</td>
+                <td style={{ borderColor: "#222" }}>{moment(d?.date).format("DD-MM-YYYY")}</td>
+                <td style={{ borderColor: "#222" }}>{d?.purposefrom}</td>
+                <td style={{ borderColor: "#222" }}>{d?.purposeto}</td>
+                <td style={{ borderColor: "#222" }}>{d?.purposevisit}</td>
+                <td style={{ borderColor: "#222" }}>{d?.modetransport}</td>
+                <td style={{ borderColor: "#222" }} className="text-end">
+                  {d?.amount}
+                </td>
               </tr>
             ))}
             <tr>
-              <td colSpan={5} className="text-end">
+              <td style={{ borderColor: "#222" }} colSpan={5} className="text-end">
                 <h4 className="mb-0">Total Amount: </h4>
               </td>
-              <td>
+              <td style={{ borderColor: "#222" }}>
                 <h4 className="mb-0 text-end">{totalAmount}</h4>
               </td>
             </tr>
@@ -159,19 +161,21 @@ export default function InvoiceConTemplate({ invoice_id }) {
         <div className="d-flex">
           <h3 className="mb-0 me-1"> Amount in words: </h3>
           <h3>{totalAmount !== "" && toWords(totalAmount)}</h3>
-          {/* <h3 className="mb-0 text-end">{data?.invoice?.map((d) => d?.totalamount)}</h3> */}
         </div>
       </div>
       <div className="px-5" style={{ marginTop: "72px" }}>
         <Row className="text-center">
           <Col md={4}>
-            <h5>Submitted By</h5>
+            <h5 className="mb-1">{data?.conveyance?.map((d) => d?.employee?.name)}</h5>
+            <h5 className="text-secondary">Submitted By</h5>
           </Col>
           <Col md={4}>
-            <h5>Checked By</h5>
+            <h5 className="mb-1">{data?.conveyance?.map((d) => (d?.status === 2 ? d?.forwarded_to?.first_name : ""))} </h5>
+            <h5 className="text-secondary">Checked By</h5>
           </Col>
           <Col md={4}>
-            <h5>Approved By</h5>
+            <h5 className="mb-1"> {data?.conveyance?.map((d) => d?.approved_by?.first_name)}</h5>
+            <h5 className="text-secondary">Approved By</h5>
           </Col>
         </Row>
       </div>

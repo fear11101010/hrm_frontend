@@ -1,50 +1,24 @@
 import moment from "moment";
-import { Button } from "react-bootstrap";
-import { FaEdit } from "react-icons/fa";
+import { Button, Image } from "react-bootstrap";
+import { FaFileAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { DATE_FORMAT } from "../../../utils/CONSTANT";
-import { CONVEYANCE_EDIT_PAGE_URL } from "../../../utils/routes/app_routes/BILL_APP_ROUTE";
+import { BASE_URL_FOR_MEDIA_FILE, DATE_FORMAT } from "../../../utils/CONSTANT";
+import { USER_INFO } from "../../../utils/session/token";
 
-export const CONVEYANCE_LIST_TABLE = [
+export const columns = [
   {
     name: "Date",
-    selector: (row) => row?.conveyance_date,
-    cell: (row) => moment(row?.conveyance_date).format(DATE_FORMAT),
+    selector: (row) => row?.invoice_date,
+    cell: (row) => moment(row?.invoice_date).format(DATE_FORMAT),
     width: "120px",
     wrap: true,
   },
+  { name: "Invoice Code", selector: (row) => row?.invoice_code, minWidth: "200px", wrap: true },
+  { name: "Project", selector: (row) => row?.project_name, minWidth: "200px", wrap: true },
+  { name: "Employee", selector: (row) => row?.employee?.name, minWidth: "200px", wrap: true },
   {
-    name: `Employee`,
-    width: "250px",
-    selector: (row, index) => row?.employee?.name,
-  },
-  {
-    name: `ID`,
-    width: "120px",
-    selector: (row, index) => row?.employee?.employee_id,
-  },
-  {
-    name: "Project",
-    sortable: true,
-    selector: (row, index) => row?.project?.name,
-    width: "180px",
-  },
-
-  {
-    name: "Invoice Code",
-    selector: (row, index) => row?.invoice_code,
-    width: "180px",
-  },
-  {
-    name: `Total Amount`,
-    selector: (row, index) => row?.totalamount,
-    width: "150px",
-    right: true,
-  },
-  {
-    name: `Status`,
-    sortable: true,
-    selector: (row, index) => row?.status,
+    name: "Status",
+    selector: (row) => row?.status,
     cell: (row) => (
       <>
         {row?.status === 1 ? (
@@ -77,5 +51,12 @@ export const CONVEYANCE_LIST_TABLE = [
       </>
     ),
     width: "140px",
+    wrap: true,
+  },
+  {
+    name: "Forwarded To",
+    selector: (row) => row?.forward_to_name,
+    minWidth: "150px",
+    wrap: true,
   },
 ];

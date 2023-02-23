@@ -7,7 +7,7 @@ import { STATUS_CHANGE_API } from "../../../../utils/routes/api_routes/BILL_API_
 import { USER_INFO } from "../../../../utils/session/token";
 import { BILL_STATUS } from "../../BILL_STATUS";
 
-export default function BillApproveModal({ show, onHide, remarks, bill_id, forwaredTo, status }) {
+export default function UpdateStatusModal({ show, onHide, remarks, id, forwaredTo, status }) {
   const user = USER_INFO();
   const [loading, setLoading] = useState(false);
   const [statusTo, setStatusTo] = useState(status);
@@ -15,6 +15,8 @@ export default function BillApproveModal({ show, onHide, remarks, bill_id, forwa
   const [checker_forward_list, setChecker_forward_list] = useState([]);
   const [employee_name, setEmployee_name] = useState(forwaredTo);
   const [comment, setComment] = useState("");
+
+  console.log(forwaredTo);
 
   const fetchEmployee = async () => {
     try {
@@ -52,19 +54,20 @@ export default function BillApproveModal({ show, onHide, remarks, bill_id, forwa
   }, [statusTo === 3, statusTo === 5]);
 
   const submit = async (e) => {
-    setLoading(true);
     e.preventDefault();
     const payload = {
-      invoice_id: bill_id,
+      conveyance_id: id,
       status_id: statusTo === "" ? status : statusTo,
+      // comments: comment,
       comments: "",
-      invoice_message: "",
+      convyance_message: comment,
     };
     const forwardPayload = {
       forward_to: employee_name,
     };
 
     try {
+      setLoading(true);
       let res = await API.post(
         STATUS_CHANGE_API,
         statusTo === 3 || statusTo === 5 ? { ...forwardPayload, ...payload } : payload
@@ -96,7 +99,7 @@ export default function BillApproveModal({ show, onHide, remarks, bill_id, forwa
       }}
     >
       <Modal.Header closeButton>
-        <Modal.Title className="mb-0">Approve Bill</Modal.Title>
+        <Modal.Title className="mb-0">Update Conveyance Status</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={submit}>
@@ -111,7 +114,6 @@ export default function BillApproveModal({ show, onHide, remarks, bill_id, forwa
               placeholder={BILL_STATUS?.map((d) => d.value === statusTo && d.label)}
             />
           </Form.Group>
-          {console.log(statusTo)}
           {statusTo === 3 && (
             <Form.Group className="mb-3">
               <Form.Label>Forward To</Form.Label>
@@ -162,15 +164,13 @@ export default function BillApproveModal({ show, onHide, remarks, bill_id, forwa
             <Form.Label>Comment</Form.Label>
             <Form.Control
               as="textarea"
-              rows={2}
+              rows={5}
               value={comment}
               onChange={(e) => {
                 setComment(e.target.value);
               }}
             />
           </Form.Group> */}
-
-          <hr />
           <Button type="submit">Submit</Button>
         </Form>
       </Modal.Body>

@@ -14,8 +14,10 @@ import {
   BILLING_DASHBOARD,
   BILL_APPROVE_LIST,
   BILL_LIST_URL,
+  BILL_REVIEW_LIST,
   CONVEYANCE_APPROVE_LIST,
   CONVEYANCE_LIST_URL,
+  CONVEYANCE_REVIEW_LIST,
 } from "../../utils/routes/app_routes/BILL_APP_ROUTE";
 
 export default function NavbarBill() {
@@ -60,38 +62,53 @@ export default function NavbarBill() {
         <Navbar.Collapse id="sidebarCollapse">
           <Nav as="ul">
             {/* Dashboard */}
-            {user.module.includes("Support Dashboard") && (
-              <Nav.Item as={"li"}>
-                <Link to={BILLING_DASHBOARD} className="nav-link">
-                  <i className="fe fe-grid"></i> Dashboard
-                </Link>
-              </Nav.Item>
-            )}
-            {user.module.includes("Support Dashboard") && (
+            <Nav.Item as={"li"}>
+              <Link to={BILLING_DASHBOARD} className="nav-link">
+                <i className="fe fe-grid"></i> Dashboard
+              </Link>
+            </Nav.Item>
+            {user?.module?.includes("Bill") && (
               <Nav.Item as={"li"}>
                 <Link to={BILL_LIST_URL} className="nav-link">
                   <i className="fe fe-clipboard"></i> Bill
                 </Link>
               </Nav.Item>
             )}
-            {user.module.includes("Support Dashboard") && (
+
+            {user?.module?.includes("Bill Approve") && (
               <Nav.Item as={"li"}>
                 <Link to={BILL_APPROVE_LIST} className="nav-link">
                   <i className="fe fe-clipboard"></i> Bill Approve
                 </Link>
               </Nav.Item>
             )}
-            {user.module.includes("Support Dashboard") && (
+            {user?.module?.includes("Bill Review") && (
+              <Nav.Item as={"li"}>
+                <Link to={BILL_REVIEW_LIST} className="nav-link">
+                  <i className="fe fe-clipboard"></i> Bill Review
+                </Link>
+              </Nav.Item>
+            )}
+
+            {user?.module?.includes("Conveyance") && (
               <Nav.Item as={"li"}>
                 <Link to={CONVEYANCE_LIST_URL} className="nav-link">
                   <i className="fe fe-file-text"></i> Conveyance
                 </Link>
               </Nav.Item>
             )}
-            {user.module.includes("Support Dashboard") && (
+
+            {user?.module?.includes("Conveyance Approve") && (
               <Nav.Item as={"li"}>
                 <Link to={CONVEYANCE_APPROVE_LIST} className="nav-link">
                   <i className="fe fe-file-text"></i> Conveyance Approve
+                </Link>
+              </Nav.Item>
+            )}
+            {user?.module?.includes("Conveyance Review") && (
+              <Nav.Item as={"li"}>
+                <Link to={CONVEYANCE_REVIEW_LIST} className="nav-link">
+                  <i className="fe fe-file-text"></i> Conveyance Review
                 </Link>
               </Nav.Item>
             )}

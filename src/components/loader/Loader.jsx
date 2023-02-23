@@ -9,7 +9,7 @@ export default function Loader() {
 
   return (
     <>
-      <Modal show={show} size="sm" centered>
+      <Modal show={show} size="sm" centered className=" border shadow-lg">
         <Modal.Body className="m-auto">
           {/* <div className="d-flex justify-content-center">
           <Spinner animation="border" />

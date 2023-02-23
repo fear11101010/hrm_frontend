@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer, Legend } from "recharts";
 
 const RADIAN = Math.PI / 180;

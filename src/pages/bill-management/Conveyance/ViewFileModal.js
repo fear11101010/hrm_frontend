@@ -3,7 +3,7 @@ import { Button, Card, Col, Image, Modal, Row } from "react-bootstrap";
 import { FaDownload, FaFileExcel, FaFilePdf } from "react-icons/fa";
 import { BASE_URL_FOR_MEDIA_FILE } from "../../../utils/CONSTANT";
 
-export default function ViewFileModal({ data, show, onHide }) {
+export default function ConViewFileModal({ data, show, onHide }) {
   return (
     <Modal show={show} onHide={onHide} aria-labelledby="file-modal">
       <Modal.Header closeButton>

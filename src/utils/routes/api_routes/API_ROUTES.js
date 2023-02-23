@@ -35,6 +35,7 @@ export const PRIVILEGES_POST = `/privilege`;
 
 // Employee
 export const EMPLOYEE_LIST_GET = "/employee/";
+export const EMPLOYEE_LIST_DROPDOWN = "employee_list_dropdown/";
 export const PROJECT_LIST_GET = "/project/";
 export const EMPLOYEE_EACH_GET = (id) => `/employee/${id}/`;
 export const EMPLOYEE_EDIT_POST = (id) => `/employee_update/${id}/`;
