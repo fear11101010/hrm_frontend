@@ -134,7 +134,9 @@ import {
   ADMIN_MENU_ENTRY_CREATE_PAGE,
   ADMIN_MENU_ENTRY_LIST_PAGE,
   ADMIN_MENU_ENTRY_EDIT_PAGE_URL,
-  ADMIN_LUNCH_ORDER_TIME_CONFIG_PAGE_URL, SUBSIDY_COST_UPDATE_URL,
+  ADMIN_LUNCH_ORDER_TIME_CONFIG_PAGE_URL,
+  SUBSIDY_COST_UPDATE_URL,
+  LUNCH_ORDER_SINGLE_PAGE,
 } from "./utils/routes/app_routes/LUNCH_ROUTES";
 import LunchOutlet from "./outlets/lunchManagementOutlet/LunchOutlet";
 import LunchOrder from "./pages/LunchBillManagement/lunch/lunch_order/LunchOrder";
@@ -184,6 +186,8 @@ import BillApprove from "./pages/bill-management/Bill-approve/BillApprove";
 import ConveyanceApprove from "./pages/bill-management/Conveyance-approve/ConveyanceApprove";
 import BillReviewList from "./pages/bill-management/Bill-review/BillReviewList";
 import ConveyanceReviewList from "./pages/bill-management/conveneyance-review/ConveyanceReviewList";
+import ConfigDashboard from "./pages/configuration/Dashboard/Dashboard";
+import SignleLunchOrder from "./pages/LunchBillManagement/lunch/single-lunch-order/SignleLunchOrder";
 
 // import BillList from "./pages/bill-management/bill/List";
 // import BillAdd from "./pages/bill-management/bill/billAdd";
@@ -194,9 +198,10 @@ function App() {
       <Routes>
         <Route index path={LANDING_PAGE} element={<Landing />} />
         <Route path={LOGIN_PAGE} element={<Login />} />
+
         {/**************************************************
-                 PROTECTED ROUTES
-                 **************************************************/}
+           PROTECTED ROUTES
+        **************************************************/}
         {/* DASHBOARD */}
         <Route path={DASHBOARD_PAGE} element={<DashboardOutlet />}>
           <Route path={DASHBOARD_PAGE} element={<Dashboard />} />
@@ -292,6 +297,7 @@ function App() {
         <Route path={"/lunch-management"} element={<LunchOutlet />}>
           <Route path={LUNCH_DASHBOARD_PAGE} element={<LunchManagementDashboard />} />
           <Route path={LUNCH_ORDER_PAGE} element={<LunchOrder />} />
+          <Route path={LUNCH_ORDER_SINGLE_PAGE} element={<SignleLunchOrder />} />
           <Route path={SUBSIDY_LIST_PAGE} element={<SubSidyTypeList />} />
           <Route path={SUBSIDY_COST_LIST_PAGE} element={<SubSidyLunchCost />} />
           <Route path={SUBSIDY_COST_CREATE_PAGE} element={<CreateSubSidyLunchCost />} />
