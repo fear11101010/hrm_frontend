@@ -23,7 +23,7 @@ function CustomTable({
   const [pageNumber, setPageNumber] = useState(1);
   useEffect(() => {
     // debugger
-    console.log(data);
+    // console.log(data);
     setTableRows(data);
   }, [data]);
 
@@ -77,7 +77,7 @@ function CustomTable({
                 return (
                   <tr key={i}>
                     {columns.map((column) => (
-                      <td style={{width:column?.width?`${column.width}px`:''}}>
+                      <td style={{ width: column?.width ? `${column.width}px` : "" }}>
                         {column.cell ? (
                           column.cell(v, (pageNumber - 1) * (showPerPage?.value || 0) + i)
                         ) : (

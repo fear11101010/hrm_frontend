@@ -19,6 +19,7 @@ import {
 } from "../../../../utils/routes/api_routes/LUNCH_ROUTES";
 import Loader from "../../../../components/loader/Loader";
 import { error_alert, success_alert } from "../../../../components/alert/Alert";
+import { FaCross, FaTrash } from "react-icons/fa";
 
 export default function LunchOrder() {
   const user = USER_INFO();
@@ -26,9 +27,11 @@ export default function LunchOrder() {
   const [month, setMonth] = useState(moment().format("MMMM"));
   const [year, setYear] = useState(moment().format("YYYY"));
   const [ofc_branch, setOfc_branch] = useState([]);
+  const [subsidy, setSubsidy] = useState([]);
   const [get_vendor, setget_vendor] = useState([]);
   const [selected_brach, setSelected_branch] = useState("");
   const [selected_vendor, setSelected_vendor] = useState("");
+  const [selected_id, setSelected_id] = useState("");
   const [retrieve_data, setRetrieve_data] = useState([]);
   const [bill_data, setBill_data] = useState([]);
 
@@ -40,6 +43,7 @@ export default function LunchOrder() {
   const [guest_date, setGuest_date] = useState(moment().format("YYYY-MM-DD"));
   const [guest_menu_selected, setGuest_menu_selected] = useState("");
   const [guest_isOfficial, setGuest_isOfficial] = useState(false);
+  let employee_subsidy_id = subsidy?.filter((d) => d?.name === "Employee");
 
   const lunchSelect = (e, date, index) => {
     mapping.map(function (d) {
@@ -58,7 +62,7 @@ export default function LunchOrder() {
       menu: parseInt(e.target.value),
       employee: user?.user_id,
       idx: index,
-      subsidy: 5,
+      subsidy: guest_modal === false && employee_subsidy_id[0]?.id,
       month:
         month === "January"
           ? 1
@@ -86,7 +90,6 @@ export default function LunchOrder() {
           ? 12
           : "",
     };
-
     setMapping((prev) => [...prev, selected_lunch]);
   };
 
@@ -96,6 +99,14 @@ export default function LunchOrder() {
     API.get(OFFICE_BRANCH)
       .then((res) => {
         setOfc_branch(res.data.data);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
+    setLoading(true);
+
+    API.get("/subsidy/")
+      .then((res) => {
+        setSubsidy(res.data.data);
       })
       .catch((err) => console.log(err))
       .finally(() => setLoading(false));
@@ -151,10 +162,11 @@ export default function LunchOrder() {
         if (res.data.statuscode === 200) {
           setRetrieve_data(res.data.data);
           let x = res.data.data.map((d) => ({
+            id: d?.id,
             date: moment(d?.date).format("YYYY-MM-DD"),
             menu: d.menu.id,
             employee: d.employee,
-            subsidy: 5,
+            subsidy: guest_modal === false && employee_subsidy_id[0]?.id,
             month:
               month === "January"
                 ? 1
@@ -183,6 +195,7 @@ export default function LunchOrder() {
                 : "",
           }));
           setMapping(x);
+
           let a = res.data.data.map((d) => ({
             menu: d.menu.id,
             menu_name: d.menu.item,
@@ -200,7 +213,7 @@ export default function LunchOrder() {
 
   const handleMapping = (e) => {
     e.preventDefault();
-    if (selected_vendor !== "" && selected_brach !== "") {
+    if (selected_brach !== "") {
       let payload = {
         year: year,
         month:
@@ -230,6 +243,7 @@ export default function LunchOrder() {
             ? 12
             : "",
         vendor: selected_vendor,
+        branch: selected_brach,
       };
       setLoading(true);
       API.post(MONTH_MAPPING, payload)
@@ -239,7 +253,7 @@ export default function LunchOrder() {
         .catch((err) => console.log(err))
         .finally(() => setLoading(false));
     } else {
-      error_alert("Please select Branch and Vendor");
+      error_alert("Please select Branch");
     }
   };
 
@@ -262,14 +276,16 @@ export default function LunchOrder() {
 
   const handleGuestSubmit = (e) => {
     e.preventDefault();
+    let offical_guest_id = subsidy?.filter((d) => d?.name === "Official Guest");
+    let guest_id = subsidy?.filter((d) => d?.name === "Guest");
+
     let payload = {
       isGuest: true,
       date: guest_date,
       menu: parseInt(guest_menu_selected),
       employee: user?.user_id,
-      subsidy: guest_isOfficial ? 8 : 7,
+      subsidy: guest_isOfficial ? offical_guest_id[0]?.id : guest_id[0]?.id,
     };
-
     setLoading(true);
     API.post(LUNCH_ORDER_POST, payload)
       .then((res) => {
@@ -312,6 +328,17 @@ export default function LunchOrder() {
         </tbody>
       </Table>
     );
+  };
+
+  //Delete Lunch
+  const lunch_delete = (date) => {
+    setLoading(true);
+    API.delete(`order/delete_order/${date}/${user?.user_id}/`)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -364,7 +391,7 @@ export default function LunchOrder() {
                     />
                   </Form.Group>
                 </Col>
-                <Col sm="12" md="3">
+                {/* <Col sm="12" md="3">
                   <Form.Group className="mb-3">
                     <Form.Label>Vendor</Form.Label>
                     <ReactSelect
@@ -372,11 +399,13 @@ export default function LunchOrder() {
                       onChange={(e) => setSelected_vendor(e.value)}
                     />
                   </Form.Group>
-                </Col>
+                </Col> */}
                 <Col sm="12" md="2">
                   <Form.Label className="text-white mb-0">Vendor</Form.Label>
                   <Form.Group className="mb-3">
-                    <Button onClick={handleMapping}>Save</Button>
+                    <Button className="mt-2" onClick={handleMapping}>
+                      Save
+                    </Button>
                   </Form.Group>
                 </Col>
               </Row>
@@ -437,16 +466,26 @@ export default function LunchOrder() {
                               </>
                             ))}
                           </Form.Select>
-                          {/* <Button className="ms-2" size="sm" variant="danger" title="Delete">
-                          <FaTrashAlt onClick={(e) => lunch_dlt(e, i)} />
-                        </Button> */}
+                          <Button
+                            className="ms-2"
+                            size="sm"
+                            variant="danger"
+                            title="Delete"
+                            onClick={() => {
+                              lunch_delete(d?.date);
+                            }}
+                          >
+                            &#10006;
+                          </Button>
                         </div>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </Table>
-              <Button onClick={handleSubmit}>Submit</Button>
+              <Button type="submit" onClick={handleSubmit}>
+                Submit
+              </Button>
             </div>
           ) : null}
         </div>
@@ -527,120 +566,79 @@ let TH_STYLE = { background: "#eaf4ff", color: "#4c7cc4", borderTop: "1px solid 
 let BILL_TH_STYLE = { padding: "4px 8px", fontSize: "12px", letterSpacing: "0px", background: "#eaf4ff", color: "#4c7cc4" };
 let BILL_TD_STYLE = { padding: "4px" };
 
-// OLD
-{
-  /* <tbody>
-{month_length?.map((x, i) => (
-  <tr>
-    <td style={{ background: !isDisabled(i) ? "" : "#F7F7F7 " }}>{i + 1}</td>
-    <td style={{ background: !isDisabled(i) ? "" : "#F7F7F7 " }}>
-      {moment(`${moment().startOf("month").add(i, "days").format("DD")}-${month}-${year}`).format(
-        DATE_FORMAT
-      )}
-    </td>
-    <td style={{ background: !isDisabled(i) ? "" : "#F7F7F7 " }}>
-      {moment(`${moment().startOf("month").add(i, "days").format("DD")}-${month}-${year}`).format("dddd")}
-    </td>
-    <td style={{ background: !isDisabled(i) ? "" : "#F7F7F7 " }}>
-      {!isDisabled(i) && (
-        <>
-          <Form.Select
-            onChange={(e) => {
-              lunchSelect(
-                e,
-                moment(`${moment().startOf("month").add(i, "days").format("DD")}-${month}-${year}`).format(
-                  DATE_FORMAT
-                ),
-                i
-              );
-            }}
-            // disabled={i === mapping.map((d) => d.idx)}
-            disabled={moment(
-              moment(
-                moment(`${moment().startOf("month").add(i, "days").format("DD")}-${month}-${year}`).format(
-                  DATE_FORMAT
-                )
-              ).format("YYYY-MM-DD")
-            ).isBefore(moment().format("YYYY-MM-DD"))}
-          >
-            {moment(`${moment().startOf("month").add(i, "days").format("DD")}-${month}-${year}`).format(
-              "dddd"
-            ) === "Sunday" && (
-              <>
-                <option value="">-- Select Item --</option>
-                {sundayMenu?.map((d) => (
-                  <option value={d.id}>{d.menu__item}</option>
-                ))}
-              </>
-            )}
-
-            {moment(`${moment().startOf("month").add(i, "days").format("DD")}-${month}-${year}`).format(
-              "dddd"
-            ) === "Monday" && (
-              <>
-                <option value="">-- Select Item --</option>
-                {mondayMenu?.map((d) => (
-                  <option value={d.id}>{d.menu__item}</option>
-                ))}
-              </>
-            )}
-
-            {moment(`${moment().startOf("month").add(i, "days").format("DD")}-${month}-${year}`).format(
-              "dddd"
-            ) === "Tuesday" && (
-              <>
-                <option value="">-- Select Item --</option>
-                {tuesdayMenu?.map((d) => (
-                  <option value={d.id}>{d.menu__item}</option>
-                ))}
-              </>
-            )}
-
-            {moment(`${moment().startOf("month").add(i, "days").format("DD")}-${month}-${year}`).format(
-              "dddd"
-            ) === "Wednesday" && (
-              <>
-                <option value="">-- Select Item --</option>
-                {wednesdayMenu?.map((d) => (
-                  <option value={d.id}>{d.menu__item}</option>
-                ))}
-              </>
-            )}
-
-            {moment(`${moment().startOf("month").add(i, "days").format("DD")}-${month}-${year}`).format(
-              "dddd"
-            ) === "Thursday" && (
-              <>
-                <option value="">-- Select Item --</option>
-                {thursdayMenu?.map((d) => (
-                  <option value={d.id}>{d.menu__item}</option>
-                ))}
-              </>
-            )}
-          </Form.Select>
-        </>
-      )}
-    </td>
-    <td className="text-center" style={{ background: !isDisabled(i) ? "" : "#F7F7F7 " }}>
-      {!isDisabled(i) && (
-        <>
-          {!moment(
-            moment(
-              moment(`${moment().startOf("month").add(i, "days").format("DD")}-${month}-${year}`).format(
-                DATE_FORMAT
-              )
-            ).format("YYYY-MM-DD")
-          ).isBefore(moment().format("YYYY-MM-DD")) ? (
-            <Button size="sm" variant="danger" title="Delete" onClick={(e) => lunch_dlt(e, i)}>
-              <FaTrashAlt />
-            </Button>
-          ) : (
-            ""
-          )}
-        </>
-      )}
-    </td>
-  </tr>
-))}
-</tbody> */
-}
+// {resetmapping.length > 0 ? (
+//   <div className="table-responsive">
+//     <div className="text-end">
+//       <Button
+//         variant="info"
+//         className="mb-3"
+//         size="sm"
+//         onClick={() => {
+//           setGuest_modal(true);
+//         }}
+//       >
+//         Add Guest meal
+//       </Button>
+//     </div>
+//     <Table bordered className="mb-5">
+//       <thead>
+//         <tr>
+//           <th style={TH_STYLE}>#</th>
+//           <th style={TH_STYLE}>Date {} </th>
+//           <th style={TH_STYLE}>Day</th>
+//           <th style={TH_STYLE}>Select Item</th>
+//         </tr>
+//       </thead>
+//       <tbody>
+//         {resetmapping?.map((d, i) => (
+//           <tr>
+//             <td>{i + 1}</td>
+//             <td name="date">{moment(d?.date).format(DATE_FORMAT)}</td>
+//             <td>{moment(d?.date).format("dddd")}</td>
+//             <td>
+//               <div className="d-flex justify-content-center align-items-center">
+//                 <Form.Select
+//                   onChange={(e) => {
+//                     if (moment(d?.date).isBefore(moment().format("YYYY-MM-DD"))) {
+//                       return;
+//                     } else {
+//                       lunchSelect(e, moment(d?.date).format(DATE_FORMAT), i);
+//                     }
+//                   }}
+//                   // value={retrieve_menu_items?.map((r) => (r.date === d.date ? r.menu : null)).find((k) => k)}
+//                   disabled={moment(d?.date).isBefore(moment().format("YYYY-MM-DD"))}
+//                 >
+//                   <option value="">-- select --</option>
+//                   <option selected>
+//                     {retrieve_menu_items?.map((r) => (r.date === d.date ? r.menu_name : null)).find((k) => k)}
+//                   </option>
+//                   {d.menu.map((menu, idx) => (
+//                     <>
+//                       <option value={menu?.id}>{menu?.items}</option>
+//                     </>
+//                   ))}
+//                 </Form.Select>
+//                 {console.log("mapping", mapping)}
+//                 {mapping?.map(
+//                   (m) =>
+//                     m?.date === d?.date && (
+//                       <Button
+//                         className="ms-2"
+//                         size="sm"
+//                         variant="danger"
+//                         title="Delete"
+//                         onClick={lunch_delete(m?.id, i)}
+//                       >
+//                         &#10006;
+//                       </Button>
+//                     )
+//                 )}
+//               </div>
+//             </td>
+//           </tr>
+//         ))}
+//       </tbody>
+//     </Table>
+//     <Button onClick={handleSubmit}>Submit</Button>
+//   </div>
+// ) : null}
