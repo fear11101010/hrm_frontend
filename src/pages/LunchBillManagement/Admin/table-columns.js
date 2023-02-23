@@ -39,6 +39,7 @@ export const SUBSIDY_TABLE_COLUMNS = (editFunc, deleteFunc) => [
 export const SUBSIDY_LUNCH_COST_TABLE_COLUMNS = [
   { name: "Serial No.", selector: (row, i) => i + 1 },
   { name: "Subsidy", selector: (row) => row?.subsidy_obj?.name },
+  { name: "Config Type", selector: (row) => row?.type[0]?.toUpperCase() + row?.type?.slice(1) },
   { name: "Meal Price", selector: (row) => row?.meal_price },
   { name: "Employee Amount", selector: (row) => row?.employee_amount },
   { name: "Employer Amount", selector: (row) => row?.employer_amount },

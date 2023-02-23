@@ -134,7 +134,7 @@ import {
   ADMIN_MENU_ENTRY_CREATE_PAGE,
   ADMIN_MENU_ENTRY_LIST_PAGE,
   ADMIN_MENU_ENTRY_EDIT_PAGE_URL,
-  ADMIN_LUNCH_ORDER_TIME_CONFIG_PAGE_URL,
+  ADMIN_LUNCH_ORDER_TIME_CONFIG_PAGE_URL, SUBSIDY_COST_UPDATE_URL,
 } from "./utils/routes/app_routes/LUNCH_ROUTES";
 import LunchOutlet from "./outlets/lunchManagementOutlet/LunchOutlet";
 import LunchOrder from "./pages/LunchBillManagement/lunch/lunch_order/LunchOrder";
@@ -295,6 +295,7 @@ function App() {
           <Route path={SUBSIDY_LIST_PAGE} element={<SubSidyTypeList />} />
           <Route path={SUBSIDY_COST_LIST_PAGE} element={<SubSidyLunchCost />} />
           <Route path={SUBSIDY_COST_CREATE_PAGE} element={<CreateSubSidyLunchCost />} />
+          <Route path={SUBSIDY_COST_UPDATE_URL} element={<CreateSubSidyLunchCost />} />
           <Route path={BRANCH_LIST_PAGE} element={<BranchList />} />
           <Route path={VENDOR_LIST_PAGE} element={<VendorList />} />
           <Route path={VENDOR_MENU_LIST_PAGE} element={<VendorMenuList />} />
