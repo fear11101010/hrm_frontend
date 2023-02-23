@@ -142,7 +142,7 @@ import SubSidyTypeList from "./pages/LunchBillManagement/Admin/Settings/SubSidy/
 import LunchManagementDashboard from "./pages/LunchBillManagement/dashboard/Dashboard";
 import CreateSubSidyLunchCost from "./pages/LunchBillManagement/Admin/Settings/SubSidy/SubSidyLunchCost/Create/CreateSubSidyLunchCost";
 import SubSidyLunchCost from "./pages/LunchBillManagement/Admin/Settings/SubSidy/SubSidyLunchCost/Index/SubSidyLunchCost";
-import ConfigDashboard from "./pages/configuration/Dashboard/ConfigDashboard";
+// import ConfigDashboard from "./pages/configuration/Dashboard/ConfigDashboard";
 import HolidayCalender from "./pages/LunchBillManagement/Admin/Settings/HolidayCalender/HolidayCalender";
 import RequsitionDashboard from "./pages/hrm/Requisition_form/RequsitionDashboard";
 import { USER_EDIT_URL } from "./utils/routes/api_routes/API_ROUTES";
@@ -215,7 +215,7 @@ function App() {
 
         {/* Configuration */}
         <Route path={"/"} element={<ConfigurationOutlet />}>
-          <Route path={CONFIG_DASHBOARD} element={<ConfigDashboard />} />
+          {/*<Route path={CONFIG_DASHBOARD} element={<ConfigDashboard />} />*/}
           <Route path={FILE_UPLOAD_PAGE} element={<FileUpload />} />
           <Route path={UPDATE_CIRCULAR_PAGE} element={<UpdateCircularToEmployee />} />
         </Route>
