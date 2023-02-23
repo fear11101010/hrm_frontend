@@ -90,6 +90,7 @@ export default function LunchOrder() {
           ? 12
           : "",
     };
+
     setMapping((prev) => [...prev, selected_lunch]);
   };
 
