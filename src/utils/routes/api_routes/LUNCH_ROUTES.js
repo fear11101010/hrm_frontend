@@ -9,6 +9,8 @@ export const SUBSIDY_LIST_CREATE_API = "/subsidy/";
 export const BRANCH_LIST_CREATE_API = "/office_branch/";
 export const VENDOR_LIST_CREATE_API = "/vendor/";
 export const VENDOR_MENU_LIST_CREATE_API = "/menu/";
+export const HOLIDAY_LIST_CREATE_API = "/holiday/";
+export const VENDOR_MENU_DROPDOWN_LIST_API =(id='')=> id?`/menu/${id}/dropdown/`:`/menu/$/dropdown/`;
 export const MONTHLY_MENU_ENTRY_LIST_CREATE_API = "/menu_entry/";
 export const MONTHLY_MENU_ENTRY_RETRIEVE_API = (id, mappingId = undefined) =>
   mappingId ? `/menu_entry/${id}/${mappingId}/` : `/menu_entry/${id}/`;

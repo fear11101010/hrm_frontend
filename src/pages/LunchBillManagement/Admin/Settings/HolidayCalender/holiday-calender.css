@@ -10,10 +10,21 @@
     border-radius: 5px;
     width: calc(100% / 7);
 }
-#holiday-calender>tbody td>div{
+#holiday-calender>tbody td{
     padding: 5px 10px;
     height: 100px;
     vertical-align: top;
     box-shadow: 1px 1px 5px 0 #ababab;
     border-radius: 5px;
+    cursor: pointer;
+}
+ul.holiday{
+    list-style: none;
+    padding: 0;
+}
+ul.holiday>li{
+    padding: 5px 10px;
+}
+ul.holiday>li:not(:last-child){
+    border-bottom: 1px solid #ababab;
 }
