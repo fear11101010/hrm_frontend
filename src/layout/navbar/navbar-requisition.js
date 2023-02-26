@@ -63,7 +63,7 @@ export default function NavbarRequisition() {
           <Navbar.Toggle aria-controls="sidebarCollapse" />
           <Navbar.Brand>
             <Link to={INNER_LANDING}>
-              <img src="/img/logo.svg" className="navbar-brand-img mx-auto" alt="..." />
+              <img src="/img/HRM.svg" className="navbar-brand-img mx-auto" alt="..." />
             </Link>
           </Navbar.Brand>
           <Navbar.Collapse id="sidebarCollapse">
