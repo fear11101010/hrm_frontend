@@ -58,7 +58,7 @@ export const MENU_ENTRY_TABLE_COLUMNS = (addFunc, deleteFunc) => {
     {
       name: "Weekday",
       selector: (row, i) => {
-        console.log(row);
+        // console.log(row);
         return row?.weekday;
       },
     },

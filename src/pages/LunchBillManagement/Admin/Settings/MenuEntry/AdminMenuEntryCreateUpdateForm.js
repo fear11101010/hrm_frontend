@@ -155,12 +155,10 @@ export default function AdminMenuEntryCreateUpdateForm({
 
     const addNewField = (menu, index, type = 'add') => {
         const mappingMenuEntry = getValues('mapping_menu_entry');
-        console.log(mappingMenuEntry)
         const menuData = mappingMenuEntry?.map(mme => mme?.menus?.filter((menu) => menu?.id).length).filter(v => v)
         const minMenuLength = Math.min(...menuData)
-        const maxMenuLength = Math.min(...menuData)
-        const menuLengthNotZero = menuData.length
-        console.log(menuLengthNotZero, '-----', minMenuLength, '----', tableColumns.filter(col => col.name.toLowerCase().startsWith('menu')).length)
+        const maxMenuLength = Math.max(...menuData)
+        console.log(maxMenuLength, '-----', minMenuLength, '----', tableColumns.filter(col => col.name.toLowerCase().startsWith('menu')).length)
         if (type === 'rm') {
             setTableColumns(columns => {
                 // debugger
@@ -183,17 +181,20 @@ export default function AdminMenuEntryCreateUpdateForm({
                 }
                 return data;
             })
-        } else if (type === 'add' && (minMenuLength <= index || menuLengthNotZero === 1)) {
+        } else if (type === 'add') {
             // debugger
             setTableColumns(columns => {
                 const data = [...columns];
-                data.splice(columns.length - 1, 0, {
-                    name: `Menu ${index + 1}`,
-                    cell: (row, i) => {
-                        return row?.menus && row?.menus?.filter((menu) => menu?.id)?.length > 0 && <Badge bg="secondary"
-                                                                                                          className="me-2">{row?.menus?.filter((menu) => menu?.id)[index]?.item}</Badge>
-                    }
-                })
+                const l = data.length - 4;
+                if(l<maxMenuLength){
+                    data.splice(columns.length - 1, 0, {
+                        name: `Menu ${index + 1}`,
+                        cell: (row, i) => {
+                            return row?.menus && row?.menus?.filter((menu) => menu?.id)?.length > 0 && <Badge bg="secondary"
+                                                                                                              className="me-2">{row?.menus?.filter((menu) => menu?.id)[index]?.item}</Badge>
+                        }
+                    })
+                }
                 return data;
             })
         }

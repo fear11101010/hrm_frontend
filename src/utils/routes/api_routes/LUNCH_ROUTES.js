@@ -15,6 +15,7 @@ export const MONTHLY_MENU_ENTRY_LIST_CREATE_API = "/menu_entry/";
 export const MONTHLY_MENU_ENTRY_RETRIEVE_API = (id, mappingId = undefined) =>
   mappingId ? `/menu_entry/${id}/${mappingId}/` : `/menu_entry/${id}/`;
 export const MONTHLY_MENU_ENTRY_UPDATE_API = (id) => `/menu_entry/${id}/`;
+export const MONTHLY_MENU_ENTRY_CREATE_BY_FILE_UPLOAD =  `/menu_entry/$/upload_file/`;
 export const SUBSIDY_UPDATE_DELETE_API = (id) => `/subsidy/${id}/`;
 export const BRANCH_UPDATE_DELETE_API = (id) => `/office_branch/${id}/`;
 export const VENDOR_UPDATE_DELETE_API = (id) => `/vendor/${id}/`;

@@ -143,7 +143,7 @@ function CreateSubSidyLunchCost(props) {
         <Layout>
             <PageHeader title="Add Subsidy Cost" onBack/>
             <Container fluid>
-                <Card>
+                <Card id="subsidy-cost">
                     <Card.Body>
                         <Row className="justify-content-center">
                             <Col sm={12} md={7} lg={7}>

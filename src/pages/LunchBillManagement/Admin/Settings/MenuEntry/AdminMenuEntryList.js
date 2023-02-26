@@ -7,7 +7,7 @@ import {
     MONTHLY_MENU_ENTRY_LIST_CREATE_API, VENDOR_LIST_BY_BRANCH_API
 } from "../../../../../utils/routes/api_routes/LUNCH_ROUTES";
 import Loader from "../../../../../components/loader/Loader";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {API} from "../../../../../utils/axios/axiosConfig";
 import {Accordion, Badge, Button, Card, Col, Form, Modal, Row, useAccordionButton} from "react-bootstrap";
 import {Controller, useForm} from "react-hook-form";
@@ -25,6 +25,7 @@ import {
 import {MENU_ENTRY_TABLE_COLUMNS} from "../../table-columns";
 import FileDropZone from "../../../../../components/FileDropZone";
 import useFetchV2 from "../../../../../hooks/useFetchV2";
+import AdminMenuEntryByFileUpload from "./AdminMenuEntryByFileUpload";
 
 function CustomToggle({children, eventKey}) {
     const decoratedOnClick = useAccordionButton(eventKey, () =>
@@ -39,22 +40,15 @@ function CustomToggle({children, eventKey}) {
 }
 
 export default function AdminMenuEntryList(props) {
-
-    const [refresh, setRefresh] = useState(true)
-    const [branch, setBranch] = useState({})
-    const [vendor, setVendor] = useState({})
+    const menuEntryByFileUpload = useRef(null);
     const [monthList, yearList, currentMoment] = monthAndYearList()
     const {control, reset, getValues} = useForm()
     const {data} = useFetch(BRANCH_LIST_CREATE_API)
-    const [vendors] = useFetchV2(VENDOR_LIST_BY_BRANCH_API(branch?.value),refresh)
     const [menuEntryList, setMenuEntryList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [defaultEventKey, setDefaultEventKey] = useState(0);
     const [branchList, setBranchList] = useState([]);
-    const [vendorList, setVendorList] = useState([]);
     const [tableColumns, setTableColumns] = useState([])
-    const [show, setShow] = useState(false)
-    const [files, setFiles] = useState([])
     const navigate = useNavigate()
     useEffect(() => {
         if (data?.data) {
@@ -62,11 +56,6 @@ export default function AdminMenuEntryList(props) {
             setBranchList(data?.data?.map((v, i) => ({label: v.name, value: v.id})))
         }
     }, [data])
-    useEffect(() => {
-        if (vendors?.data) {
-            setVendorList(vendors?.data?.map((v, i) => ({label: v.name, value: v.id})))
-        }
-    }, [vendors])
     useEffect(() => {
         if(menuEntryList.length>0){
             setTableColumns([])
@@ -113,18 +102,6 @@ export default function AdminMenuEntryList(props) {
 
         }).then(() => setLoading(false))
     }
-    const handleClose = ()=>{
-        setShow(false)
-    };
-    const handleShow = () => setShow(true);
-    const onDropFile = acceptedFiles => {
-        setFiles(files => [...files, ...acceptedFiles])
-    }
-
-    function uploadFile(e) {
-        e.preventDefault();
-
-    }
 
     return (
         <Layout>
@@ -134,7 +111,7 @@ export default function AdminMenuEntryList(props) {
                     <Link className="btn btn-primary" to={ADMIN_MENU_ENTRY_CREATE_PAGE}>
                         <FaPlus/> Create Monthly Menu
                     </Link>
-                    <Button variant="primary" onClick={e=>setShow(true)} className="ms-3">
+                    <Button variant="primary" onClick={e=>menuEntryByFileUpload.current.showUploadDialog()} className="ms-3">
                         <FaUpload/> Upload Excel
                     </Button>
                 </div>
@@ -281,61 +258,8 @@ export default function AdminMenuEntryList(props) {
                     )}
                     {menuEntryList?.length <= 0 && <h2 className="text-center mt-4">No Data Available</h2>}
                 </Accordion>
-                <Modal show={show} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Upload File</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Row className="justify-content-center">
-                            <Col sm={12} md={6} lg={6}>
-                                <Form.Group className="mb-3">
-                                    <Form.Label>Office Branch</Form.Label>
-                                    <Select
-                                        placeholder="--Select a branch--"
-                                        options={branchList}
-                                        value={branch}
-                                        size="md"
-                                        onChange={v=>setBranch(v)}/>
-                                </Form.Group>
-                            </Col>
-
-                        </Row>
-                        <Row className="justify-content-center">
-                            <Col sm={12} md={6} lg={6}>
-                                <Form.Group className="mb-3">
-                                    <Form.Label>Vendor</Form.Label>
-                                    <Select
-                                        placeholder="--Select a vendor--"
-                                        options={vendorList}
-                                        value={vendor}
-                                        size="md"
-                                        onChange={v=> {
-                                            setVendor(v);
-                                        }}/>
-                                </Form.Group>
-                            </Col>
-
-                        </Row>
-                        <Row className="justify-content-center mb-3">
-                            <Col sm={12} md={6} lg={6}>
-                                <a className="btn btn-light border fw-bold w-100 btn-sm" href={`${process.env.PUBLIC_URL}/files/menu_entry_excel_template.xlsx`}>
-                                    <FaDownload/> Download Template
-                                </a>
-                            </Col>
-
-                        </Row>
-                        <FileDropZone onFileSelect={onDropFile}/>
-                        <Row className="justify-content-center mt-3">
-                            <Col sm={12} md={12} lg={12} className="d-flex justify-content-end align-items-end">
-                                <Button variant="primary" onClick={uploadFile} className="ms-3">
-                                    <FaUpload/> Upload
-                                </Button>
-                            </Col>
-
-                        </Row>
-                    </Modal.Body>
-                </Modal>
             </Content>
+            <AdminMenuEntryByFileUpload ref={menuEntryByFileUpload} branchList={branchList}/>
             {loading && <Loader/>}
         </Layout>
     )

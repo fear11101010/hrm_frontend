@@ -1,10 +1,10 @@
-input[type='radio']+label{
+#subsidy-cost input[type='radio']+label{
     padding: 7px 10px 7px 22px;
     margin: 0;
     cursor: pointer;
     position: relative;
 }
-input[type='radio']+label:before{
+#subsidy-cost input[type='radio']+label:before{
     content: '';
     width: 13px;
     height: 13px;
@@ -14,19 +14,19 @@ input[type='radio']+label:before{
     top:calc(50% - 7px);
     border: 3px solid #ababab;
 }
-input[type='radio']:checked+label:before{
+#subsidy-cost input[type='radio']:checked+label:before{
     border: 3px solid #2c7be5;
 }
-input[type='radio']:checked+label{
+#subsidy-cost input[type='radio']:checked+label{
     box-shadow: 1px 1px 5px 0px #ababab;
     border-radius: 5px;
     font-weight: bold;
     /*color: #2c7be5;*/
     background: #fff;
 }
-input[type='radio']:not(:checked)+label{
+#subsidy-cost input[type='radio']:not(:checked)+label{
     font-weight: normal;
 }
-.disabled{
+#subsidy-cost .disabled{
     background: #cccccc1f !important;
 }
