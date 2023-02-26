@@ -122,6 +122,7 @@ export default function SignleLunchOrder() {
                   setSelectedSubsidyType(e);
                   setSelectedEmployee("");
                   setSelectedEmployeeName("");
+                  setSelectedMenu("");
                 }}
               />
             </Col>
@@ -191,7 +192,8 @@ export default function SignleLunchOrder() {
                       id={`single-order-switch-${i + 1}`}
                       label={d?.items}
                       style={{ fontWeight: "500" }}
-                      value={d?.id}
+                      // value={d?.id}
+                      value={selectedMenu}
                       onChange={(e) => {
                         setSelectedMenu(e.target.value);
                       }}

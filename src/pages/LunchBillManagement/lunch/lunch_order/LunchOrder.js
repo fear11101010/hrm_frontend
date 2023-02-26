@@ -20,6 +20,7 @@ import {
 import Loader from "../../../../components/loader/Loader";
 import { error_alert, success_alert } from "../../../../components/alert/Alert";
 import { FaCross, FaTrash } from "react-icons/fa";
+import useFetchV2 from "../../../../hooks/useFetchV2";
 
 export default function LunchOrder() {
   const user = USER_INFO();
@@ -44,6 +45,15 @@ export default function LunchOrder() {
   const [guest_menu_selected, setGuest_menu_selected] = useState("");
   const [guest_isOfficial, setGuest_isOfficial] = useState(false);
   let employee_subsidy_id = subsidy?.filter((d) => d?.name === "Employee");
+  let [lunch_time] = useFetchV2("lunch_time/");
+  let check_time = lunch_time?.data?.filter((d) => d?.purpose === "LO")[0];
+  const cd = moment(
+    `${(check_time?.meridiem?.toLowerCase() === "pm" ? moment().subtract(1, "days") : moment()).format(
+      "YYYY-MM-DD"
+    )} ${check_time?.hour?.toString().padStart(2, "0")}:${check_time?.minute?.toString().padStart(2, "0")} ${
+      check_time?.meridiem
+    }`
+  );
 
   const lunchSelect = (e, date, index) => {
     mapping.map(function (d) {
@@ -113,20 +123,9 @@ export default function LunchOrder() {
       .finally(() => setLoading(false));
   }, []);
 
-  //get vendor
-  useEffect(() => {
-    if (selected_brach !== "") {
-      API.get(VENDOR_GET(selected_brach))
-        .then((res) => {
-          setget_vendor(res.data.data);
-        })
-        .catch((err) => console.log(err))
-        .finally(() => setLoading(false));
-    }
-  }, [selected_brach]);
-
   //retrieve
-  useEffect(() => {
+  // called in handleMapping func
+  const getLunchData = () => {
     setLoading(true);
     API.get(
       LUNCH_ORDER_RETRIEVE(
@@ -167,7 +166,7 @@ export default function LunchOrder() {
             date: moment(d?.date).format("YYYY-MM-DD"),
             menu: d.menu.id,
             employee: d.employee,
-            subsidy: guest_modal === false && employee_subsidy_id[0]?.id,
+            subsidy: d?.subsidy,
             month:
               month === "January"
                 ? 1
@@ -210,7 +209,11 @@ export default function LunchOrder() {
       })
       .catch((err) => console.log(err))
       .finally(() => setLoading(false));
-  }, []);
+  };
+
+  // useEffect(() => {
+  //   getLunchData();
+  // }, []);
 
   const handleMapping = (e) => {
     e.preventDefault();
@@ -256,6 +259,7 @@ export default function LunchOrder() {
     } else {
       error_alert("Please select Branch");
     }
+    getLunchData();
   };
 
   const handleSubmit = (e) => {
@@ -265,6 +269,7 @@ export default function LunchOrder() {
       .then((res) => {
         if (res.data.statuscode === 200) {
           success_alert(res.data.message);
+          getLunchData();
         } else {
           error_alert(res.data.message);
         }
@@ -332,14 +337,26 @@ export default function LunchOrder() {
   };
 
   //Delete Lunch
-  const lunch_delete = (date) => {
+  const lunch_delete = (date, idx) => {
     setLoading(true);
     API.delete(`order/delete_order/${date}/${user?.user_id}/`)
       .then((res) => {
-        console.log(res.data);
+        if (res?.data?.statuscode === 200) {
+          getLunchData();
+        } else if (res?.data?.statuscode === 400) {
+          removeMapping(idx);
+        }
       })
       .catch((err) => console.log(err))
       .finally(() => setLoading(false));
+  };
+
+  //Remove Mapping
+  const removeMapping = (index) => {
+    //############ ORIGINAL ############
+    const filterMapping = [...mapping];
+    filterMapping.splice(index, 1);
+    setMapping(filterMapping);
   };
 
   return (
@@ -358,7 +375,7 @@ export default function LunchOrder() {
           {/* Select options */}
           <Col sm="12" md="12">
             <Form>
-              <Row>
+              <Row className="justify-content-center">
                 <Col sm="12" md="2">
                   <Form.Group className="mb-3">
                     <Form.Label>Year</Form.Label>
@@ -446,6 +463,7 @@ export default function LunchOrder() {
                       <td>{moment(d?.date).format("dddd")}</td>
                       <td>
                         <div className="d-flex justify-content-center align-items-center">
+                          {console.log("mapping", mapping)}
                           <Form.Select
                             onChange={(e) => {
                               if (moment(d?.date).isBefore(moment().format("YYYY-MM-DD"))) {
@@ -455,12 +473,14 @@ export default function LunchOrder() {
                               }
                             }}
                             // value={retrieve_menu_items?.map((r) => (r.date === d.date ? r.menu : null)).find((k) => k)}
-                            disabled={moment(d?.date).isBefore(moment().format("YYYY-MM-DD"))}
+                            disabled={d?.date === moment().format("YYYY-MM-DD") && !moment().isBefore(cd)}
                           >
                             <option value="">-- select --</option>
-                            <option selected>
-                              {retrieve_menu_items?.map((r) => (r.date === d.date ? r.menu_name : null)).find((k) => k)}
-                            </option>
+                            {retrieve_menu_items?.length > 0 && (
+                              <option selected>
+                                {retrieve_menu_items?.map((r) => (r.date === d.date ? r.menu : null)).find((k) => k)}
+                              </option>
+                            )}
                             {d.menu.map((menu, idx) => (
                               <>
                                 <option value={menu?.id}>{menu?.items}</option>
@@ -473,7 +493,7 @@ export default function LunchOrder() {
                             variant="danger"
                             title="Delete"
                             onClick={() => {
-                              lunch_delete(d?.date);
+                              lunch_delete(d?.date, i);
                             }}
                           >
                             &#10006;

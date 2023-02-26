@@ -59,10 +59,10 @@ import {
   USER_LIST_PAGE,
   USER_ROLE_LIST_PAGE,
   USER_ROLE_PRIVILEGE_PAGE_URL,
-  CONFIG_DASHBOARD,
   REQUISITION_DASHBOARD,
   USER_EDIT_PAGE_URL,
   UPDATE_CIRCULAR_PAGE,
+  EMPLOYEE_ADD_PAGE,
 } from "./utils/routes/app_routes/APP_ROUTES";
 import KpiPerformanceIndex from "./pages/hrm/KPI/kpi-performane-form/kpi-performance-index";
 import KpiPerformanceFormCreate from "./pages/hrm/KPI/kpi-performane-form/kpi-performance-form-create";
@@ -70,7 +70,6 @@ import KpiPerformanceFormView from "./pages/hrm/KPI/kpi-performane-form/kpi-perf
 import SalaryFullReport from "./pages/hrm/Report/salary-full-report/SalaryFullReport";
 import SalaryPivotReport from "./pages/hrm/Report/salary-pivot-summary/SalaryPivotReport";
 import SalaryIncrementEligibleReport from "./pages/hrm/Report/salary-increment-eligible-report/SalaryIncrementEligibleReport";
-
 import RoleList from "./pages/user/role/RoleList";
 import Privileges from "./pages/user/role/Privileges";
 import EmployeeList from "./pages/hrm/Employee/EmployeeList";
@@ -135,8 +134,8 @@ import {
   ADMIN_MENU_ENTRY_LIST_PAGE,
   ADMIN_MENU_ENTRY_EDIT_PAGE_URL,
   ADMIN_LUNCH_ORDER_TIME_CONFIG_PAGE_URL,
-  SUBSIDY_COST_UPDATE_URL,
   LUNCH_ORDER_SINGLE_PAGE,
+  SUBSIDY_COST_UPDATE_URL,
 } from "./utils/routes/app_routes/LUNCH_ROUTES";
 import LunchOutlet from "./outlets/lunchManagementOutlet/LunchOutlet";
 import LunchOrder from "./pages/LunchBillManagement/lunch/lunch_order/LunchOrder";
@@ -186,8 +185,9 @@ import BillApprove from "./pages/bill-management/Bill-approve/BillApprove";
 import ConveyanceApprove from "./pages/bill-management/Conveyance-approve/ConveyanceApprove";
 import BillReviewList from "./pages/bill-management/Bill-review/BillReviewList";
 import ConveyanceReviewList from "./pages/bill-management/conveneyance-review/ConveyanceReviewList";
-import ConfigDashboard from "./pages/configuration/Dashboard/Dashboard";
+// import ConfigDashboard from "./pages/configuration/Dashboard/Dashboard";
 import SignleLunchOrder from "./pages/LunchBillManagement/lunch/single-lunch-order/SignleLunchOrder";
+import EmployeeAdd from "./pages/hrm/Employee/EmployeeAdd";
 
 // import BillList from "./pages/bill-management/bill/List";
 // import BillAdd from "./pages/bill-management/bill/billAdd";
@@ -215,6 +215,7 @@ function App() {
           <Route path={USER_ROLE_LIST_PAGE} element={<RoleList />} />
           <Route path={USER_ROLE_PRIVILEGE_PAGE_URL} element={<Privileges />} />
           <Route path={EMPLOYEE_LIST_PAGE} element={<EmployeeList />} />
+          <Route path={EMPLOYEE_ADD_PAGE} element={<EmployeeAdd />} />
           <Route path={EMPLOYEE_EDIT_PAGE_URL} element={<EmployeeEdit />} />
         </Route>
 

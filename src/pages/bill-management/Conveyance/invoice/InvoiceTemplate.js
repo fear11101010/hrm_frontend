@@ -56,7 +56,7 @@ export default function InvoiceConTemplate({ invoice_id }) {
     var show_download_btn = document.getElementById("invoice_download_btn").setAttribute("style", "display:block");
   };
   return (
-    <div id="report" style={{ marginTop: "69px" }}>
+    <div id="report" style={{ marginTop: "69px" }} className="inv-table">
       {loading && <Loader />}
       <Row className="px-5 py-4">
         <Col sm={12} md={12}>

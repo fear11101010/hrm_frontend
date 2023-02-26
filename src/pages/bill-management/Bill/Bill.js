@@ -49,6 +49,7 @@ function Bill(props) {
 
   const handlePerRowsChange = async (newPerPage, page) => {
     try {
+      setIsLoading(true);
       const res = await API.get(`/invoice/?offset=${page}&limit=${newPerPage}`);
       if (res?.data?.statuscode === 200) {
         setBillData(res?.data?.data);

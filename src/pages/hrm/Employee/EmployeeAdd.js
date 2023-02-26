@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Accordion, Button, Col, Form, Row } from "react-bootstrap";
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
-import ReactSelect from "react-select";
+import { Link, useNavigate, Navigate } from "react-router-dom";
 import { error_alert, success_alert } from "../../../components/alert/Alert";
-import ConfirmDialog from "../../../components/confirm-dialog/ConfirmDialog";
 import Content from "../../../components/content/Content";
 import PageHeader from "../../../components/header/PageHeader";
 import Loader from "../../../components/loader/Loader";
@@ -12,14 +10,15 @@ import useSubSbu from "../../../hooks/SBU/useSubSbu";
 import useDesignation from "../../../hooks/useDesignation";
 import useSupervisor from "../../../hooks/useSupervisor";
 import Layout from "../../../layout/Layout";
-import { EMPLOYEE_EACH_GET, EMPLOYEE_EDIT_POST } from "../../../utils/routes/api_routes/API_ROUTES";
-import { EMPLOYEE_LIST_PAGE, UNAUTHORIZED } from "../../../utils/routes/app_routes/APP_ROUTES";
 import { API } from "../../../utils/axios/axiosConfig";
+import { EMPLOYEE_ADD_POST } from "../../../utils/routes/api_routes/API_ROUTES";
+import { EMPLOYEE_LIST_PAGE, UNAUTHORIZED } from "../../../utils/routes/app_routes/APP_ROUTES";
 import { USER_INFO } from "../../../utils/session/token";
-import { _Decode, _Encrypt } from "../../../utils/Hash";
+import ReactSelect from "react-select";
+import ConfirmDialog from "../../../components/confirm-dialog/ConfirmDialog";
+import { _Encrypt } from "../../../utils/Hash";
 
-export default function EmployeeEdit() {
-  const { id } = useParams();
+export default function EmployeeAdd() {
   const user = USER_INFO();
 
   const navigate = useNavigate();
@@ -52,51 +51,14 @@ export default function EmployeeEdit() {
   const [project_expense, setproject_expense] = useState("");
   const [project, setproject] = useState("");
 
+  //err state
+  const [em_id_err, setEm_id_err] = useState("");
+
   //Hooks call
   const { data } = useSbu();
   const { subSbudata } = useSubSbu();
   const supervisorList = useSupervisor();
   const designationList = useDesignation();
-
-  //Fetch
-  useEffect(() => {
-    setLoading(true);
-    API.get(EMPLOYEE_EACH_GET(id))
-      .then((res) => {
-        if (res.data.statuscode === 200) {
-          setName(res.data?.data?.name);
-          setEmId(res.data?.data?.employee_id);
-          setSbu(res.data?.data?.sbu?.id);
-          setSubSbu(res.data?.data?.sub_sbu?.id);
-          setDate_of_joining(res.data?.data?.date_of_joining);
-          setDesignation(res.data?.data?.desig_id);
-          setsupervisor(res.data?.data?.supervisor?.id);
-          setTotal_salary_and_allowance(_Decode(res.data?.data?.total_salary_and_allowance));
-          setbasic_salary(_Decode(res.data?.data?.basic_salary));
-          setgross_salary(_Decode(res.data?.data?.gross_salary));
-          sethouse_rent(_Decode(res.data?.data?.house_rent));
-          setmedical_allowance(_Decode(res.data?.data?.medical_allowance));
-          setconveyance_allowance(_Decode(res.data?.data?.conveyance_allowance));
-          setwppf(_Decode(res.data?.data?.wppf));
-          setspecial_bonus(_Decode(res.data?.data?.special_bonus));
-          setmobile_and_other_allowance(_Decode(res.data?.data?.mobile_and_other_allowance));
-          setother_benefit(_Decode(res.data?.data?.other_benefit));
-          setpf_com_contribution(_Decode(res.data?.data?.pf_com_contribution));
-          setincrement(_Decode(res.data?.data?.increment));
-          setproject_expense(_Decode(res.data?.data?.project_expense));
-          setproject(res.data?.data?.project);
-          setLevel(res.data?.data?.level);
-        } else {
-          error_alert(res.data.message);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [id]);
 
   //Handle Confirm Modal
   const handleConfirmModal = (e) => {
@@ -106,13 +68,15 @@ export default function EmployeeEdit() {
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    setLoading(true);
     const payload = {
       sbu: sbu,
       name: name,
       status: "1",
       employee_id: emId,
-      designation_id: designation,
+      desig_id: designation,
+      project: project,
+      sub_sbu: subSbu,
+      supervisor: supervisor,
       date_of_joining: date_of_joining,
       total_salary_and_allowance: _Encrypt(total_salary_and_allowance),
       basic_salary: _Encrypt(basic_salary),
@@ -126,34 +90,42 @@ export default function EmployeeEdit() {
       other_benefit: _Encrypt(other_benefit),
       gross_salary: _Encrypt(gross_salary),
       pf_com_contribution: _Encrypt(pf_com_contribution),
-      project: project,
-      sub_sbu: subSbu,
-      supervisor: supervisor,
       level: level,
       increment: _Encrypt(increment),
     };
-    API.put(EMPLOYEE_EDIT_POST(id), payload)
-      .then((res) => {
-        if (res.data.statuscode === 201) {
-          success_alert(res.data.message);
-          navigate(-1);
-        } else {
-          error_alert(res.data.message);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setLoading(false);
-        setIsConfirm(false);
-      });
+    console.log(payload);
+    if (sbu === "" || subSbu === "" || designation === "" || supervisor === "") {
+      error_alert("Please fill up all required fields");
+      setIsConfirm(false);
+    } else {
+      setLoading(true);
+      API.post(EMPLOYEE_ADD_POST, payload)
+        .then((res) => {
+          if (res.data.statuscode === 201) {
+            success_alert(res.data.message);
+            // navigate(-1);
+          } else {
+            error_alert(res.data.message);
+          }
+        })
+        .catch((err) => {
+          // console.log(err);
+          console.log(err?.response?.data?.message?.employee_id);
+          error_alert(err?.response?.data?.message?.employee_id[0]);
+          setEm_id_err(err?.response?.data?.message?.employee_id[0]);
+        })
+        .finally(() => {
+          setLoading(false);
+          setIsConfirm(false);
+        });
+    }
   };
-
-  return user?.accessibility?.includes("employee.GET") ? (
+  if (!user.accessibility.includes("employee.POST")) {
+    return <Navigate to={UNAUTHORIZED} />;
+  }
+  return (
     <Layout>
-      {loading && <Loader />}
-      <PageHeader title={"Update Employee"} onBack />
+      {loading && <Loader />} <PageHeader title={"Add Employee"} onBack />{" "}
       <Content>
         <Form onSubmit={handleConfirmModal}>
           {/* General Info */}
@@ -168,7 +140,9 @@ export default function EmployeeEdit() {
                 <Row className="mb-0">
                   <Col sm="12" md="6" className="mb-3">
                     <Form.Group>
-                      <Form.Label className="mb-1">Name</Form.Label>
+                      <Form.Label className="mb-1">
+                        Name <span className="text-danger">*</span>
+                      </Form.Label>
                       <Form.Control
                         type="text"
                         placeholder="Enter Name"
@@ -176,25 +150,35 @@ export default function EmployeeEdit() {
                         onChange={(e) => {
                           setName(e.target.value);
                         }}
+                        required
                       />
                     </Form.Group>
                   </Col>
                   <Col sm="12" md="6" className="mb-3">
                     <Form.Group>
-                      <Form.Label className="mb-1">Employee ID</Form.Label>
+                      <Form.Label className="mb-1">
+                        Employee ID <span className="text-danger">*</span>
+                      </Form.Label>
                       <Form.Control
+                        className={em_id_err ? "border-danger" : ""}
                         type="text"
                         placeholder="Enter Employee ID"
                         value={emId}
                         onChange={(e) => {
                           setEmId(e.target.value);
                         }}
+                        required
                       />
+                      {em_id_err !== "" && (
+                        <Form.Control.Feedback type="invalid">Please choose a username.</Form.Control.Feedback>
+                      )}
                     </Form.Group>
                   </Col>
                   <Col sm="12" md="6" className="mb-3">
                     <Form.Group>
-                      <Form.Label className="mb-1">Designation </Form.Label>
+                      <Form.Label className="mb-1">
+                        Designation <span className="text-danger">*</span>{" "}
+                      </Form.Label>
                       <ReactSelect
                         options={designationList?.map((d) => ({ label: d.designation, value: d.id }))}
                         placeholder={designationList?.map((d) => d.id === designation && d.designation)}
@@ -206,7 +190,9 @@ export default function EmployeeEdit() {
                   </Col>
                   <Col sm="12" md="6" className="mb-3">
                     <Form.Group>
-                      <Form.Label className="mb-1"> Level</Form.Label>
+                      <Form.Label className="mb-1">
+                        Level <span className="text-danger">*</span>
+                      </Form.Label>
                       <Form.Control
                         type="text"
                         placeholder="Enter Level"
@@ -214,12 +200,15 @@ export default function EmployeeEdit() {
                         onChange={(e) => {
                           setLevel(e.target.value);
                         }}
+                        required
                       />
                     </Form.Group>
                   </Col>
                   <Col sm="12" md="6" className="mb-3">
                     <Form.Group>
-                      <Form.Label className="mb-1">SBU</Form.Label>
+                      <Form.Label className="mb-1">
+                        SBU <span className="text-danger">*</span>
+                      </Form.Label>
                       <ReactSelect
                         options={data?.map((d) => ({ label: d.name, value: d.id }))}
                         placeholder={data?.map((d) => d.id === sbu && d.name)}
@@ -231,7 +220,9 @@ export default function EmployeeEdit() {
                   </Col>
                   <Col sm="12" md="6" className="mb-3">
                     <Form.Group>
-                      <Form.Label className="mb-1">Sub SBU</Form.Label>
+                      <Form.Label className="mb-1">
+                        Sub SBU <span className="text-danger">*</span>
+                      </Form.Label>
                       <ReactSelect
                         options={subSbudata?.map((d) => ({ label: d.name, value: d.id }))}
                         placeholder={subSbudata?.map((d) => d.id === subSbu && d.name)}
@@ -243,7 +234,9 @@ export default function EmployeeEdit() {
                   </Col>
                   <Col sm="12" md="6" className="mb-3">
                     <Form.Group>
-                      <Form.Label className="mb-1">Supervisor</Form.Label>
+                      <Form.Label className="mb-1">
+                        Supervisor <span className="text-danger">*</span>
+                      </Form.Label>
                       <ReactSelect
                         options={supervisorList?.map((d) => ({ label: d.name, value: d.id }))}
                         placeholder={supervisorList?.map((d) => d.id === supervisor && d.name)}
@@ -255,7 +248,9 @@ export default function EmployeeEdit() {
                   </Col>
                   <Col sm="12" md="6" className="mb-3">
                     <Form.Group>
-                      <Form.Label className="mb-1">Date of Joining</Form.Label>
+                      <Form.Label className="mb-1">
+                        Date of Joining <span className="text-danger">*</span>
+                      </Form.Label>
                       <Form.Control
                         type="date"
                         placeholder="Enter Date of Joining"
@@ -263,6 +258,7 @@ export default function EmployeeEdit() {
                         onChange={(e) => {
                           setDate_of_joining(e.target.value);
                         }}
+                        required
                       />
                     </Form.Group>
                   </Col>
@@ -485,22 +481,20 @@ export default function EmployeeEdit() {
                 Cancel
               </Button>
             </Link>
-            {user.accessibility.includes("employee_update.PUT") && <Button type="submit">Update</Button>}
+            {user.accessibility.includes("employee_update.PUT") && <Button type="submit">Create</Button>}
           </div>
         </Form>
-      </Content>
 
-      {isConfirm && (
-        <ConfirmDialog
-          message="Are you sure you want to update employee?"
-          onOkButtonClick={handleUpdate}
-          onCancelButtonClick={() => {
-            setIsConfirm(false);
-          }}
-        />
-      )}
+        {isConfirm && (
+          <ConfirmDialog
+            message="Are you sure you want to update employee?"
+            onOkButtonClick={handleUpdate}
+            onCancelButtonClick={() => {
+              setIsConfirm(false);
+            }}
+          />
+        )}
+      </Content>
     </Layout>
-  ) : (
-    <Navigate to={UNAUTHORIZED} />
   );
 }
