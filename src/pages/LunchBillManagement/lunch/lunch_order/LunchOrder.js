@@ -342,6 +342,14 @@ export default function LunchOrder() {
       .finally(() => setLoading(false));
   };
 
+  //Remove Mapping
+  const removeMapping = (index) => {
+    //############ ORIGINAL ############
+    const filterMapping = [...mapping];
+    filterMapping.splice(index, 1);
+    setMapping(filterMapping);
+  };
+
   return (
     <Layout>
       {loading && <Loader />}
@@ -358,7 +366,7 @@ export default function LunchOrder() {
           {/* Select options */}
           <Col sm="12" md="12">
             <Form>
-              <Row>
+              <Row className="justify-content-center">
                 <Col sm="12" md="2">
                   <Form.Group className="mb-3">
                     <Form.Label>Year</Form.Label>
@@ -458,9 +466,11 @@ export default function LunchOrder() {
                             disabled={moment(d?.date).isBefore(moment().format("YYYY-MM-DD"))}
                           >
                             <option value="">-- select --</option>
-                            <option selected>
-                              {retrieve_menu_items?.map((r) => (r.date === d.date ? r.menu_name : null)).find((k) => k)}
-                            </option>
+                            {retrieve_menu_items && (
+                              <option selected>
+                                {retrieve_menu_items?.map((r) => (r.date === d.date ? r.menu_name : null)).find((k) => k)}
+                              </option>
+                            )}
                             {d.menu.map((menu, idx) => (
                               <>
                                 <option value={menu?.id}>{menu?.items}</option>
@@ -473,7 +483,11 @@ export default function LunchOrder() {
                             variant="danger"
                             title="Delete"
                             onClick={() => {
-                              lunch_delete(d?.date);
+                              if (mapping.length > 0) {
+                                removeMapping(i);
+                              } else {
+                                lunch_delete(d?.date);
+                              }
                             }}
                           >
                             &#10006;

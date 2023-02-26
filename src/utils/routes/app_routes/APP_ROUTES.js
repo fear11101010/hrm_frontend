@@ -16,6 +16,7 @@ export const USER_ROLE_PRIVILEGE_PAGE_URL = "/hrm/role/:id";
 export const USER_ROLE_PRIVILEGE_PAGE = (id) => `/hrm/role/${id}`;
 
 export const EMPLOYEE_LIST_PAGE = "/hrm/employee";
+export const EMPLOYEE_ADD_PAGE = "/hrm/employee/add";
 export const EMPLOYEE_EDIT_PAGE_URL = `/hrm/employee/edit/:id`;
 export const EMPLOYEE_EDIT_PAGE = (id) => `/hrm/employee/edit/${id}`;
 

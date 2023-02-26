@@ -63,6 +63,7 @@ import {
   REQUISITION_DASHBOARD,
   USER_EDIT_PAGE_URL,
   UPDATE_CIRCULAR_PAGE,
+  EMPLOYEE_ADD_PAGE,
 } from "./utils/routes/app_routes/APP_ROUTES";
 import KpiPerformanceIndex from "./pages/hrm/KPI/kpi-performane-form/kpi-performance-index";
 import KpiPerformanceFormCreate from "./pages/hrm/KPI/kpi-performane-form/kpi-performance-form-create";
@@ -187,6 +188,7 @@ import BillReviewList from "./pages/bill-management/Bill-review/BillReviewList";
 import ConveyanceReviewList from "./pages/bill-management/conveneyance-review/ConveyanceReviewList";
 import ConfigDashboard from "./pages/configuration/Dashboard/Dashboard";
 import SignleLunchOrder from "./pages/LunchBillManagement/lunch/single-lunch-order/SignleLunchOrder";
+import EmployeeAdd from "./pages/hrm/Employee/EmployeeAdd";
 
 // import BillList from "./pages/bill-management/bill/List";
 // import BillAdd from "./pages/bill-management/bill/billAdd";
@@ -214,6 +216,7 @@ function App() {
           <Route path={USER_ROLE_LIST_PAGE} element={<RoleList />} />
           <Route path={USER_ROLE_PRIVILEGE_PAGE_URL} element={<Privileges />} />
           <Route path={EMPLOYEE_LIST_PAGE} element={<EmployeeList />} />
+          <Route path={EMPLOYEE_ADD_PAGE} element={<EmployeeAdd />} />
           <Route path={EMPLOYEE_EDIT_PAGE_URL} element={<EmployeeEdit />} />
         </Route>
 

@@ -14,7 +14,7 @@ export const SUPERVISOR_BY_SBU = `/supervisorbyheadsbu/`;
 ////////////////////////////////////
 
 //User
-export const USER_GET = "/user/userlist/";
+export const USER_GET = (page, perPage) => `/user/userlist/?offset=${page}&limit=${perPage}`;
 export const USER_CREATE_POST = "/user/register/";
 export const USER_EACH_GET = (id) => `/user/userlist/${id}/`;
 export const USER_EACH_POST = (id) => `/user/userlist/${id}/`;
@@ -34,7 +34,9 @@ export const PRIVILEGES_GET = (id) => `/permissionprivilege/${id}`;
 export const PRIVILEGES_POST = `/privilege`;
 
 // Employee
-export const EMPLOYEE_LIST_GET = "/employee/";
+
+export const EMPLOYEE_ADD_POST = `/employee/`;
+export const EMPLOYEE_LIST_GET = (p, l) => `/employee/?offset=${p}&limit=${l}`;
 export const EMPLOYEE_LIST_DROPDOWN = "employee_list_dropdown/";
 export const PROJECT_LIST_GET = "/project/";
 export const EMPLOYEE_EACH_GET = (id) => `/employee/${id}/`;

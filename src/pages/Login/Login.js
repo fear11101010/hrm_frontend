@@ -35,7 +35,7 @@ export default function Login() {
       })
       .catch((err) => {
         console.log(err);
-        setErrMsg(err.response.data.non_field_errors[0]);
+        setErrMsg(err?.response?.data?.non_field_errors[0]);
       })
       .finally(() => {
         setLoading(false);
@@ -73,7 +73,7 @@ export default function Login() {
           <div className="card-body">
             <h2 className="text-primary">Login</h2>
             <hr />
-            {errMsg && error_alert()}
+            {errMsg !== "" && error_alert()}
             <form onSubmit={handleLogin}>
               <div className="mb-3">
                 <label className="form-label">Username</label>
