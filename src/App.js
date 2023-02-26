@@ -59,7 +59,6 @@ import {
   USER_LIST_PAGE,
   USER_ROLE_LIST_PAGE,
   USER_ROLE_PRIVILEGE_PAGE_URL,
-  CONFIG_DASHBOARD,
   REQUISITION_DASHBOARD,
   USER_EDIT_PAGE_URL,
   UPDATE_CIRCULAR_PAGE,
@@ -71,7 +70,6 @@ import KpiPerformanceFormView from "./pages/hrm/KPI/kpi-performane-form/kpi-perf
 import SalaryFullReport from "./pages/hrm/Report/salary-full-report/SalaryFullReport";
 import SalaryPivotReport from "./pages/hrm/Report/salary-pivot-summary/SalaryPivotReport";
 import SalaryIncrementEligibleReport from "./pages/hrm/Report/salary-increment-eligible-report/SalaryIncrementEligibleReport";
-
 import RoleList from "./pages/user/role/RoleList";
 import Privileges from "./pages/user/role/Privileges";
 import EmployeeList from "./pages/hrm/Employee/EmployeeList";
@@ -136,6 +134,8 @@ import {
   ADMIN_MENU_ENTRY_LIST_PAGE,
   ADMIN_MENU_ENTRY_EDIT_PAGE_URL,
   ADMIN_LUNCH_ORDER_TIME_CONFIG_PAGE_URL,
+  LUNCH_ORDER_SINGLE_PAGE,
+  SUBSIDY_COST_UPDATE_URL,
 } from "./utils/routes/app_routes/LUNCH_ROUTES";
 import LunchOutlet from "./outlets/lunchManagementOutlet/LunchOutlet";
 import LunchOrder from "./pages/LunchBillManagement/lunch/lunch_order/LunchOrder";
@@ -143,7 +143,7 @@ import SubSidyTypeList from "./pages/LunchBillManagement/Admin/Settings/SubSidy/
 import LunchManagementDashboard from "./pages/LunchBillManagement/dashboard/Dashboard";
 import CreateSubSidyLunchCost from "./pages/LunchBillManagement/Admin/Settings/SubSidy/SubSidyLunchCost/Create/CreateSubSidyLunchCost";
 import SubSidyLunchCost from "./pages/LunchBillManagement/Admin/Settings/SubSidy/SubSidyLunchCost/Index/SubSidyLunchCost";
-import ConfigDashboard from "./pages/configuration/Dashboard/ConfigDashboard";
+// import ConfigDashboard from "./pages/configuration/Dashboard/ConfigDashboard";
 import HolidayCalender from "./pages/LunchBillManagement/Admin/Settings/HolidayCalender/HolidayCalender";
 import RequsitionDashboard from "./pages/hrm/Requisition_form/RequsitionDashboard";
 import { USER_EDIT_URL } from "./utils/routes/api_routes/API_ROUTES";
@@ -185,7 +185,7 @@ import BillApprove from "./pages/bill-management/Bill-approve/BillApprove";
 import ConveyanceApprove from "./pages/bill-management/Conveyance-approve/ConveyanceApprove";
 import BillReviewList from "./pages/bill-management/Bill-review/BillReviewList";
 import ConveyanceReviewList from "./pages/bill-management/conveneyance-review/ConveyanceReviewList";
-import ConfigDashboard from "./pages/configuration/Dashboard/Dashboard";
+// import ConfigDashboard from "./pages/configuration/Dashboard/Dashboard";
 import SignleLunchOrder from "./pages/LunchBillManagement/lunch/single-lunch-order/SignleLunchOrder";
 import EmployeeAdd from "./pages/hrm/Employee/EmployeeAdd";
 

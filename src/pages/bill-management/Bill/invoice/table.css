@@ -1,4 +1,4 @@
-.table {
+.inv-table .table {
     background-image: url(./ds-logo.png);
     background-size: 50%;
     background-position: center;
@@ -6,14 +6,14 @@
     margin-bottom: 14px;
 }
 
-.table>:not(caption)>*>* {
+.inv-table>.table>:not(caption)>*>* {
     padding: 4px 36px;
     margin-left: 4px;
     border-color: #dfdfdf;
     border-bottom: 1px solid #dfdfdf;
 }
 
-.table thead th {
+.inv-table .table thead th {
     background-color: #f5faff;
     color: black;
     font-size: 14px;

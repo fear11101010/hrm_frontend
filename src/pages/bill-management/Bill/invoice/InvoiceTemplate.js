@@ -58,7 +58,7 @@ export default function InvoiceTemplate({ invoice_id }) {
     var show_download_btn = document.getElementById("invoice_download_btn").setAttribute("style", "display:block");
   };
   return (
-    <div id="report" style={{ marginTop: "69px" }}>
+    <div id="report" style={{ marginTop: "69px" }} className="inv-table">
       <Row className="px-5 py-4">
         <Col sm={12} md={12}>
           <div className="d-flex justify-content-between align-items-baseline" id="invoive_header">
