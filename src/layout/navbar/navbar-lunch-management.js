@@ -18,7 +18,7 @@ import { SUPPORT_DASHBOARD_URL } from "../../utils/routes/app_routes/SP_APP_ROUT
 import {
   ADMIN_LUNCH_ORDER_TIME_CONFIG_PAGE_URL,
   ADMIN_MENU_ENTRY_LIST_PAGE,
-  BRANCH_LIST_PAGE,
+  BRANCH_LIST_PAGE, HOLIDAY_CALENDER_PAGE,
   LUNCH_DASHBOARD_PAGE,
   LUNCH_ORDER_PAGE,
   LUNCH_ORDER_SINGLE_PAGE,
@@ -115,7 +115,13 @@ export default function NavbarLunchManagement() {
                         <li className="nav-item">
                           {/* {user.module.includes("Requisition From Entry") && ()} */}
                           <Link className={"nav-link"} to={SUBSIDY_COST_LIST_PAGE}>
-                            Subsidy
+                            Subsidy Cost Configuration
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          {/* {user.module.includes("Requisition From Entry") && ()} */}
+                          <Link className={"nav-link"} to={HOLIDAY_CALENDER_PAGE}>
+                            Holiday Configuration
                           </Link>
                         </li>
                         <li className="nav-item">

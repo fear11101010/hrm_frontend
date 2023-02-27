@@ -10,6 +10,9 @@ export const BRANCH_LIST_CREATE_API = "/office_branch/";
 export const VENDOR_LIST_CREATE_API = "/vendor/";
 export const VENDOR_MENU_LIST_CREATE_API = "/menu/";
 export const HOLIDAY_LIST_CREATE_API = "/holiday/";
+export const WEEKEND_LIST_CREATE_API = "/weekend/";
+export const HOLIDAY_UPDATE_API=id => `/holiday/${id}/`;
+export const WEEKEND_UPDATE_API=id => `/weekend/${id}/`;
 export const VENDOR_MENU_DROPDOWN_LIST_API =(id='')=> id?`/menu/${id}/dropdown/`:`/menu/$/dropdown/`;
 export const MONTHLY_MENU_ENTRY_LIST_CREATE_API = "/menu_entry/";
 export const MONTHLY_MENU_ENTRY_RETRIEVE_API = (id, mappingId = undefined) =>
